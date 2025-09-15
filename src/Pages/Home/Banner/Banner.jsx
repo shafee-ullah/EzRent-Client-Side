@@ -17,11 +17,11 @@ const Banner = () => {
         "https://i.ibb.co.com/3wjhFDn/photorealistic-house-with-wooden-architecture-timber-structure-1.jpg",
         "https://i.ibb.co.com/N6YphcRV/clubhouse-tewksbury-usa-1.jpg",
     ];
-    // Auto change img every 3 seconds
+    // Auto change img every 5 seconds
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentImage((prev) => (prev + 1) % images.length);
-        }, 3000); // 5 seconds
+        }, 5000); // 5 seconds
         return () => clearInterval(interval);
     }, [images.length]);
 
