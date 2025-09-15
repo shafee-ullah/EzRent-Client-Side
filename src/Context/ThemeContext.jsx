@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-
+// theme context to manage light and dark modes
 export const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
