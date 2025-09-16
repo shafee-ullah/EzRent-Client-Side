@@ -164,11 +164,7 @@ const Banner = () => {
 
                                 <div className="flex justify-center mt-6">
 
-                                    <button className={'login-button flex items-center'}>
-                                        <span> </span>
-                                        <span> </span>
-                                        <span> </span>
-                                        <span> </span>
+                                    <button type="submit" className="w-full flex items-center md:w-auto bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded-lg text-center">
                                         <FaSearch className="mr-2" /> Search Propertiesv
                                     </button>
                                 </div>
@@ -178,7 +174,7 @@ const Banner = () => {
 
                     {/* CTA Buttons */}
                     <div className="flex flex-col md:flex-row gap-4 mt-8 w-full md:w-auto">
-                        <button className="w-full md:w-auto bg-green-900 hover:bg-green-600 text-white px-6 py-3 rounded-lg text-center">
+                        <button className="w-full md:w-auto bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded-lg text-center">
                             Browse Properties →
                         </button>
                         <button className="w-full md:w-auto bg-white/20 text-white px-6 py-3 rounded-lg shadow hover:text-green-600 text-center">
