@@ -10,7 +10,7 @@ const Banner = () => {
     const [currentImage, setCurrentImage] = useState(0);
 
 
-    //  Array of background images
+    //  Array of background images for banner
     const images = [
         "https://i.ibb.co.com/v4kGKgDH/logo-make-11-06-2023-66-1.jpg",
         "https://i.ibb.co.com/Fk0F6F8J/way-white-house-1.jpg",
