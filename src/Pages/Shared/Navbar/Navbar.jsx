@@ -11,11 +11,6 @@ const Navbar = () => {
         setMenuOpen(!menuOpen);
     };
 
-
-
-
-
-
     const closeMenu = () => {
         setMenuOpen(false);
     };
@@ -25,8 +20,6 @@ const Navbar = () => {
             <li><NavLink  className={'hover:text-green-700'} onClick={closeMenu} to="/">Home</NavLink></li>
             <li><NavLink  className={'hover:text-green-700'} onClick={closeMenu} to="/properties">Browse Properties</NavLink></li>
             <li><NavLink  className={'hover:text-green-700'} onClick={closeMenu} to="/host">Become a host</NavLink></li>
-
-
         </>
     );
 
@@ -65,7 +58,7 @@ const Navbar = () => {
                         </button>
                         <NavLink
                             className="btn bg-green-700 hover:bg-green-600 text-white rounded-2xl px-5"
-                            to="/join"
+                            to="/login"  // Changed from "/join" to "/login"
                         >
                             Join Us
                         </NavLink>
@@ -117,14 +110,13 @@ const Navbar = () => {
                                 </NavLink>
                                 <NavLink
                                     className="btn bg-green-500 hover:bg-green-600 text-white rounded-2xl px-5"
-                                    to="/join"
+                                    to="/login"  // Changed from "/join" to "/login"
                                 >
                                     Join Us
                                 </NavLink>
                             </div>
                         </div>
                     </ul>
-
                 </div>
             )}
         </div>
