@@ -39,7 +39,7 @@ const Register = () => {
         backgroundPosition: "center",
       }}
     >
-      {/* Background Circles is here */}
+      {/* Background Circles */}
       <div className="absolute -top-20 -left-20 w-72 h-72 bg-green-300/30 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-green-400/20 rounded-full blur-3xl"></div>
 
@@ -64,7 +64,6 @@ const Register = () => {
         </div>
 
         {/* Form */}
-           {/* form */}
         <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
           {/* Name */}
           <div>
@@ -90,7 +89,6 @@ const Register = () => {
           </div>
 
           {/* Email */}
-          {/* email */}
           <div>
             <label
               htmlFor="email"
