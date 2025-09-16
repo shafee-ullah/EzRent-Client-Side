@@ -75,7 +75,7 @@ const FeaturepropertiesDitelsCard = ({data}) => {
                 
                 className="w-full py-3.5 rounded-md bg-[#2b603e] text-white hover:bg-[#16a34a] transition"
               >
-                booking Now
+                Booking Now
               </button>
             </div>
 
