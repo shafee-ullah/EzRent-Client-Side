@@ -12,30 +12,32 @@ const StatCard = ({ title, value, subtitle, icon }) => (
 );
 
 const BookingItem = ({ title, city, dates, guests, price, status }) => (
-  <div className="rounded-2xl border border-gray-200 dark:border-gray-800 p-5 bg-[var(--primary-color)] flex items-center justify-between">
-    <div>
-      <h3 className="font-semibold">{title}</h3>
-      <p className="text-sm text-gray-500">{city}</p>
-      <p className="text-sm text-gray-500">
-        {dates} • {guests} guests
-      </p>
-    </div>
-    <div className="flex items-center gap-4">
-      <div className="text-right">
-        <div className="font-bold">${price}</div>
+  <div className="rounded-2xl border border-gray-200 dark:border-gray-800 p-4 md:p-5 bg-[var(--primary-color)]">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex-1">
+        <h3 className="font-semibold text-sm md:text-base">{title}</h3>
+        <p className="text-xs md:text-sm text-gray-500">{city}</p>
+        <p className="text-xs md:text-sm text-gray-500">
+          {dates} • {guests} guests
+        </p>
       </div>
-      <span
-        className={`px-3 py-1 rounded-full text-xs ${
-          status === "confirmed"
-            ? "bg-green-100 text-green-700"
-            : "bg-yellow-100 text-yellow-700"
-        }`}
-      >
-        {status}
-      </span>
-      <div className="flex gap-2">
-        <button className="btn btn-sm rounded-2xl">👁️</button>
-        <button className="btn btn-sm rounded-2xl">💬</button>
+      <div className="flex items-center justify-between sm:justify-end gap-3">
+        <div className="text-right">
+          <div className="font-bold text-sm md:text-base">${price}</div>
+        </div>
+        <span
+          className={`px-2 md:px-3 py-1 rounded-full text-xs ${
+            status === "confirmed"
+              ? "bg-green-100 text-green-700"
+              : "bg-yellow-100 text-yellow-700"
+          }`}
+        >
+          {status}
+        </span>
+        <div className="flex gap-1 md:gap-2">
+          <button className="btn btn-sm rounded-2xl text-xs">👁️</button>
+          <button className="btn btn-sm rounded-2xl text-xs">💬</button>
+        </div>
       </div>
     </div>
   </div>
@@ -71,12 +73,12 @@ const GuestDashboard = () => {
         />
       </div>
 
-      <div className="mt-8 rounded-2xl border border-gray-200 dark:border-gray-800 p-5 bg-[var(--primary-color)]">
-        <h2 className="text-xl font-semibold">Upcoming Bookings</h2>
-        <p className="text-gray-500 text-sm">
+      <div className="mt-6 md:mt-8 rounded-2xl border border-gray-200 dark:border-gray-800 p-4 md:p-5 bg-[var(--primary-color)]">
+        <h2 className="text-lg md:text-xl font-semibold">Upcoming Bookings</h2>
+        <p className="text-gray-500 text-xs md:text-sm">
           Your confirmed and pending reservations
         </p>
-        <div className="mt-4 space-y-4">
+        <div className="mt-4 space-y-3 md:space-y-4">
           <BookingItem
             title="Modern Downtown Apartment"
             city="New York, NY"

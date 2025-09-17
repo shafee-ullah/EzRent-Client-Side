@@ -12,28 +12,30 @@ const StatCard = ({ title, value, subtitle, icon }) => (
 );
 
 const PropertyRow = ({ name, city, price, bookings, rating, status }) => (
-  <div className="rounded-2xl border border-gray-200 dark:border-gray-800 p-5 bg-[var(--primary-color)] flex items-center justify-between">
-    <div>
-      <h3 className="font-semibold">{name}</h3>
-      <p className="text-sm text-gray-500">{city}</p>
-      <p className="text-sm text-gray-500">
-        ${price}/night • {bookings} bookings • ⭐ {rating}
-      </p>
-    </div>
-    <div className="flex items-center gap-3">
-      <span
-        className={`px-3 py-1 rounded-full text-xs ${
-          status === "active"
-            ? "bg-green-100 text-green-700"
-            : "bg-gray-100 text-gray-700"
-        }`}
-      >
-        {status}
-      </span>
-      <div className="flex gap-2">
-        <button className="btn btn-sm rounded-2xl">👁️</button>
-        <button className="btn btn-sm rounded-2xl">✏️</button>
-        <button className="btn btn-sm rounded-2xl">🗑️</button>
+  <div className="rounded-2xl border border-gray-200 dark:border-gray-800 p-4 md:p-5 bg-[var(--primary-color)]">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex-1">
+        <h3 className="font-semibold text-sm md:text-base">{name}</h3>
+        <p className="text-xs md:text-sm text-gray-500">{city}</p>
+        <p className="text-xs md:text-sm text-gray-500">
+          ${price}/night • {bookings} bookings • ⭐ {rating}
+        </p>
+      </div>
+      <div className="flex items-center justify-between sm:justify-end gap-3">
+        <span
+          className={`px-2 md:px-3 py-1 rounded-full text-xs ${
+            status === "active"
+              ? "bg-green-100 text-green-700"
+              : "bg-gray-100 text-gray-700"
+          }`}
+        >
+          {status}
+        </span>
+        <div className="flex gap-1 md:gap-2">
+          <button className="btn btn-sm rounded-2xl text-xs">👁️</button>
+          <button className="btn btn-sm rounded-2xl text-xs">✏️</button>
+          <button className="btn btn-sm rounded-2xl text-xs">🗑️</button>
+        </div>
       </div>
     </div>
   </div>
@@ -69,12 +71,12 @@ const HostDashboard = () => {
         />
       </div>
 
-      <div className="mt-8 rounded-2xl border border-gray-200 dark:border-gray-800 p-5 bg-[var(--primary-color)]">
-        <h2 className="text-xl font-semibold">Your Properties</h2>
-        <p className="text-gray-500 text-sm">
+      <div className="mt-6 md:mt-8 rounded-2xl border border-gray-200 dark:border-gray-800 p-4 md:p-5 bg-[var(--primary-color)]">
+        <h2 className="text-lg md:text-xl font-semibold">Your Properties</h2>
+        <p className="text-gray-500 text-xs md:text-sm">
           Manage your listings and view performance
         </p>
-        <div className="mt-4 space-y-4">
+        <div className="mt-4 space-y-3 md:space-y-4">
           <PropertyRow
             name="Luxury Beach House"
             city="Malibu, CA"
