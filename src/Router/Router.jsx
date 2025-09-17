@@ -6,6 +6,7 @@ import FeaturepropertiesDitels from "../Pages/Home/FeaturedProperties/Featurepro
 import DashboardLayout from "../Pages/Dashboard/DashboardLayout";
 import GuestDashboard from "../Pages/Dashboard/GuestDashboard";
 import HostDashboard from "../Pages/Dashboard/HostDashboard";
+import BrowseProperties from "../Pages/BrowseProperties/BrowseProperties";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       {
         path: "FeaturepropertiesDitels/:id",
         Component: FeaturepropertiesDitels,
+      },
+      {
+        path:"BrowseProperties",
+        Component:BrowseProperties
       },
       {
         path: "dashboard",
