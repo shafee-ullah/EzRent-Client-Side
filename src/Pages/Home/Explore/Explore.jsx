@@ -16,7 +16,7 @@ const Explore = () => {
                     <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight">
                         Explore &amp; Find your{" "}
                         <span className="italic text-gray-800 dark:text-gray-200">Dream</span> home
-                        <span className="text-orange-500">*</span>
+                        <span className="text-green-500">*</span>
                     </h1>
 
                     {/* Happy clients box */}
@@ -72,11 +72,11 @@ const Explore = () => {
 
                     <div className="mt-8 flex flex-col sm:flex-row sm:items-center sm:gap-12 gap-6">
                         <div>
-                            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold">$7bil+</h2>
+                            <h2 className="text-4xl  md:text-5xl font-bold">$7bil+</h2>
                             <p className="text-sm text-gray-600">Project Handover</p>
                         </div>
                         <div>
-                            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold">1.9mil+</h2>
+                            <h2 className="text-4xl  md:text-5xl font-bold">1.9mil+</h2>
                             <p className="text-sm text-gray-600">Happy Customers</p>
                         </div>
                     </div>

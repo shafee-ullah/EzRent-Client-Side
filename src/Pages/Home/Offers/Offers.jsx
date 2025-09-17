@@ -37,15 +37,15 @@ const amenities = [
 
 const Offers = () => {
     return (
-        <section className="relative bg-gray-50 my-10 py-16">
+        <section className="relative  my-10 py-16">
             {/* Background pattern */}
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-gray-50 opacity-30"></div>
+            <div className="absolute inset-0 b opacity-30"></div>
 
-            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="relative max-w-11/12 mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Section Heading */}
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">What We Offer</h2>
-                    <p className="mt-2 text-lg text-gray-600">
+                    <h2 className="text-3xl sm:text-4xl font-bold dark:text-gray-200 text-gray-900">What We Offer</h2>
+                    <p className="mt-2 text-lg dark:text-gray-400 text-gray-600">
                         Offering Amenities In Our CoWorking Spaces
                     </p>
                 </div>
@@ -59,12 +59,12 @@ const Offers = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: 0.2 }}
                             viewport={{ once: true }}
-                            className="flex items-start space-x-4 bg-white shadow-sm rounded-xl p-6 hover:shadow-md hover:scale-105 transition-transform duration-300"
+                            className="flex items-start space-x-4 bg-white dark:bg-slate-900 shadow-sm rounded-xl p-6 hover:shadow-md hover:scale-105 transition-transform duration-300"
                         >
                             <div className="flex-shrink-0">{item.icon}</div>
                             <div>
-                                <h3 className="text-xl font-semibold text-gray-900">{item.title}</h3>
-                                <p className="mt-2 text-gray-600 text-sm">{item.desc}</p>
+                                <h3 className="text-xl font-semibold dark:text-gray-200 text-gray-900">{item.title}</h3>
+                                <p className="mt-2 dark:text-gray-400 text-gray-600 text-sm">{item.desc}</p>
                             </div>
                         </motion.div>
                     ))}

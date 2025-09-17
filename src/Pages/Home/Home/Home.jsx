@@ -3,6 +3,7 @@ import Banner from '../Banner/Banner';
 import FeaturedPropertiesCard from '../FeaturedProperties/FeaturedPropertiesCard';
 import Explore from '../Explore/Explore';
 import Offers from '../Offers/Offers';
+import Review from '../Revieew/Review';
 const Home = () => {
     return (
         <div>
@@ -10,6 +11,7 @@ const Home = () => {
             <FeaturedPropertiesCard></FeaturedPropertiesCard>
             <Offers></Offers>
             <Explore></Explore>
+            <Review></Review>
 
 
         </div>
