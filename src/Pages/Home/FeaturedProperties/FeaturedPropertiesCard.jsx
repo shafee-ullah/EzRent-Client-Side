@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 
 
 import React, { useState, useEffect } from "react";
@@ -5,7 +6,7 @@ import { CiLocationOn, CiCalendar } from "react-icons/ci";
 import { FaStar } from "react-icons/fa";
 import { IoMdContacts } from "react-icons/io";
 import { AiFillHeart } from "react-icons/ai";
-import { Link } from "react-router"; 
+import { Link } from "react-router"; // ✅ Correct import for routing
 import { motion } from "framer-motion";
 
 // ✅ Skeleton Loader Component
