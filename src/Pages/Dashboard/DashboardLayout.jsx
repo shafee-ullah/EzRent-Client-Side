@@ -21,7 +21,7 @@ const DashboardLayout = () => {
           </p>
         </div>
         <div>
-          <button className="btn rounded-2xl bg-gray-200 dark:bg-gray-800">
+          <button className="rounded-2xl px-4 py-2 font-semibold text-white bg-[var(--btn-primary)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all focus:outline-none focus:ring-2 focus:ring-green-400/70 dark:bg-[var(--btn-primary)]">
             Settings
           </button>
         </div>
