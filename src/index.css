@@ -5,7 +5,7 @@
 
 /* Base (light) theme */
 :root {
-    --bg-color: #ffffff;
+    --bg-color: #F8F7FD;
     --text-color: #000000;
     --primary-color: #ffffff;
     --btn-primary: #16a34a;
@@ -13,7 +13,7 @@
 
 /* Dark theme */
 :root.dark {
-    --bg-color: #0F0F0F;
+    --bg-color:#020617;
     --text-color: #ffffff;
     --primary-color: #111519;
     --btn-primary: #16a34a;
@@ -25,7 +25,7 @@ body {
 }
 
 .active {
-    color: #16a34a;
+     color: var(--text-color);
     border-bottom: 2px solid #16a34a;
 }
 
