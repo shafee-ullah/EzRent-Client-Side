@@ -18,13 +18,13 @@ const Navbar = () => {
   const navItems = (
     <>
       <li>
-        <NavLink className={"hover:text-green-700"} onClick={closeMenu} to="/">
+        <NavLink className={"hover:border-b-2 hover:border-green-600"} onClick={closeMenu} to="/">
           Home
         </NavLink>
       </li>
       <li>
         <NavLink
-          className={"hover:text-green-700"}
+          className={"hover:border-b-2 hover:border-green-600"}
           onClick={closeMenu}
           to="/properties"
         >
@@ -33,7 +33,7 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          className={"hover:text-green-700"}
+          className={"hover:border-b-2 hover:border-green-600"}
           onClick={closeMenu}
           to="/host"
         >
@@ -51,7 +51,7 @@ const Navbar = () => {
           <div className="text-2xl font-bold flex items-center gap-2">
             <Codepen size={32} />
             <h1>
-              <span className="text-green-700">Ez</span>Rent
+              <span className="text-green-600">Ez</span>Rent
             </h1>
           </div>
         </div>
