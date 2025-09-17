@@ -45,8 +45,8 @@ const teamReviews = [
 
 const Review = () => {
   return (
-    <section className="bg-gray-900 dark:bg-slate-900 text-white my-10 py-16 px-6 md:px-12">
-      <div className="max-w-11/12 mx-auto text-center">
+    <section className="bg-gray-900 dark:bg-slate-900 max-w-11/12 mx-auto rounded-2xl text-white my-10 py-16 px-6 md:px-12">
+      <div className=" text-center">
         {/* Section Header */}
         <div className="flex justify-between items-center mb-10">
           <h2 className="text-3xl md:text-4xl font-bold">

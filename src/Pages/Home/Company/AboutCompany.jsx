@@ -34,7 +34,7 @@ const AboutCompany = () => {
     const properties = useCounter(stats[2].value);
 
     return (
-        <section className="py-16 px-6 md:px-12">
+        <section className="py-16">
             <div className="max-w-11/12 mx-auto grid md:grid-cols-2 gap-10 items-center">
                 {/* Left Image */}
                 <div className="overflow-hidden rounded-lg shadow-lg flex justify-center items-center bg-gray-100">
@@ -58,19 +58,19 @@ const AboutCompany = () => {
                     {/* Stats */}
                     <div className="flex gap-12 lg:mb-15 flex-wrap">
                         <div>
-                            <h3 className="text-4xl font-bold text-blue-700">
+                            <h3 className="text-4xl font-bold text-green-700">
                                 {years}+
                             </h3>
                             <p className="text-gray-500">Years of Experience</p>
                         </div>
                         <div>
-                            <h3 className="text-4xl font-bold text-blue-700">
+                            <h3 className="text-4xl font-bold text-green-700">
                                 {realtors}
                             </h3>
                             <p className="text-gray-500">Qualified Realtors</p>
                         </div>
                         <div>
-                            <h3 className="text-4xl font-bold text-blue-700">
+                            <h3 className="text-4xl font-bold text-green-700">
                                 {properties}
                             </h3>
                             <p className="text-gray-500">Best Properties</p>
