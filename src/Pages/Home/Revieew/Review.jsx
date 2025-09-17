@@ -5,7 +5,7 @@ const teamReviews = [
     id: 1,
     name: "Shakib",
     location: "Dhaka, Bangladesh",
-    image: "https://randomuser.me/api/portraits/men/10.jpg",
+    image: "https://i.ibb.co.com/Z6DbkhLM/sk8-24-at-09-22-28-1cea5aae.jpg",
     title: "Very Good Apartment",
     rating: 5,
     review:
@@ -46,7 +46,7 @@ const teamReviews = [
 const Review = () => {
   return (
     <section className="bg-gray-900 dark:bg-slate-900 text-white my-10 py-16 px-6 md:px-12">
-      <div className="max-w-6xl mx-auto text-center">
+      <div className="max-w-11/12 mx-auto text-center">
         {/* Section Header */}
         <div className="flex justify-between items-center mb-10">
           <h2 className="text-3xl md:text-4xl font-bold">
