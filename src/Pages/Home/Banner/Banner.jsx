@@ -58,7 +58,7 @@ const Banner = () => {
 
     return (
         <div
-            className="relative min-h-screen mb-10 flex py-5 md:py-10 lg:py-20 items-center justify-center bg-cover bg-center"
+            className="relative min-h-screen mb-10 px-2 flex py-5 md:py-10 lg:py-20 items-center justify-center bg-cover bg-center"
             style={{
                 backgroundImage: `url(${images[currentImage]})`,
             }}
@@ -95,7 +95,7 @@ const Banner = () => {
 
                 <div className="flex flex-col items-center">
                     {/* Search Box */}
-                    <div className="relative mt-8 w-full max-w-5xl p-[2px] rounded-2xl bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 animate-border">
+                    <div className="relative mt-8 w-full max-w-5xl rounded-2xl bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 animate-border">
                         <div className="bg-[var(--primary-color)] rounded-2xl shadow-lg p-6">
                             <form onSubmit={handleSubmitFormData}>
                                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
