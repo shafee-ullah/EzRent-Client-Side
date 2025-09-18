@@ -141,7 +141,12 @@ const AuthPage = () => {
   };
 
   return (
+<<<<<<< HEAD
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden p-4">
+=======
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden py-10">
+      {/* Abstract circles */}
+>>>>>>> c7ef07a9cfcfe2e09994b6abc922bd94ce598a88
       <div className="absolute -top-24 -left-24 w-96 h-96 bg-green-700/10 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 right-0 w-[30rem] h-[30rem] bg-green-700/20 rounded-full blur-3xl"></div>
 
