@@ -26,7 +26,7 @@ const Navbar = () => {
         <NavLink
           className={"hover:border-b-2 hover:border-green-600"}
           onClick={closeMenu}
-          to="/properties"
+          to="/BrowseProperties"
         >
           Browse Properties
         </NavLink>
