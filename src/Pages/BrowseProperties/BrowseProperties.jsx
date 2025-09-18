@@ -123,7 +123,7 @@ const BrowseProperties = () => {
    <div className="max-w-11/12 mx-auto ">
      <div className="flex flex-col md:flex-row h-screen ">
       {/* Sidebar */}
-      <div className="md:w-1/3 w-full  p-4 h-screen shadow-md md:top-0 md:left-0  overflow-y-auto">
+      <div className="md:w-1/3 w-full dark:bg-gray-900 p-4 h-screen shadow-md md:top-0 md:left-0  overflow-y-auto">
         <h2 className="text-3xl font-semibold mb-4 text-center">Filters</h2>
 
         {/* Price Filter */}
@@ -193,7 +193,7 @@ const BrowseProperties = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.15, duration: 0.5 }}
                 whileHover={{ scale: 1.05 }}
-                className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all"
+                className="relative dark:bg-gray-900 group rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all"
               >
                 {/* Image */}
                 <div className="relative">
