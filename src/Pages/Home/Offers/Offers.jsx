@@ -37,7 +37,7 @@ const amenities = [
 
 const Offers = () => {
     return (
-        <section className="relative  my-10 py-16">
+        <section className="relative   my-10 py-16">
             {/* Background pattern */}
             <div className="absolute inset-0 b opacity-30"></div>
 

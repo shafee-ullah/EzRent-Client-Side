@@ -5,7 +5,7 @@ import { Link } from "react-router";
 
 const Footer = () => {
     return (
-        <div className="bg-gray-100 mt-10 dark:bg-gray-900 text-gray-700 dark:text-gray-300">
+        <div className=" border-t-2 border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-300">
             <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
 
                 {/* Logo */}
@@ -24,9 +24,9 @@ const Footer = () => {
                 <div>
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Links</h3>
                     <ul className="space-y-2">
-                        <li><Link className={'hover:text-green-700'}  to="/">Home</Link></li>
-                        <li><Link className={'hover:text-green-700'}  to="/properties">Browse Properties</Link></li>
-                        <li><Link className={'hover:text-green-700'}  to="/host">Become a host</Link></li>
+                        <li><Link className={'hover:text-green-700'} to="/">Home</Link></li>
+                        <li><Link className={'hover:text-green-700'} to="/properties">Browse Properties</Link></li>
+                        <li><Link className={'hover:text-green-700'} to="/host">Become a host</Link></li>
                     </ul>
                 </div>
 
