@@ -97,7 +97,7 @@ const Explore = () => {
                     </ul>
 
                     <motion.p
-                        className="mt-8 border-l-3 dark:bg-gray-900 border-green-700 text-xl md:text-2xl inline-flex items-center shadow-xl text-gray-950 font-semibold bg-white  dark:text-white px-10 py-5 rounded-lg "
+                        className="mt-8 border-l-3 bg-[var(--primary-color)] border-green-700 text-xl md:text-2xl inline-flex items-center shadow-xl text-gray-950 font-semibold  dark:text-gray-200 px-10 py-5 rounded-lg "
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                     >

@@ -193,7 +193,7 @@ const BrowseProperties = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.15, duration: 0.5 }}
                 whileHover={{ scale: 1.05 }}
-                className="relative group bg-white  dark:bg-slate-900 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all"
+                className="relative group bg-[var(--primary-color)] my-2 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all"
               >
                 {/* Image */}
                 <div className="relative">

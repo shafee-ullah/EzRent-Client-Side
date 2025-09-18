@@ -164,7 +164,7 @@ const FeaturedPropertiesCard = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.15, duration: 0.5 }}
               whileHover={{ scale: 1.05 }}
-              className="relative group rounded-2xl  bg-white  dark:bg-slate-900 overflow-hidden shadow-lg hover:shadow-2xl transition-all"
+              className="relative group rounded-2xl  bg-[var(--primary-color)] overflow-hidden shadow-lg hover:shadow-2xl transition-all"
             >
               {/* Image */}
               <div className="relative">
