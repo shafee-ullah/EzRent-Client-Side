@@ -193,7 +193,7 @@ const BrowseProperties = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.15, duration: 0.5 }}
                 whileHover={{ scale: 1.05 }}
-                className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all"
+                className="relative group bg-[var(--primary-color)] my-2 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all"
               >
                 {/* Image */}
                 <div className="relative">
@@ -248,7 +248,7 @@ const BrowseProperties = () => {
                     {propertie.title}
                   </h1>
 
-                  <p className="text-sm text-gray-500 leading-relaxed dark:text-[#ffffff]">
+                  <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed ">
                     {expanded === propertie.id
                       ? propertie.long_description
                       : `${propertie.long_description.slice(0, 65)}...`}
