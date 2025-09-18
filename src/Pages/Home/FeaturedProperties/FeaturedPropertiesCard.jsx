@@ -164,7 +164,7 @@ const FeaturedPropertiesCard = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.15, duration: 0.5 }}
               whileHover={{ scale: 1.05 }}
-              className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all"
+              className="relative group rounded-2xl  bg-white  dark:bg-slate-900 overflow-hidden shadow-lg hover:shadow-2xl transition-all"
             >
               {/* Image */}
               <div className="relative">
@@ -189,11 +189,10 @@ const FeaturedPropertiesCard = () => {
                 >
                   <AiFillHeart
                     size={20}
-                    className={`${
-                      wishlist.includes(propertie.id)
+                    className={`${wishlist.includes(propertie.id)
                         ? "text-red-500"
                         : "text-gray-400"
-                    }`}
+                      }`}
                   />
                 </button>
               </div>
@@ -217,7 +216,7 @@ const FeaturedPropertiesCard = () => {
                   {propertie.title}
                 </h1>
 
-                <p className="text-sm text-gray-500 leading-relaxed dark:text-[#ffffff]">
+                <p className="text-sm text-gray-500 leading-relaxed dark:text-gray-400">
                   {expanded === propertie.id
                     ? propertie.long_description
                     : `${propertie.long_description.slice(0, 65)}...`}
