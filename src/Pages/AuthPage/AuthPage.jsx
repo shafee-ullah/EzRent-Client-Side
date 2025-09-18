@@ -5,7 +5,7 @@ import { auth, googleProvider } from "../../firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
-// Reusable Input Component
+// Reusable Input Component in here for better readability
 const InputField = ({
   id,
   name,
