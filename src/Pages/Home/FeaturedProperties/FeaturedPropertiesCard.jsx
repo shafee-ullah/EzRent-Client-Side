@@ -1,6 +1,3 @@
-import React, { useState } from "react";
-
-
 import React, { useState, useEffect } from "react";
 import { CiLocationOn, CiCalendar } from "react-icons/ci";
 import { FaStar } from "react-icons/fa";
@@ -33,102 +30,101 @@ const CardLoading = () => {
 const FeaturedPropertiesCard = () => {
   const [expanded, setExpanded] = useState(null);
   const [wishlist, setWishlist] = useState([]);
-  const [loading, setLoading] = useState(true); // 
+  const [loading, setLoading] = useState(true); //
   const [properties, setProperties] = useState([]);
 
   useEffect(() => {
     // Simulate API fetch
     setTimeout(() => {
       setProperties([
-      
-          {
-    id: 1,
-    title: "Grand Palace Hotel",
-    img: "https://i.ibb.co.com/TD0z77GD/andrew-neel-w84-MOr-Tfbdw-unsplash-1.jpg",
-    price: 180,
-    rating: 4.6,
-    guest: 4,
-    location: "Paris, France",
-    long_description:
-      "A luxurious 5-star hotel located in the heart of Paris, offering elegant rooms, fine dining, and a rooftop terrace with a view of the Eiffel Tower.",
-  },
-  {
-    id: 2,
-    title: "Riverside Boutique Hotel",
-    img: "https://i.ibb.co.com/bgQ4QhVT/steven-ungermann-a-RT5-UCf2-MYY-uns.jpg",
-    price: 120,
-    rating: 4.3,
-    guest: 2,
-    location: "Prague, Czech Republic",
-    long_description:
-      "A cozy boutique hotel situated along the Vltava River, featuring modern rooms, a wine bar, and easy access to Charles Bridge and Old Town Square.",
-  },
-  {
-    id: 3,
-    title: "Seaside Resort & Spa",
-    img: "https://i.ibb.co.com/RpV8Lmx4/khadeeja-yasser-ms-FZE7d9-KB4-unsp.jpg",
-    price: 200,
-    rating: 4.8,
-    guest: 4,
-    location: "Barcelona, Spain",
-    long_description:
-      "A beachside resort with a full-service spa, infinity pool, and Mediterranean cuisine, perfect for both relaxation and vibrant nightlife nearby.",
-  },
-  {
-    id: 4,
-    title: "Mountain View Lodge",
-    img: "https://i.ibb.co.com/NdhGbj7m/kam-idris-kyt0-Pk-BSCNQ-unsplash-1.jpg",
-    price: 95,
-    rating: 4.1,
-    guest: 3,
-    location: "Innsbruck, Austria",
-    long_description:
-      "A charming alpine lodge offering panoramic mountain views, traditional Austrian breakfasts, and quick access to skiing and hiking trails.",
-  },
-  {
-    id: 5,
-    title: "Historic Royal Inn",
-    img: "https://i.ibb.co.com/tPXxsrrM/visualsofdana-T5p-L6ci-En-I-unspla.jpg",
-    price: 150,
-    rating: 4.5,
-    guest: 2,
-    location: "Edinburgh, Scotland",
-    long_description:
-      "Located near Edinburgh Castle, this inn combines rich history with modern comfort, featuring antique-style rooms and a traditional Scottish restaurant.",
-  },
-  {
-    id: 6,
-    title: "City Center Luxury Suites",
-    img: "https://i.ibb.co.com/yFFwq0N5/sidath-vimukthi-29z-Da-Mhy-Is-U-unsp.jpg",
-    price: 210,
-    rating: 4.7,
-    guest: 2,
-    location: "Rome, Italy",
-    long_description:
-      "Elegant suites in central Rome, offering spacious accommodations, rooftop dining, and walking distance to the Colosseum and Trevi Fountain.",
-  },
-  {
-    id: 7,
-    title: "Lakeside Serenity Hotel",
-    img: "https://i.ibb.co.com/4wMzFWpP/sasha-kaunas-67-s-Oi7m-VIk-unsplas.jpg",
-    price: 160,
-    rating: 4.4,
-    guest: 3,
-    location: "Lucerne, Switzerland",
-    long_description:
-      "A peaceful lakeside retreat offering stunning views of the Swiss Alps, gourmet dining, and a wellness spa designed for ultimate relaxation.",
-  },
-  {
-    id: 8,
-    title: "Desert Oasis Resort",
-    img: "https://i.ibb.co.com/KcYWWx4P/mark-champs-Id2-IIl1j-OB0-unsplash-1.jpg.jpg",
-    price: 175,
-    rating: 4.6,
-    guest: 4,
-    location: "Dubai, UAE",
-    long_description:
-      "An exotic desert resort featuring luxury villas, camel rides, infinity pools, and a unique blend of modern amenities with traditional Arabian hospitality.",
-  },
+        {
+          id: 1,
+          title: "Grand Palace Hotel",
+          img: "https://i.ibb.co.com/TD0z77GD/andrew-neel-w84-MOr-Tfbdw-unsplash-1.jpg",
+          price: 180,
+          rating: 4.6,
+          guest: 4,
+          location: "Paris, France",
+          long_description:
+            "A luxurious 5-star hotel located in the heart of Paris, offering elegant rooms, fine dining, and a rooftop terrace with a view of the Eiffel Tower.",
+        },
+        {
+          id: 2,
+          title: "Riverside Boutique Hotel",
+          img: "https://i.ibb.co.com/bgQ4QhVT/steven-ungermann-a-RT5-UCf2-MYY-uns.jpg",
+          price: 120,
+          rating: 4.3,
+          guest: 2,
+          location: "Prague, Czech Republic",
+          long_description:
+            "A cozy boutique hotel situated along the Vltava River, featuring modern rooms, a wine bar, and easy access to Charles Bridge and Old Town Square.",
+        },
+        {
+          id: 3,
+          title: "Seaside Resort & Spa",
+          img: "https://i.ibb.co.com/RpV8Lmx4/khadeeja-yasser-ms-FZE7d9-KB4-unsp.jpg",
+          price: 200,
+          rating: 4.8,
+          guest: 4,
+          location: "Barcelona, Spain",
+          long_description:
+            "A beachside resort with a full-service spa, infinity pool, and Mediterranean cuisine, perfect for both relaxation and vibrant nightlife nearby.",
+        },
+        {
+          id: 4,
+          title: "Mountain View Lodge",
+          img: "https://i.ibb.co.com/NdhGbj7m/kam-idris-kyt0-Pk-BSCNQ-unsplash-1.jpg",
+          price: 95,
+          rating: 4.1,
+          guest: 3,
+          location: "Innsbruck, Austria",
+          long_description:
+            "A charming alpine lodge offering panoramic mountain views, traditional Austrian breakfasts, and quick access to skiing and hiking trails.",
+        },
+        {
+          id: 5,
+          title: "Historic Royal Inn",
+          img: "https://i.ibb.co.com/tPXxsrrM/visualsofdana-T5p-L6ci-En-I-unspla.jpg",
+          price: 150,
+          rating: 4.5,
+          guest: 2,
+          location: "Edinburgh, Scotland",
+          long_description:
+            "Located near Edinburgh Castle, this inn combines rich history with modern comfort, featuring antique-style rooms and a traditional Scottish restaurant.",
+        },
+        {
+          id: 6,
+          title: "City Center Luxury Suites",
+          img: "https://i.ibb.co.com/yFFwq0N5/sidath-vimukthi-29z-Da-Mhy-Is-U-unsp.jpg",
+          price: 210,
+          rating: 4.7,
+          guest: 2,
+          location: "Rome, Italy",
+          long_description:
+            "Elegant suites in central Rome, offering spacious accommodations, rooftop dining, and walking distance to the Colosseum and Trevi Fountain.",
+        },
+        {
+          id: 7,
+          title: "Lakeside Serenity Hotel",
+          img: "https://i.ibb.co.com/4wMzFWpP/sasha-kaunas-67-s-Oi7m-VIk-unsplas.jpg",
+          price: 160,
+          rating: 4.4,
+          guest: 3,
+          location: "Lucerne, Switzerland",
+          long_description:
+            "A peaceful lakeside retreat offering stunning views of the Swiss Alps, gourmet dining, and a wellness spa designed for ultimate relaxation.",
+        },
+        {
+          id: 8,
+          title: "Desert Oasis Resort",
+          img: "https://i.ibb.co.com/KcYWWx4P/mark-champs-Id2-IIl1j-OB0-unsplash-1.jpg.jpg",
+          price: 175,
+          rating: 4.6,
+          guest: 4,
+          location: "Dubai, UAE",
+          long_description:
+            "An exotic desert resort featuring luxury villas, camel rides, infinity pools, and a unique blend of modern amenities with traditional Arabian hospitality.",
+        },
         // ... add your remaining properties here
       ]);
       setLoading(false); // ✅ Stop loading
@@ -142,7 +138,7 @@ const FeaturedPropertiesCard = () => {
   };
 
   return (
-    <div className="mt-14">
+    <div className="">
       {/* Section Title */}
       <div className="flex flex-col items-center px-4">
         <p className="text-3xl font-semibold text-gray-800 text-center dark:text-[#ffffff]">
@@ -203,7 +199,7 @@ const FeaturedPropertiesCard = () => {
               </div>
 
               {/* Card Content */}
-              <div className="p-4 space-y-1">
+              <div className="p-4 space-y-0">
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-1 font-medium text-gray-600 text-sm">
                     <CiLocationOn size={18} className="text-red-500" />
@@ -227,7 +223,9 @@ const FeaturedPropertiesCard = () => {
                     : `${propertie.long_description.slice(0, 65)}...`}
                   <button
                     onClick={() =>
-                      setExpanded(expanded === propertie.id ? null : propertie.id)
+                      setExpanded(
+                        expanded === propertie.id ? null : propertie.id
+                      )
                     }
                     className="text-green-600 ml-2 hover:underline text-sm"
                   >
@@ -244,7 +242,7 @@ const FeaturedPropertiesCard = () => {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.9 }}
-                    className="mt-3 w-full py-2 flex justify-center items-center gap-2 rounded-lg font-semibold text-white bg-[#16a34a] hover:bg-emerald-900 transition"
+                    className="mt-3 w-full py-2 flex justify-center items-center gap-2 rounded-lg font-semibold text-white bg-[#16a34a] hover:bg-[#23b323] transition"
                   >
                     <CiCalendar size={18} /> Quick Book
                   </motion.button>

@@ -120,10 +120,10 @@ const BrowseProperties = () => {
     );
   };
   return (
-   <div >
+   <div className="max-w-11/12 mx-auto ">
      <div className="flex flex-col md:flex-row h-screen ">
       {/* Sidebar */}
-      <div className="md:w-1/4 w-full md:mt-24  p-4 shadow-md md:fixed md:top-0 md:left-0 md:h-screen overflow-y-auto">
+      <div className="md:w-1/3 w-full  p-4 h-screen shadow-md md:top-0 md:left-0  overflow-y-auto">
         <h2 className="text-3xl font-semibold mb-4 text-center">Filters</h2>
 
         {/* Price Filter */}
@@ -181,7 +181,7 @@ const BrowseProperties = () => {
       </div>
 
       {/* Cards Section */}
-      <div className="md:ml-[25%] w-full md:w-3/4 h-screen overflow-y-scroll p-6">
+      <div className="w-full  h-screen overflow-y-scroll md:p-6 p-4 ">
         {/* <h2 className="text-2xl font-semibold mb-4">6 properties found</h2> */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
           {properties
@@ -273,7 +273,7 @@ const BrowseProperties = () => {
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.9 }}
-                      className="mt-3 w-full py-2 flex justify-center items-center gap-2 rounded-lg font-semibold text-white bg-[#16a34a] hover:bg-emerald-900 transition"
+                      className="mt-3 w-full py-2 flex justify-center items-center gap-2 rounded-lg font-semibold text-white bg-[#16a34a] hover:bg-[#23b323] transition"
                     >
                       <CiCalendar size={18} /> Quick Book
                     </motion.button>
@@ -289,3 +289,7 @@ const BrowseProperties = () => {
 };
 
 export default BrowseProperties;
+
+
+
+
