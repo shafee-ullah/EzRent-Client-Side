@@ -189,11 +189,10 @@ const FeaturedPropertiesCard = () => {
                 >
                   <AiFillHeart
                     size={20}
-                    className={`${
-                      wishlist.includes(propertie.id)
+                    className={`${wishlist.includes(propertie.id)
                         ? "text-red-500"
                         : "text-gray-400"
-                    }`}
+                      }`}
                   />
                 </button>
               </div>
@@ -217,7 +216,7 @@ const FeaturedPropertiesCard = () => {
                   {propertie.title}
                 </h1>
 
-                <p className="text-sm text-gray-500 leading-relaxed dark:text-[#ffffff]">
+                <p className="text-sm text-gray-500 leading-relaxed dark:text-gray-400">
                   {expanded === propertie.id
                     ? propertie.long_description
                     : `${propertie.long_description.slice(0, 65)}...`}

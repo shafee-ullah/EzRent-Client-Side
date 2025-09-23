@@ -12,7 +12,7 @@ const Footer = () => {
                 <div>
                     <div className="text-2xl font-bold flex items-center gap-2">
                         <Codepen size={32} />
-                        <h1><span className="text-green-700">Rz</span>Rent</h1>
+                        <h1><span className="text-green-700">Ez</span>Rent</h1>
                     </div>
                     <p className="text-sm leading-6">
                         Discover unique accommodations around the world. From  cozy cabins to

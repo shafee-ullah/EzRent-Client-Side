@@ -12,7 +12,7 @@ const FeaturepropertiesDitelsCard = ({ data }) => {
 
   return (
     <div className="px-4  min-h-screen md:py-10 py-5">
-      <div className=" max-w-7xl mx-auto  shadow-xl rounded-2xl overflow-hidden dark:border border-gray-600 dark:bg-gray-900">
+      <div className=" max-w-7xl mx-auto bg-[var(--primary-color)]  shadow-xl rounded-2xl overflow-hidden dark:border border-gray-600 dark:bg-gray-900">
         {/* Image */}
         <div className="relative">
           <img

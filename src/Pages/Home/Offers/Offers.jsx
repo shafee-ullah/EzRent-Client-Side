@@ -59,7 +59,7 @@ const Offers = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: 0.2 }}
                             viewport={{ once: true }}
-                            className="flex items-start space-x-4 bg-white dark:bg-slate-900 shadow-sm rounded-xl p-6 hover:shadow-md hover:scale-105 transition-transform duration-300"
+                            className="flex items-start space-x-4 bg-[var(--primary-color)] shadow-sm rounded-xl p-6 hover:shadow-md hover:scale-105 transition-transform duration-300"
                         >
                             <div className="flex-shrink-0">{item.icon}</div>
                             <div>
