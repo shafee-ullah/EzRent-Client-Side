@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, UserPlus, LogIn, AlertCircle, CheckCircle, User } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+ import { motion, AnimatePresence } from "framer-motion";
 import { auth, googleProvider } from "../../firebase";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { useNavigate } from "react-router";
 
 // Reusable Input Component 
 // Reusable Input Component 
@@ -128,7 +128,7 @@ const AuthPage = () => {
     }
   };
 
-  const handleSocialLogin = async (providerName) => {
+  const handleSocialLogin = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       alert(`Welcome ${result.user.displayName || result.user.email}`);

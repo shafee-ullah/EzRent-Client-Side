@@ -123,7 +123,7 @@ const BrowseProperties = () => {
    <div className="max-w-11/12 mx-auto ">
      <div className="flex flex-col md:flex-row h-screen ">
       {/* Sidebar */}
-      <div className="md:w-1/3 w-full  p-4 h-screen shadow-md md:top-0 md:left-0  overflow-y-auto">
+      <div className="md:w-1/3 w-full dark:bg-gray-900 p-4 h-screen shadow-md md:top-0 md:left-0  overflow-y-auto">
         <h2 className="text-3xl font-semibold mb-4 text-center">Filters</h2>
 
         {/* Price Filter */}

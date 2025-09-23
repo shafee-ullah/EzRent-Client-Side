@@ -138,7 +138,7 @@ const FeaturedPropertiesCard = () => {
   };
 
   return (
-    <div className="">
+    <div className="my-20">
       {/* Section Title */}
       <div className="flex flex-col items-center px-4">
         <p className="text-3xl font-semibold text-gray-800 text-center dark:text-[#ffffff]">
@@ -156,7 +156,7 @@ const FeaturedPropertiesCard = () => {
         </div>
       ) : (
         // ✅ Show Real Cards after data loads
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12 px-4 md:px-14">
+        <div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12 px-4 md:px-14">
           {properties.map((propertie, index) => (
             <motion.div
               key={propertie.id}
@@ -164,7 +164,7 @@ const FeaturedPropertiesCard = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.15, duration: 0.5 }}
               whileHover={{ scale: 1.05 }}
-              className="relative group rounded-2xl  bg-[var(--primary-color)] overflow-hidden shadow-lg hover:shadow-2xl transition-all"
+              className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all dark:bg-gray-900"
             >
               {/* Image */}
               <div className="relative">
