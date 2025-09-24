@@ -6,14 +6,13 @@ import Offers from '../Offers/Offers';
 import Review from '../Revieew/Review';
 import AboutCompany from '../Company/AboutCompany';
 
+
 // import JourneySection from '../JourneySection/JourneySection';
 const Home = () => {
     return (
         <div>
             <Banner></Banner>
             <FeaturedPropertiesCard></FeaturedPropertiesCard>
-              
-           
             <Offers></Offers>
             <Explore></Explore>
             <Review></Review>

@@ -9,12 +9,14 @@ import BrowseProperties from "../Pages/BrowseProperties/BrowseProperties";
 import Register from "../Pages/AuthPage/AuthPage";
 import { LogIn } from "lucide-react";
 import AuthPage from "../Pages/AuthPage/AuthPage";
+import Error from "../Error/Error";
 
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component: RootLayouts,
+    errorElement:<Error></Error>,
     children: [
       {
         index: true,

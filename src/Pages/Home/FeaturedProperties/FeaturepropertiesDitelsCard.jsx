@@ -6,10 +6,14 @@ import {
   FaStar,
   FaConciergeBell,
 } from "react-icons/fa";
+import Loading from "../../../components/Loading";
 
-const FeaturepropertiesDitelsCard = ({ data }) => {
-  if (!data) return null;
-
+const FeaturepropertiesDitelsCard = ({ data,loading,error }) => {
+    if (!data) return null;
+  if(loading) return <Loading></Loading>
+  if(error) return <p style={{ color: "red" }}>{error}</p>;
+  
+  
   return (
     <div className="px-4  min-h-screen md:py-10 py-5">
       <div className=" max-w-7xl mx-auto bg-[var(--primary-color)]  shadow-xl rounded-2xl overflow-hidden dark:border border-gray-600 dark:bg-gray-900">
