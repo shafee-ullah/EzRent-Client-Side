@@ -49,7 +49,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="sticky top-0 shadow-sm dark:bg-[#0f1113] dark:text-white z-50 bg-white/5 backdrop-blur-md py-2">
+    <div className="sticky top-0 shadow-sm dark:bg-[#0f1113] bg-white dark:text-white z-50  backdrop-blur-md py-2">
       <div className="navbar w-11/12 mx-auto">
         {/* Logo */}
         <div className="navbar-start flex items-center">
