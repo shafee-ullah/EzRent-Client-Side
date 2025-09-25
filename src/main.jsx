@@ -7,15 +7,18 @@ import { ThemeProvider } from "./Context/ThemeContext.jsx";
 import { Provider } from "react-redux";
 // import Store from "./app/store.js";
 import store from "./app/store.js";
+import AuthProvider from "../src/Context/AuthProvider.jsx"
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <Provider store={store}>
-      <ThemeProvider>
-        <RouterProvider router={router} />
-      </ThemeProvider>
+    <AuthProvider>
+      <Provider store={store}>
+        <ThemeProvider>
+          <RouterProvider router={router} />
+        </ThemeProvider>
 
-    </Provider>
+      </Provider>
+    </AuthProvider>
 
   </StrictMode>
 );
