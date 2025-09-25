@@ -38,7 +38,6 @@ const FeaturedPropertiesCard = () => {
   
   const  dispatch = useDispatch()
   const {items,loading, error}=useSelector((state)=>state.products)
- console.log(items)
   useEffect(()=>{
     dispatch(fetchlimit())
   },[dispatch])

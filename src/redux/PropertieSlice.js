@@ -2,6 +2,7 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
  import axios from "axios";
 
+
 // MongoDB থেকে ডেটা ফেচ
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
@@ -18,6 +19,15 @@ export const fetchlimit = createAsyncThunk(
     return res.data;
   }
 );
+// // 🔹 POST → নতুন প্রপার্টি MongoDB তে save করা
+// export const addProperty = createAsyncThunk(
+//   "property/addProperty",
+//   async () => {
+//     const res = await axios.post("http://localhost:5000/bookinghotel");
+//     return res.data; // backend থেকে response return করবে
+//   }
+// );
+
 
 
 const productSlice = createSlice({
@@ -41,6 +51,7 @@ const productSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       });
+    
   },
 });
 
