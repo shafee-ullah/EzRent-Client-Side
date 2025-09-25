@@ -8,6 +8,7 @@ import {
     updateProfile,
     sendEmailVerification,
     GithubAuthProvider,
+    sendPasswordResetEmail,
 } from 'firebase/auth';
 
 import { auth } from '../firebase';
@@ -40,6 +41,12 @@ const AuthProvider = ({ children }) => {
         setLoading(true);
         return signInWithPopup(auth, githubProvider);
     };
+
+    const resetPassword = (email) => {
+        setLoading(true);
+        return sendPasswordResetEmail(auth, email);
+    };
+
 
 
 
@@ -90,7 +97,8 @@ const AuthProvider = ({ children }) => {
         setUser,
         updateUser,
         logInUser,
-        githubSignIn
+        githubSignIn,
+        resetPassword
 
 
 

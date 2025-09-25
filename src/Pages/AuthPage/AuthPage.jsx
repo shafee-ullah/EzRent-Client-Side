@@ -1,6 +1,15 @@
-// src/pages/AuthPage.jsx
 import React, { useState, useContext } from "react";
-import { Eye, EyeOff, Mail, Lock, UserPlus, LogIn, AlertCircle, CheckCircle, User } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  Mail,
+  Lock,
+  UserPlus,
+  LogIn,
+  AlertCircle,
+  CheckCircle,
+  User,
+} from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
@@ -25,7 +34,9 @@ const InputField = ({
 }) => (
   <div>
     <div className="relative">
-      {Icon && <Icon className="absolute left-3 top-4 h-5 w-5 text-gray-400" />}
+      {Icon && (
+        <Icon className="absolute left-3 top-4 h-5 w-5 text-gray-400" />
+      )}
       <input
         id={id}
         name={name}
@@ -33,7 +44,13 @@ const InputField = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={`w-full ${Icon ? 'pl-11' : 'pl-3'} ${showPasswordToggle ? 'pr-10' : 'pr-3'} py-3 rounded-xl border bg-white/60 dark:bg-gray-700/60 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-700 focus:border-transparent transition-all ${error ? "border-red-500" : success ? "border-green-500" : "border-gray-300 dark:border-gray-600"}`}
+        className={`w-full ${Icon ? "pl-11" : "pl-3"
+          } ${showPasswordToggle ? "pr-10" : "pr-3"} py-3 rounded-xl border bg-white/60 dark:bg-gray-700/60 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-700 focus:border-transparent transition-all ${error
+            ? "border-red-500"
+            : success
+              ? "border-green-500"
+              : "border-gray-300 dark:border-gray-600"
+          }`}
         {...props}
       />
       {showPasswordToggle && (
@@ -43,18 +60,37 @@ const InputField = ({
           className="absolute right-3 top-3.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
           aria-label={type === "password" ? "Show password" : "Hide password"}
         >
-          {type === "password" ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
+          {type === "password" ? (
+            <Eye className="h-5 w-5" />
+          ) : (
+            <EyeOff className="h-5 w-5" />
+          )}
         </button>
       )}
     </div>
-    {error && <p className="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center"><AlertCircle className="h-4 w-4 mr-1" /> {error}</p>}
-    {success && <p className="mt-1 text-sm text-green-600 dark:text-green-400 flex items-center"><CheckCircle className="h-4 w-4 mr-1" /> {success}</p>}
+    {error && (
+      <p className="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center">
+        <AlertCircle className="h-4 w-4 mr-1" /> {error}
+      </p>
+    )}
+    {success && (
+      <p className="mt-1 text-sm text-green-600 dark:text-green-400 flex items-center">
+        <CheckCircle className="h-4 w-4 mr-1" /> {success}
+      </p>
+    )}
   </div>
 );
 
 const AuthPage = () => {
   const navigate = useNavigate();
-  const { createUser, logInUser, googleSignIn, githubSignIn } = useContext(AuthContext);
+  // now includes resetPassword
+  const {
+    createUser,
+    logInUser,
+    googleSignIn,
+    githubSignIn,
+    resetPassword,
+  } = useContext(AuthContext);
 
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
@@ -76,24 +112,33 @@ const AuthPage = () => {
     const newSuccess = {};
 
     if (!formData.email) newErrors.email = "Email is required";
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Email is invalid";
+    else if (!/\S+@\S+\.\S+/.test(formData.email))
+      newErrors.email = "Email is invalid";
     else newSuccess.email = "Email looks good!";
 
     if (!formData.password) newErrors.password = "Password is required";
-    else if (formData.password.length < 6) newErrors.password = "Password must be at least 6 characters";
-    else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) newErrors.password = "Password must contain uppercase, lowercase and number";
+    else if (formData.password.length < 6)
+      newErrors.password = "Password must be at least 6 characters";
+    else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password))
+      newErrors.password =
+        "Password must contain uppercase, lowercase and number";
     else newSuccess.password = "Strong password!";
 
     if (!isLogin) {
       if (!formData.name) newErrors.name = "Name is required";
-      else if (formData.name.length < 2) newErrors.name = "Name must be at least 2 characters";
+      else if (formData.name.length < 2)
+        newErrors.name = "Name must be at least 2 characters";
       else newSuccess.name = "Name looks good!";
 
-      if (!formData.confirmPassword) newErrors.confirmPassword = "Please confirm your password";
-      else if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = "Passwords do not match";
+      if (!formData.confirmPassword)
+        newErrors.confirmPassword = "Please confirm your password";
+      else if (formData.password !== formData.confirmPassword)
+        newErrors.confirmPassword = "Passwords do not match";
       else newSuccess.confirmPassword = "Passwords match!";
 
-      if (!agreeToTerms) newErrors.terms = "You must agree to the Terms of Service and Privacy Policy";
+      if (!agreeToTerms)
+        newErrors.terms =
+          "You must agree to the Terms of Service and Privacy Policy";
     }
 
     setErrors(newErrors);
@@ -114,7 +159,10 @@ const AuthPage = () => {
     setIsLoading(true);
     try {
       if (isLogin) {
-        const userCredential = await logInUser(formData.email, formData.password);
+        const userCredential = await logInUser(
+          formData.email,
+          formData.password
+        );
         if (!userCredential.user.emailVerified) {
           toast.success("Please verify your email before logging in.");
         } else {
@@ -122,14 +170,34 @@ const AuthPage = () => {
           navigate("/dashboard");
         }
       } else {
-        const userCredential = await createUser(formData.email, formData.password, formData.name);
-        toast.success(`Registration successful. Verification email sent to ${userCredential.user.email}`);
+        const userCredential = await createUser(
+          formData.email,
+          formData.password,
+          formData.name
+        );
+        toast.success(
+          `Registration successful. Verification email sent to ${userCredential.user.email}`
+        );
         setIsLogin(true);
       }
     } catch (error) {
       setErrors({ general: error.message });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // handle password reset
+  const handlePasswordReset = async () => {
+    if (!formData.email) {
+      toast.error("Please enter your email address first.");
+      return;
+    }
+    try {
+      await resetPassword(formData.email);
+      toast.success(`Password reset email sent to ${formData.email}`);
+    } catch (error) {
+      toast.error(error.message);
     }
   };
 
@@ -144,7 +212,9 @@ const AuthPage = () => {
       navigate("/dashboard");
     } catch (error) {
       if (error.code === "auth/account-exists-with-different-credential") {
-        toast.error("This email is already registered with a different provider. Please use the original provider to login.");
+        toast.error(
+          "This email is already registered with a different provider. Please use the original provider to login."
+        );
       } else {
         toast.error(error.message);
       }
@@ -171,25 +241,52 @@ const AuthPage = () => {
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
           >
-            {isLogin ? <LogIn className="h-8 w-8" /> : <UserPlus className="h-8 w-8" />}
+            {isLogin ? (
+              <LogIn className="h-8 w-8" />
+            ) : (
+              <UserPlus className="h-8 w-8" />
+            )}
           </motion.div>
           <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
             {isLogin ? "Welcome Back" : "Create Account"}
           </h2>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
             {isLogin ? "Sign in to continue with " : "Register to get started with "}
-            <span className="font-semibold text-green-700 dark:text-green-500">RzRent</span>
+            <span className="font-semibold text-green-700 dark:text-green-500">
+              RzRent
+            </span>
           </p>
         </div>
 
         <div className="flex justify-center mt-6 mb-8">
-          <button onClick={() => setIsLogin(true)} className={`px-6 py-2 rounded-l-xl font-medium transition-all ${isLogin ? "bg-green-700 text-white shadow-md" : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"}`}>Sign In</button>
-          <button onClick={() => setIsLogin(false)} className={`px-6 py-2 rounded-r-xl font-medium transition-all ${!isLogin ? "bg-green-700 text-white shadow-md" : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"}`}>Register</button>
+          <button
+            onClick={() => setIsLogin(true)}
+            className={`px-6 py-2 rounded-l-xl font-medium transition-all ${isLogin
+                ? "bg-green-700 text-white shadow-md"
+                : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
+              }`}
+          >
+            Sign In
+          </button>
+          <button
+            onClick={() => setIsLogin(false)}
+            className={`px-6 py-2 rounded-r-xl font-medium transition-all ${!isLogin
+                ? "bg-green-700 text-white shadow-md"
+                : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
+              }`}
+          >
+            Register
+          </button>
         </div>
 
         <AnimatePresence>
           {errors.general && (
-            <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mb-4 p-3 rounded-xl bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 flex items-center">
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="mb-4 p-3 rounded-xl bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 flex items-center"
+            >
               <AlertCircle className="h-5 w-5 mr-2" /> {errors.general}
             </motion.div>
           )}
@@ -236,6 +333,20 @@ const AuthPage = () => {
             onTogglePassword={() => setShowPassword(!showPassword)}
             autoComplete={isLogin ? "current-password" : "new-password"}
           />
+
+          {/* Forgot Password link */}
+          {isLogin && (
+            <div className="text-right">
+              <button
+                type="button"
+                onClick={handlePasswordReset}
+                className="text-sm text-green-700 dark:text-green-500 hover:underline"
+              >
+                Forgot Password?
+              </button>
+            </div>
+          )}
+
           {!isLogin && (
             <InputField
               id="confirmPassword"
@@ -248,25 +359,62 @@ const AuthPage = () => {
               error={errors.confirmPassword}
               success={success.confirmPassword}
               showPasswordToggle
-              onTogglePassword={() => setShowConfirmPassword(!showConfirmPassword)}
+              onTogglePassword={() =>
+                setShowConfirmPassword(!showConfirmPassword)
+              }
               autoComplete="new-password"
             />
           )}
           {!isLogin && (
             <label className="flex items-start space-x-2 text-gray-600 dark:text-gray-300 text-sm">
-              <input type="checkbox" checked={agreeToTerms} onChange={(e) => setAgreeToTerms(e.target.checked)} className="h-4 w-4 rounded border-gray-300 text-green-700 focus:ring-green-700 mt-0.5" />
-              <span>I agree to the <a href="#" className="text-green-700 dark:text-green-500 font-medium hover:text-green-800 dark:hover:text-green-400">Terms of Service</a> and <a href="#" className="text-green-700 dark:text-green-500 font-medium hover:text-green-800 dark:hover:text-green-400">Privacy Policy</a></span>
+              <input
+                type="checkbox"
+                checked={agreeToTerms}
+                onChange={(e) => setAgreeToTerms(e.target.checked)}
+                className="h-4 w-4 rounded border-gray-300 text-green-700 focus:ring-green-700 mt-0.5"
+              />
+              <span>
+                I agree to the{" "}
+                <a
+                  href="#"
+                  className="text-green-700 dark:text-green-500 font-medium hover:text-green-800 dark:hover:text-green-400"
+                >
+                  Terms of Service
+                </a>{" "}
+                and{" "}
+                <a
+                  href="#"
+                  className="text-green-700 dark:text-green-500 font-medium hover:text-green-800 dark:hover:text-green-400"
+                >
+                  Privacy Policy
+                </a>
+              </span>
             </label>
           )}
-          <motion.button type="submit" disabled={isLoading} className="w-full py-3 rounded-xl text-white font-semibold text-lg bg-green-700 hover:bg-green-800 dark:bg-green-600 dark:hover:bg-green-700 shadow-lg focus:ring-2 focus:ring-offset-2 focus:ring-green-700 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center">
-            {isLoading ? (isLogin ? "Signing In..." : "Registering...") : (isLogin ? "Sign In" : "Register")}
+          <motion.button
+            type="submit"
+            disabled={isLoading}
+            className="w-full py-3 rounded-xl text-white font-semibold text-lg bg-green-700 hover:bg-green-800 dark:bg-green-600 dark:hover:bg-green-700 shadow-lg focus:ring-2 focus:ring-offset-2 focus:ring-green-700 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
+          >
+            {isLoading
+              ? isLogin
+                ? "Signing In..."
+                : "Registering..."
+              : isLogin
+                ? "Sign In"
+                : "Register"}
           </motion.button>
         </form>
 
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600 dark:text-gray-400">
             {isLogin ? "Don't have an account? " : "Already have an account? "}
-            <button onClick={() => setIsLogin(!isLogin)} className="font-medium text-green-700 dark:text-green-500 hover:text-green-800 dark:hover:text-green-400">{isLogin ? "Register here" : "Login here"}</button>
+            <button
+              onClick={() => setIsLogin(!isLogin)}
+              className="font-medium text-green-700 dark:text-green-500 hover:text-green-800 dark:hover:text-green-400"
+            >
+              {isLogin ? "Register here" : "Login here"}
+            </button>
           </p>
         </div>
 
@@ -275,7 +423,9 @@ const AuthPage = () => {
             <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-transparent text-gray-500 dark:text-gray-400">Or continue with</span>
+            <span className="px-2 bg-transparent text-gray-500 dark:text-gray-400">
+              Or continue with
+            </span>
           </div>
         </div>
 

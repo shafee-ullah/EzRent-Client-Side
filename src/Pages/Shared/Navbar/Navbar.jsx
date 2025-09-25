@@ -88,14 +88,14 @@ const Navbar = () => {
 
         {/* Right side */}
         <div className="navbar-end hidden lg:flex items-center gap-4">
+          <button
+            onClick={toggleTheme}
+            className="px-4 py-2 rounded-full bg-gray-300 dark:bg-gray-800 hover:bg-gray-400 dark:hover:bg-gray-700 transition"
+          >
+            {theme === "light" ? "🌞" : "🌙"}
+          </button>
           {!user ? (
             <>
-              <button
-                onClick={toggleTheme}
-                className="px-4 py-2 rounded-full bg-gray-300 dark:bg-gray-800 hover:bg-gray-400 dark:hover:bg-gray-700 transition"
-              >
-                {theme === "light" ? "🌞" : "🌙"}
-              </button>
               <NavLink
                 to="/join"
                 className="px-4 py-2 rounded-full bg-green-600 text-white font-semibold hover:bg-green-500 transition"
@@ -105,18 +105,13 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <Link onClick={closeMenu} to="/host" className="hover:border-b-2 hover:border-green-600">
-                Become a host
-              </Link>
-              <img
-                src={user.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"}
-                alt="avatar"
-                className="w-10 h-10 rounded-full object-cover border"
-              />
+
               <div className="relative" onClick={() => setUserMenuOpen(!userMenuOpen)}>
-                <button className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200">
-                  <MenuIcon className="w-5 h-5" />
-                </button>
+                <img
+                  src={user.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"}
+                  alt="avatar"
+                  className="w-10 h-10 rounded-full object-cover border"
+                />
                 {userMenuOpen && (
                   <div className="absolute right-0 mt-2 w-64 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
                     <p className="font-semibold">{user.displayName || user.email}</p>
