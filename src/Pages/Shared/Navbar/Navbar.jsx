@@ -90,7 +90,7 @@ const Navbar = () => {
         <div className="navbar-end hidden lg:flex items-center gap-4">
           <button
             onClick={toggleTheme}
-            className="px-4 py-2 rounded-full bg-gray-300 dark:bg-gray-800 hover:bg-gray-400 dark:hover:bg-gray-700 transition"
+            className="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-gray-300   dark:hover:bg-gray-900 cursor-pointer border-green-500 object-cover "
           >
             {theme === "light" ? "🌞" : "🌙"}
           </button>
@@ -110,11 +110,12 @@ const Navbar = () => {
                 <img
                   src={user.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"}
                   alt="avatar"
-                  className="w-10 h-10 rounded-full object-cover border"
+                  className="w-12 h-12 rounded-full cursor-pointer  border-green-500 object-cover border-2 p-0.5"
                 />
                 {userMenuOpen && (
                   <div className="absolute right-0 mt-2 w-64 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
-                    <p className="font-semibold">{user.displayName || user.email}</p>
+                    <p className="font-semibold">{user.displayName}</p>
+                    <p className="font-semibold">{user.email}</p>
                     <hr className="my-2" />
                     <NavLink
                       to="/host"
@@ -123,24 +124,11 @@ const Navbar = () => {
                     >
                       Become a Host
                     </NavLink>
-                    <NavLink
-                      to="/dashboard"
-                      className="block w-full text-left px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md"
-                      onClick={() => setUserMenuOpen(false)}
-                    >
-                      Dashboard
-                    </NavLink>
                     <button
                       onClick={logoutUser}
                       className="w-full text-center text-white px-3 py-2 bg-green-500 rounded-md hover:bg-red-400 transition mt-2"
                     >
                       Logout
-                    </button>
-                    <button
-                      onClick={toggleTheme}
-                      className="w-full mt-2 text-center px-3 py-2 rounded-md bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 transition"
-                    >
-                      {theme === "light" ? "🌞 Light Mode" : "🌙 Dark Mode"}
                     </button>
                   </div>
                 )}
