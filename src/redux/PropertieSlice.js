@@ -7,7 +7,7 @@ import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async () => {
-    const res = await axios.get("http://localhost:5000/properties");
+    const res = await axios.get("https://ez-rent-server-side.vercel.app/properties");
     return res.data;
   }
 );
@@ -15,7 +15,7 @@ export const fetchProducts = createAsyncThunk(
 export const fetchlimit = createAsyncThunk(
   "products/fetchProducts",
   async () => {
-    const res = await axios.get("http://localhost:5000/FeaturedProperties");
+    const res = await axios.get("https://ez-rent-server-side.vercel.app/FeaturedProperties");
     return res.data;
   }
 );
