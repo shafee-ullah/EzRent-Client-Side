@@ -89,15 +89,6 @@ const FeaturepropertiesDitelsCard = ({ data,loading,error }) => {
             </ul>
           </div>
 
-          {/* Action Buttons */}
-           {/* <div className="flex flex-col md:flex-row gap-4">
-            <button className="w-full md:w-auto px-6 py-3 bg-yellow-500 text-white font-semibold rounded-xl shadow hover:bg-yellow-600 transition">
-              Add to Cart
-            </button>
-            <button className="w-full md:w-auto px-6 py-3 bg-green-600 text-white font-semibold rounded-xl shadow hover:bg-green-900 transition">
-              Booking Now
-            // </button> 
-          </div> */}
           <CheckoutForm data={data}></CheckoutForm>
         </div>
       </div>

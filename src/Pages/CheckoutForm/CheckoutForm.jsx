@@ -27,7 +27,7 @@ const CheckoutForm = ({data}) => {
     }
 
 
-fetch('http://localhost:5000/bookinghotel',{
+fetch('https://ez-rent-server-side.vercel.app/bookinghotel',{
     method:"POST",
     headers:{
        'content-type':'application/json'
