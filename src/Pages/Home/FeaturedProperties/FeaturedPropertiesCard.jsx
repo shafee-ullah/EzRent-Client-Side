@@ -5,9 +5,13 @@ import { IoMdContacts } from "react-icons/io";
 import { AiFillHeart } from "react-icons/ai";
 import { Link } from "react-router"; // ✅ Correct import for routing
 import { motion } from "framer-motion";
-
+import { useDispatch, useSelector } from "react-redux";
+import { fetchlimit} from "../../../redux/PropertieSlice";
+const MotionDiv = motion.div;
+const MotionSection = motion.section;
 // ✅ Skeleton Loader Component
 const CardLoading = () => {
+ 
   return (
     <motion.div
       initial={{ opacity: 0.5 }}
@@ -30,141 +34,66 @@ const CardLoading = () => {
 const FeaturedPropertiesCard = () => {
   const [expanded, setExpanded] = useState(null);
   const [wishlist, setWishlist] = useState([]);
-  const [loading, setLoading] = useState(true); //
-  const [properties, setProperties] = useState([]);
-
-  useEffect(() => {
-    // Simulate API fetch
-    setTimeout(() => {
-      setProperties([
-        {
-          id: 1,
-          title: "Grand Palace Hotel",
-          img: "https://i.ibb.co.com/TD0z77GD/andrew-neel-w84-MOr-Tfbdw-unsplash-1.jpg",
-          price: 180,
-          rating: 4.6,
-          guest: 4,
-          location: "Paris, France",
-          long_description:
-            "A luxurious 5-star hotel located in the heart of Paris, offering elegant rooms, fine dining, and a rooftop terrace with a view of the Eiffel Tower.",
-        },
-        {
-          id: 2,
-          title: "Riverside Boutique Hotel",
-          img: "https://i.ibb.co.com/bgQ4QhVT/steven-ungermann-a-RT5-UCf2-MYY-uns.jpg",
-          price: 120,
-          rating: 4.3,
-          guest: 2,
-          location: "Prague, Czech Republic",
-          long_description:
-            "A cozy boutique hotel situated along the Vltava River, featuring modern rooms, a wine bar, and easy access to Charles Bridge and Old Town Square.",
-        },
-        {
-          id: 3,
-          title: "Seaside Resort & Spa",
-          img: "https://i.ibb.co.com/RpV8Lmx4/khadeeja-yasser-ms-FZE7d9-KB4-unsp.jpg",
-          price: 200,
-          rating: 4.8,
-          guest: 4,
-          location: "Barcelona, Spain",
-          long_description:
-            "A beachside resort with a full-service spa, infinity pool, and Mediterranean cuisine, perfect for both relaxation and vibrant nightlife nearby.",
-        },
-        {
-          id: 4,
-          title: "Mountain View Lodge",
-          img: "https://i.ibb.co.com/NdhGbj7m/kam-idris-kyt0-Pk-BSCNQ-unsplash-1.jpg",
-          price: 95,
-          rating: 4.1,
-          guest: 3,
-          location: "Innsbruck, Austria",
-          long_description:
-            "A charming alpine lodge offering panoramic mountain views, traditional Austrian breakfasts, and quick access to skiing and hiking trails.",
-        },
-        {
-          id: 5,
-          title: "Historic Royal Inn",
-          img: "https://i.ibb.co.com/tPXxsrrM/visualsofdana-T5p-L6ci-En-I-unspla.jpg",
-          price: 150,
-          rating: 4.5,
-          guest: 2,
-          location: "Edinburgh, Scotland",
-          long_description:
-            "Located near Edinburgh Castle, this inn combines rich history with modern comfort, featuring antique-style rooms and a traditional Scottish restaurant.",
-        },
-        {
-          id: 6,
-          title: "City Center Luxury Suites",
-          img: "https://i.ibb.co.com/yFFwq0N5/sidath-vimukthi-29z-Da-Mhy-Is-U-unsp.jpg",
-          price: 210,
-          rating: 4.7,
-          guest: 2,
-          location: "Rome, Italy",
-          long_description:
-            "Elegant suites in central Rome, offering spacious accommodations, rooftop dining, and walking distance to the Colosseum and Trevi Fountain.",
-        },
-        {
-          id: 7,
-          title: "Lakeside Serenity Hotel",
-          img: "https://i.ibb.co.com/4wMzFWpP/sasha-kaunas-67-s-Oi7m-VIk-unsplas.jpg",
-          price: 160,
-          rating: 4.4,
-          guest: 3,
-          location: "Lucerne, Switzerland",
-          long_description:
-            "A peaceful lakeside retreat offering stunning views of the Swiss Alps, gourmet dining, and a wellness spa designed for ultimate relaxation.",
-        },
-        {
-          id: 8,
-          title: "Desert Oasis Resort",
-          img: "https://i.ibb.co.com/KcYWWx4P/mark-champs-Id2-IIl1j-OB0-unsplash-1.jpg.jpg",
-          price: 175,
-          rating: 4.6,
-          guest: 4,
-          location: "Dubai, UAE",
-          long_description:
-            "An exotic desert resort featuring luxury villas, camel rides, infinity pools, and a unique blend of modern amenities with traditional Arabian hospitality.",
-        },
-        // ... add your remaining properties here
-      ]);
-      setLoading(false); // ✅ Stop loading
-    }, 2000); // Fake 2s loading
-  }, []);
+  //  const [Loading, setLoading] = useState(true); //
+  // const [properties, setProperties] = useState([]);
+  
+  const  dispatch = useDispatch()
+  const {items,loading, error}=useSelector((state)=>state.products)
+  useEffect(()=>{
+    dispatch(fetchlimit())
+  },[dispatch])
 
   const toggleWishlist = (id) => {
     setWishlist((prev) =>
       prev.includes(id) ? prev.filter((w) => w !== id) : [...prev, id]
     );
   };
-
-  return (
-    <div className="">
-      {/* Section Title */}
-      <div className="flex flex-col items-center px-4">
-        <p className="text-3xl font-semibold text-gray-800 text-center dark:text-[#ffffff]">
-          🌟 Featured Properties
-        </p>
-        <div className="w-28 h-1 bg-gradient-to-r from-green-500 to-emerald-700 mt-2 rounded"></div>
-      </div>
-
-      {/* ✅ Show Skeletons when loading */}
-      {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12 px-4 md:px-14">
+     if (loading) return  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12 px-4 md:px-14">
           {Array.from({ length: 8 }).map((_, index) => (
             <CardLoading key={index} />
           ))}
         </div>
-      ) : (
-        // ✅ Show Real Cards after data loads
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12 px-4 md:px-14">
-          {properties.map((propertie, index) => (
+  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  return (
+    <div className="my-16 py-16 lg:py-8 ">
+      {/* Section Title */}
+      <div className="flex flex-col items-center px-4">
+        {/* <p className="text-3xl font-semibold text-gray-800 text-center dark:text-[#ffffff]">
+          🌟 Featured Properties
+        </p> */}
+         <MotionDiv
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          <h2 className="text-4xl lg:text-5xl font-bold tracking-tight mb-4">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 dark:from-emerald-400 dark:via-green-400 dark:to-teal-400">
+            Featured Properties
+            </span>
+          </h2>
+          
+          <MotionDiv
+            initial={{ width: 0 }}
+            whileInView={{ width: 120 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="h-1.5 bg-gradient-to-r from-emerald-400 to-green-600 rounded-full mx-auto mb-4"
+          />
+        </MotionDiv>
+         {/* <div className="w-28 h-1 bg-gradient-to-r from-green-500 to-emerald-700 mt-2 rounded"></div> */}
+       </div> 
+
+      {/* ✅ Show Skeletons when loading */}
+     
+        <div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12 px-4 md:px-14">
+          {items.map((propertie, index) => (
             <motion.div
               key={propertie.id}
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.15, duration: 0.5 }}
               whileHover={{ scale: 1.05 }}
-              className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all"
+              className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all dark:bg-gray-900"
             >
               {/* Image */}
               <div className="relative">
@@ -189,11 +118,10 @@ const FeaturedPropertiesCard = () => {
                 >
                   <AiFillHeart
                     size={20}
-                    className={`${
-                      wishlist.includes(propertie.id)
+                    className={`${wishlist.includes(propertie.id)
                         ? "text-red-500"
                         : "text-gray-400"
-                    }`}
+                      }`}
                   />
                 </button>
               </div>
@@ -217,7 +145,7 @@ const FeaturedPropertiesCard = () => {
                   {propertie.title}
                 </h1>
 
-                <p className="text-sm text-gray-500 leading-relaxed dark:text-[#ffffff]">
+                <p className="text-sm text-gray-500 leading-relaxed dark:text-gray-400">
                   {expanded === propertie.id
                     ? propertie.long_description
                     : `${propertie.long_description.slice(0, 65)}...`}
@@ -238,7 +166,7 @@ const FeaturedPropertiesCard = () => {
                   <p>{propertie.guest} guests</p>
                 </div>
 
-                <Link to={`/FeaturepropertiesDitels/${propertie.id}`}>
+                <Link to={`/FeaturepropertiesDitels/${propertie._id}`}>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.9 }}
@@ -251,7 +179,7 @@ const FeaturedPropertiesCard = () => {
             </motion.div>
           ))}
         </div>
-      )}
+      
     </div>
   );
 };

@@ -9,30 +9,35 @@ import BrowseProperties from "../Pages/BrowseProperties/BrowseProperties";
 import Register from "../Pages/AuthPage/AuthPage";
 import { LogIn } from "lucide-react";
 import AuthPage from "../Pages/AuthPage/AuthPage";
-
+import Error from "../Error/Error";
+import AboutEzRent from "../Pages/About/AboutEzRent";
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component: RootLayouts,
+    errorElement: <Error></Error>,
     children: [
       {
         index: true,
         Component: Home,
-
+      },
+      {
+        path: "about",
+        Component: AboutEzRent,
       },
       {
         path: "join",
         Component: AuthPage,
       },
-   
+
       {
         path: "FeaturepropertiesDitels/:id",
         Component: FeaturepropertiesDitels,
       },
       {
-        path:"BrowseProperties",
-        Component:BrowseProperties
+        path: "BrowseProperties",
+        Component: BrowseProperties,
       },
       {
         path: "dashboard",
