@@ -7,7 +7,8 @@ import { Link } from "react-router"; // ✅ Correct import for routing
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchlimit} from "../../../redux/PropertieSlice";
-
+const MotionDiv = motion.div;
+const MotionSection = motion.section;
 // ✅ Skeleton Loader Component
 const CardLoading = () => {
  
@@ -54,14 +55,33 @@ const FeaturedPropertiesCard = () => {
         </div>
   if (error) return <p style={{ color: "red" }}>{error}</p>;
   return (
-    <div className="my-20">
+    <div className="my-16 py-16 lg:py-8 ">
       {/* Section Title */}
       <div className="flex flex-col items-center px-4">
-        <p className="text-3xl font-semibold text-gray-800 text-center dark:text-[#ffffff]">
+        {/* <p className="text-3xl font-semibold text-gray-800 text-center dark:text-[#ffffff]">
           🌟 Featured Properties
-        </p>
-        <div className="w-28 h-1 bg-gradient-to-r from-green-500 to-emerald-700 mt-2 rounded"></div>
-      </div>
+        </p> */}
+         <MotionDiv
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          <h2 className="text-4xl lg:text-5xl font-bold tracking-tight mb-4">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 dark:from-emerald-400 dark:via-green-400 dark:to-teal-400">
+            Featured Properties
+            </span>
+          </h2>
+          
+          <MotionDiv
+            initial={{ width: 0 }}
+            whileInView={{ width: 120 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="h-1.5 bg-gradient-to-r from-emerald-400 to-green-600 rounded-full mx-auto mb-4"
+          />
+        </MotionDiv>
+         {/* <div className="w-28 h-1 bg-gradient-to-r from-green-500 to-emerald-700 mt-2 rounded"></div> */}
+       </div> 
 
       {/* ✅ Show Skeletons when loading */}
      
