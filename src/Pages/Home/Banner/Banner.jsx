@@ -164,7 +164,7 @@ const Banner = () => {
 
                                 <div className="flex justify-center mt-6">
 
-                                    <button type="submit" className="w-full flex items-center md:w-auto  text-green-600 font-semibold border-green-700/20 bg-gray-100 hover:bg-gray-200 border-2 px-6 py-3 rounded-lg text-center">
+                                    <button type="submit" className="w-full flex items-center md:w-auto  text-green-600 font-semibold border-green-700/20 bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-800 hover:bg-gray-200 border-2 px-6 py-3 rounded-lg text-center">
                                         <FaSearch className="mr-2" /> Search Propertiesv
                                     </button>
                                 </div>
