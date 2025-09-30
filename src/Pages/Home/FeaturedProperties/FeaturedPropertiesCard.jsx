@@ -94,7 +94,7 @@ const FeaturedPropertiesCard = () => {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.15, duration: 0.5 }}
-            whileHover={{ scale: 1.02 }}
+            // whileHover={{ scale: 1.02 }}
             className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all bg-[var(--primary-color)]/90 dark:bg-[var(--primary-color)] border border-gray-100/60 dark:border-gray-800"
           >
             {/* Image */}
@@ -122,7 +122,7 @@ const FeaturedPropertiesCard = () => {
                     ? "Remove from wishlist"
                     : "Add to wishlist"
                 }
-                className="absolute top-3 right-3 bg-white/90 dark:bg-gray-900/80 text-gray-700 dark:text-gray-200 p-2 rounded-full shadow-md hover:scale-110 transition ring-1 ring-black/5"
+                className="absolute top-3 right-3 bg-white/90 dark:bg-gray-900 text-gray-700 dark:text-gray-200 p-2 rounded-full shadow-md hover:scale-110 transition ring-1 ring-black/5"
               >
                 <AiFillHeart
                   size={20}
@@ -136,7 +136,7 @@ const FeaturedPropertiesCard = () => {
             </div>
 
             {/* Card Content */}
-            <div className="p-4 space-y-0">
+            <div className="p-4 space-y-0 bg-white dark:bg-gray-900 rounded-2xl  shadow-sm border border-gray-100 dark:border-gray-800 group-hover:shadow-lg transition-all duration-300  overflow-hidden">
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-1 font-medium text-gray-600 text-sm">
                   <CiLocationOn size={18} className="text-red-500" />
@@ -177,7 +177,7 @@ const FeaturedPropertiesCard = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.9 }}
-                  className="mt-3 w-full py-2.5 flex justify-center items-center gap-2 rounded-xl font-semibold text-white bg-[var(--btn-primary)] hover:brightness-110 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--btn-primary)]/70"
+                  className="mt-3 w-full py-2.5 flex justify-center items-center gap-2 rounded-full font-semibold bg-gradient-to-r from-emerald-500 to-green-500 text-white hover:brightness-110 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--btn-primary)]/70"
                 >
                   <CiCalendar size={18} /> Quick Book
                 </motion.button>

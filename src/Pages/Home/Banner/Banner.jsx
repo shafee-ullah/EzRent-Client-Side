@@ -170,11 +170,11 @@ const Banner = () => {
           <div className="flex flex-col md:flex-row gap-4 mt-8 w-full md:w-auto">
             <Link
               to="/BrowseProperties"
-              className="w-full md:w-auto bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded-lg text-center"
+              className="w-full md:w-auto bg-gradient-to-r from-emerald-500 to-green-500 text-white px-6 py-3 rounded-lg text-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
             >
               Browse Properties →
             </Link>
-            <button className="w-full md:w-auto bg-white/20 text-white px-6 py-3 rounded-lg shadow hover:text-green-600 text-center">
+            <button className="w-full md:w-auto bg-white/30 text-white px-6 py-3 rounded-lg shadow hover:text-green-600 text-center  hover:shadow-xl transition-all duration-300 hover:scale-105">
               Become a Host
             </button>
           </div>

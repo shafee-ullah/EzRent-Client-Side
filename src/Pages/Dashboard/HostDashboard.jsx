@@ -209,7 +209,7 @@ const HostDashboard = () => {
             </div>
 
             {/* Profile Dropdown */}
-            <div className="relative">
+            {/* <div className="relative">
               <button
                 onClick={() => setProfileOpen(!profileOpen)}
                 className="flex items-center gap-3 p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl hover:shadow-md transition-all duration-300 hover:border-emerald-300 dark:hover:border-emerald-600"
@@ -270,7 +270,7 @@ const HostDashboard = () => {
                   </div>
                 </div>
               )}
-            </div>
+            </div> */}
           </div>
         </MotionDiv>
 

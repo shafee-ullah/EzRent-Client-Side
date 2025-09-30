@@ -189,7 +189,7 @@ const AdminDashboard = () => {
             </div>
 
             {/* Profile Dropdown */}
-            <div className="relative">
+            {/* <div className="relative">
               <button
                 onClick={() => setProfileOpen(!profileOpen)}
                 className="flex items-center gap-3 p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl hover:shadow-md transition-all duration-300 hover:border-emerald-300 dark:hover:border-emerald-600"
@@ -250,7 +250,7 @@ const AdminDashboard = () => {
                   </div>
                 </div>
               )}
-            </div>
+            </div> */}
           </div>
         </MotionDiv>
 
@@ -916,7 +916,7 @@ const AnalyticsSection = ({ formatCurrency }) => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        
+
         {/* Top Destinations */}
         <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Top Destinations</h3>
