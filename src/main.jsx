@@ -4,11 +4,21 @@ import "./index.css";
 import { RouterProvider } from "react-router";
 import router from "./Router/Router.jsx";
 import { ThemeProvider } from "./Context/ThemeContext.jsx";
+import { Provider } from "react-redux";
+// import Store from "./app/store.js";
+import store from "./app/store.js";
+import AuthProvider from "../src/Context/AuthProvider.jsx"
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <ThemeProvider>
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <AuthProvider>
+      <Provider store={store}>
+        <ThemeProvider>
+          <RouterProvider router={router} />
+        </ThemeProvider>
+
+      </Provider>
+    </AuthProvider>
+
   </StrictMode>
 );
