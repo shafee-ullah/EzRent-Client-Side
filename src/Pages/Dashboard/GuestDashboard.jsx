@@ -1,28 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
 import {
   Search,
   Calendar,
-  MapPin,
-  Users,
   Heart,
   Star,
   Settings,
   User,
   MessageCircle,
-  Download,
-  Edit,
-  Trash2,
-  Filter,
-  Clock,
-  CheckCircle,
-  XCircle,
-  Plus,
-  Shield,
-  CreditCard,
   Bell,
-  LogOut
+  Shield,
 } from "lucide-react";
+import OverviewSection from "./Guest/components/OverviewSection";
+import SearchSection from "./Guest/components/SearchSection";
+import BookingsSection from "./Guest/components/BookingsSection";
+import WishlistSection from "./Guest/components/WishlistSection";
+import MessagesSection from "./Guest/components/MessagesSection";
+import ReviewsSection from "./Guest/components/ReviewsSection";
+import ProfileSection from "./Guest/components/ProfileSection";
 
 const MotionDiv = motion.div;
 
@@ -31,40 +26,43 @@ const mockGuestData = {
   user: {
     name: "Fatima Begum",
     email: "fatima@example.com",
-    avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?q=80&w=400&auto=format&fit=crop",
+    avatar:
+      "https://images.unsplash.com/photo-1494790108755-2616b612b786?q=80&w=400&auto=format&fit=crop",
     phone: "+880 1234-567890",
     joinDate: "2023-03-20",
-    verified: true
+    verified: true,
   },
   stats: {
     upcomingBookings: 2,
     wishlistItems: 8,
     pastTrips: 5,
-    reviews: 3
+    reviews: 3,
   },
   upcomingBookings: [
     {
       id: 201,
       property: "Luxury Apartment in Gulshan",
-      image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=500&auto=format&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=500&auto=format&fit=crop",
       checkIn: "2024-06-15",
       checkOut: "2024-06-18",
       guests: 2,
       totalPrice: 13500,
       status: "confirmed",
-      host: "Ahmad Rahman"
+      host: "Ahmad Rahman",
     },
     {
       id: 202,
       property: "Beachfront Villa Cox's Bazar",
-      image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=500&auto=format&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=500&auto=format&fit=crop",
       checkIn: "2024-07-10",
       checkOut: "2024-07-15",
       guests: 4,
       totalPrice: 44500,
       status: "confirmed",
-      host: "Sarwar Islam"
-    }
+      host: "Sarwar Islam",
+    },
   ],
   wishlist: [
     {
@@ -73,8 +71,9 @@ const mockGuestData = {
       location: "Sylhet",
       price: 3200,
       rating: 4.9,
-      image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=500&auto=format&fit=crop",
-      collection: "Nature Getaways"
+      image:
+        "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=500&auto=format&fit=crop",
+      collection: "Nature Getaways",
     },
     {
       id: 302,
@@ -82,38 +81,54 @@ const mockGuestData = {
       location: "Dhaka",
       price: 2800,
       rating: 4.7,
-      image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=500&auto=format&fit=crop",
-      collection: "City Stays"
-    }
+      image:
+        "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=500&auto=format&fit=crop",
+      collection: "City Stays",
+    },
   ],
   pastBookings: [
     {
       id: 101,
       property: "Cozy Apartment in Dhanmondi",
-      image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=500&auto=format&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=500&auto=format&fit=crop",
       checkIn: "2024-03-15",
       checkOut: "2024-03-18",
       totalPrice: 8400,
       status: "completed",
-      reviewed: true
-    }
-  ]
+      reviewed: true,
+    },
+  ],
 };
 
 const GuestDashboard = () => {
   const [activeSection, setActiveSection] = useState("overview");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [showFilters, setShowFilters] = useState(false);
   const [guestData, setGuestData] = useState(mockGuestData);
 
   const navigationItems = [
     { id: "overview", label: "Overview", icon: <User className="w-5 h-5" /> },
-    { id: "search", label: "Search & Browse", icon: <Search className="w-5 h-5" /> },
-    { id: "bookings", label: "My Bookings", icon: <Calendar className="w-5 h-5" /> },
+    {
+      id: "search",
+      label: "Search & Browse",
+      icon: <Search className="w-5 h-5" />,
+    },
+    {
+      id: "bookings",
+      label: "My Bookings",
+      icon: <Calendar className="w-5 h-5" />,
+    },
     { id: "wishlist", label: "Wishlist", icon: <Heart className="w-5 h-5" /> },
-    { id: "messages", label: "Messages", icon: <MessageCircle className="w-5 h-5" /> },
+    {
+      id: "messages",
+      label: "Messages",
+      icon: <MessageCircle className="w-5 h-5" />,
+    },
     { id: "reviews", label: "Reviews", icon: <Star className="w-5 h-5" /> },
-    { id: "profile", label: "Profile & Settings", icon: <Settings className="w-5 h-5" /> }
+    {
+      id: "profile",
+      label: "Profile & Settings",
+      icon: <Settings className="w-5 h-5" />,
+    },
   ];
 
   const renderSection = () => {
@@ -158,7 +173,8 @@ const GuestDashboard = () => {
               Guest Dashboard
             </h1>
             <p className="text-gray-600 dark:text-gray-300 mt-2 text-lg">
-              Welcome back, {guestData.user.name}! Ready for your next adventure? 🌍
+              Welcome back, {guestData.user.name}! Ready for your next
+              adventure? 🌍
             </p>
           </div>
 
@@ -219,7 +235,9 @@ const GuestDashboard = () => {
                 {guestData.user.verified && (
                   <div className="flex items-center gap-1 mt-2 text-emerald-600 dark:text-emerald-400">
                     <Shield className="w-4 h-4" />
-                    <span className="text-sm font-medium">Verified Traveler</span>
+                    <span className="text-sm font-medium">
+                      Verified Traveler
+                    </span>
                   </div>
                 )}
               </div>
@@ -242,6 +260,7 @@ const GuestDashboard = () => {
   );
 };
 
+<<<<<<< HEAD
 // Overview Section Component
 const OverviewSection = ({ data }) => {
   const stats = [
@@ -939,3 +958,6 @@ const ProfileSection = ({ data }) => (
 );
 
 export default GuestDashboard;
+=======
+export default GuestDashboard;
+>>>>>>> e0e10fe18258747a061afc4dd067942a6379578e

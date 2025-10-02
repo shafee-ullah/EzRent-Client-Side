@@ -1,19 +1,13 @@
 import React, { useState } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Home, 
-  Settings, 
-  Plus, 
-  User, 
-  Users, 
-  Bell, 
+import {
+  Settings,
+  User,
+  Users,
+  Bell,
   Search,
   ChevronDown,
-  Calendar,
-  DollarSign,
-  MessageCircle,
-  Star,
   Shield,
   LogOut
 } from "lucide-react";
@@ -134,60 +128,59 @@ const DashboardLayout = () => {
                 )}
               </AnimatePresence>
             </div> */}
-<div className="relative">
-  <button
-    onClick={() => setNotificationsOpen(!notificationsOpen)}
-    className="relative p-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl hover:shadow-md transition-all duration-300 hover:border-emerald-300 dark:hover:border-emerald-600"
-  >
-    <Bell className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-    {unreadCount > 0 && (
-      <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center border-2 border-white dark:border-gray-900">
-        {unreadCount}
-      </span>
-    )}
-  </button>
+            <div className="relative">
+              <button
+                onClick={() => setNotificationsOpen(!notificationsOpen)}
+                className="relative p-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl hover:shadow-md transition-all duration-300 hover:border-emerald-300 dark:hover:border-emerald-600"
+              >
+                <Bell className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center border-2 border-white dark:border-gray-900">
+                    {unreadCount}
+                  </span>
+                )}
+              </button>
 
-  <AnimatePresence>
-    {notificationsOpen && (
-      <MotionDiv
-        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-        className="absolute left-0 mt-2 w-80 max-w-[calc(100vw-2rem)] bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 z-50"
-      >
-        <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-          <h3 className="font-semibold text-gray-900 dark:text-white">Notifications</h3>
-          {/* Optional: Add close button for mobile */}
-          <button 
-            onClick={() => setNotificationsOpen(false)}
-            className="sm:hidden p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
-          >
-            <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        <div className="max-h-96 sm:max-h-96 max-sm:max-h-[60vh] overflow-y-auto">
-          {notifications.map((notification) => (
-            <div
-              key={notification.id}
-              className={`p-4 border-b border-gray-100 dark:border-gray-700 last:border-b-0 ${
-                !notification.read ? 'bg-blue-50 dark:bg-blue-900/20' : ''
-              }`}
-            >
-              <p className="text-sm text-gray-900 dark:text-white">
-                {notification.message}
-              </p>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                {notification.time}
-              </p>
+              <AnimatePresence>
+                {notificationsOpen && (
+                  <MotionDiv
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    className="absolute left-0 mt-2 w-80 max-w-[calc(100vw-2rem)] bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 z-50"
+                  >
+                    <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                      <h3 className="font-semibold text-gray-900 dark:text-white">Notifications</h3>
+                      {/* Optional: Add close button for mobile */}
+                      <button
+                        onClick={() => setNotificationsOpen(false)}
+                        className="sm:hidden p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
+                      >
+                        <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
+                    <div className="max-h-96 sm:max-h-96 max-sm:max-h-[60vh] overflow-y-auto">
+                      {notifications.map((notification) => (
+                        <div
+                          key={notification.id}
+                          className={`p-4 border-b border-gray-100 dark:border-gray-700 last:border-b-0 ${!notification.read ? 'bg-blue-50 dark:bg-blue-900/20' : ''
+                            }`}
+                        >
+                          <p className="text-sm text-gray-900 dark:text-white">
+                            {notification.message}
+                          </p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            {notification.time}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </MotionDiv>
+                )}
+              </AnimatePresence>
             </div>
-          ))}
-        </div>
-      </MotionDiv>
-    )}
-  </AnimatePresence>
-</div>
 
 
             {/* Profile Dropdown */}
@@ -261,79 +254,79 @@ const DashboardLayout = () => {
               </AnimatePresence>
             </div> */}
 
-<div className="relative">
-  <button
-    onClick={() => setProfileOpen(!profileOpen)}
-    className="flex items-center gap-3 p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl hover:shadow-md transition-all duration-300 hover:border-emerald-300 dark:hover:border-emerald-600"
-  >
-    <img
-      src={userData.avatar}
-      alt={userData.name}
-      className="w-8 h-8 rounded-full"
-    />
-    <div className="hidden sm:block text-left">
-      <p className="text-sm font-medium text-gray-900 dark:text-white">
-        {userData.name}
-      </p>
-      <p className="text-xs text-gray-500 dark:text-gray-400">
-        {userData.role}
-      </p>
-    </div>
-    <ChevronDown className="w-4 h-4 text-gray-400" />
-  </button>
+            <div className="relative">
+              <button
+                onClick={() => setProfileOpen(!profileOpen)}
+                className="flex items-center gap-3 p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl hover:shadow-md transition-all duration-300 hover:border-emerald-300 dark:hover:border-emerald-600"
+              >
+                <img
+                  src={userData.avatar}
+                  alt={userData.name}
+                  className="w-8 h-8 rounded-full"
+                />
+                <div className="hidden sm:block text-left">
+                  <p className="text-sm font-medium text-gray-900 dark:text-white">
+                    {userData.name}
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    {userData.role}
+                  </p>
+                </div>
+                <ChevronDown className="w-4 h-4 text-gray-400" />
+              </button>
 
-  <AnimatePresence>
-    {profileOpen && (
-      <MotionDiv
-        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-        // ----------------------------------------------------------------------
-        // MODIFIED LINE BELOW: Added centering and conditional positioning classes
-        // ----------------------------------------------------------------------
-        className="absolute mt-2 w-64 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 z-50 
+              <AnimatePresence>
+                {profileOpen && (
+                  <MotionDiv
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    // ----------------------------------------------------------------------
+                    // MODIFIED LINE BELOW: Added centering and conditional positioning classes
+                    // ----------------------------------------------------------------------
+                    className="absolute mt-2 w-64 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 z-50 
                    left-1/2 -translate-x-1/2 sm:right-0 sm:left-auto sm:translate-x-0"
-      >
-        <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-          <div className="flex items-center gap-3">
-            <img
-              src={userData.avatar}
-              alt={userData.name}
-              className="w-12 h-12 rounded-full"
-            />
-            <div>
-              <p className="font-semibold text-gray-900 dark:text-white">
-                {userData.name}
-              </p>
-              <div className="flex items-center gap-1 mt-1">
-                <span className="text-sm text-gray-500 dark:text-gray-400">
-                  {userData.role}
-                </span>
-                {userData.verified && (
-                  <Shield className="w-4 h-4 text-emerald-500" />
+                  >
+                    <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={userData.avatar}
+                          alt={userData.name}
+                          className="w-12 h-12 rounded-full"
+                        />
+                        <div>
+                          <p className="font-semibold text-gray-900 dark:text-white">
+                            {userData.name}
+                          </p>
+                          <div className="flex items-center gap-1 mt-1">
+                            <span className="text-sm text-gray-500 dark:text-gray-400">
+                              {userData.role}
+                            </span>
+                            {userData.verified && (
+                              <Shield className="w-4 h-4 text-emerald-500" />
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-2">
+                      <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                        <User className="w-4 h-4" />
+                        My Profile
+                      </button>
+                      <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                        <Settings className="w-4 h-4" />
+                        Settings
+                      </button>
+                      <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                        <LogOut className="w-4 h-4" />
+                        Sign Out
+                      </button>
+                    </div>
+                  </MotionDiv>
                 )}
-              </div>
+              </AnimatePresence>
             </div>
-          </div>
-        </div>
-        <div className="p-2">
-          <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-            <User className="w-4 h-4" />
-            My Profile
-          </button>
-          <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-            <Settings className="w-4 h-4" />
-            Settings
-          </button>
-          <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
-            <LogOut className="w-4 h-4" />
-            Sign Out
-          </button>
-        </div>
-      </MotionDiv>
-    )}
-  </AnimatePresence>
-</div>
 
 
           </div>
@@ -391,54 +384,51 @@ const DashboardLayout = () => {
             
           </div> */}
 
-<div className="flex flex-wrap gap-3 sm:gap-4 md:gap-6 justify-center sm:justify-start">
+          <div className="flex flex-wrap gap-3 sm:gap-4 md:gap-6 justify-center sm:justify-start">
 
 
-  {/* Guest Dashboard */}
-  <MotionDiv whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-    <button
-      onClick={() => handleTab("guest")}
-      className={`w-full sm:w-auto flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-2xl font-semibold transition-all duration-300 ${
-        isGuest
-          ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-lg"
-          : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:border-emerald-300 dark:hover:border-emerald-600"
-      }`}
-    >
-      <User className="w-4 h-4" />
-      Guest Dashboard
-    </button>
-  </MotionDiv>
+            {/* Guest Dashboard */}
+            <MotionDiv whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <button
+                onClick={() => handleTab("guest")}
+                className={`w-full sm:w-auto flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-2xl font-semibold transition-all duration-300 ${isGuest
+                    ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-lg"
+                    : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:border-emerald-300 dark:hover:border-emerald-600"
+                  }`}
+              >
+                <User className="w-4 h-4" />
+                Guest Dashboard
+              </button>
+            </MotionDiv>
 
-  {/* Host Dashboard */}
-  <MotionDiv whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-    <button
-      onClick={() => handleTab("host")}
-      className={`w-full sm:w-auto flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-2xl font-semibold transition-all duration-300 ${
-        !isGuest
-          ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-lg"
-          : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:border-emerald-300 dark:hover:border-emerald-600"
-      }`}
-    >
-      <Users className="w-4 h-4" />
-      Host Dashboard
-    </button>
-  </MotionDiv>
+            {/* Host Dashboard */}
+            <MotionDiv whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <button
+                onClick={() => handleTab("host")}
+                className={`w-full sm:w-auto flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-2xl font-semibold transition-all duration-300 ${!isGuest
+                    ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-lg"
+                    : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:border-emerald-300 dark:hover:border-emerald-600"
+                  }`}
+              >
+                <Users className="w-4 h-4" />
+                Host Dashboard
+              </button>
+            </MotionDiv>
 
-  {/* Admin Dashboard */}
-  <MotionDiv whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-    <button
-      onClick={() => handleTab("admin")}
-      className={`w-full sm:w-auto flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-2xl font-semibold transition-all duration-300 ${
-        isAdmin
-          ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-lg"
-          : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:border-emerald-300 dark:hover:border-emerald-600"
-      }`}
-    >
-      <Users className="w-4 h-4" />
-      Admin Dashboard
-    </button>
-  </MotionDiv>
-</div>
+            {/* Admin Dashboard */}
+            <MotionDiv whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <button
+                onClick={() => handleTab("admin")}
+                className={`w-full sm:w-auto flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-2xl font-semibold transition-all duration-300 ${isAdmin
+                    ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-lg"
+                    : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:border-emerald-300 dark:hover:border-emerald-600"
+                  }`}
+              >
+                <Users className="w-4 h-4" />
+                Admin Dashboard
+              </button>
+            </MotionDiv>
+          </div>
 
         </MotionDiv>
 
