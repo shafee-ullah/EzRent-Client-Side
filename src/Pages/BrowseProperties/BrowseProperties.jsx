@@ -210,8 +210,8 @@ const BrowseProperties = () => {
                   initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.15, duration: 0.5 }}
-                  whileHover={{ scale: 1.05 }}
-                  className="relative group bg-[var(--primary-color)] my-2 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all"
+                  // whileHover={{ scale: 1.05 }}
+                  className="relative group bg-white dark:bg-gray-900  my-2 rounded-2xl overflow-hidden shadow-lg border-gray-100 dark:border-gray-800 hover:shadow-2xl transition-all"
                 >
                   {/* Image */}
                   <div className="relative">
@@ -291,7 +291,7 @@ const BrowseProperties = () => {
                       <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.9 }}
-                        className="mt-3 w-full py-2 flex justify-center items-center gap-2 rounded-lg font-semibold text-white bg-[#16a34a] hover:bg-[#23b323] transition"
+                        className="mt-3 w-full py-2 flex justify-center items-center gap-2 rounded-full font-semibold bg-gradient-to-r from-emerald-500 to-green-500 text-white transition"
                       >
                         <CiCalendar size={18} /> Quick Book
                       </motion.button>

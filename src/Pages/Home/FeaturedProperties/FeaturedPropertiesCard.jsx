@@ -6,12 +6,11 @@ import { AiFillHeart } from "react-icons/ai";
 import { Link } from "react-router"; // ✅ Correct import for routing
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchlimit} from "../../../redux/PropertieSlice";
+import { fetchlimit } from "../../../redux/PropertieSlice";
 const MotionDiv = motion.div;
 const MotionSection = motion.section;
 // ✅ Skeleton Loader Component
 const CardLoading = () => {
- 
   return (
     <motion.div
       initial={{ opacity: 0.5 }}
@@ -36,23 +35,26 @@ const FeaturedPropertiesCard = () => {
   const [wishlist, setWishlist] = useState([]);
   //  const [Loading, setLoading] = useState(true); //
   // const [properties, setProperties] = useState([]);
-  
-  const  dispatch = useDispatch()
-  const {items,loading, error}=useSelector((state)=>state.products)
-  useEffect(()=>{
-    dispatch(fetchlimit())
-  },[dispatch])
+
+  const dispatch = useDispatch();
+  const { items, loading, error } = useSelector((state) => state.products);
+  useEffect(() => {
+    dispatch(fetchlimit());
+  }, [dispatch]);
 
   const toggleWishlist = (id) => {
     setWishlist((prev) =>
       prev.includes(id) ? prev.filter((w) => w !== id) : [...prev, id]
     );
   };
-     if (loading) return  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12 px-4 md:px-14">
-          {Array.from({ length: 8 }).map((_, index) => (
-            <CardLoading key={index} />
-          ))}
-        </div>
+  if (loading)
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12 px-4 md:px-14">
+        {Array.from({ length: 8 }).map((_, index) => (
+          <CardLoading key={index} />
+        ))}
+      </div>
+    );
   if (error) return <p style={{ color: "red" }}>{error}</p>;
   return (
     <div className="my-16 py-16 lg:py-8 ">
@@ -61,7 +63,7 @@ const FeaturedPropertiesCard = () => {
         {/* <p className="text-3xl font-semibold text-gray-800 text-center dark:text-[#ffffff]">
           🌟 Featured Properties
         </p> */}
-         <MotionDiv
+        <MotionDiv
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -69,10 +71,10 @@ const FeaturedPropertiesCard = () => {
         >
           <h2 className="text-4xl lg:text-5xl font-bold tracking-tight mb-4">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 dark:from-emerald-400 dark:via-green-400 dark:to-teal-400">
-            Featured Properties
+              Featured Properties
             </span>
           </h2>
-          
+
           <MotionDiv
             initial={{ width: 0 }}
             whileInView={{ width: 120 }}
@@ -80,106 +82,110 @@ const FeaturedPropertiesCard = () => {
             className="h-1.5 bg-gradient-to-r from-emerald-400 to-green-600 rounded-full mx-auto mb-4"
           />
         </MotionDiv>
-         {/* <div className="w-28 h-1 bg-gradient-to-r from-green-500 to-emerald-700 mt-2 rounded"></div> */}
-       </div> 
+        {/* <div className="w-28 h-1 bg-gradient-to-r from-green-500 to-emerald-700 mt-2 rounded"></div> */}
+      </div>
 
       {/* ✅ Show Skeletons when loading */}
-     
-        <div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12 px-4 md:px-14">
-          {items.map((propertie, index) => (
-            <motion.div
-              key={propertie.id}
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.15, duration: 0.5 }}
-              whileHover={{ scale: 1.05 }}
-              className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all dark:bg-gray-900"
-            >
-              {/* Image */}
-              <div className="relative">
-                <img
-                  src={propertie.img}
-                  alt={propertie.title}
-                  className="w-full h-44 object-cover rounded-t-2xl transition-transform duration-500 group-hover:scale-110"
+
+      <div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12 px-4 md:px-14">
+        {items.map((propertie, index) => (
+          <motion.div
+            key={propertie.id}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.15, duration: 0.5 }}
+            // whileHover={{ scale: 1.02 }}
+            className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all bg-[var(--primary-color)]/90 dark:bg-[var(--primary-color)] border border-gray-100/60 dark:border-gray-800"
+          >
+            {/* Image */}
+            <div className="relative">
+              <img
+                src={propertie.img}
+                alt={propertie.title}
+                className="w-full h-44 object-cover rounded-t-2xl transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/25 via-black/5 to-transparent" />
+
+              {/* Price Badge */}
+              <motion.span
+                whileHover={{ scale: 1.1 }}
+                className="absolute top-3 left-3 backdrop-blur bg-[var(--btn-primary)]/90 text-white text-[13px] px-3 py-1 rounded-full shadow-md ring-1 ring-white/20"
+              >
+                ${propertie.price}/night
+              </motion.span>
+
+              {/* Wishlist Button */}
+              <button
+                onClick={() => toggleWishlist(propertie.id)}
+                aria-label={
+                  wishlist.includes(propertie.id)
+                    ? "Remove from wishlist"
+                    : "Add to wishlist"
+                }
+                className="absolute top-3 right-3 bg-white/90 dark:bg-gray-900 text-gray-700 dark:text-gray-200 p-2 rounded-full shadow-md hover:scale-110 transition ring-1 ring-black/5"
+              >
+                <AiFillHeart
+                  size={20}
+                  className={`${
+                    wishlist.includes(propertie.id)
+                      ? "text-red-500"
+                      : "text-gray-400"
+                  }`}
                 />
+              </button>
+            </div>
 
-                {/* Price Badge */}
-                <motion.span
-                  whileHover={{ scale: 1.1 }}
-                  className="absolute top-3 left-3 bg-[#16a34a] text-white text-sm px-3 py-1 rounded-full shadow-md"
+            {/* Card Content */}
+            <div className="p-4 space-y-0 bg-white dark:bg-gray-900 rounded-2xl  shadow-sm border border-gray-100 dark:border-gray-800 group-hover:shadow-lg transition-all duration-300  overflow-hidden">
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-1 font-medium text-gray-600 text-sm">
+                  <CiLocationOn size={18} className="text-red-500" />
+                  <p className="dark:text-[#ffffff]">{propertie.location}</p>
+                </div>
+                <motion.div
+                  whileTap={{ scale: 1.2 }}
+                  className="flex items-center gap-1 text-yellow-500 font-semibold text-sm"
                 >
-                  ${propertie.price}/night
-                </motion.span>
+                  <FaStar /> {propertie.rating}
+                </motion.div>
+              </div>
 
-                {/* Wishlist Button */}
+              <h1 className="text-[18px] leading-snug font-semibold text-gray-900 dark:text-white">
+                {propertie.title}
+              </h1>
+
+              <p className="text-sm text-gray-600 leading-relaxed dark:text-gray-400">
+                {expanded === propertie.id
+                  ? propertie.long_description
+                  : `${propertie.long_description.slice(0, 65)}...`}
                 <button
-                  onClick={() => toggleWishlist(propertie.id)}
-                  className="absolute top-3 right-3 bg-white p-2 rounded-full shadow-md hover:scale-110 transition"
+                  onClick={() =>
+                    setExpanded(expanded === propertie.id ? null : propertie.id)
+                  }
+                  className="text-[var(--btn-primary)] ml-2 hover:underline text-sm"
                 >
-                  <AiFillHeart
-                    size={20}
-                    className={`${wishlist.includes(propertie.id)
-                        ? "text-red-500"
-                        : "text-gray-400"
-                      }`}
-                  />
+                  {expanded === propertie.id ? "Show less" : "Read more"}
                 </button>
+              </p>
+
+              <div className="flex items-center gap-2 text-gray-700 text-sm dark:text-[#ffffff]">
+                <IoMdContacts size={18} />
+                <p>{propertie.guest} guests</p>
               </div>
 
-              {/* Card Content */}
-              <div className="p-4 space-y-0">
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-1 font-medium text-gray-600 text-sm">
-                    <CiLocationOn size={18} className="text-red-500" />
-                    <p className="dark:text-[#ffffff]">{propertie.location}</p>
-                  </div>
-                  <motion.div
-                    whileTap={{ scale: 1.2 }}
-                    className="flex items-center gap-1 text-yellow-500 font-semibold text-sm"
-                  >
-                    <FaStar /> {propertie.rating}
-                  </motion.div>
-                </div>
-
-                <h1 className="text-lg font-semibold text-gray-800 dark:text-[#ffffff]">
-                  {propertie.title}
-                </h1>
-
-                <p className="text-sm text-gray-500 leading-relaxed dark:text-gray-400">
-                  {expanded === propertie.id
-                    ? propertie.long_description
-                    : `${propertie.long_description.slice(0, 65)}...`}
-                  <button
-                    onClick={() =>
-                      setExpanded(
-                        expanded === propertie.id ? null : propertie.id
-                      )
-                    }
-                    className="text-green-600 ml-2 hover:underline text-sm"
-                  >
-                    {expanded === propertie.id ? "Show less" : "Read more"}
-                  </button>
-                </p>
-
-                <div className="flex items-center gap-2 text-gray-700 text-sm dark:text-[#ffffff]">
-                  <IoMdContacts size={18} />
-                  <p>{propertie.guest} guests</p>
-                </div>
-
-                <Link to={`/FeaturepropertiesDitels/${propertie._id}`}>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="mt-3 w-full py-2 flex justify-center items-center gap-2 rounded-lg font-semibold text-white bg-[#16a34a] hover:bg-[#23b323] transition"
-                  >
-                    <CiCalendar size={18} /> Quick Book
-                  </motion.button>
-                </Link>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      
+              <Link to={`/FeaturepropertiesDitels/${propertie._id}`}>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.9 }}
+                  className="mt-3 w-full py-2.5 flex justify-center items-center gap-2 rounded-full font-semibold bg-gradient-to-r from-emerald-500 to-green-500 text-white hover:brightness-110 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--btn-primary)]/70"
+                >
+                  <CiCalendar size={18} /> Quick Book
+                </motion.button>
+              </Link>
+            </div>
+          </motion.div>
+        ))}
+      </div>
     </div>
   );
 };

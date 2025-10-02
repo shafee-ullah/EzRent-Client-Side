@@ -11,6 +11,7 @@ import { LogIn } from "lucide-react";
 import AuthPage from "../Pages/AuthPage/AuthPage";
 import Error from "../Error/Error";
 import AboutEzRent from "../Pages/About/AboutEzRent";
+import AdminDashboard from "../Pages/Dashboard/AdminDashboard";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,7 @@ const router = createBrowserRouter([
           { index: true, Component: GuestDashboard },
           { path: "guest", Component: GuestDashboard },
           { path: "host", Component: HostDashboard },
+          { path: "admin", Component: AdminDashboard },
         ],
       },
     ],
