@@ -10,31 +10,35 @@ import Register from "../Pages/AuthPage/AuthPage";
 import { LogIn } from "lucide-react";
 import AuthPage from "../Pages/AuthPage/AuthPage";
 import Error from "../Error/Error";
-
+import AboutEzRent from "../Pages/About/AboutEzRent";
+import AdminDashboard from "../Pages/Dashboard/AdminDashboard";
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component: RootLayouts,
-    errorElement:<Error></Error>,
+    errorElement: <Error></Error>,
     children: [
       {
         index: true,
         Component: Home,
-
+      },
+      {
+        path: "about",
+        Component: AboutEzRent,
       },
       {
         path: "join",
         Component: AuthPage,
       },
-   
+
       {
         path: "FeaturepropertiesDitels/:id",
         Component: FeaturepropertiesDitels,
       },
       {
-        path:"BrowseProperties",
-        Component:BrowseProperties
+        path: "BrowseProperties",
+        Component: BrowseProperties,
       },
       {
         path: "dashboard",
@@ -43,6 +47,7 @@ const router = createBrowserRouter([
           { index: true, Component: GuestDashboard },
           { path: "guest", Component: GuestDashboard },
           { path: "host", Component: HostDashboard },
+          { path: "admin", Component: AdminDashboard },
         ],
       },
     ],

@@ -1,25 +1,27 @@
-import React from 'react';
-import Banner from '../Banner/Banner';
-import FeaturedPropertiesCard from '../FeaturedProperties/FeaturedPropertiesCard';
-import Explore from '../Explore/Explore';
-import Offers from '../Offers/Offers';
-import Review from '../Revieew/Review';
-import AboutCompany from '../Company/AboutCompany';
-
+import React from "react";
+import Banner from "../Banner/Banner";
+import FeaturedPropertiesCard from "../FeaturedProperties/FeaturedPropertiesCard";
+import PopularDestinations from "../PopularDestinations/PopularDestinations";
+import WhyChooseUs from "../WhyChooseUs/WhyChooseUs";
+import Testimonials from "../Testimonials/Testimonials";
+import HowItWorks from "../HowItWorks/HowItWorks";
+import BlogSection from "../BlogSection/BlogSection";
+import Newsletter from "../Newsletter/Newsletter";
 
 // import JourneySection from '../JourneySection/JourneySection';
 const Home = () => {
-    return (
-        <div>
-            <Banner></Banner>
-            <FeaturedPropertiesCard></FeaturedPropertiesCard>
-            <Offers></Offers>
-            <Explore></Explore>
-            <Review></Review>
-            <AboutCompany></AboutCompany>
-            {/* <JourneySection></JourneySection> */}
-        </div>
-    );
+  return (
+    <div>
+      <Banner></Banner>
+      <FeaturedPropertiesCard></FeaturedPropertiesCard>
+      <PopularDestinations></PopularDestinations>
+      <HowItWorks></HowItWorks>
+      <WhyChooseUs></WhyChooseUs>
+      <Testimonials></Testimonials>
+      <BlogSection></BlogSection>
+      <Newsletter></Newsletter>
+    </div>
+  );
 };
 
 export default Home;
