@@ -392,6 +392,8 @@ const DashboardLayout = () => {
           </div> */}
 
 <div className="flex flex-wrap gap-3 sm:gap-4 md:gap-6 justify-center sm:justify-start">
+
+
   {/* Guest Dashboard */}
   <MotionDiv whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
     <button
@@ -438,18 +440,6 @@ const DashboardLayout = () => {
   </MotionDiv>
 </div>
 
-
-          {/* <div className="lg:ml-auto flex gap-3">
-            <MotionDiv whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <NavLink
-                to="/properties/add"
-                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-2xl font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105"
-              >
-                <Plus className="w-4 h-4" />
-                Add Property
-              </NavLink>
-            </MotionDiv>
-          </div> */}
         </MotionDiv>
 
         {/* Quick Stats */}
