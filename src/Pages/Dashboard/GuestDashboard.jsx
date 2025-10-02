@@ -188,11 +188,10 @@ const GuestDashboard = () => {
                   <button
                     key={item.id}
                     onClick={() => setActiveSection(item.id)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
-                      activeSection === item.id
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${activeSection === item.id
                         ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-lg"
                         : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
-                    }`}
+                      }`}
                   >
                     {item.icon}
                     <span className="font-medium">{item.label}</span>
@@ -464,7 +463,7 @@ const SearchSection = () => {
               />
             </div>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Check-in
@@ -477,7 +476,7 @@ const SearchSection = () => {
               />
             </div>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Check-out
@@ -490,7 +489,7 @@ const SearchSection = () => {
               />
             </div>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Guests
@@ -498,7 +497,7 @@ const SearchSection = () => {
             <div className="relative">
               <Users className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
               <select className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-gray-700">
-                {[1,2,3,4,5,6].map(num => (
+                {[1, 2, 3, 4, 5, 6].map(num => (
                   <option key={num} value={num}>{num} {num === 1 ? 'Guest' : 'Guests'}</option>
                 ))}
               </select>
@@ -612,18 +611,16 @@ const BookingsSection = ({ data }) => {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center gap-2 px-4 py-3 border-b-2 transition-all duration-300 ${
-              activeTab === tab.id
+            className={`flex items-center gap-2 px-4 py-3 border-b-2 transition-all duration-300 ${activeTab === tab.id
                 ? "border-emerald-500 text-emerald-600 dark:text-emerald-400 font-semibold"
                 : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-            }`}
+              }`}
           >
             {tab.label}
-            <span className={`px-2 py-1 rounded-full text-xs ${
-              activeTab === tab.id
+            <span className={`px-2 py-1 rounded-full text-xs ${activeTab === tab.id
                 ? "bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-300"
                 : "bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400"
-            }`}>
+              }`}>
               {tab.count}
             </span>
           </button>
@@ -782,11 +779,10 @@ const WishlistSection = ({ data }) => {
           <button
             key={collection.id}
             onClick={() => setActiveCollection(collection.id)}
-            className={`flex-shrink-0 px-4 py-2 rounded-xl transition-all duration-300 ${
-              activeCollection === collection.id
+            className={`flex-shrink-0 px-4 py-2 rounded-xl transition-all duration-300 ${activeCollection === collection.id
                 ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-lg"
                 : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:border-emerald-300 dark:hover:border-emerald-600"
-            }`}
+              }`}
           >
             {collection.name}
             <span className="ml-2 text-xs opacity-80">({collection.count})</span>
