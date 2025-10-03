@@ -3,7 +3,7 @@ import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
  import axios from "axios";
 
 
-// MongoDB থেকে ডেটা ফেচ
+// MongoDB 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async () => {
@@ -19,7 +19,7 @@ export const fetchlimit = createAsyncThunk(
     return res.data;
   }
 );
-// // 🔹 POST → নতুন প্রপার্টি MongoDB তে save করা
+// // 🔹 POST → 
 // export const addProperty = createAsyncThunk(
 //   "property/addProperty",
 //   async () => {
