@@ -145,13 +145,6 @@ const Navbar = () => {
                     <p className="font-semibold">{user.displayName}</p>
                     <p className="font-semibold">{user.email}</p>
                     <hr className="my-2" />
-                    <NavLink
-                      to="/host"
-                      className="block w-full text-left px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md"
-                      onClick={() => setUserMenuOpen(false)}
-                    >
-                      Become a Host
-                    </NavLink>
                     <button
                       onClick={logoutUser}
                       className="w-full text-center text-white px-3 py-2 bg-green-500 rounded-md hover:bg-red-400 transition mt-2"

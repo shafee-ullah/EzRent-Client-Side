@@ -16,6 +16,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
 import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
 
 // Reusable Input Component
 const InputField = ({
@@ -90,6 +91,7 @@ const AuthPage = () => {
     googleSignIn,
     githubSignIn,
     resetPassword,
+    setUser
   } = useContext(AuthContext);
 
   const [isLogin, setIsLogin] = useState(true);
@@ -157,12 +159,14 @@ const AuthPage = () => {
     e.preventDefault();
     if (!validateForm()) return;
     setIsLoading(true);
+
     try {
+      // Convert email to lowercase
+      const email = formData.email.toLowerCase();
+
       if (isLogin) {
-        const userCredential = await logInUser(
-          formData.email,
-          formData.password
-        );
+        const userCredential = await logInUser(email, formData.password);
+
         if (!userCredential.user.emailVerified) {
           toast.success("Please verify your email before logging in.");
         } else {
@@ -170,14 +174,25 @@ const AuthPage = () => {
           navigate("/dashboard");
         }
       } else {
-        const userCredential = await createUser(
-          formData.email,
-          formData.password,
-          formData.name
-        );
+        // Firebase registration
+        const userCredential = await createUser(email, formData.password, formData.name);
+
+        // Update global state / Redux
+        if (setUser) setUser(userCredential.user);
+
+        // Save to backend with lowercase email
+        const userData = {
+          name: formData.name,
+          email, // already lowercase
+          role: "Guest",
+        };
+        await axios.post("http://localhost:5000/users", userData);
+
         toast.success(
           `Registration successful. Verification email sent to ${userCredential.user.email}`
         );
+        navigate("/dashboard");
+
         setIsLogin(true);
       }
     } catch (error) {
@@ -186,6 +201,9 @@ const AuthPage = () => {
       setIsLoading(false);
     }
   };
+
+
+
 
   // handle password reset
   const handlePasswordReset = async () => {
@@ -208,7 +226,19 @@ const AuthPage = () => {
       if (provider === "google") result = await googleSignIn();
       else if (provider === "github") result = await githubSignIn();
 
-      toast.success(`Welcome ${result.user.displayName || result.user.email}`);
+      const user = result.user;
+
+      // Prepare user data
+      const userData = {
+        name: user.displayName || "Anonymous",
+        email: user.email,
+        role: "Guest",
+      };
+
+      // POST to backend
+      await axios.post("http://localhost:5000/users", userData);
+
+      toast.success(`Welcome ${user.displayName || user.email}`);
       navigate("/dashboard");
     } catch (error) {
       if (error.code === "auth/account-exists-with-different-credential") {
@@ -262,8 +292,8 @@ const AuthPage = () => {
           <button
             onClick={() => setIsLogin(true)}
             className={`px-6 py-2 rounded-l-xl font-medium transition-all ${isLogin
-                ? "bg-green-700 text-white shadow-md"
-                : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
+              ? "bg-green-700 text-white shadow-md"
+              : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
               }`}
           >
             Sign In
@@ -271,8 +301,8 @@ const AuthPage = () => {
           <button
             onClick={() => setIsLogin(false)}
             className={`px-6 py-2 rounded-r-xl font-medium transition-all ${!isLogin
-                ? "bg-green-700 text-white shadow-md"
-                : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
+              ? "bg-green-700 text-white shadow-md"
+              : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
               }`}
           >
             Register

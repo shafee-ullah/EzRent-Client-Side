@@ -1,51 +1,65 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
 import {
-  Users,
   Shield,
   Download,
-  CheckCircle,
   XCircle,
-  MoreHorizontal,
+  Home,
+  User,
 } from "lucide-react";
 
 const MotionDiv = motion.div;
 
-const UserManagementSection = () => {
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: "Fatima Begum",
-      email: "fatima@example.com",
-      role: "guest",
-      status: "active",
-      joinDate: "2024-01-15",
-      bookings: 12,
-      verified: true,
-    },
-    {
-      id: 2,
-      name: "Ahmad Rahman",
-      email: "ahmad@example.com",
-      role: "host",
-      status: "pending",
-      joinDate: "2024-02-20",
-      listings: 3,
-      verified: false,
-    },
-    {
-      id: 3,
-      name: "Rajib Hasan",
-      email: "rajib@example.com",
-      role: "guest",
-      status: "suspended",
-      joinDate: "2024-01-08",
-      bookings: 5,
-      verified: true,
-    },
-  ]);
-
+const UserManagementSection = ({ data }) => {
+  const [users, setUsers] = useState(data || []);
   const [filter, setFilter] = useState("all");
+
+  const handleUpdateRole = async (id, role) => {
+    try {
+      const res = await fetch(`http://localhost:5000/users/role/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ role }),
+      });
+
+      if (res.ok) {
+        // update frontend state
+        setUsers((prev) =>
+          prev.map((u) => (u._id === id ? { ...u, role } : u))
+        );
+        toast.success(`Role updated to ${role}`);
+      } else {
+        toast.error("Failed to update role");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Error updating role");
+    }
+  };
+
+  const handleUpdateStatus = async (id, status) => {
+    try {
+      const res = await fetch(`http://localhost:5000/users/status/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+
+      if (res.ok) {
+        // update frontend state
+        setUsers((prev) =>
+          prev.map((u) => (u._id === id ? { ...u, status } : u))
+        );
+        toast.success(`Status updated to ${status}`);
+      } else {
+        toast.error("Failed to update status");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Error updating status");
+    }
+  };
 
   const getStatusColor = (status) => {
     const colors = {
@@ -54,6 +68,7 @@ const UserManagementSection = () => {
       pending:
         "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300",
       suspended: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
+      rejected: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
     };
     return colors[status] || "bg-gray-100 text-gray-800";
   };
@@ -63,6 +78,15 @@ const UserManagementSection = () => {
       ? "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300"
       : "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300";
   };
+
+  // Filter users if needed
+  const filteredUsers =
+    filter === "all"
+      ? users
+      : users.filter(
+        (u) =>
+          u.role === filter || u.status === filter
+      );
 
   return (
     <div className="space-y-6">
@@ -81,6 +105,7 @@ const UserManagementSection = () => {
             <option value="host">Hosts</option>
             <option value="pending">Pending</option>
             <option value="suspended">Suspended</option>
+            <option value="rejected">Rejected</option>
           </select>
           <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl font-medium hover:shadow-md transition-all duration-300">
             <Download className="w-4 h-4" />
@@ -94,37 +119,30 @@ const UserManagementSection = () => {
           <table className="w-full">
             <thead className="bg-gray-50 dark:bg-gray-700/50">
               <tr>
-                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  User
-                </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Role
-                </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Join Date
-                </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Activity
-                </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Actions
-                </th>
+                <th className="px-6 py-4">User</th>
+                <th className="px-6 py-4">Role</th>
+                <th className="px-6 py-4">Status</th>
+                <th className="px-6 py-4">Join Date</th>
+                <th className="px-6 py-4">Number</th>
+                <th className="px-6 py-4">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-              {users.map((user) => (
-                <tr
-                  key={user.id}
-                  className="hover:bg-gray-50 dark:hover:bg-gray-700/50"
-                >
+            <tbody>
+              {filteredUsers.map((user) => (
+                <tr key={user._id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full flex items-center justify-center text-white font-semibold">
-                        {user.name.charAt(0)}
-                      </div>
+                      {user?.photoURL ? (
+                        <img
+                          src={user.photoURL}
+                          alt={user.name}
+                          className="w-10 h-10 rounded-full"
+                        />
+                      ) : (
+                        <span className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-300 text-white">
+                          {user?.name?.charAt(0).toUpperCase()}
+                        </span>
+                      )}
                       <div>
                         <p className="font-medium text-gray-900 dark:text-white">
                           {user.name}
@@ -153,43 +171,35 @@ const UserManagementSection = () => {
                         user.status
                       )}`}
                     >
-                      {user.status}
+                      {user?.status || "active"}
                     </span>
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">
-                    {new Date(user.joinDate).toLocaleDateString()}
+                    2024-01-08
                   </td>
+                  <td className="px-6 py-4">{user?.number}</td>
                   <td className="px-6 py-4">
-                    <div className="text-sm text-gray-900 dark:text-white">
-                      {user.role === "host"
-                        ? `${user.listings} listings`
-                        : `${user.bookings} bookings`}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      {user.status === "pending" && (
-                        <>
-                          <button className="p-1 text-emerald-600 hover:text-emerald-700">
-                            <CheckCircle className="w-4 h-4" />
-                          </button>
-                          <button className="p-1 text-red-600 hover:text-red-700">
-                            <XCircle className="w-4 h-4" />
-                          </button>
-                        </>
-                      )}
-                      {user.status === "active" && (
-                        <button className="px-3 py-1 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 transition-colors">
-                          Suspend
-                        </button>
-                      )}
-                      {user.status === "suspended" && (
-                        <button className="px-3 py-1 bg-emerald-500 text-white rounded-lg text-sm font-medium hover:bg-emerald-600 transition-colors">
-                          Activate
-                        </button>
-                      )}
-                      <button className="p-1 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
-                        <MoreHorizontal className="w-4 h-4" />
+                    <div className="flex items-center gap-6">
+                      <button
+                        onClick={() => handleUpdateRole(user._id, "host")}
+                        className="flex flex-col items-center text-emerald-600 hover:text-emerald-700"
+                      >
+                        <Home className="w-4 h-4" />
+                        <span className="text-xs font-medium">Host</span>
+                      </button>
+                      <button
+                        onClick={() => handleUpdateRole(user._id, "guest")}
+                        className="flex flex-col items-center text-blue-600 hover:text-blue-700"
+                      >
+                        <User className="w-4 h-4" />
+                        <span className="text-xs font-medium">Guest</span>
+                      </button>
+                      <button
+                        onClick={() => handleUpdateStatus(user._id, "rejected")}
+                        className="flex flex-col items-center text-red-600 hover:text-red-700"
+                      >
+                        <XCircle className="w-4 h-4" />
+                        <span className="text-xs font-medium">Reject</span>
                       </button>
                     </div>
                   </td>
