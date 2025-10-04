@@ -6,7 +6,7 @@ const MessagesSection = () => (
       Messages
     </h2>
     <p className="text-gray-600 dark:text-gray-400">
-      Real-time chat interface with guests will be implemented here.
+      Real-time chat interface with guests will be implemented Here
     </p>
   </div>
 );
