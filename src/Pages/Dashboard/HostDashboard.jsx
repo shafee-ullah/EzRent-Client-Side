@@ -8,23 +8,22 @@ import {
   Star,
   Settings,
   Users,
-  Plus,
-  Edit,
-  Trash2,
   Search,
-  Filter,
-  Download,
-  Upload,
-  Shield,
   Bell,
-  MapPin,
-  Wifi,
-  Car,
-  Coffee,
-  Snowflake,
   ChevronDown,
+<<<<<<< HEAD
   LogOut,
+=======
+  Shield,
+>>>>>>> b21f0b6fda3270c2b2c007a5706e235f20360c99
 } from "lucide-react";
+import OverviewSection from "./Host/components/OverviewSection";
+import ListingsSection from "./Host/components/ListingsSection";
+import BookingsSection from "./Host/components/BookingsSection";
+import EarningsSection from "./Host/components/EarningsSection";
+import MessagesSection from "./Host/components/MessagesSection";
+import ReviewsSection from "./Host/components/ReviewsSection";
+import SettingsSection from "./Host/components/SettingsSection";
 
 const MotionDiv = motion.div;
 
@@ -113,6 +112,7 @@ const mockHostData = {
   },
 };
 
+<<<<<<< HEAD
 // Recharts import for earnings graph
 import {
   LineChart,
@@ -124,12 +124,14 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Link } from "react-router";
+=======
+// charts handled inside extracted components
+>>>>>>> b21f0b6fda3270c2b2c007a5706e235f20360c99
 
 const HostDashboard = () => {
   const [activeSection, setActiveSection] = useState("overview");
   const [notificationsOpen, setNotificationsOpen] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
-  const [hostData, setHostData] = useState(mockHostData);
+  const [hostData] = useState(mockHostData);
 
   const navigationItems = [
     { id: "overview", label: "Overview", icon: <Home className="w-5 h-5" /> },
@@ -382,8 +384,8 @@ const HostDashboard = () => {
   );
 };
 
-// Overview Section Component
-const OverviewSection = ({ data, formatCurrency }) => {
+// Overview Section Component (migrated to ./Host/components/OverviewSection)
+const OverviewSectionInline = ({ data, formatCurrency }) => {
   const stats = [
     {
       label: "Total Properties",
@@ -546,8 +548,8 @@ const OverviewSection = ({ data, formatCurrency }) => {
   );
 };
 
-// Listings Section Component
-const ListingsSection = ({ data }) => {
+// Listings Section Component (migrated to ./Host/components/ListingsSection)
+const ListingsSectionInline = ({ data }) => {
   const [properties, setProperties] = useState(data.properties);
 
   const togglePropertyStatus = (propertyId) => {
@@ -580,7 +582,11 @@ const ListingsSection = ({ data }) => {
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
           My Properties
         </h2>
+<<<<<<< HEAD
         <Link to="/dashboard/host/AddProperty">  <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
+=======
+        <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
+>>>>>>> b21f0b6fda3270c2b2c007a5706e235f20360c99
           <Plus className="w-4 h-4" />
           Add New Property
         </button> </Link>
@@ -684,8 +690,8 @@ const ListingsSection = ({ data }) => {
   );
 };
 
-// Bookings Section Component
-const BookingsSection = ({ data }) => {
+// Bookings Section Component (migrated to ./Host/components/BookingsSection)
+const BookingsSectionInline = ({ data }) => {
   const [bookings, setBookings] = useState(data.bookings);
   const [activeTab, setActiveTab] = useState("all");
 
@@ -883,8 +889,8 @@ const BookingsSection = ({ data }) => {
   );
 };
 
-// Earnings Section Component
-const EarningsSection = ({ data, formatCurrency }) => {
+// Earnings Section Component (migrated to ./Host/components/EarningsSection)
+const EarningsSectionInline = ({ data, formatCurrency }) => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -1015,8 +1021,8 @@ const EarningsSection = ({ data, formatCurrency }) => {
   );
 };
 
-// Placeholder components for other sections
-const MessagesSection = () => (
+// Placeholder components for other sections (migrated)
+const MessagesSectionInline = () => (
   <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
     <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
       Messages
@@ -1027,7 +1033,7 @@ const MessagesSection = () => (
   </div>
 );
 
-const ReviewsSection = () => (
+const ReviewsSectionInline = () => (
   <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
     <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
       Reviews & Ratings
@@ -1038,7 +1044,7 @@ const ReviewsSection = () => (
   </div>
 );
 
-const SettingsSection = ({ data }) => (
+const SettingsSectionInline = ({ data }) => (
   <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
     <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
       Profile & Settings
