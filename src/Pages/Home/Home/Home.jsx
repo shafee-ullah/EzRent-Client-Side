@@ -8,6 +8,7 @@ import HowItWorks from "../HowItWorks/HowItWorks";
 import BlogSection from "../BlogSection/BlogSection";
 import Newsletter from "../Newsletter/Newsletter";
 
+
 // import JourneySection from '../JourneySection/JourneySection';
 const Home = () => {
   return (
@@ -15,6 +16,7 @@ const Home = () => {
       <Banner></Banner>
       <FeaturedPropertiesCard></FeaturedPropertiesCard>
       <PopularDestinations></PopularDestinations>
+     
       <HowItWorks></HowItWorks>
       <WhyChooseUs></WhyChooseUs>
       <Testimonials></Testimonials>

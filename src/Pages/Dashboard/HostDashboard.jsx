@@ -23,7 +23,7 @@ import {
   Coffee,
   Snowflake,
   ChevronDown,
-  LogOut
+  LogOut,
 } from "lucide-react";
 
 const MotionDiv = motion.div;
@@ -33,17 +33,18 @@ const mockHostData = {
   user: {
     name: "Ahmad Rahman",
     email: "ahmad@example.com",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop",
+    avatar:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop",
     phone: "+880 1234-567890",
     joinDate: "2023-01-15",
-    verified: true
+    verified: true,
   },
   stats: {
     totalProperties: 8,
     activeBookings: 12,
     monthlyEarnings: 284500,
     pendingRequests: 3,
-    reviews: 47
+    reviews: 47,
   },
   properties: [
     {
@@ -55,8 +56,9 @@ const mockHostData = {
       status: "active",
       bookings: 24,
       rating: 4.8,
-      image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=500&auto=format&fit=crop",
-      amenities: ["wifi", "parking", "ac", "kitchen"]
+      image:
+        "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=500&auto=format&fit=crop",
+      amenities: ["wifi", "parking", "ac", "kitchen"],
     },
     {
       id: 2,
@@ -67,9 +69,10 @@ const mockHostData = {
       status: "active",
       bookings: 18,
       rating: 4.9,
-      image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=500&auto=format&fit=crop",
-      amenities: ["wifi", "parking", "ac", "beach"]
-    }
+      image:
+        "https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=500&auto=format&fit=crop",
+      amenities: ["wifi", "parking", "ac", "beach"],
+    },
   ],
   bookings: [
     {
@@ -81,7 +84,7 @@ const mockHostData = {
       status: "confirmed",
       paymentStatus: "paid",
       totalAmount: 13500,
-      guestCount: 2
+      guestCount: 2,
     },
     {
       id: 102,
@@ -92,26 +95,35 @@ const mockHostData = {
       status: "pending",
       paymentStatus: "pending",
       totalAmount: 44500,
-      guestCount: 4
-    }
+      guestCount: 4,
+    },
   ],
   earnings: {
     total: 985600,
     available: 156800,
     serviceFees: 45600,
     monthlyData: [
-      { month: 'Jan', earnings: 120000 },
-      { month: 'Feb', earnings: 190000 },
-      { month: 'Mar', earnings: 150000 },
-      { month: 'Apr', earnings: 210000 },
-      { month: 'May', earnings: 185000 },
-      { month: 'Jun', earnings: 284500 },
-    ]
-  }
+      { month: "Jan", earnings: 120000 },
+      { month: "Feb", earnings: 190000 },
+      { month: "Mar", earnings: 150000 },
+      { month: "Apr", earnings: 210000 },
+      { month: "May", earnings: 185000 },
+      { month: "Jun", earnings: 284500 },
+    ],
+  },
 };
 
 // Recharts import for earnings graph
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+import { Link } from "react-router";
 
 const HostDashboard = () => {
   const [activeSection, setActiveSection] = useState("overview");
@@ -121,32 +133,56 @@ const HostDashboard = () => {
 
   const navigationItems = [
     { id: "overview", label: "Overview", icon: <Home className="w-5 h-5" /> },
-    { id: "listings", label: "My Listings", icon: <Home className="w-5 h-5" /> },
-    { id: "bookings", label: "Bookings", icon: <Calendar className="w-5 h-5" /> },
-    { id: "earnings", label: "Earnings", icon: <DollarSign className="w-5 h-5" /> },
-    { id: "messages", label: "Messages", icon: <MessageCircle className="w-5 h-5" /> },
+    {
+      id: "listings",
+      label: "My Listings",
+      icon: <Home className="w-5 h-5" />,
+    },
+    {
+      id: "bookings",
+      label: "Bookings",
+      icon: <Calendar className="w-5 h-5" />,
+    },
+    {
+      id: "earnings",
+      label: "Earnings",
+      icon: <DollarSign className="w-5 h-5" />,
+    },
+    {
+      id: "messages",
+      label: "Messages",
+      icon: <MessageCircle className="w-5 h-5" />,
+    },
     { id: "reviews", label: "Reviews", icon: <Star className="w-5 h-5" /> },
-    { id: "settings", label: "Settings", icon: <Settings className="w-5 h-5" /> }
+    {
+      id: "settings",
+      label: "Settings",
+      icon: <Settings className="w-5 h-5" />,
+    },
   ];
 
   const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-BD', {
-      style: 'currency',
-      currency: 'BDT',
-      minimumFractionDigits: 0
+    return new Intl.NumberFormat("en-BD", {
+      style: "currency",
+      currency: "BDT",
+      minimumFractionDigits: 0,
     }).format(amount);
   };
 
   const renderSection = () => {
     switch (activeSection) {
       case "overview":
-        return <OverviewSection data={hostData} formatCurrency={formatCurrency} />;
+        return (
+          <OverviewSection data={hostData} formatCurrency={formatCurrency} />
+        );
       case "listings":
         return <ListingsSection data={hostData} />;
       case "bookings":
         return <BookingsSection data={hostData} />;
       case "earnings":
-        return <EarningsSection data={hostData} formatCurrency={formatCurrency} />;
+        return (
+          <EarningsSection data={hostData} formatCurrency={formatCurrency} />
+        );
       case "messages":
         return <MessagesSection />;
       case "reviews":
@@ -154,7 +190,9 @@ const HostDashboard = () => {
       case "settings":
         return <SettingsSection data={hostData} />;
       default:
-        return <OverviewSection data={hostData} formatCurrency={formatCurrency} />;
+        return (
+          <OverviewSection data={hostData} formatCurrency={formatCurrency} />
+        );
     }
   };
 
@@ -179,7 +217,8 @@ const HostDashboard = () => {
               Host Dashboard
             </h1>
             <p className="text-gray-600 dark:text-gray-300 mt-2 text-lg">
-              Welcome back, {hostData.user.name}! Manage your properties and bookings. 🏠
+              Welcome back, {hostData.user.name}! Manage your properties and
+              bookings. 🏠
             </p>
           </div>
 
@@ -351,29 +390,29 @@ const OverviewSection = ({ data, formatCurrency }) => {
       value: data.stats.totalProperties,
       icon: <Home className="w-6 h-6" />,
       color: "from-blue-500 to-cyan-500",
-      description: "Listed properties"
+      description: "Listed properties",
     },
     {
       label: "Active Bookings",
       value: data.stats.activeBookings,
       icon: <Calendar className="w-6 h-6" />,
       color: "from-emerald-500 to-green-500",
-      description: "Current bookings"
+      description: "Current bookings",
     },
     {
       label: "Monthly Earnings",
       value: formatCurrency(data.stats.monthlyEarnings),
       icon: <DollarSign className="w-6 h-6" />,
       color: "from-amber-500 to-orange-500",
-      description: "This month"
+      description: "This month",
     },
     {
       label: "Pending Requests",
       value: data.stats.pendingRequests,
       icon: <Users className="w-6 h-6" />,
       color: "from-purple-500 to-pink-500",
-      description: "Booking requests"
-    }
+      description: "Booking requests",
+    },
   ];
 
   return (
@@ -401,7 +440,9 @@ const OverviewSection = ({ data, formatCurrency }) => {
                   {stat.description}
                 </p>
               </div>
-              <div className={`p-3 rounded-xl bg-gradient-to-r ${stat.color} text-white`}>
+              <div
+                className={`p-3 rounded-xl bg-gradient-to-r ${stat.color} text-white`}
+              >
                 {stat.icon}
               </div>
             </div>
@@ -429,16 +470,16 @@ const OverviewSection = ({ data, formatCurrency }) => {
                 <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
                 <XAxis dataKey="month" />
                 <YAxis />
-                <Tooltip 
-                  formatter={(value) => [formatCurrency(value), 'Earnings']}
+                <Tooltip
+                  formatter={(value) => [formatCurrency(value), "Earnings"]}
                   labelFormatter={(label) => `Month: ${label}`}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="earnings" 
-                  stroke="#10b981" 
+                <Line
+                  type="monotone"
+                  dataKey="earnings"
+                  stroke="#10b981"
                   strokeWidth={3}
-                  dot={{ fill: '#10b981', strokeWidth: 2, r: 4 }}
+                  dot={{ fill: "#10b981", strokeWidth: 2, r: 4 }}
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -468,7 +509,9 @@ const OverviewSection = ({ data, formatCurrency }) => {
                   <h4 className="font-semibold text-gray-900 dark:text-white">
                     {booking.property}
                   </h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">by {booking.guestName}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    by {booking.guestName}
+                  </p>
                   <div className="flex items-center gap-4 mt-2 text-sm text-gray-600 dark:text-gray-400">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-4 h-4" />
@@ -483,11 +526,13 @@ const OverviewSection = ({ data, formatCurrency }) => {
                     <span className="font-semibold text-gray-900 dark:text-white">
                       {formatCurrency(booking.totalAmount)}
                     </span>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      booking.status === 'confirmed' 
-                        ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300'
-                        : 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300'
-                    }`}>
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        booking.status === "confirmed"
+                          ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300"
+                          : "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300"
+                      }`}
+                    >
                       {booking.status}
                     </span>
                   </div>
@@ -506,11 +551,16 @@ const ListingsSection = ({ data }) => {
   const [properties, setProperties] = useState(data.properties);
 
   const togglePropertyStatus = (propertyId) => {
-    setProperties(properties.map(property =>
-      property.id === propertyId
-        ? { ...property, status: property.status === 'active' ? 'inactive' : 'active' }
-        : property
-    ));
+    setProperties(
+      properties.map((property) =>
+        property.id === propertyId
+          ? {
+              ...property,
+              status: property.status === "active" ? "inactive" : "active",
+            }
+          : property
+      )
+    );
   };
 
   const getAmenityIcon = (amenity) => {
@@ -519,7 +569,7 @@ const ListingsSection = ({ data }) => {
       parking: <Car className="w-4 h-4" />,
       ac: <Snowflake className="w-4 h-4" />,
       kitchen: <Coffee className="w-4 h-4" />,
-      beach: "🏖️"
+      beach: "🏖️",
     };
     return icons[amenity] || <Plus className="w-4 h-4" />;
   };
@@ -527,11 +577,14 @@ const ListingsSection = ({ data }) => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">My Properties</h2>
-        <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+          My Properties
+        </h2>
+        <Link to="/dashboard/host/AddProperty">  <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
           <Plus className="w-4 h-4" />
           Add New Property
-        </button>
+        </button> </Link>
+       
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -551,12 +604,14 @@ const ListingsSection = ({ data }) => {
                 className="w-full h-48 object-cover"
               />
               <div className="absolute top-4 right-4">
-                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                  property.status === 'active'
-                    ? 'bg-emerald-500 text-white'
-                    : 'bg-gray-500 text-white'
-                }`}>
-                  {property.status === 'active' ? 'Active' : 'Inactive'}
+                <span
+                  className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                    property.status === "active"
+                      ? "bg-emerald-500 text-white"
+                      : "bg-gray-500 text-white"
+                  }`}
+                >
+                  {property.status === "active" ? "Active" : "Inactive"}
                 </span>
               </div>
             </div>
@@ -580,7 +635,9 @@ const ListingsSection = ({ data }) => {
               <div className="flex items-center justify-between mb-4">
                 <span className="text-2xl font-bold text-gray-900 dark:text-white">
                   ৳{property.price}
-                  <span className="text-sm font-normal text-gray-500 dark:text-gray-400">/night</span>
+                  <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+                    /night
+                  </span>
                 </span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">
                   {property.bookings} bookings
@@ -605,12 +662,12 @@ const ListingsSection = ({ data }) => {
                 <button
                   onClick={() => togglePropertyStatus(property.id)}
                   className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors ${
-                    property.status === 'active'
-                      ? 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
-                      : 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300'
+                    property.status === "active"
+                      ? "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+                      : "bg-emerald-100 text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300"
                   }`}
                 >
-                  {property.status === 'active' ? 'Deactivate' : 'Activate'}
+                  {property.status === "active" ? "Deactivate" : "Activate"}
                 </button>
                 <button className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
                   <Edit className="w-4 h-4" />
@@ -634,35 +691,51 @@ const BookingsSection = ({ data }) => {
 
   const tabs = [
     { id: "all", label: "All Bookings", count: bookings.length },
-    { id: "pending", label: "Pending", count: bookings.filter(b => b.status === 'pending').length },
-    { id: "confirmed", label: "Confirmed", count: bookings.filter(b => b.status === 'confirmed').length },
-    { id: "completed", label: "Completed", count: 5 }
+    {
+      id: "pending",
+      label: "Pending",
+      count: bookings.filter((b) => b.status === "pending").length,
+    },
+    {
+      id: "confirmed",
+      label: "Confirmed",
+      count: bookings.filter((b) => b.status === "confirmed").length,
+    },
+    { id: "completed", label: "Completed", count: 5 },
   ];
 
-  const filteredBookings = activeTab === "all" 
-    ? bookings 
-    : bookings.filter(booking => booking.status === activeTab);
+  const filteredBookings =
+    activeTab === "all"
+      ? bookings
+      : bookings.filter((booking) => booking.status === activeTab);
 
   const getStatusColor = (status) => {
     const colors = {
-      pending: "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300",
-      confirmed: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300",
-      completed: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
-      cancelled: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
+      pending:
+        "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300",
+      confirmed:
+        "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300",
+      completed:
+        "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
+      cancelled: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
     };
     return colors[status] || "bg-gray-100 text-gray-800";
   };
 
   const updateBookingStatus = (bookingId, newStatus) => {
-    setBookings(bookings.map(booking =>
-      booking.id === bookingId ? { ...booking, status: newStatus } : booking
-    ));
+    setBookings(
+      bookings.map((booking) =>
+        booking.id === bookingId ? { ...booking, status: newStatus } : booking
+      )
+    );
   };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Bookings</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+          Bookings
+        </h2>
         <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl font-medium hover:shadow-md transition-all duration-300">
           <Calendar className="w-4 h-4" />
           Calendar View
@@ -682,11 +755,13 @@ const BookingsSection = ({ data }) => {
             }`}
           >
             {tab.label}
-            <span className={`px-2 py-1 rounded-full text-xs ${
-              activeTab === tab.id
-                ? "bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-300"
-                : "bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400"
-            }`}>
+            <span
+              className={`px-2 py-1 rounded-full text-xs ${
+                activeTab === tab.id
+                  ? "bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-300"
+                  : "bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400"
+              }`}
+            >
               {tab.count}
             </span>
           </button>
@@ -718,7 +793,10 @@ const BookingsSection = ({ data }) => {
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
               {filteredBookings.map((booking) => (
-                <tr key={booking.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                <tr
+                  key={booking.id}
+                  className="hover:bg-gray-50 dark:hover:bg-gray-700/50"
+                >
                   <td className="px-6 py-4">
                     <div>
                       <p className="font-medium text-gray-900 dark:text-white">
@@ -731,7 +809,8 @@ const BookingsSection = ({ data }) => {
                   </td>
                   <td className="px-6 py-4">
                     <div className="text-sm text-gray-900 dark:text-white">
-                      {new Date(booking.checkIn).toLocaleDateString()} - {new Date(booking.checkOut).toLocaleDateString()}
+                      {new Date(booking.checkIn).toLocaleDateString()} -{" "}
+                      {new Date(booking.checkOut).toLocaleDateString()}
                     </div>
                     <div className="text-sm text-gray-500 dark:text-gray-400">
                       {booking.guestCount} guests
@@ -741,40 +820,52 @@ const BookingsSection = ({ data }) => {
                     <div className="text-sm font-semibold text-gray-900 dark:text-white">
                       ৳{booking.totalAmount}
                     </div>
-                    <div className={`text-xs ${
-                      booking.paymentStatus === 'paid' 
-                        ? 'text-emerald-600 dark:text-emerald-400' 
-                        : 'text-amber-600 dark:text-amber-400'
-                    }`}>
+                    <div
+                      className={`text-xs ${
+                        booking.paymentStatus === "paid"
+                          ? "text-emerald-600 dark:text-emerald-400"
+                          : "text-amber-600 dark:text-amber-400"
+                      }`}
+                    >
                       {booking.paymentStatus}
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`inline-flex px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(booking.status)}`}>
+                    <span
+                      className={`inline-flex px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(
+                        booking.status
+                      )}`}
+                    >
                       {booking.status}
                     </span>
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
-                      {booking.status === 'pending' && (
+                      {booking.status === "pending" && (
                         <>
                           <button
-                            onClick={() => updateBookingStatus(booking.id, 'confirmed')}
+                            onClick={() =>
+                              updateBookingStatus(booking.id, "confirmed")
+                            }
                             className="px-3 py-1 bg-emerald-500 text-white rounded-lg text-sm font-medium hover:bg-emerald-600 transition-colors"
                           >
                             Accept
                           </button>
                           <button
-                            onClick={() => updateBookingStatus(booking.id, 'cancelled')}
+                            onClick={() =>
+                              updateBookingStatus(booking.id, "cancelled")
+                            }
                             className="px-3 py-1 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 transition-colors"
                           >
                             Reject
                           </button>
                         </>
                       )}
-                      {booking.status === 'confirmed' && (
+                      {booking.status === "confirmed" && (
                         <button
-                          onClick={() => updateBookingStatus(booking.id, 'completed')}
+                          onClick={() =>
+                            updateBookingStatus(booking.id, "completed")
+                          }
                           className="px-3 py-1 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors"
                         >
                           Complete
@@ -797,7 +888,9 @@ const EarningsSection = ({ data, formatCurrency }) => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Earnings & Payouts</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+          Earnings & Payouts
+        </h2>
         <div className="flex items-center gap-3">
           <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl font-medium hover:shadow-md transition-all duration-300">
             <Download className="w-4 h-4" />
@@ -815,19 +908,25 @@ const EarningsSection = ({ data, formatCurrency }) => {
         <div className="lg:col-span-2 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Earnings</p>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                Total Earnings
+              </p>
               <p className="text-3xl font-bold text-gray-900 dark:text-white mt-2">
                 {formatCurrency(data.earnings.total)}
               </p>
             </div>
             <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Available for Payout</p>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                Available for Payout
+              </p>
               <p className="text-3xl font-bold text-gray-900 dark:text-white mt-2">
                 {formatCurrency(data.earnings.available)}
               </p>
             </div>
             <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Service Fees</p>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                Service Fees
+              </p>
               <p className="text-3xl font-bold text-gray-900 dark:text-white mt-2">
                 {formatCurrency(data.earnings.serviceFees)}
               </p>
@@ -846,8 +945,12 @@ const EarningsSection = ({ data, formatCurrency }) => {
                     <span className="text-white font-bold text-xs">Bkash</span>
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900 dark:text-white">bKash</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">**** 1234</p>
+                    <p className="font-medium text-gray-900 dark:text-white">
+                      bKash
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      **** 1234
+                    </p>
                   </div>
                 </div>
                 <span className="px-3 py-1 bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300 rounded-full text-sm font-medium">
@@ -868,17 +971,36 @@ const EarningsSection = ({ data, formatCurrency }) => {
           </h3>
           <div className="space-y-4">
             {[
-              { date: "2024-06-01", amount: 45200, method: "bKash", status: "completed" },
-              { date: "2024-05-15", amount: 38900, method: "Bank", status: "completed" },
-              { date: "2024-05-01", amount: 56700, method: "bKash", status: "completed" }
+              {
+                date: "2024-06-01",
+                amount: 45200,
+                method: "bKash",
+                status: "completed",
+              },
+              {
+                date: "2024-05-15",
+                amount: 38900,
+                method: "Bank",
+                status: "completed",
+              },
+              {
+                date: "2024-05-01",
+                amount: 56700,
+                method: "bKash",
+                status: "completed",
+              },
             ].map((payout, index) => (
-              <div key={index} className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg">
+              <div
+                key={index}
+                className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg"
+              >
                 <div>
                   <p className="font-medium text-gray-900 dark:text-white">
                     {formatCurrency(payout.amount)}
                   </p>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    {new Date(payout.date).toLocaleDateString()} • {payout.method}
+                    {new Date(payout.date).toLocaleDateString()} •{" "}
+                    {payout.method}
                   </p>
                 </div>
                 <span className="px-2 py-1 bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300 rounded-full text-xs font-medium">
@@ -896,52 +1018,88 @@ const EarningsSection = ({ data, formatCurrency }) => {
 // Placeholder components for other sections
 const MessagesSection = () => (
   <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
-    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Messages</h2>
-    <p className="text-gray-600 dark:text-gray-400">Real-time chat interface with guests will be implemented here.</p>
+    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+      Messages
+    </h2>
+    <p className="text-gray-600 dark:text-gray-400">
+      Real-time chat interface with guests will be implemented here.
+    </p>
   </div>
 );
 
 const ReviewsSection = () => (
   <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
-    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Reviews & Ratings</h2>
-    <p className="text-gray-600 dark:text-gray-400">Guest reviews and rating management will be implemented here.</p>
+    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+      Reviews & Ratings
+    </h2>
+    <p className="text-gray-600 dark:text-gray-400">
+      Guest reviews and rating management will be implemented here.
+    </p>
   </div>
 );
 
 const SettingsSection = ({ data }) => (
   <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
-    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Profile & Settings</h2>
+    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+      Profile & Settings
+    </h2>
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div className="lg:col-span-2 space-y-6">
         {/* Personal Information */}
         <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Personal Information</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            Personal Information
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Full Name</label>
-              <input type="text" defaultValue={data.user.name} className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-gray-600" />
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Full Name
+              </label>
+              <input
+                type="text"
+                defaultValue={data.user.name}
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-gray-600"
+              />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
-              <input type="email" defaultValue={data.user.email} className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-gray-600" />
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                defaultValue={data.user.email}
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-gray-600"
+              />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Phone</label>
-              <input type="tel" defaultValue={data.user.phone} className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-gray-600" />
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Phone
+              </label>
+              <input
+                type="tel"
+                defaultValue={data.user.phone}
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-gray-600"
+              />
             </div>
           </div>
         </div>
 
         {/* Security Settings */}
         <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Security</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            Security
+          </h3>
           <div className="space-y-4">
             <button className="w-full flex items-center justify-between p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-white dark:hover:bg-gray-600 transition-colors">
               <div className="flex items-center gap-3">
                 <Shield className="w-5 h-5 text-emerald-500" />
                 <div>
-                  <p className="font-medium text-gray-900 dark:text-white">Two-Factor Authentication</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Add an extra layer of security</p>
+                  <p className="font-medium text-gray-900 dark:text-white">
+                    Two-Factor Authentication
+                  </p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Add an extra layer of security
+                  </p>
                 </div>
               </div>
               <div className="w-10 h-6 bg-gray-300 dark:bg-gray-600 rounded-full relative">
@@ -966,7 +1124,9 @@ const SettingsSection = ({ data }) => (
             <Shield className="w-4 h-4" />
             <span className="text-sm">Verified Host</span>
           </div>
-          <p className="text-sm text-emerald-100 mt-4">Member since {new Date(data.user.joinDate).getFullYear()}</p>
+          <p className="text-sm text-emerald-100 mt-4">
+            Member since {new Date(data.user.joinDate).getFullYear()}
+          </p>
         </div>
       </div>
     </div>

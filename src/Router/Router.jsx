@@ -12,6 +12,7 @@ import AuthPage from "../Pages/AuthPage/AuthPage";
 import Error from "../Error/Error";
 import AboutEzRent from "../Pages/About/AboutEzRent";
 import AdminDashboard from "../Pages/Dashboard/AdminDashboard";
+import AddProperty from "../Pages/Dashboard/AddProperty/AddProperty.jsx";
 
 const router = createBrowserRouter([
   {
@@ -40,11 +41,13 @@ const router = createBrowserRouter([
         path: "BrowseProperties",
         Component: BrowseProperties,
       },
+      
       {
         path: "dashboard",
         Component: DashboardLayout,
         children: [
           { index: true, Component: GuestDashboard },
+          {path:"AddProperty",Component:AddProperty},
           { path: "guest", Component: GuestDashboard },
           { path: "host", Component: HostDashboard },
           { path: "admin", Component: AdminDashboard },
