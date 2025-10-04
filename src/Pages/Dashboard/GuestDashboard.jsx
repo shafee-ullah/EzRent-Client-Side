@@ -109,13 +109,15 @@ const GuestDashboard = () => {
   const [activeSection, setActiveSection] = useState("overview");
   const [guestData, setGuestData] = useState(mockGuestData);
   const { user: authUser } = use(AuthContext);
-  console.log(authUser);
+ 
 
 
 
 
   const dispatch = useDispatch();
   const { user, loading, error } = useSelector((state) => state.products);
+   console.log( 'auth user', user);
+  
 
   useEffect(() => {
     if (user) {

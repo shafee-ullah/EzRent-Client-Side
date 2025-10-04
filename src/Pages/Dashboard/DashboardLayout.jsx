@@ -25,7 +25,7 @@ const DashboardLayout = () => {
   const { user: authUser } = use(AuthContext);
   console.log(authUser);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
+  // const [profileOpen, setProfileOpen] = useState(false);
 
   const isGuest = location.pathname.includes("/dashboard/guest");
   const isHost = location.pathname.includes("/dashboard/host");
