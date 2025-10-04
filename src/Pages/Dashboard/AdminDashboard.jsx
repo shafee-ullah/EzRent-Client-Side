@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Users,
@@ -11,9 +11,6 @@ import {
   BarChart3,
   Bell,
   Search,
-  ChevronDown,
-  Shield,
-  LogOut,
 } from "lucide-react";
 import OverviewSection from "./Admin/components/OverviewSection";
 import UserManagementSection from "./Admin/components/UserManagementSection";
@@ -23,6 +20,9 @@ import PaymentsSection from "./Admin/components/PaymentsSection";
 import ReviewsModerationSection from "./Admin/components/ReviewsModerationSection";
 import AnalyticsSection from "./Admin/components/AnalyticsSection";
 import PlatformSettingsSection from "./Admin/components/PlatformSettingsSection";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchHostRequests } from "../../redux/PropertieSlice"
+
 
 const MotionDiv = motion.div;
 
@@ -90,6 +90,21 @@ const AdminDashboard = () => {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [adminData] = useState(mockAdminData);
 
+
+
+
+  // get all host req
+  const dispatch = useDispatch();
+  const { hostRequests, loading } = useSelector((state) => state.products);
+  console.log(hostRequests);
+
+  useEffect(() => {
+    dispatch(fetchHostRequests());
+  }, [dispatch]);
+
+  if (loading) return <p>Loading...</p>;
+
+
   const navigationItems = [
     {
       id: "overview",
@@ -156,7 +171,7 @@ const AdminDashboard = () => {
           />
         );
       case "users":
-        return <UserManagementSection />;
+        return <UserManagementSection  data={hostRequests}/>;
       case "properties":
         return <PropertyManagementSection />;
       case "bookings":
@@ -311,11 +326,10 @@ const AdminDashboard = () => {
                   <button
                     key={item.id}
                     onClick={() => setActiveSection(item.id)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
-                      activeSection === item.id
-                        ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-lg"
-                        : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
-                    }`}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${activeSection === item.id
+                      ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-lg"
+                      : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      }`}
                   >
                     {item.icon}
                     <span className="font-medium">{item.label}</span>

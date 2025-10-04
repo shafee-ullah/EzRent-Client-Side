@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Search,
@@ -10,6 +10,7 @@ import {
   MessageCircle,
   Bell,
   Shield,
+  User2,
 } from "lucide-react";
 import OverviewSection from "./Guest/components/OverviewSection";
 import SearchSection from "./Guest/components/SearchSection";
@@ -18,6 +19,9 @@ import WishlistSection from "./Guest/components/WishlistSection";
 import MessagesSection from "./Guest/components/MessagesSection";
 import ReviewsSection from "./Guest/components/ReviewsSection";
 import ProfileSection from "./Guest/components/ProfileSection";
+import { AuthContext } from "../../Context/AuthContext";
+import { fetchUserByEmail } from "../../redux/PropertieSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const MotionDiv = motion.div;
 
@@ -104,6 +108,38 @@ const mockGuestData = {
 const GuestDashboard = () => {
   const [activeSection, setActiveSection] = useState("overview");
   const [guestData, setGuestData] = useState(mockGuestData);
+  const { user: authUser } = use(AuthContext);
+  console.log(authUser);
+
+
+
+
+  const dispatch = useDispatch();
+  const { user, loading, error } = useSelector((state) => state.products);
+
+  useEffect(() => {
+    if (user) {
+      setGuestData({ ...mockGuestData, user });
+    } else {
+      setGuestData(mockGuestData); 
+    }
+  }, [user]);
+
+
+
+  console.log(user);
+
+  useEffect(() => {
+    if (authUser?.email) {
+      dispatch(fetchUserByEmail(authUser.email));
+    }
+  }, [authUser, dispatch]);
+
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
+
+
 
   const navigationItems = [
     { id: "overview", label: "Overview", icon: <User className="w-5 h-5" /> },
@@ -146,7 +182,7 @@ const GuestDashboard = () => {
       case "reviews":
         return <ReviewsSection />;
       case "profile":
-        return <ProfileSection data={guestData} />;
+        return <ProfileSection data={user} />;
       default:
         return <OverviewSection data={guestData} />;
     }
@@ -204,11 +240,10 @@ const GuestDashboard = () => {
                   <button
                     key={item.id}
                     onClick={() => setActiveSection(item.id)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
-                      activeSection === item.id
-                        ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-lg"
-                        : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
-                    }`}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${activeSection === item.id
+                      ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-lg"
+                      : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      }`}
                   >
                     {item.icon}
                     <span className="font-medium">{item.label}</span>
@@ -219,17 +254,18 @@ const GuestDashboard = () => {
               {/* User Profile Card */}
               <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl border border-gray-200 dark:border-gray-600">
                 <div className="flex items-center gap-3">
-                  <img
-                    src={guestData.user.avatar}
-                    alt={guestData.user.name}
-                    className="w-12 h-12 rounded-full"
-                  />
+                  {
+                    authUser?.photoURL ? (
+                      <img src={authUser.photoURL} alt={authUser.displayName} className="w-12 h-12 rounded-full"></img>
+                    ) : (<User2 className="w-12 h-12 text-gray-400 bg-gray-200 p-2 rounded-full" />)
+                  }
+
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-gray-900 dark:text-white truncate">
-                      {guestData.user.name}
+                      {guestData.user?.name}
                     </p>
                     <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
-                      {guestData.user.email}
+                      {guestData.user?.email}
                     </p>
                   </div>
                 </div>
