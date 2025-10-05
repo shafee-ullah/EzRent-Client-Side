@@ -109,21 +109,21 @@ const GuestDashboard = () => {
   const [activeSection, setActiveSection] = useState("overview");
   const [guestData, setGuestData] = useState(mockGuestData);
   const { user: authUser } = use(AuthContext);
- 
+
 
 
 
 
   const dispatch = useDispatch();
   const { user, loading, error } = useSelector((state) => state.products);
-   console.log( 'auth user', user);
-  
+  console.log('auth user', user);
+
 
   useEffect(() => {
     if (user) {
       setGuestData({ ...mockGuestData, user });
     } else {
-      setGuestData(mockGuestData); 
+      setGuestData(mockGuestData);
     }
   }, [user]);
 
@@ -264,7 +264,7 @@ const GuestDashboard = () => {
 
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-gray-900 dark:text-white truncate">
-                      {guestData.user?.name}
+                      {authUser?.displayName}
                     </p>
                     <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
                       {guestData.user?.email}
