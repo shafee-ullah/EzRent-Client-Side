@@ -15,12 +15,12 @@ const FeaturepropertiesDitelsCard = ({ data,loading,error }) => {
         {/* Image */}
         <div className="relative">
           <img
-            src={data.img}
-            alt={data.title}
+            src={data.image}
+            alt={data.name}
             className="w-full md:h-96 h-48 object-cover"
           />
           <span className="absolute top-4 left-4 bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
-            {data.rating} <FaStar className="inline ml-1" />
+            {data.reating} <FaStar className="inline ml-1" />
           </span>
         </div>
 
@@ -32,7 +32,7 @@ const FeaturepropertiesDitelsCard = ({ data,loading,error }) => {
               {data.title}
             </h2>
             <p className="text-gray-600  dark:text-[#ffffff] flex items-center gap-2 text-lg">
-              <FaMapMarkerAlt className="text-red-500" /> {data.location}
+              <FaMapMarkerAlt className="text-red-500" /> {data.Location}
             </p>
           </div>
 
@@ -40,10 +40,10 @@ const FeaturepropertiesDitelsCard = ({ data,loading,error }) => {
           <div className="flex flex-col md:flex-row justify-between items-center  p-5 rounded-xl border">
             <p className="text-lg font-semibold text-gray-800 dark:text-[#ffffff]">
               <span className="line-through text-gray-400 dark:text-[#ffffff] mr-2">
-                ${data.price1}
+                ${data.price}
               </span>
               <span className="text-green-600 text-2xl dark:text-[#ffffff]">
-                ${data.price}
+                ${data.offerPrice}
               </span>{" "}
               <span className="text-gray-500 dark:text-[#ffffff]">/ night</span>
             </p>
@@ -55,7 +55,7 @@ const FeaturepropertiesDitelsCard = ({ data,loading,error }) => {
 
           {/* Long Description */}
           <p className="text-gray-700 leading-relaxed text-lg dark:text-[#ffffff]">
-            {data.long_description}
+            {data.description}
           </p>
 
           {/* Services */}
@@ -65,14 +65,12 @@ const FeaturepropertiesDitelsCard = ({ data,loading,error }) => {
               Amenities
             </h3>
             <ul className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              {data.services.map((service, idx) => (
-                <li
-                  key={idx}
-                  className="flex items-center text-gray-700 dark:text-[#ffffff]"
-                >
-                  <FaCheckCircle className="text-green-500 mr-2" /> {service}
-                </li>
-              ))}
+              <li className="flex   items-center"> <FaCheckCircle className="text-green-500 mr-2" />Free Wifi</li>
+              <li className="flex  items-center"> <FaCheckCircle className="text-green-500 mr-2" />Free Parking</li>
+              <li className="flex  items-center"> <FaCheckCircle className="text-green-500 mr-2" />Organic Restaurant</li>
+              <li className="flex   items-center"> <FaCheckCircle className="text-green-500 mr-2" />Garden & Terrace</li>
+              <li className="flex   items-center"> <FaCheckCircle className="text-green-500 mr-2" />Marina Access</li>
+              <li className="flex   items-center"> <FaCheckCircle className="text-green-500 mr-2" />Bar & Lounge</li>
             </ul>
           </div>
 

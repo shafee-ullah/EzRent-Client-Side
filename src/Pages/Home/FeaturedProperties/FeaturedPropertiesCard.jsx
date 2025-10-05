@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchlimit } from "../../../redux/PropertieSlice";
 const MotionDiv = motion.div;
+import { MdCategory } from "react-icons/md";
 const MotionSection = motion.section;
 // ✅ Skeleton Loader Component
 const CardLoading = () => {
@@ -88,7 +89,7 @@ const FeaturedPropertiesCard = () => {
       {/* ✅ Show Skeletons when loading */}
 
       <div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12 px-4 md:px-14">
-        {items.map((propertie, index) => (
+        {items?.map((propertie, index) => (
           <motion.div
             key={propertie.id}
             initial={{ opacity: 0, y: 40 }}
@@ -100,8 +101,8 @@ const FeaturedPropertiesCard = () => {
             {/* Image */}
             <div className="relative">
               <img
-                src={propertie.img}
-                alt={propertie.title}
+                src={propertie.image}
+                alt={propertie.name}
                 className="w-full h-44 object-cover rounded-t-2xl transition-transform duration-500 group-hover:scale-105"
               />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/25 via-black/5 to-transparent" />
@@ -116,9 +117,9 @@ const FeaturedPropertiesCard = () => {
 
               {/* Wishlist Button */}
               <button
-                onClick={() => toggleWishlist(propertie.id)}
+                onClick={() => toggleWishlist(propertie._id)}
                 aria-label={
-                  wishlist.includes(propertie.id)
+                  wishlist.includes(propertie._id)
                     ? "Remove from wishlist"
                     : "Add to wishlist"
                 }
@@ -127,7 +128,7 @@ const FeaturedPropertiesCard = () => {
                 <AiFillHeart
                   size={20}
                   className={`${
-                    wishlist.includes(propertie.id)
+                    wishlist.includes(propertie._id)
                       ? "text-red-500"
                       : "text-gray-400"
                   }`}
@@ -140,24 +141,24 @@ const FeaturedPropertiesCard = () => {
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-1 font-medium text-gray-600 text-sm">
                   <CiLocationOn size={18} className="text-red-500" />
-                  <p className="dark:text-[#ffffff]">{propertie.location}</p>
+                  <p className="dark:text-[#ffffff]">{propertie.Location}</p>
                 </div>
                 <motion.div
                   whileTap={{ scale: 1.2 }}
                   className="flex items-center gap-1 text-yellow-500 font-semibold text-sm"
                 >
-                  <FaStar /> {propertie.rating}
+                  <FaStar /> {propertie.reating}
                 </motion.div>
               </div>
 
               <h1 className="text-[18px] leading-snug font-semibold text-gray-900 dark:text-white">
-                {propertie.title}
+                {propertie.name}
               </h1>
 
               <p className="text-sm text-gray-600 leading-relaxed dark:text-gray-400">
                 {expanded === propertie.id
-                  ? propertie.long_description
-                  : `${propertie.long_description.slice(0, 65)}...`}
+                  ? propertie?.description
+                  : `${propertie?.description?.slice(0, 65)}...`}
                 <button
                   onClick={() =>
                     setExpanded(expanded === propertie.id ? null : propertie.id)
@@ -168,11 +169,16 @@ const FeaturedPropertiesCard = () => {
                 </button>
               </p>
 
-              <div className="flex items-center gap-2 text-gray-700 text-sm dark:text-[#ffffff]">
+           <div className="flex justify-between">
+               <div className="flex items-center gap-2 text-gray-700 text-smdark:text-[#ffffff]">
                 <IoMdContacts size={18} />
                 <p>{propertie.guest} guests</p>
               </div>
-
+              <div className="flex items-center gap-2 text-gray-700 text-smdark:text-[#ffffff]">
+                <MdCategory size={18} />
+                <p className="text-green-400">{propertie.category} </p>
+              </div>
+           </div>
               <Link to={`/FeaturepropertiesDitels/${propertie._id}`}>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
