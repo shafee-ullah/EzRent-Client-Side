@@ -7,7 +7,7 @@ import Testimonials from "../Testimonials/Testimonials";
 import HowItWorks from "../HowItWorks/HowItWorks";
 import BlogSection from "../BlogSection/BlogSection";
 import Newsletter from "../Newsletter/Newsletter";
- import AddProperty from "../Testcomponent/AddProperty";
+ import AddProperty from "../../Dashboard/AddProperty/AddProperty";
 
 
 // import JourneySection from '../JourneySection/JourneySection';

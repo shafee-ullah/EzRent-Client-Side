@@ -10,6 +10,7 @@ import {
   Car,
   Snowflake,
   Coffee,
+  Link,
 } from "lucide-react";
 
 const MotionDiv = motion.div;
@@ -47,6 +48,7 @@ const ListingsSection = ({ data }) => {
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
           My Properties
         </h2>
+        <Link to="dashboard/host/AddProperty"></Link>
         <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
           <Plus className="w-4 h-4" />
           Add New Propert

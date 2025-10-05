@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router";
-import AddProperty from "../Pages/Home/Testcomponent/AddProperty";
+import AddProperty from "../Pages/Dashboard/AddProperty/AddProperty";
 import RootLayouts from "../Layouts/RootLayouts";
 import Home from "../Pages/Home/Home/Home";
 import FeaturepropertiesDitels from "../Pages/Home/FeaturedProperties/FeaturepropertiesDitels";
