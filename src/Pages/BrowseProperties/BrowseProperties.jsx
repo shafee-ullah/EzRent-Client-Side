@@ -101,7 +101,7 @@ const BrowseProperties = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
             {items
               .filter((p) => p.price <= price)
-              .map((propertie, index) => (
+              ?.map((propertie, index) => (
                 <motion.div
                   key={propertie._id}
                   initial={{ opacity: 0, y: 40 }}
