@@ -107,7 +107,17 @@ const mockHostData = {
   },
 };
 
-// charts handled inside extracted components
+// Recharts import for earnings graph
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+import { Link } from "react-router";
 
 const HostDashboard = () => {
   const [activeSection, setActiveSection] = useState("overview");
@@ -277,12 +287,12 @@ const HostDashboard = () => {
                     </p>
                   </div>
                 </div>
-                {hostData.user.verified && (
+                {/* {hostData.user.verified && (
                   <div className="flex items-center gap-1 mt-2 text-emerald-600 dark:text-emerald-400">
                     <Shield className="w-4 h-4" />
                     <span className="text-sm font-medium">Verified Host</span>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
           </MotionDiv>

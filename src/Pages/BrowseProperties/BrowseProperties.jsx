@@ -9,12 +9,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../redux/PropertieSlice";
 import Loading from "../../components/Loading";
 import Search from "./Search";
+import { MdCategory } from "react-icons/md";
 
 
 const BrowseProperties = () => {
  const dispatch=useDispatch();
  const {items, loading, error}=useSelector((state)=>state.products)
- console.log(items)
+//  console.log(items)
  useEffect(()=>{
   dispatch(fetchProducts())
  },[dispatch])
@@ -100,9 +101,9 @@ const BrowseProperties = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
             {items
               .filter((p) => p.price <= price)
-              .map((propertie, index) => (
+              ?.map((propertie, index) => (
                 <motion.div
-                  key={propertie.id}
+                  key={propertie._id}
                   initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.15, duration: 0.5 }}
@@ -112,8 +113,8 @@ const BrowseProperties = () => {
                   {/* Image */}
                   <div className="relative">
                     <img
-                      src={propertie.img}
-                      alt={propertie.title}
+                      src={propertie.image}
+                      alt={propertie.name}
                       className="w-full h-44 object-cover rounded-t-2xl transition-transform duration-500 group-hover:scale-110"
                     />
 
@@ -127,13 +128,13 @@ const BrowseProperties = () => {
 
                     {/* Wishlist Button */}
                     <button
-                      onClick={() => toggleWishlist(propertie.id)}
+                      onClick={() => toggleWishlist(propertie._id)}
                       className="absolute top-3 right-3 bg-white p-2 rounded-full shadow-md hover:scale-110 transition"
                     >
                       <AiFillHeart
                         size={20}
                         className={`${
-                          wishlist.includes(propertie.id)
+                          wishlist.includes(propertie._id)
                             ? "text-red-500"
                             : "text-gray-400"
                         }`}
@@ -147,25 +148,25 @@ const BrowseProperties = () => {
                       <div className="flex items-center gap-1 font-medium text-gray-600 text-sm">
                         <CiLocationOn size={18} className="text-red-500" />
                         <p className="dark:text-[#ffffff]">
-                          {propertie.location}
+                          {propertie.Location}
                         </p>
                       </div>
                       <motion.div
                         whileTap={{ scale: 1.2 }}
                         className="flex items-center gap-1 text-yellow-500 font-semibold text-sm"
                       >
-                        <FaStar /> {propertie.rating}
+                        <FaStar /> {propertie.reating}
                       </motion.div>
                     </div>
 
                     <h1 className="text-lg font-semibold text-gray-800 dark:text-[#ffffff]">
-                      {propertie.title}
+                      {propertie.name}
                     </h1>
 
                     <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed ">
                       {expanded === propertie.id
-                        ? propertie.long_description
-                        : `${propertie.long_description.slice(0, 65)}...`}
+                        ? propertie?.description
+                        : `${propertie?.description.slice(0, 65)}...`}
                       <button
                         onClick={() =>
                           setExpanded(
@@ -177,11 +178,17 @@ const BrowseProperties = () => {
                         {expanded === propertie.id ? "Show less" : "Read more"}
                       </button>
                     </p>
-
+            <div className="flex justify-between"  >
+  
                     <div className="flex items-center gap-2 text-gray-700 text-sm dark:text-[#ffffff]">
                       <IoMdContacts size={18} />
                       <p>{propertie.guest} guests</p>
                     </div>
+                    <div className="flex items-center gap-2 text-gray-700 text-sm dark:text-[#ffffff]">
+                      <MdCategory size={18} />
+                      <p className="text-green-400">{propertie.category}</p>
+                    </div>
+              </div>
 
                     <Link to={`/FeaturepropertiesDitels/${propertie._id}`}>
                       <motion.button

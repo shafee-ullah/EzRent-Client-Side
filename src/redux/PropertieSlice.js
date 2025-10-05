@@ -12,28 +12,45 @@ export const fetchProducts = createAsyncThunk(
   }
 );
 
-// limit 8 data
-export const fetchlimit = createAsyncThunk(
-  "products/fetchLimit",
+export const fetchbooking = createAsyncThunk(
+  "products/fetchbooking",
   async () => {
     const res = await axios.get(
-      "https://ez-rent-server-side.vercel.app/FeaturedProperties"
+      "http://localhost:5000/bookinghotel"
     );
     return res.data;
   }
 );
+
+// limit 8 data
+export const fetchlimit = createAsyncThunk("products/fetchLimit", async () => {
+  const res = await axios.get(
+    "https://ez-rent-server-side.vercel.app/FeaturedProperties"
+  );
+  return res.data;
+});
+
+// বুকিং স্ট্যাটাস আপডেট
+export const updateBookingStatus = createAsyncThunk(
+  "products/updateBookingStatus",
+  async ({ bookingId, newStatus }) => {
+    const res = await axios.put(
+      `http://localhost:5000/bookings/${bookingId}`,
+      { status: newStatus }
+    );
+    return res.data;
+  }
+);
+
 
 // get user by email
 export const fetchUserByEmail = createAsyncThunk(
   "products/fetchUserByEmail",
   async (email) => {
-    const res = await axios.get(
-      `http://localhost:5000/users/${email}`
-    );
+    const res = await axios.get(`http://localhost:5000/users/${email}`);
     return res.data;
   }
 );
-
 
 // get all host requests
 export const fetchHostRequests = createAsyncThunk(
@@ -50,14 +67,36 @@ const productSlice = createSlice({
     items: [],
     featured: [],
     user: null,
-    users: [],        // <-- if you want all users later
+    users: [], // <-- if you want all users later
     hostRequests: [], // <-- add this
     loading: false,
     error: null,
   },
-  reducers: {},
+
+  reducers: {
+    updateBookingStatus: (state, action) => {
+      const { bookingId, newStatus } = action.payload;
+      const booking = state.items.find((b) => b.id === bookingId);
+      if (booking) {
+        booking.status = newStatus; // লোকাল স্টেট আপডেট
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
+         //  fetch booking data 
+        .addCase(fetchbooking.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchbooking.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = action.payload;
+      })
+      .addCase(fetchbooking.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
       // 🟢 Fetch All Products
       .addCase(fetchProducts.pending, (state) => {
         state.loading = true;
@@ -108,8 +147,17 @@ const productSlice = createSlice({
       .addCase(fetchUserByEmail.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+      })
+        // Update Status
+      .addCase(updateBookingStatus.fulfilled, (state, action) => {
+        const updated = action.payload;
+        state.items = state.items.map((b) =>
+          b.id === updated.id ? updated : b
+        );
       });
+      
   },
 });
+//  export const { updateBookingStatus } = productSlice.actions;
 
 export default productSlice.reducer;

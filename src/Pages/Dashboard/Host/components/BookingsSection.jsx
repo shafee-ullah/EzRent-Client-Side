@@ -1,13 +1,26 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+
+import React, { useEffect, useState } from "react";
 import { Calendar } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchbooking, updateBookingStatus } from "../../../../redux/PropertieSlice";
+import Loading from "../../../../components/Loading";
 
-const MotionDiv = motion.div;
-
-const BookingsSection = ({ data }) => {
-  const [bookings, setBookings] = useState(data.bookings);
+const BookingsSection = () => {
+  const dispatch = useDispatch();
+  const { items: bookings, loading, error } = useSelector(
+    
+    (state) => state.products
+  );
+ console.log(bookings)
   const [activeTab, setActiveTab] = useState("all");
 
+  // ডাটা ফেচ
+  useEffect(() => {
+    dispatch(fetchbooking());
+  }, [dispatch]);
+
+
+  // ট্যাব সেটিং
   const tabs = [
     { id: "all", label: "All Bookings", count: bookings.length },
     {
@@ -20,7 +33,11 @@ const BookingsSection = ({ data }) => {
       label: "Confirmed",
       count: bookings.filter((b) => b.status === "confirmed").length,
     },
-    { id: "completed", label: "Completed", count: 5 },
+    {
+      id: "completed",
+      label: "Completed",
+      count: bookings.filter((b) => b.status === "completed").length,
+    },
   ];
 
   const filteredBookings =
@@ -41,13 +58,17 @@ const BookingsSection = ({ data }) => {
     return colors[status] || "bg-gray-100 text-gray-800";
   };
 
-  const updateBookingStatus = (bookingId, newStatus) => {
-    setBookings(
-      bookings.map((booking) =>
-        booking.id === bookingId ? { ...booking, status: newStatus } : booking
-      )
-    );
+  const handleStatusUpdate = (bookingId, newStatus) => {
+    dispatch(updateBookingStatus({ bookingId, newStatus }));
   };
+
+  // Loading & Error
+  if (loading) {
+    return <Loading/>;
+  }
+  if (error) {
+    return <p className="text-center text-red-500">Error: {error}</p>;
+  }
 
   return (
     <div className="space-y-6">
@@ -61,6 +82,7 @@ const BookingsSection = ({ data }) => {
         </button>
       </div>
 
+      {/* Tabs */}
       <div className="flex gap-2 border-b border-gray-200 dark:border-gray-700">
         {tabs.map((tab) => (
           <button
@@ -86,6 +108,7 @@ const BookingsSection = ({ data }) => {
         ))}
       </div>
 
+      {/* Table */}
       <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -117,34 +140,35 @@ const BookingsSection = ({ data }) => {
                   <td className="px-6 py-4">
                     <div>
                       <p className="font-medium text-gray-900 dark:text-white">
-                        {booking.guestName}
+                        {booking.name}
                       </p>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {booking.property}
+                        {booking.Location}
                       </p>
                     </div>
                   </td>
                   <td className="px-6 py-4">
                     <div className="text-sm text-gray-900 dark:text-white">
-                      {new Date(booking.checkIn).toLocaleDateString()} -{" "}
-                      {new Date(booking.checkOut).toLocaleDateString()}
+                      {new Date(booking.Checkin).toLocaleDateString()} -{" "}
+                      {new Date(booking.
+                        Checkout).toLocaleDateString()}
                     </div>
                     <div className="text-sm text-gray-500 dark:text-gray-400">
-                      {booking.guestCount} guests
+                      {booking.guest} guests
                     </div>
                   </td>
                   <td className="px-6 py-4">
                     <div className="text-sm font-semibold text-gray-900 dark:text-white">
-                      ৳{booking.totalAmount}
+                      ${booking.price}
                     </div>
                     <div
                       className={`text-xs ${
-                        booking.paymentStatus === "paid"
+                        booking.status === "paid"
                           ? "text-emerald-600 dark:text-emerald-400"
                           : "text-amber-600 dark:text-amber-400"
                       }`}
                     >
-                      {booking.paymentStatus}
+                      {booking.status}
                     </div>
                   </td>
                   <td className="px-6 py-4">
@@ -162,7 +186,7 @@ const BookingsSection = ({ data }) => {
                         <>
                           <button
                             onClick={() =>
-                              updateBookingStatus(booking.id, "confirmed")
+                              handleStatusUpdate(booking.id, "confirmed")
                             }
                             className="px-3 py-1 bg-emerald-500 text-white rounded-lg text-sm font-medium hover:bg-emerald-600 transition-colors"
                           >
@@ -170,7 +194,7 @@ const BookingsSection = ({ data }) => {
                           </button>
                           <button
                             onClick={() =>
-                              updateBookingStatus(booking.id, "cancelled")
+                              handleStatusUpdate(booking.id, "cancelled")
                             }
                             className="px-3 py-1 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 transition-colors"
                           >
@@ -181,7 +205,7 @@ const BookingsSection = ({ data }) => {
                       {booking.status === "confirmed" && (
                         <button
                           onClick={() =>
-                            updateBookingStatus(booking.id, "completed")
+                            handleStatusUpdate(booking.id, "completed")
                           }
                           className="px-3 py-1 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors"
                         >
@@ -194,6 +218,10 @@ const BookingsSection = ({ data }) => {
               ))}
             </tbody>
           </table>
+
+          {filteredBookings.length === 0 && (
+            <p className="text-center text-gray-500 py-6">No bookings found</p>
+          )}
         </div>
       </div>
     </div>
@@ -201,3 +229,5 @@ const BookingsSection = ({ data }) => {
 };
 
 export default BookingsSection;
+
+
