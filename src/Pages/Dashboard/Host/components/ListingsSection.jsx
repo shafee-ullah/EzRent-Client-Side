@@ -49,7 +49,7 @@ const ListingsSection = ({ data }) => {
         </h2>
         <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
           <Plus className="w-4 h-4" />
-          Add New Property
+          Add New Propert
         </button>
       </div>
 

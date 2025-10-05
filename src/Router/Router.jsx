@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router";
+import AddProperty from "../Pages/Home/Testcomponent/AddProperty";
 import RootLayouts from "../Layouts/RootLayouts";
 import Home from "../Pages/Home/Home/Home";
 import FeaturepropertiesDitels from "../Pages/Home/FeaturedProperties/FeaturepropertiesDitels";
@@ -12,7 +13,7 @@ import AuthPage from "../Pages/AuthPage/AuthPage";
 import Error from "../Error/Error";
 import AboutEzRent from "../Pages/About/AboutEzRent";
 import AdminDashboard from "../Pages/Dashboard/AdminDashboard";
-import AddProperty from "../Pages/Dashboard/AddProperty/AddProperty.jsx";
+// import AddProperty from "../Pages/Dashboard/AddProperty/AddProperty.jsx";
 
 const router = createBrowserRouter([
   {
@@ -47,7 +48,7 @@ const router = createBrowserRouter([
         Component: DashboardLayout,
         children: [
           { index: true, Component: GuestDashboard },
-          {path:"AddProperty",Component:AddProperty},
+          { path: "host/AddProperty", Component: AddProperty },
           { path: "guest", Component: GuestDashboard },
           { path: "host", Component: HostDashboard },
           { path: "admin", Component: AdminDashboard },

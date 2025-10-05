@@ -11,11 +11,7 @@ import {
   Search,
   Bell,
   ChevronDown,
-<<<<<<< HEAD
   LogOut,
-=======
-  Shield,
->>>>>>> b21f0b6fda3270c2b2c007a5706e235f20360c99
 } from "lucide-react";
 import OverviewSection from "./Host/components/OverviewSection";
 import ListingsSection from "./Host/components/ListingsSection";
@@ -112,7 +108,6 @@ const mockHostData = {
   },
 };
 
-<<<<<<< HEAD
 // Recharts import for earnings graph
 import {
   LineChart,
@@ -124,9 +119,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Link } from "react-router";
-=======
-// charts handled inside extracted components
->>>>>>> b21f0b6fda3270c2b2c007a5706e235f20360c99
 
 const HostDashboard = () => {
   const [activeSection, setActiveSection] = useState("overview");
@@ -358,12 +350,12 @@ const HostDashboard = () => {
                     </p>
                   </div>
                 </div>
-                {hostData.user.verified && (
+                {/* {hostData.user.verified && (
                   <div className="flex items-center gap-1 mt-2 text-emerald-600 dark:text-emerald-400">
                     <Shield className="w-4 h-4" />
                     <span className="text-sm font-medium">Verified Host</span>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
           </MotionDiv>
@@ -582,13 +574,9 @@ const ListingsSectionInline = ({ data }) => {
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
           My Properties
         </h2>
-<<<<<<< HEAD
         <Link to="/dashboard/host/AddProperty">  <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
-=======
-        <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
->>>>>>> b21f0b6fda3270c2b2c007a5706e235f20360c99
           <Plus className="w-4 h-4" />
-          Add New Property
+          Add New Propertyst
         </button> </Link>
        
       </div>

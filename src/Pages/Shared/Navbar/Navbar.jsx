@@ -22,7 +22,7 @@ const Navbar = () => {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { user, setUser } = useContext(AuthContext);
-
+  console.log(user)
   const handleMenuToggle = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
 

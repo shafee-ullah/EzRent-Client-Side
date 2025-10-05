@@ -1,10 +1,13 @@
 
-import React, {  } from 'react';
+import React, { useContext } from 'react';
 import Swal from 'sweetalert2';
+import { AuthContext } from '../../Context/AuthContext';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { addProperty } from '../../redux/PropertieSlice';
 
 const CheckoutForm = ({data}) => {
+  const {user}=useContext(AuthContext)
+  // console.log(user.email)
   // const dispatch = useDispatch();
   // const {  error } = useSelector((state) => state.products);
   // const [booking,setbooking]=useState()
@@ -17,13 +20,16 @@ const CheckoutForm = ({data}) => {
     const  Bookingdata ={
      Checkin: Updatedata.Checkin,
      Checkout:Updatedata.Checkout,
-    guest : Updatedata.number,
+     guest : Updatedata.number,
     id:data._id,
-    img:data.img,
-    location:data.location,
-    rating:data.rating,
-    price:data.price,
-    title:data.title
+    img:data.image,
+    Location:data.Location,
+    // rating:data.rating,
+    status:"pending",
+    price:data.offerPrice,
+    email:user?.email,
+    name:user?.displayName,
+    title:data.name,
     }
 
 
