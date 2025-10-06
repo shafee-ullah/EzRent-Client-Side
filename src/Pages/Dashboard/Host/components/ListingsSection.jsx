@@ -14,7 +14,7 @@ import {
   
 } from "lucide-react";
 import { Link } from "react-router";
-import { fetchbooking } from "../../../../redux/PropertieSlice";
+import { fetchProducts } from "../../../../redux/PropertieSlice";
 
 
 const MotionDiv = motion.div;
@@ -22,9 +22,9 @@ const MotionDiv = motion.div;
 const ListingsSection = () => {
   const dispatch = useDispatch();
   const { items: properties, loading, error } = useSelector((state) => state.products);
-
+  // console.log(properties)
   useEffect(() => {
-    dispatch(fetchbooking());
+    dispatch(fetchProducts());
   }, [dispatch]);
 
   const togglePropertyStatus = (propertyId, currentStatus) => {
@@ -71,7 +71,7 @@ const ListingsSection = () => {
         {properties && properties.length > 0 ? (
           properties.map((property, index) => (
             <MotionDiv
-              key={property.id}
+              key={property._id}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4, delay: index * 0.08 }}
