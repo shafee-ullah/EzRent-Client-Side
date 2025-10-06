@@ -13,7 +13,7 @@ import AuthPage from "../Pages/AuthPage/AuthPage";
 import Error from "../Error/Error";
 import AboutEzRent from "../Pages/About/AboutEzRent";
 import AdminDashboard from "../Pages/Dashboard/AdminDashboard";
-// import AddProperty from "../Pages/Dashboard/AddProperty/AddProperty.jsx";
+//  import AddProperty from "../Pages/Dashboard/AddProperty/AddProperty.jsx";
 
 const router = createBrowserRouter([
   {
