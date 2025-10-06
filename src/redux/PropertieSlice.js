@@ -84,8 +84,8 @@ const productSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-         //  fetch booking data 
-        .addCase(fetchbooking.pending, (state) => {
+      //  fetch booking data 
+      .addCase(fetchbooking.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -148,14 +148,14 @@ const productSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
-        // Update Status
+      // Update Status
       .addCase(updateBookingStatus.fulfilled, (state, action) => {
         const updated = action.payload;
         state.items = state.items.map((b) =>
           b.id === updated.id ? updated : b
         );
       });
-      
+
   },
 });
 //  export const { updateBookingStatus } = productSlice.actions;
