@@ -42,13 +42,13 @@ const router = createBrowserRouter([
         path: "BrowseProperties",
         Component: BrowseProperties,
       },
-      
+
       {
         path: "dashboard",
         Component: DashboardLayout,
         children: [
           { index: true, Component: GuestDashboard },
-          { path: "host/AddProperty", Component: AddProperty },
+          { path: "host/AddProperty", Component: AddProperty},
           { path: "guest", Component: GuestDashboard },
           { path: "host", Component: HostDashboard },
           { path: "admin", Component: AdminDashboard },

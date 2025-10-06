@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+// Updated ListingsSection.jsx
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { motion } from "framer-motion";
 import {
@@ -11,32 +12,30 @@ import {
   Car,
   Snowflake,
   Coffee,
-  
 } from "lucide-react";
-import { Link } from "react-router";
-import { fetchProducts } from "../../../../redux/PropertieSlice";
-
+import { fetchbooking } from "../../../../redux/PropertieSlice";
+import AddPropertyModal from "../../AddProperty/AddProperty";
 
 const MotionDiv = motion.div;
 
 const ListingsSection = () => {
   const dispatch = useDispatch();
   const { items: properties, loading, error } = useSelector((state) => state.products);
-  // console.log(properties)
+  const [isAddPropertyModalOpen, setIsAddPropertyModalOpen] = useState(false);
+
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+    if (!properties.length) {
+      dispatch(fetchbooking());
+    }
+  }, [dispatch, properties.length]);
 
   const togglePropertyStatus = (propertyId, currentStatus) => {
-    // Dispatch an async thunk to update property status in backend and Redux
     const newStatus = currentStatus === "active" ? "inactive" : "active";
     dispatch({
       type: "products/updateBookingStatus/pending",
       meta: {},
       payload: { bookingId: propertyId, newStatus }
     });
-    // If you have an exported updateBookingStatus thunk, use:
-    // dispatch(updateBookingStatus({ bookingId: propertyId, newStatus }));
   };
 
   const getAmenityIcon = (amenity) => {
@@ -50,23 +49,45 @@ const ListingsSection = () => {
     return icons[amenity] || <Plus className="w-4 h-4" />;
   };
 
+  const handlePropertyAdded = () => {
+    // Refresh the properties list
+    dispatch(fetchbooking());
+  };
+
   return (
     <div className="space-y-6">
+      {/* Add Property Modal */}
+      <AddPropertyModal
+        isOpen={isAddPropertyModalOpen}
+        onClose={() => setIsAddPropertyModalOpen(false)}
+        onPropertyAdded={handlePropertyAdded}
+      />
+
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
           My Properties
         </h2>
-  <Link to="/dashboard/host/AddProperty">
-         <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
+        <button
+          onClick={() => setIsAddPropertyModalOpen(true)}
+          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
+        >
           <Plus className="w-4 h-4" />
           Add New Property
         </button>
-        </Link>
-       
       </div>
 
-      {loading && <div>Loading...</div>}
-      {error && <div>Error: {error}</div>}
+      {loading && (
+        <div className="flex justify-center py-8">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500"></div>
+        </div>
+      )}
+
+      {error && (
+        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 text-red-700 dark:text-red-400">
+          Error: {error}
+        </div>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {properties && properties.length > 0 ? (
           properties.map((property, index) => (
@@ -80,24 +101,24 @@ const ListingsSection = () => {
             >
               <div className="relative">
                 <img
-                  src={property.img || "https://placehold.co/400x200?text=No+Image"}
-                  alt={property.name || "Property"}
+                  src={property.img || property.image || "https://placehold.co/400x200?text=No+Image"}
+                  alt={property.name || property.title || "Property"}
                   className="w-full h-44 object-cover bg-gray-100"
                 />
                 <span
-                  className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold ${
-                    property.status === "active"
+                  className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold ${property.status === "active"
                       ? "bg-emerald-500 text-white"
                       : "bg-gray-400 text-white"
-                  }`}
+                    }`}
                 >
                   {property.status === "active" ? "Active" : "Inactive"}
                 </span>
               </div>
+
               <div className="p-5 flex-1 flex flex-col justify-between">
                 <div>
                   <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-1">
-                    {property.title || "Untitled Property"}
+                    {property.title || property.name || "Untitled Property"}
                   </h3>
                   <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 mb-2">
                     <MapPin className="w-4 h-4" />
@@ -105,7 +126,7 @@ const ListingsSection = () => {
                   </div>
                   <div className="flex items-center gap-2 mb-2">
                     <Star className="w-4 h-4 fill-current text-amber-500" />
-                    <span className="text-sm font-medium">{property.rating || "N/A"}</span>
+                    <span className="text-sm font-medium">{property.rating || property.reating || "N/A"}</span>
                   </div>
                   <div className="flex flex-wrap gap-2 mb-3">
                     {property.amenities && property.amenities.length > 0 ? (
@@ -122,6 +143,7 @@ const ListingsSection = () => {
                     )}
                   </div>
                 </div>
+
                 <div className="flex items-center justify-between mt-2">
                   <span className="text-xl font-bold text-emerald-600 dark:text-emerald-400">
                     ${property.price || "--"}
@@ -131,14 +153,14 @@ const ListingsSection = () => {
                     {property.bookings ? `${property.bookings} bookings` : "No bookings"}
                   </span>
                 </div>
+
                 <div className="flex items-center gap-2 mt-4">
                   <button
-                    onClick={() => togglePropertyStatus(property.id, property.status)}
-                    className={`flex-1 py-2 px-3 rounded-lg text-sm font-semibold transition-colors ${
-                      property.status === "active"
+                    onClick={() => togglePropertyStatus(property.id || property._id, property.status)}
+                    className={`flex-1 py-2 px-3 rounded-lg text-sm font-semibold transition-colors ${property.status === "active"
                         ? "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
                         : "bg-emerald-100 text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300"
-                    }`}
+                      }`}
                   >
                     {property.status === "active" ? "Deactivate" : "Activate"}
                   </button>
@@ -153,7 +175,21 @@ const ListingsSection = () => {
             </MotionDiv>
           ))
         ) : (
-          <div className="col-span-3 text-center text-gray-400 py-12">No properties found.</div>
+          !loading && (
+            <div className="col-span-3 text-center py-12">
+              <div className="text-gray-400 dark:text-gray-500 mb-4">
+                <Plus className="w-16 h-16 mx-auto mb-3 opacity-50" />
+                <p className="text-lg">No properties found</p>
+                <p className="text-sm mt-1">Add your first property to get started</p>
+              </div>
+              <button
+                onClick={() => setIsAddPropertyModalOpen(true)}
+                className="px-6 py-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
+              >
+                Add Your First Property
+              </button>
+            </div>
+          )
         )}
       </div>
     </div>

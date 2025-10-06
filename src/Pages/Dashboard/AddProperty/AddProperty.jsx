@@ -1,217 +1,338 @@
+// components/AddPropertyModal.jsx
 import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { X } from "lucide-react";
 import Swal from "sweetalert2";
 
-export default function AddProperty() {
+const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded }) => {
   const [product, setProduct] = useState({
     name: "",
     description: "",
     category: "",
-    services : "",
+    services: "",
     price: "",
     offerPrice: "",
     Location: "",
-    guest : "",
+    guest: "",
     reating: "",
     image: null,
   });
 
-  // Image handle
   const handleImageChange = (e) => {
     setProduct({ ...product, image: e.target.files[0] });
   };
 
-  // Input handle
   const handleChange = (e) => {
     setProduct({ ...product, [e.target.name]: e.target.value });
   };
 
- // Submit handle
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (!product.image) {
-    Swal.fire("Please upload an image first!");
-    return;
-  }
-
-  // === 1. Image upload to imgbb ===
-  const formData = new FormData();
-  formData.append("image", product.image);
-
-  const imgbbAPI = "https://api.imgbb.com/1/upload?key=e45319e6715cdaa4b72e32898ac377b1";
-
-  try {
-    const res = await fetch(imgbbAPI, {
-      method: "POST",
-      body: formData,
-    });
-
-    const imgData = await res.json();
-
-    if (imgData.success) {
-      // image link
-      const imageUrl = imgData.data.url;
-
-      // === 2. Final product data ===
-      const newProduct = {
-        ...product,
-        image: imageUrl, // replace file with url
-      };
-
-      // === 3. Save to Database ===
-      const dbRes = await fetch("http://localhost:5000/AddProperty", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(newProduct),
-      });
-
-      const dbData = await dbRes.json();
-      console.log("Saved Data:", dbData);
-
-      Swal.fire({
-        icon: "success",
-        title: "Property Added Successfully!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+    if (!product.image) {
+      Swal.fire("Please upload an image first!");
+      return;
     }
-  } catch (error) {
-    console.error("Upload error:", error);
-    Swal.fire("Error!", "Something went wrong while uploading.", "error");
-  }
-};
+
+    const formData = new FormData();
+    formData.append("image", product.image);
+
+    const imgbbAPI = "https://api.imgbb.com/1/upload?key=e45319e6715cdaa4b72e32898ac377b1";
+
+    try {
+      const res = await fetch(imgbbAPI, {
+        method: "POST",
+        body: formData,
+      });
+
+      const imgData = await res.json();
+
+      if (imgData.success) {
+        const imageUrl = imgData.data.url;
+        const newProduct = {
+          ...product,
+          image: imageUrl,
+        };
+
+        const dbRes = await fetch("http://localhost:5000/AddProperty", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(newProduct),
+        });
+
+        const dbData = await dbRes.json();
+        console.log("Saved Data:", dbData);
+
+        Swal.fire({
+          icon: "success",
+          title: "Property Added Successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        // Reset form
+        setProduct({
+          name: "",
+          description: "",
+          category: "",
+          services: "",
+          price: "",
+          offerPrice: "",
+          Location: "",
+          guest: "",
+          reating: "",
+          image: null,
+        });
+
+        // Close modal and refresh properties
+        onClose();
+        if (onPropertyAdded) {
+          onPropertyAdded();
+        }
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      Swal.fire("Error!", "Something went wrong while uploading.", "error");
+    }
+  };
+
+  if (!isOpen) return null;
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white dark:bg-gray-900 shadow-md rounded-xl mt-10">
-      <h2 className="text-4xl font-bold mb-4 text-center">Add property</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        
-        {/* Image Upload */}
-        <div>
-          <label className="block font-medium mb-1">property Image</label>
-          <label className="border-2 border-dashed rounded-md p-4 h-40 flex items-center justify-center cursor-pointer w-full">
-            <input
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleImageChange}
-            />
-            {product.image ? (
-              <img
-                src={URL.createObjectURL(product.image)}
-                alt="preview"
-                className="w-full h-full object-cover rounded-md"
+    <div className="fixed inset-0 z-50 flex items-center justify-center  bg-opacity-50 backdrop-blur-sm">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.9 }}
+        className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+            Add New Property
+          </h2>
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+          {/* Image Upload */}
+          <div>
+            <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+              Property Image
+            </label>
+            <label className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-6 h-48 flex flex-col items-center justify-center cursor-pointer w-full hover:border-emerald-400 transition-colors">
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageChange}
               />
-            ) : (
-              <span className=" text-sm">Upload</span>
-            )}
-          </label>
-        </div>
-
-        {/* Product Name */}
-        <div>
-          <label className="block font-medium">property Name</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="Type here"
-            value={product.name}
-            onChange={handleChange}
-            className="w-full border rounded-md p-2"
-          />
-        </div>
-
-        {/* Product Description */}
-        <div>
-          <label className="block font-medium">property  Description</label>
-          <textarea
-            name="description"
-            placeholder="Type here"
-            value={product.description}
-            onChange={handleChange}
-            className="w-full border rounded-md p-2 h-24"
-          ></textarea>
-        </div>
-
-        {/* Category, Price, Offer Price */}
-        <div className="grid grid-cols-3 gap-4">
-          <div>
-            <label className="block font-medium">Category</label>
-            <select
-              name="category"
-              value={product.category}
-              onChange={handleChange}
-              className="w-full border dark:bg-gray-900 rounded-md p-2"
-            >
-              <option value="All Types">All Types</option>
-              <option value="House">House</option>
-              <option value="caben">caben</option>
-              <option value="Apartment">Apartment</option>
-            </select>
+              {product.image ? (
+                <div className="relative w-full h-full">
+                  <img
+                    src={URL.createObjectURL(product.image)}
+                    alt="preview"
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                  <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 transition-all rounded-lg flex items-center justify-center">
+                    <span className="text-white opacity-0 hover:opacity-100 transition-opacity">
+                      Change Image
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center">
+                  <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <span className="text-2xl">📷</span>
+                  </div>
+                  <span className="text-gray-600 dark:text-gray-400 font-medium">
+                    Click to upload property image
+                  </span>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    PNG, JPG, JPEG up to 5MB
+                  </p>
+                </div>
+              )}
+            </label>
           </div>
+
+          {/* Property Name */}
           <div>
-            <label className="block font-medium"> Price</label>
-            <input
-              type="number"
-              name="price"
-              value={product.price}
-              onChange={handleChange}
-              className="w-full border rounded-md p-2"
-            />
-          </div>
-          <div>
-            <label className="block font-medium">Offer Price</label>
-            <input
-              type="number"
-              name="offerPrice"
-              value={product.offerPrice}
-              onChange={handleChange}
-              className="w-full border rounded-md p-2"
-            />
-          </div>
-          <div>
-            <label className="block font-medium">Location</label>
+            <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+              Property Name
+            </label>
             <input
               type="text"
-              name="Location"
-              value={product.Location}
+              name="name"
+              placeholder="Enter property name"
+              value={product.name}
               onChange={handleChange}
-              className="w-full border rounded-md p-2"
+              required
+              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
             />
           </div>
-          <div>
-            <label className="block font-medium">guest</label>
-            <input
-              type="number"
-              name="guest"
-              value={product.guest}
-              onChange={handleChange}
-              className="w-full border rounded-md p-2"
-            />
-          </div>
-          <div>
-            <label className="block font-medium">reating</label>
-            <input
-              type="number"
-              name="reating"
-              value={product.reating}
-              onChange={handleChange}
-              className="w-full border rounded-md p-2"
-            />
-          </div>
-         
-        </div>
 
-        {/* Submit Button */}
-        <button
-          type="submit"
-          className="w-full  bg-gradient-to-r from-emerald-500 to-green-500 text-white py-2 rounded-3xl font-semibold hover:bg-orange-700"
-        >
-          ADD
-        </button>
-      </form>
+          {/* Property Description */}
+          <div>
+            <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+              Property Description
+            </label>
+            <textarea
+              name="description"
+              placeholder="Describe your property..."
+              value={product.description}
+              onChange={handleChange}
+              required
+              rows={4}
+              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all resize-none"
+            ></textarea>
+          </div>
+
+          {/* Grid of Inputs */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+                Category
+              </label>
+              <select
+                name="category"
+                value={product.category}
+                onChange={handleChange}
+                required
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+              >
+                <option value="">Select Category</option>
+                <option value="House">House</option>
+                <option value="Cabin">Cabin</option>
+                <option value="Apartment">Apartment</option>
+                <option value="Villa">Villa</option>
+                <option value="Studio">Studio</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+                Price per Night ($)
+              </label>
+              <input
+                type="number"
+                name="price"
+                value={product.price}
+                onChange={handleChange}
+                required
+                min="0"
+                placeholder="0.00"
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+                Offer Price ($)
+              </label>
+              <input
+                type="number"
+                name="offerPrice"
+                value={product.offerPrice}
+                onChange={handleChange}
+                min="0"
+                placeholder="0.00"
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+                Location
+              </label>
+              <input
+                type="text"
+                name="Location"
+                value={product.Location}
+                onChange={handleChange}
+                required
+                placeholder="Enter location"
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+                Maximum Guests
+              </label>
+              <input
+                type="number"
+                name="guest"
+                value={product.guest}
+                onChange={handleChange}
+                required
+                min="1"
+                placeholder="0"
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+                Rating
+              </label>
+              <input
+                type="number"
+                name="reating"
+                value={product.reating}
+                onChange={handleChange}
+                min="0"
+                max="5"
+                step="0.1"
+                placeholder="0.0"
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+              />
+            </div>
+          </div>
+
+          {/* Services */}
+          <div>
+            <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+              Services (comma separated)
+            </label>
+            <input
+              type="text"
+              name="services"
+              value={product.services}
+              onChange={handleChange}
+              placeholder="e.g., WiFi, Parking, AC, Kitchen"
+              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+            />
+          </div>
+
+          {/* Buttons */}
+          <div className="flex gap-3 pt-4">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 py-3 px-6 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="flex-1 py-3 px-6 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
+            >
+              Add Property
+            </button>
+          </div>
+        </form>
+      </motion.div>
     </div>
   );
-}
+};
+
+export default AddPropertyModal;
