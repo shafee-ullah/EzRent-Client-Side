@@ -30,17 +30,7 @@ export const fetchlimit = createAsyncThunk("products/fetchLimit", async () => {
   return res.data;
 });
 
-// বুকিং স্ট্যাটাস আপডেট
-export const updateBookingStatus = createAsyncThunk(
-  "products/updateBookingStatus",
-  async ({ bookingId, newStatus }) => {
-    const res = await axios.put(
-      `http://localhost:5000/bookings/${bookingId}`,
-      { status: newStatus }
-    );
-    return res.data;
-  }
-);
+
 
 
 // get user by email
@@ -148,13 +138,7 @@ const productSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
-      // Update Status
-      .addCase(updateBookingStatus.fulfilled, (state, action) => {
-        const updated = action.payload;
-        state.items = state.items.map((b) =>
-          b.id === updated.id ? updated : b
-        );
-      });
+    
 
   },
 });

@@ -130,7 +130,7 @@ const HostDashboard = () => {
 
   const dispatch = useDispatch();
   const { user, loading, error } = useSelector((state) => state.products);
-  console.log('auth user', user);
+  // console.log('auth user', user);
 
 
   useEffect(() => {
@@ -143,7 +143,7 @@ const HostDashboard = () => {
 
 
 
-  console.log(user);
+  // console.log(user);
 
   useEffect(() => {
     if (authUser?.email) {

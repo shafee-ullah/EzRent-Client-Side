@@ -2,23 +2,21 @@
 import React, { useEffect, useState } from "react";
 import { Calendar } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchbooking, updateBookingStatus } from "../../../../redux/PropertieSlice";
+import { fetchbooking, } from "../../../../redux/PropertieSlice";
 import Loading from "../../../../components/Loading";
 
 const BookingsSection = () => {
   const dispatch = useDispatch();
+  // dispatch already declared above
   const { items: bookings, loading, error } = useSelector(
-    
     (state) => state.products
   );
- console.log(bookings)
+  console.log(bookings)
   const [activeTab, setActiveTab] = useState("all");
 
-  // ডাটা ফেচ
   useEffect(() => {
-    dispatch(fetchbooking());
+    dispatch(fetchbooking());      // then use
   }, [dispatch]);
-
 
   // ট্যাব সেটিং
   const tabs = [
@@ -58,8 +56,14 @@ const BookingsSection = () => {
     return colors[status] || "bg-gray-100 text-gray-800";
   };
 
+  // const dispatch = useDispatch();
   const handleStatusUpdate = (bookingId, newStatus) => {
-    dispatch(updateBookingStatus({ bookingId, newStatus }));
+    dispatch({
+      type: "products/updateBookingStatus",
+      payload: { bookingId, newStatus }
+    });
+    // If you have updateBookingStatus exported from slice, use:
+    // dispatch(updateBookingStatus({ bookingId, newStatus }));
   };
 
   // Loading & Error
@@ -134,7 +138,7 @@ const BookingsSection = () => {
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
               {filteredBookings.map((booking) => (
                 <tr
-                  key={booking.id}
+                  key={booking._id}
                   className="hover:bg-gray-50 dark:hover:bg-gray-700/50"
                 >
                   <td className="px-6 py-4">
