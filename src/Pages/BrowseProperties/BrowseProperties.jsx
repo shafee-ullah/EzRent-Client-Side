@@ -166,7 +166,7 @@ const BrowseProperties = () => {
                     <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed ">
                       {expanded === propertie.id
                         ? propertie?.description
-                        : `${propertie?.description.slice(0, 65)}...`}
+                        : `${propertie?.description?.slice(0, 65)}...`}
                       <button
                         onClick={() =>
                           setExpanded(
