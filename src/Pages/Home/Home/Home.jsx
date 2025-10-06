@@ -7,7 +7,7 @@ import Testimonials from "../Testimonials/Testimonials";
 import HowItWorks from "../HowItWorks/HowItWorks";
 import BlogSection from "../BlogSection/BlogSection";
 import Newsletter from "../Newsletter/Newsletter";
- import AddProperty from "../../Dashboard/AddProperty/AddProperty";
+ 
 
 
 // import JourneySection from '../JourneySection/JourneySection';
@@ -17,7 +17,6 @@ const Home = () => {
       <Banner></Banner>
       <FeaturedPropertiesCard></FeaturedPropertiesCard>
       <PopularDestinations></PopularDestinations>
-       {/* <AddProperty></AddProperty> */}
       <HowItWorks></HowItWorks>
       <WhyChooseUs></WhyChooseUs>
       <Testimonials></Testimonials>

@@ -137,7 +137,7 @@ const FeaturedPropertiesCard = () => {
             </div>
 
             {/* Card Content */}
-            <div className="p-4 space-y-0 bg-white dark:bg-gray-900 rounded-2xl  shadow-sm border border-gray-100 dark:border-gray-800 group-hover:shadow-lg transition-all duration-300  overflow-hidden">
+            <div className="p-4 space-y-0  dark:bg-gray-900 rounded-2xl  shadow-sm border border-gray-100 dark:border-gray-800 group-hover:shadow-lg transition-all duration-300  overflow-hidden">
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-1 font-medium text-gray-600 text-sm">
                   <CiLocationOn size={18} className="text-red-500" />
@@ -169,13 +169,13 @@ const FeaturedPropertiesCard = () => {
                 </button>
               </p>
 
-           <div className="flex justify-between">
+           <div className="flex justify-between ">
                <div className="flex items-center gap-2 text-gray-700 text-smdark:text-[#ffffff]">
-                <IoMdContacts size={18} />
-                <p>{propertie.guest} guests</p>
+                <IoMdContacts className="dark:text-white" size={18} />
+                <p className="dark:text-white">{propertie.guest} guests</p>
               </div>
               <div className="flex items-center gap-2 text-gray-700 text-smdark:text-[#ffffff]">
-                <MdCategory size={18} />
+                <MdCategory className="dark:text-white" size={18} />
                 <p className="text-green-400">{propertie.category} </p>
               </div>
            </div>
@@ -183,7 +183,7 @@ const FeaturedPropertiesCard = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.9 }}
-                  className="mt-3 w-full py-2.5 flex justify-center items-center gap-2 rounded-full font-semibold bg-gradient-to-r from-emerald-500 to-green-500 text-white hover:brightness-110 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--btn-primary)]/70"
+                  className="mt-3 w-full py-2.5  flex justify-center items-center gap-2 rounded-full font-semibold bg-gradient-to-r from-emerald-500 to-green-500 text-white hover:brightness-110 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--btn-primary)]/70"
                 >
                   <CiCalendar size={18} /> Quick Book
                 </motion.button>

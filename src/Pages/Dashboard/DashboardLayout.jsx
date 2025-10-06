@@ -30,12 +30,12 @@ const MotionDiv = motion.div;
 const DashboardLayout = () => {
   const { user: authUser } = use(AuthContext);
   const dispatch = useDispatch();
-  console.log(authUser);
+  // console.log(authUser);
 
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const { user, loading, } = useSelector((state) => state.products);
-  console.log("this is db user", user);
+  // console.log("this is db user", user);
 
 
   const [formData, setFormData] = useState({
