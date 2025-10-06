@@ -15,8 +15,11 @@ const BookingsSection = () => {
   const [activeTab, setActiveTab] = useState("all");
 
   useEffect(() => {
-    dispatch(fetchbooking());      // then use
-  }, [dispatch]);
+    if (!bookings.length) {
+      dispatch(fetchbooking());
+    }
+  }, []); 
+
 
   // ট্যাব সেটিং
   const tabs = [
@@ -68,7 +71,7 @@ const BookingsSection = () => {
 
   // Loading & Error
   if (loading) {
-    return <Loading/>;
+    return <Loading />;
   }
   if (error) {
     return <p className="text-center text-red-500">Error: {error}</p>;
@@ -92,19 +95,17 @@ const BookingsSection = () => {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center gap-2 px-4 py-3 border-b-2 transition-all duration-300 ${
-              activeTab === tab.id
+            className={`flex items-center gap-2 px-4 py-3 border-b-2 transition-all duration-300 ${activeTab === tab.id
                 ? "border-emerald-500 text-emerald-600 dark:text-emerald-400 font-semibold"
                 : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-            }`}
+              }`}
           >
             {tab.label}
             <span
-              className={`px-2 py-1 rounded-full text-xs ${
-                activeTab === tab.id
+              className={`px-2 py-1 rounded-full text-xs ${activeTab === tab.id
                   ? "bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-300"
                   : "bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400"
-              }`}
+                }`}
             >
               {tab.count}
             </span>
@@ -166,11 +167,10 @@ const BookingsSection = () => {
                       ${booking.price}
                     </div>
                     <div
-                      className={`text-xs ${
-                        booking.status === "paid"
+                      className={`text-xs ${booking.status === "paid"
                           ? "text-emerald-600 dark:text-emerald-400"
                           : "text-amber-600 dark:text-amber-400"
-                      }`}
+                        }`}
                     >
                       {booking.status}
                     </div>

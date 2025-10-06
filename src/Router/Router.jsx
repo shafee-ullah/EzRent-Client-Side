@@ -13,6 +13,7 @@ import AuthPage from "../Pages/AuthPage/AuthPage";
 import Error from "../Error/Error";
 import AboutEzRent from "../Pages/About/AboutEzRent";
 import AdminDashboard from "../Pages/Dashboard/AdminDashboard";
+import PaymentPage from "../Pages/PaymentPage/PaymentPage";
 //  import AddProperty from "../Pages/Dashboard/AddProperty/AddProperty.jsx";
 
 const router = createBrowserRouter([
@@ -42,7 +43,11 @@ const router = createBrowserRouter([
         path: "BrowseProperties",
         Component: BrowseProperties,
       },
-      
+      {
+        path: "payment",
+        Component: PaymentPage,
+      },
+
       {
         path: "dashboard",
         Component: DashboardLayout,
