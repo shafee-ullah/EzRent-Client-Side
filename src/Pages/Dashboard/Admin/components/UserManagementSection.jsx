@@ -1,19 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
-import {
-  Shield,
-  Download,
-  XCircle,
-  Home,
-  User,
-} from "lucide-react";
+import { Shield, Download, XCircle, Home, User } from "lucide-react";
 
 const MotionDiv = motion.div;
 
-const UserManagementSection = ({ data }) => {
-  const [users, setUsers] = useState(data || []);
+const UserManagementSection = () => {
+  const [users, setUsers] = useState([]);
   const [filter, setFilter] = useState("all");
+
+  // Fetch users from backend (usersCollection)
+  useEffect(() => {
+    fetch("http://localhost:5000/users")
+      .then((res) => res.json())
+      .then((data) => setUsers(data))
+      .catch((err) => console.error(err));
+  }, []);
 
   const handleUpdateRole = async (id, role) => {
     try {
@@ -23,18 +25,19 @@ const UserManagementSection = ({ data }) => {
         body: JSON.stringify({ role }),
       });
 
+      const data = await res.json();
+
       if (res.ok) {
-        // update frontend state
         setUsers((prev) =>
           prev.map((u) => (u._id === id ? { ...u, role } : u))
         );
-        toast.success(`Role updated to ${role}`);
+        toast.success(`✅ Role updated to ${role}`);
       } else {
-        toast.error("Failed to update role");
+        toast.error(`❌ ${data.message}`);
       }
     } catch (error) {
       console.error(error);
-      toast.error("Error updating role");
+      toast.error("⚠️ Error updating role");
     }
   };
 
@@ -46,27 +49,26 @@ const UserManagementSection = ({ data }) => {
         body: JSON.stringify({ status }),
       });
 
+      const data = await res.json();
+
       if (res.ok) {
-        // update frontend state
         setUsers((prev) =>
           prev.map((u) => (u._id === id ? { ...u, status } : u))
         );
         toast.success(`Status updated to ${status}`);
       } else {
-        toast.error("Failed to update status");
+        toast.error(`❌ ${data.message}`);
       }
     } catch (error) {
       console.error(error);
-      toast.error("Error updating status");
+      toast.error("⚠️ Error updating status");
     }
   };
 
   const getStatusColor = (status) => {
     const colors = {
-      active:
-        "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300",
-      pending:
-        "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300",
+      active: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300",
+      pending: "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300",
       suspended: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
       rejected: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
     };
@@ -79,14 +81,10 @@ const UserManagementSection = ({ data }) => {
       : "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300";
   };
 
-  // Filter users if needed
   const filteredUsers =
     filter === "all"
       ? users
-      : users.filter(
-        (u) =>
-          u.role === filter || u.status === filter
-      );
+      : users.filter((u) => u.role === filter || u.status === filter);
 
   return (
     <div className="space-y-6">
@@ -129,7 +127,10 @@ const UserManagementSection = ({ data }) => {
             </thead>
             <tbody>
               {filteredUsers.map((user) => (
-                <tr key={user._id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                <tr
+                  key={user._id}
+                  className="hover:bg-gray-50 dark:hover:bg-gray-700/50"
+                >
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       {user?.photoURL ? (
@@ -181,14 +182,14 @@ const UserManagementSection = ({ data }) => {
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-6">
                       <button
-                        onClick={() => handleUpdateRole(user._id, "host")}
+                        onClick={() => handleUpdateRole(user._id, "Host")}
                         className="flex flex-col items-center text-emerald-600 hover:text-emerald-700"
                       >
                         <Home className="w-4 h-4" />
                         <span className="text-xs font-medium">Host</span>
                       </button>
                       <button
-                        onClick={() => handleUpdateRole(user._id, "guest")}
+                        onClick={() => handleUpdateRole(user._id, "Guest")}
                         className="flex flex-col items-center text-blue-600 hover:text-blue-700"
                       >
                         <User className="w-4 h-4" />

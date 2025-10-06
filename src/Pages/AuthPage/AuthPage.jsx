@@ -168,10 +168,12 @@ const AuthPage = () => {
         const userCredential = await logInUser(email, formData.password);
 
         if (!userCredential.user.emailVerified) {
-          toast.success("Please verify your email before logging in.");
-        } else {
           toast.success(`Welcome back ${userCredential.user.email}`);
-          navigate("/dashboard");
+          navigate("/");
+        } else {
+          navigate("/");
+          toast.success(`Welcome back ${userCredential.user.email}`);
+
         }
       } else {
         // Firebase registration
@@ -187,11 +189,11 @@ const AuthPage = () => {
           role: "Guest",
         };
         await axios.post("http://localhost:5000/users", userData);
-
+        navigate("/");
         toast.success(
           `Registration successful. Verification email sent to ${userCredential.user.email}`
         );
-        navigate("/dashboard");
+
 
         setIsLogin(true);
       }
@@ -237,15 +239,16 @@ const AuthPage = () => {
 
       // POST to backend
       await axios.post("http://localhost:5000/users", userData);
-
+      navigate("/");
       toast.success(`Welcome ${user.displayName || user.email}`);
-      navigate("/dashboard");
+
     } catch (error) {
       if (error.code === "auth/account-exists-with-different-credential") {
         toast.error(
           "This email is already registered with a different provider. Please use the original provider to login."
         );
       } else {
+        navigate("/");
         toast.error(error.message);
       }
     } finally {
