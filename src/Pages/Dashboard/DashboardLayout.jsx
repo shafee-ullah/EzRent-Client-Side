@@ -1,4 +1,4 @@
-import React, { use, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -18,30 +18,26 @@ import {
   Clock
 } from "lucide-react";
 import { AuthContext } from "../../Context/AuthContext";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import GuestDashboard from "./GuestDashboard";
 import HostDashboard from "./HostDashboard";
 import AdminDashboard from "./AdminDashboard";
+import { fetchUserByEmail } from "../../redux/PropertieSlice";
 
 const MotionDiv = motion.div;
 
 const DashboardLayout = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
   const { user: authUser } = use(AuthContext);
+  const dispatch = useDispatch();
   console.log(authUser);
 
   const [notificationsOpen, setNotificationsOpen] = useState(false);
-  // const [profileOpen, setProfileOpen] = useState(false);
-
-  const isGuest = location.pathname.includes("/dashboard/guest");
-  const isHost = location.pathname.includes("/dashboard/host");
-  const isAdmin = location.pathname.includes("/dashboard/admin");
-
   const [open, setOpen] = useState(false);
-  const { user } = useSelector((state) => state.products);
-  console.log(user);
+  const { user, loading, } = useSelector((state) => state.products);
+  console.log("this is db user", user);
+
+
   const [formData, setFormData] = useState({
     name: user?.name,
     number: "",
@@ -67,18 +63,6 @@ const DashboardLayout = () => {
     setOpen(false);
   };
 
-  const handleTab = (tab) => {
-    navigate(tab === "guest" ? "/dashboard/guest" : tab === "host" ? "/dashboard/host" : "/dashboard/admin");
-  };
-
-  // Mock user data
-  const userData = {
-    name: "Ahmad Rahman",
-    email: "ahmad@example.com",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop",
-    role: isGuest ? "Guest" : isHost ? "Host" : isAdmin ? "Admin" : "Guest",
-    verified: true
-  };
 
   // Mock notifications
   const notifications = [
@@ -88,6 +72,20 @@ const DashboardLayout = () => {
   ];
 
   const unreadCount = notifications.filter(n => !n.read).length;
+
+
+
+
+  useEffect(() => {
+    if (authUser?.email && !user?._id && !loading) {
+      dispatch(fetchUserByEmail(authUser.email));
+    }
+  }, [authUser?.email, user?._id, loading, dispatch]);
+
+
+
+  // if (loading) return <p>Loading...</p>;
+  // if (error) return <p>{error}</p>;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50/50 via-white to-green-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-emerald-900/10">
@@ -108,11 +106,11 @@ const DashboardLayout = () => {
           {/* Welcome Section - More Personal */}
           <div className="flex-1">
             <div className="flex items-center gap-4">
-            
+
 
               <div>
                 <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white">
-                  Welcome back, 
+                  Welcome back,
                 </h1>
                 <p className="text-gray-600 dark:text-gray-300 mt-1 text-lg flex items-center gap-2">
                   <span>Ready to explore today's opportunities</span>
