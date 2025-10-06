@@ -246,69 +246,7 @@ const AdminDashboard = () => {
               </button>
             </div>
 
-            {/* Profile Dropdown */}
-            {/* <div className="relative">
-              <button
-                onClick={() => setProfileOpen(!profileOpen)}
-                className="flex items-center gap-3 p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl hover:shadow-md transition-all duration-300 hover:border-emerald-300 dark:hover:border-emerald-600"
-              >
-                <img
-                  src={adminData.user.avatar}
-                  alt={adminData.user.name}
-                  className="w-8 h-8 rounded-full"
-                />
-                <div className="hidden sm:block text-left">
-                  <p className="text-sm font-medium text-gray-900 dark:text-white">
-                    {adminData.user.name}
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    Administrator
-                  </p>
-                </div>
-                <ChevronDown className="w-4 h-4 text-gray-400" />
-              </button>
-
-              {profileOpen && (
-                <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 z-50">
-                  <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-                    <div className="flex items-center gap-3">
-                      <img
-                        src={adminData.user.avatar}
-                        alt={adminData.user.name}
-                        className="w-12 h-12 rounded-full"
-                      />
-                      <div>
-                        <p className="font-semibold text-gray-900 dark:text-white">
-                          {adminData.user.name}
-                        </p>
-                        <div className="flex items-center gap-1 mt-1">
-                          <span className="text-sm text-gray-500 dark:text-gray-400">
-                            {adminData.user.role}
-                          </span>
-                          {adminData.user.verified && (
-                            <Shield className="w-4 h-4 text-emerald-500" />
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-2">
-                    <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                      <Users className="w-4 h-4" />
-                      Admin Profile
-                    </button>
-                    <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                      <Settings className="w-4 h-4" />
-                      System Settings
-                    </button>
-                    <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
-                      <LogOut className="w-4 h-4" />
-                      Sign Out
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div> */}
+  
           </div>
         </MotionDiv>
 
