@@ -24,8 +24,11 @@ const ListingsSection = () => {
   const { items: properties, loading, error } = useSelector((state) => state.products);
   // console.log(properties)
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+   if(!properties.length ){
+     dispatch(fetchProducts());
+   }
+    // Only run once on mount
+  }, []);
 
   const togglePropertyStatus = (propertyId, currentStatus) => {
     // Dispatch an async thunk to update property status in backend and Redux
@@ -80,7 +83,7 @@ const ListingsSection = () => {
             >
               <div className="relative">
                 <img
-                  src={property.img || "https://placehold.co/400x200?text=No+Image"}
+                  src={property.image || "https://placehold.co/400x200?text=No+Image"}
                   alt={property.name || "Property"}
                   className="w-full h-44 object-cover bg-gray-100"
                 />

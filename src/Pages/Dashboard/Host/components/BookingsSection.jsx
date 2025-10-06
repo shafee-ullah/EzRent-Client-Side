@@ -15,8 +15,11 @@ const BookingsSection = () => {
   const [activeTab, setActiveTab] = useState("all");
 
   useEffect(() => {
-    dispatch(fetchbooking());      // then use
-  }, [dispatch]);
+    if(!bookings.length ){
+      dispatch(fetchbooking());
+    }
+     // Only run once on mount
+   }, []);
 
   // ট্যাব সেটিং
   const tabs = [

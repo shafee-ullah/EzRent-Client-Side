@@ -30,9 +30,6 @@ export const fetchlimit = createAsyncThunk("products/fetchLimit", async () => {
   return res.data;
 });
 
-
-
-
 // get user by email
 export const fetchUserByEmail = createAsyncThunk(
   "products/fetchUserByEmail",
@@ -64,13 +61,13 @@ const productSlice = createSlice({
   },
 
   reducers: {
-    updateBookingStatus: (state, action) => {
-      const { bookingId, newStatus } = action.payload;
-      const booking = state.items.find((b) => b.id === bookingId);
-      if (booking) {
-        booking.status = newStatus; // লোকাল স্টেট আপডেট
-      }
-    },
+    // updateBookingStatus: (state, action) => {
+    //   const { bookingId, newStatus } = action.payload;
+    //   const booking = state.items.find((b) => b.id === bookingId);
+    //   if (booking) {
+    //     booking.status = newStatus; // লোকাল স্টেট আপডেট
+    //   }
+    // },
   },
   extraReducers: (builder) => {
     builder
