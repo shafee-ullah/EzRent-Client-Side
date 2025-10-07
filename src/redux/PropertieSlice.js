@@ -1,60 +1,43 @@
-// Delete booking by ID
-export const deleteBooking = createAsyncThunk(
-  "products/deleteBooking",
-  async (bookingId) => {
-    await axios.delete(`http://localhost:5000/bookinghotel/${bookingId}`);
-    return bookingId;
-  }
-);
-// Update property by ID
-export const updateProperty = createAsyncThunk(
-  "products/updateProperty",
-  async ({ propertyId, updatedData }) => {
-    await axios.put(`http://localhost:5000/properties/${propertyId}`, updatedData);
-    return { propertyId, updatedData };
-  }
-);
-// Delete property by ID
-export const deleteProperty = createAsyncThunk(
-  "products/deleteProperty",
-  async (propertyId) => {
-    await axios.delete(`http://localhost:5000/properties/${propertyId}`);
-    return propertyId;
-  }
-);
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// MongoDB থেকে ডেটা ফেচ
+// 🟢 Fetch All Properties
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async () => {
-    const res = await axios.get(
-      "https://ez-rent-server-side.vercel.app/properties"
-    );
+    const res = await axios.get("https://ez-rent-server-side.vercel.app/properties");
     return res.data;
   }
 );
 
-export const fetchbooking = createAsyncThunk(
-  "products/fetchbooking",
-  async () => {
-    const res = await axios.get(
-      "http://localhost:5000/bookinghotel"
-    );
-    return res.data;
-  }
-);
-
-// limit 8 data
+// 🟢 Fetch Limit (Featured)
 export const fetchlimit = createAsyncThunk("products/fetchLimit", async () => {
-  const res = await axios.get(
-    "https://ez-rent-server-side.vercel.app/FeaturedProperties"
-  );
+  const res = await axios.get("https://ez-rent-server-side.vercel.app/FeaturedProperties");
   return res.data;
 });
 
-// get user by email
+// 🟢 Fetch All Bookings (Admin)
+export const fetchbooking = createAsyncThunk("products/fetchbooking", async () => {
+  const res = await axios.get("http://localhost:5000/bookinghotel");
+  return res.data;
+});
+
+// 🟢 Fetch My Bookings (by email)
+export const fetchMyBooking = createAsyncThunk(
+  "products/fetchMyBooking",
+  async (email, { rejectWithValue }) => {
+    try {
+      const res = await axios.get("http://localhost:5000/myBookings", {
+        params: { email },
+      });
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "Failed to fetch bookings");
+    }
+  }
+);
+
+// 🟢 Fetch Single User by Email
 export const fetchUserByEmail = createAsyncThunk(
   "products/fetchUserByEmail",
   async (email) => {
@@ -63,7 +46,31 @@ export const fetchUserByEmail = createAsyncThunk(
   }
 );
 
-// get all host requests
+// 🟢 CRUD Actions
+export const deleteBooking = createAsyncThunk(
+  "products/deleteBooking",
+  async (bookingId) => {
+    await axios.delete(`http://localhost:5000/bookinghotel/${bookingId}`);
+    return bookingId;
+  }
+);
+
+export const updateProperty = createAsyncThunk(
+  "products/updateProperty",
+  async ({ propertyId, updatedData }) => {
+    await axios.put(`http://localhost:5000/properties/${propertyId}`, updatedData);
+    return { propertyId, updatedData };
+  }
+);
+
+export const deleteProperty = createAsyncThunk(
+  "products/deleteProperty",
+  async (propertyId) => {
+    await axios.delete(`http://localhost:5000/properties/${propertyId}`);
+    return propertyId;
+  }
+);
+
 export const fetchHostRequests = createAsyncThunk(
   "products/fetchHostRequests",
   async () => {
@@ -75,11 +82,12 @@ export const fetchHostRequests = createAsyncThunk(
 const productSlice = createSlice({
   name: "products",
   initialState: {
-    items: [],
+    items: [], // 🏠 all properties
     featured: [],
+    bookings: [], // ✅ separate from items
+    myBookings: [], // ✅ separate for logged-in user
     user: null,
-    users: [], // <-- if you want all users later
-    hostRequests: [], // <-- add this
+    hostRequests: [],
     loading: false,
     error: null,
   },
@@ -87,28 +95,14 @@ const productSlice = createSlice({
   reducers: {
     updateBookingStatus: (state, action) => {
       const { bookingId, newStatus } = action.payload;
-      const booking = state.items.find((b) => b.id === bookingId);
-      if (booking) {
-        booking.status = newStatus; // লোকাল স্টেট আপডেট
-      }
+      const booking = state.bookings.find((b) => b._id === bookingId);
+      if (booking) booking.status = newStatus;
     },
   },
+
   extraReducers: (builder) => {
     builder
-      //  fetch booking data 
-      .addCase(fetchbooking.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchbooking.fulfilled, (state, action) => {
-        state.loading = false;
-        state.items = action.payload;
-      })
-      .addCase(fetchbooking.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
-      })
-      // 🟢 Fetch All Products
+      // 🏠 Fetch all properties
       .addCase(fetchProducts.pending, (state) => {
         state.loading = true;
       })
@@ -120,68 +114,51 @@ const productSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
-      // 🟢 Delete Property
-      .addCase(deleteProperty.fulfilled, (state, action) => {
-        state.items = state.items.filter(item => item._id !== action.payload && item.id !== action.payload);
-      })
-      // 🟢 Update Property
-      .addCase(updateProperty.fulfilled, (state, action) => {
-        const { propertyId, updatedData } = action.payload;
-        state.items = state.items.map(item =>
-          (item._id === propertyId || item.id === propertyId)
-            ? { ...item, ...updatedData }
-            : item
-        );
-      })
-      // 🟢 Delete Booking
-      .addCase(deleteBooking.fulfilled, (state, action) => {
-        state.items = state.items.filter(item => item._id !== action.payload && item.id !== action.payload);
-      })
 
-      // 🟢 Fetch All Host Requests
-      .addCase(fetchHostRequests.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(fetchHostRequests.fulfilled, (state, action) => {
-        state.loading = false;
-        state.hostRequests = action.payload; // ✅ now it will store properly
-      })
-      .addCase(fetchHostRequests.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
-      })
-
-      // 🟢 Fetch Featured (limit 8)
-      .addCase(fetchlimit.pending, (state) => {
-        state.loading = true;
-      })
+      // ⭐ Featured
       .addCase(fetchlimit.fulfilled, (state, action) => {
-        state.loading = false;
         state.featured = action.payload;
       })
-      .addCase(fetchlimit.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
+
+      // 🧾 All bookings
+      .addCase(fetchbooking.fulfilled, (state, action) => {
+        state.bookings = action.payload;
       })
 
-      // 🟢 Fetch User by Email
-      .addCase(fetchUserByEmail.pending, (state) => {
-        state.loading = true;
+      // 🙋 My bookings
+      .addCase(fetchMyBooking.fulfilled, (state, action) => {
+        state.myBookings = action.payload;
       })
+
+      // 👤 User
       .addCase(fetchUserByEmail.fulfilled, (state, action) => {
-        state.loading = false;
         state.user = action.payload;
       })
-      .addCase(fetchUserByEmail.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
-      })
-    
 
+      // 🗑 Delete property
+      .addCase(deleteProperty.fulfilled, (state, action) => {
+        state.items = state.items.filter((item) => item._id !== action.payload);
+      })
+
+      // 🗑 Delete booking
+      .addCase(deleteBooking.fulfilled, (state, action) => {
+        state.bookings = state.bookings.filter((b) => b._id !== action.payload);
+        state.myBookings = state.myBookings.filter((b) => b._id !== action.payload);
+      })
+
+      // 🏗 Update property
+      .addCase(updateProperty.fulfilled, (state, action) => {
+        const { propertyId, updatedData } = action.payload;
+        state.items = state.items.map((item) =>
+          item._id === propertyId ? { ...item, ...updatedData } : item
+        );
+      })
+
+      // 🧾 Host requests
+      .addCase(fetchHostRequests.fulfilled, (state, action) => {
+        state.hostRequests = action.payload;
+      });
   },
 });
-//  export const { updateBookingStatus } = productSlice.actions;
 
 export default productSlice.reducer;
-
-
