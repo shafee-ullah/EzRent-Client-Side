@@ -78,7 +78,7 @@ const DashboardLayout = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:5000/hostRequest", formData);
+      const res = await axios.post("https://ez-rent-server-side.vercel.app/hostRequest", formData);
       console.log("form data", formData);
 
       if (res.status === 200 || res.status === 201) {

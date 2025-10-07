@@ -11,7 +11,7 @@ const UserManagementSection = () => {
 
   // Fetch users from backend (usersCollection)
   useEffect(() => {
-    fetch("http://localhost:5000/users")
+    fetch("https://ez-rent-server-side.vercel.app/users")
       .then((res) => res.json())
       .then((data) => setUsers(data))
       .catch((err) => console.error(err));
@@ -19,7 +19,7 @@ const UserManagementSection = () => {
 
   const handleUpdateRole = async (id, role) => {
     try {
-      const res = await fetch(`http://localhost:5000/users/role/${id}`, {
+      const res = await fetch(`https://ez-rent-server-side.vercel.app/users/role/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ role }),
@@ -43,7 +43,7 @@ const UserManagementSection = () => {
 
   const handleUpdateStatus = async (id, status) => {
     try {
-      const res = await fetch(`http://localhost:5000/users/status/${id}`, {
+      const res = await fetch(`https://ez-rent-server-side.vercel.app/users/status/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status }),

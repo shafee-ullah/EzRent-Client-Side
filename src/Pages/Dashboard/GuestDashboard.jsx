@@ -127,15 +127,15 @@ const GuestDashboard = () => {
     }
   }, [user]);
 
-
-
-  console.log(user);
-
   useEffect(() => {
     if (authUser?.email) {
       dispatch(fetchUserByEmail(authUser.email));
     }
   }, [authUser, dispatch]);
+
+  console.log(user);
+
+
 
 
   if (loading) return <p>Loading...</p>;
