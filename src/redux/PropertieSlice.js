@@ -85,13 +85,13 @@ const productSlice = createSlice({
   },
 
   reducers: {
-    // updateBookingStatus: (state, action) => {
-    //   const { bookingId, newStatus } = action.payload;
-    //   const booking = state.items.find((b) => b.id === bookingId);
-    //   if (booking) {
-    //     booking.status = newStatus; // লোকাল স্টেট আপডেট
-    //   }
-    // },
+    updateBookingStatus: (state, action) => {
+      const { bookingId, newStatus } = action.payload;
+      const booking = state.items.find((b) => b.id === bookingId);
+      if (booking) {
+        booking.status = newStatus; // লোকাল স্টেট আপডেট
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -183,3 +183,5 @@ const productSlice = createSlice({
 //  export const { updateBookingStatus } = productSlice.actions;
 
 export default productSlice.reducer;
+
+
