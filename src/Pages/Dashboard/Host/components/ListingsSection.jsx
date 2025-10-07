@@ -95,7 +95,7 @@ const ListingsSection = () => {
             >
               <div className="relative">
                 <img
-                  src={property.image || "https://placehold.co/400x200?text=No+Image"}
+                  src={property?.image || "https://placehold.co/400x200?text=No+Image"}
                   alt={property.name || "Property"}
                   className="w-full h-44 object-cover bg-gray-100"
                 />
