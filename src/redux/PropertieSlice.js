@@ -1,3 +1,27 @@
+// Delete booking by ID
+export const deleteBooking = createAsyncThunk(
+  "products/deleteBooking",
+  async (bookingId) => {
+    await axios.delete(`http://localhost:5000/bookinghotel/${bookingId}`);
+    return bookingId;
+  }
+);
+// Update property by ID
+export const updateProperty = createAsyncThunk(
+  "products/updateProperty",
+  async ({ propertyId, updatedData }) => {
+    await axios.put(`http://localhost:5000/properties/${propertyId}`, updatedData);
+    return { propertyId, updatedData };
+  }
+);
+// Delete property by ID
+export const deleteProperty = createAsyncThunk(
+  "products/deleteProperty",
+  async (propertyId) => {
+    await axios.delete(`http://localhost:5000/properties/${propertyId}`);
+    return propertyId;
+  }
+);
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -29,9 +53,6 @@ export const fetchlimit = createAsyncThunk("products/fetchLimit", async () => {
   );
   return res.data;
 });
-
-
-
 
 // get user by email
 export const fetchUserByEmail = createAsyncThunk(
@@ -99,6 +120,23 @@ const productSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
+      // 🟢 Delete Property
+      .addCase(deleteProperty.fulfilled, (state, action) => {
+        state.items = state.items.filter(item => item._id !== action.payload && item.id !== action.payload);
+      })
+      // 🟢 Update Property
+      .addCase(updateProperty.fulfilled, (state, action) => {
+        const { propertyId, updatedData } = action.payload;
+        state.items = state.items.map(item =>
+          (item._id === propertyId || item.id === propertyId)
+            ? { ...item, ...updatedData }
+            : item
+        );
+      })
+      // 🟢 Delete Booking
+      .addCase(deleteBooking.fulfilled, (state, action) => {
+        state.items = state.items.filter(item => item._id !== action.payload && item.id !== action.payload);
+      })
 
       // 🟢 Fetch All Host Requests
       .addCase(fetchHostRequests.pending, (state) => {
@@ -145,3 +183,5 @@ const productSlice = createSlice({
 //  export const { updateBookingStatus } = productSlice.actions;
 
 export default productSlice.reducer;
+
+

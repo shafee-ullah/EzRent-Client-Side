@@ -15,11 +15,11 @@ const BookingsSection = () => {
   const [activeTab, setActiveTab] = useState("all");
 
   useEffect(() => {
-    if (!bookings.length) {
+    if(!bookings.length ){
       dispatch(fetchbooking());
     }
-  }, []); 
-
+     // Only run once on mount
+   }, []);
 
   // ট্যাব সেটিং
   const tabs = [
@@ -233,5 +233,6 @@ const BookingsSection = () => {
 };
 
 export default BookingsSection;
+
 
 

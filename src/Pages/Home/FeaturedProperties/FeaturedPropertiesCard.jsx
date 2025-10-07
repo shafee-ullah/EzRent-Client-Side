@@ -101,7 +101,7 @@ const FeaturedPropertiesCard = () => {
             {/* Image */}
             <div className="relative">
               <img
-                src={propertie.image}
+                src={propertie?.image}
                 alt={propertie.name}
                 className="w-full h-44 object-cover rounded-t-2xl transition-transform duration-500 group-hover:scale-105"
               />

@@ -13,21 +13,24 @@ import {
   Snowflake,
   Coffee,
 } from "lucide-react";
-import { fetchbooking } from "../../../../redux/PropertieSlice";
+import { fetchbooking, fetchProducts, deleteProperty } from "../../../../redux/PropertieSlice";
 import AddPropertyModal from "../../AddProperty/AddProperty";
 
 const MotionDiv = motion.div;
 
 const ListingsSection = () => {
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [editProperty, setEditProperty] = useState(null);
   const dispatch = useDispatch();
   const { items: properties, loading, error } = useSelector((state) => state.products);
   const [isAddPropertyModalOpen, setIsAddPropertyModalOpen] = useState(false);
 
   useEffect(() => {
-    if (!properties.length) {
-      dispatch(fetchbooking());
-    }
-  }, [dispatch, properties.length]);
+   if(!properties.length ){
+     dispatch(fetchProducts());
+   }
+    // Only run once on mount
+  }, []);
 
   const togglePropertyStatus = (propertyId, currentStatus) => {
     const newStatus = currentStatus === "active" ? "inactive" : "active";
@@ -38,16 +41,7 @@ const ListingsSection = () => {
     });
   };
 
-  const getAmenityIcon = (amenity) => {
-    const icons = {
-      wifi: <Wifi className="w-4 h-4" />,
-      parking: <Car className="w-4 h-4" />,
-      ac: <Snowflake className="w-4 h-4" />,
-      kitchen: <Coffee className="w-4 h-4" />,
-      beach: "🏖️",
-    };
-    return icons[amenity] || <Plus className="w-4 h-4" />;
-  };
+
 
   const handlePropertyAdded = () => {
     // Refresh the properties list
@@ -101,8 +95,8 @@ const ListingsSection = () => {
             >
               <div className="relative">
                 <img
-                  src={property.img || property.image || "https://placehold.co/400x200?text=No+Image"}
-                  alt={property.name || property.title || "Property"}
+                  src={property.image || "https://placehold.co/400x200?text=No+Image"}
+                  alt={property.name || "Property"}
                   className="w-full h-44 object-cover bg-gray-100"
                 />
                 <span
@@ -126,22 +120,9 @@ const ListingsSection = () => {
                   </div>
                   <div className="flex items-center gap-2 mb-2">
                     <Star className="w-4 h-4 fill-current text-amber-500" />
-                    <span className="text-sm font-medium">{property.rating || property.reating || "N/A"}</span>
+                    <span className="text-sm font-medium">{property.reating || property.reating || "N/A"}</span>
                   </div>
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    {property.amenities && property.amenities.length > 0 ? (
-                      property.amenities.map((amenity) => (
-                        <span
-                          key={amenity}
-                          className="inline-flex items-center px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-xs text-gray-700 dark:text-gray-300"
-                        >
-                          {getAmenityIcon(amenity)} {amenity}
-                        </span>
-                      ))
-                    ) : (
-                      <span className="text-xs text-gray-400">No amenities listed</span>
-                    )}
-                  </div>
+                  
                 </div>
 
                 <div className="flex items-center justify-between mt-2">
@@ -158,17 +139,26 @@ const ListingsSection = () => {
                   <button
                     onClick={() => togglePropertyStatus(property.id || property._id, property.status)}
                     className={`flex-1 py-2 px-3 rounded-lg text-sm font-semibold transition-colors ${property.status === "active"
-                        ? "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+                        ? "bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-300"
                         : "bg-emerald-100 text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300"
                       }`}
                   >
                     {property.status === "active" ? "Deactivate" : "Activate"}
                   </button>
-                  <button className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
+                  <button
+                    className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+                    onClick={() => {
+                      setEditProperty(property);
+                      setEditModalOpen(true);
+                    }}
+                  >
                     <Edit className="w-4 h-4" />
                   </button>
-                  <button className="p-2 text-red-500 hover:text-red-700">
-                    <Trash2 className="w-4 h-4" />
+                    <button
+                      className="p-2 text-red-500 hover:text-red-700"
+                      onClick={() => dispatch(deleteProperty(property._id || property.id))}
+                    >
+                      <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
               </div>
@@ -192,7 +182,17 @@ const ListingsSection = () => {
           )
         )}
       </div>
-    </div>
+    {/* Edit/Add Property Modal */}
+    <AddPropertyModal
+      isOpen={editModalOpen}
+      onClose={() => {
+        setEditModalOpen(false);
+        setEditProperty(null);
+      }}
+      property={editProperty}
+      onPropertyAdded={() => dispatch(fetchProducts())}
+    />
+  </div>
   );
 };
 

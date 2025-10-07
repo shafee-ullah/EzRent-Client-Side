@@ -1,10 +1,13 @@
 // components/AddPropertyModal.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import Swal from "sweetalert2";
+import { updateProperty } from "../../../redux/PropertieSlice";
 
-const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded }) => {
+const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
+  const dispatch = useDispatch();
   const [product, setProduct] = useState({
     name: "",
     description: "",
@@ -18,6 +21,24 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded }) => {
     image: null,
   });
 
+  // Prefill form if editing
+  useEffect(() => {
+    if (property) {
+      setProduct({
+        name: property.name || "",
+        description: property.description || "",
+        category: property.category || "",
+        services: property.services || "",
+        price: property.price || "",
+        offerPrice: property.offerPrice || "",
+        Location: property.Location || "",
+        guest: property.guest || "",
+        reating: property.reating || "",
+        image:  null,
+      });
+    }
+  }, [property]);
+
   const handleImageChange = (e) => {
     setProduct({ ...product, image: e.target.files[0] });
   };
@@ -29,31 +50,69 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // If editing, update property
+    if (property) {
+      let imageUrl = property.image;
+      if (product.image) {
+        // Upload new image if changed
+        const formData = new FormData();
+        formData.append("image", product.image);
+        const imgbbAPI = "https://api.imgbb.com/1/upload?key=e45319e6715cdaa4b72e32898ac377b1";
+        try {
+          const res = await fetch(imgbbAPI, {
+            method: "POST",
+            body: formData,
+          });
+          const imgData = await res.json();
+          if (imgData.success) {
+            imageUrl = imgData.data.url;
+          }
+        } catch {
+          Swal.fire("Error!", "Image upload failed.", "error");
+          return;
+        }
+      }
+      const updatedData = { ...product, image: imageUrl };
+      // Update property in backend
+      await fetch(`http://localhost:5000/properties/${property._id || property.id}`, {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+      });
+      await dispatch(updateProperty({ propertyId: property._id || property.id, updatedData }));
+      Swal.fire({
+        icon: "success",
+        title: "Property Updated Successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      onClose();
+      if (onPropertyAdded) onPropertyAdded();
+      return;
+    }
+
+    // Add new property
     if (!product.image) {
       Swal.fire("Please upload an image first!");
       return;
     }
-
     const formData = new FormData();
     formData.append("image", product.image);
-
     const imgbbAPI = "https://api.imgbb.com/1/upload?key=e45319e6715cdaa4b72e32898ac377b1";
-
     try {
       const res = await fetch(imgbbAPI, {
         method: "POST",
         body: formData,
       });
-
       const imgData = await res.json();
-
       if (imgData.success) {
         const imageUrl = imgData.data.url;
         const newProduct = {
           ...product,
           image: imageUrl,
         };
-
         const dbRes = await fetch("http://localhost:5000/AddProperty", {
           method: "POST",
           headers: {
@@ -61,18 +120,13 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded }) => {
           },
           body: JSON.stringify(newProduct),
         });
-
-        const dbData = await dbRes.json();
-        console.log("Saved Data:", dbData);
-
+  await dbRes.json();
         Swal.fire({
           icon: "success",
           title: "Property Added Successfully!",
           showConfirmButton: false,
           timer: 1500,
         });
-
-        // Reset form
         setProduct({
           name: "",
           description: "",
@@ -85,15 +139,10 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded }) => {
           reating: "",
           image: null,
         });
-
-        // Close modal and refresh properties
         onClose();
-        if (onPropertyAdded) {
-          onPropertyAdded();
-        }
+        if (onPropertyAdded) onPropertyAdded();
       }
-    } catch (error) {
-      console.error("Upload error:", error);
+    } catch {
       Swal.fire("Error!", "Something went wrong while uploading.", "error");
     }
   };
@@ -111,7 +160,7 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded }) => {
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-            Add New Property
+            {property ? "Edit Property" : "Add New Property"}
           </h2>
           <button
             onClick={onClose}
@@ -326,7 +375,7 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded }) => {
               type="submit"
               className="flex-1 py-3 px-6 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
             >
-              Add Property
+              {property ? "Update Property" : "Add Property"}
             </button>
           </div>
         </form>
@@ -336,3 +385,5 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded }) => {
 };
 
 export default AddPropertyModal;
+
+
