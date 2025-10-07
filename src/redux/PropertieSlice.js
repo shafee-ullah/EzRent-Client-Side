@@ -18,7 +18,7 @@ export const fetchlimit = createAsyncThunk("products/fetchLimit", async () => {
 
 // 🟢 Fetch All Bookings (Admin)
 export const fetchbooking = createAsyncThunk("products/fetchbooking", async () => {
-  const res = await axios.get("http://localhost:5000/bookinghotel");
+  const res = await axios.get("https://ez-rent-server-side.vercel.app/bookinghotel");
   return res.data;
 });
 
@@ -27,7 +27,7 @@ export const fetchMyBooking = createAsyncThunk(
   "products/fetchMyBooking",
   async (email, { rejectWithValue }) => {
     try {
-      const res = await axios.get("http://localhost:5000/myBookings", {
+      const res = await axios.get("https://ez-rent-server-side.vercel.app/myBookings", {
         params: { email },
       });
       return res.data;
@@ -41,7 +41,7 @@ export const fetchMyBooking = createAsyncThunk(
 export const fetchUserByEmail = createAsyncThunk(
   "products/fetchUserByEmail",
   async (email) => {
-    const res = await axios.get(`http://localhost:5000/users/${email}`);
+    const res = await axios.get(`https://ez-rent-server-side.vercel.app/users/${email}`);
     return res.data;
   }
 );
@@ -50,7 +50,7 @@ export const fetchUserByEmail = createAsyncThunk(
 export const deleteBooking = createAsyncThunk(
   "products/deleteBooking",
   async (bookingId) => {
-    await axios.delete(`http://localhost:5000/bookinghotel/${bookingId}`);
+    await axios.delete(`https://ez-rent-server-side.vercel.app/bookinghotel/${bookingId}`);
     return bookingId;
   }
 );
@@ -58,7 +58,7 @@ export const deleteBooking = createAsyncThunk(
 export const updateProperty = createAsyncThunk(
   "products/updateProperty",
   async ({ propertyId, updatedData }) => {
-    await axios.put(`http://localhost:5000/properties/${propertyId}`, updatedData);
+    await axios.put(`https://ez-rent-server-side.vercel.app/properties/${propertyId}`, updatedData);
     return { propertyId, updatedData };
   }
 );
@@ -66,7 +66,7 @@ export const updateProperty = createAsyncThunk(
 export const deleteProperty = createAsyncThunk(
   "products/deleteProperty",
   async (propertyId) => {
-    await axios.delete(`http://localhost:5000/properties/${propertyId}`);
+    await axios.delete(`https://ez-rent-server-side.vercel.app/properties/${propertyId}`);
     return propertyId;
   }
 );
@@ -74,7 +74,7 @@ export const deleteProperty = createAsyncThunk(
 export const fetchHostRequests = createAsyncThunk(
   "products/fetchHostRequests",
   async () => {
-    const res = await axios.get("http://localhost:5000/hostRequest");
+    const res = await axios.get("https://ez-rent-server-side.vercel.app/hostRequest");
     return res.data;
   }
 );
