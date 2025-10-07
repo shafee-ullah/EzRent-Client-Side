@@ -74,7 +74,7 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
       }
       const updatedData = { ...product, image: imageUrl };
       // Update property in backend
-      await fetch(`http://localhost:5000/properties/${property._id || property.id}`, {
+      await fetch(`https://ez-rent-server-side.vercel.app/properties/${property._id || property.id}`, {
         method: "PUT",
         headers: {
           "content-type": "application/json",
@@ -113,7 +113,7 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
           ...product,
           image: imageUrl,
         };
-        const dbRes = await fetch("http://localhost:5000/AddProperty", {
+        const dbRes = await fetch("https://ez-rent-server-side.vercel.app/AddProperty", {
           method: "POST",
           headers: {
             "content-type": "application/json",

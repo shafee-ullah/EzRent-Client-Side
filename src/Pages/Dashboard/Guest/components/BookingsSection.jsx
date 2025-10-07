@@ -1,72 +1,122 @@
-
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
-import { fetchbooking, } from "../../../../redux/PropertieSlice";
-
-const MotionDiv = motion.div;
+import { AuthContext } from "../../../../Context/AuthContext";
+import { fetchMyBooking } from "../../../../redux/PropertieSlice";
 
 const BookingsSection = () => {
   const dispatch = useDispatch();
-  const { items: bookings, loading, error } = useSelector((state) => state.products);
+  const { user } = useContext(AuthContext);
 
-  // Load bookings from redux on mount
+  // Use myBookings from Redux state
+  const { myBookings: bookings, loading, error } = useSelector(
+    (state) => state.products
+  );
+
   useEffect(() => {
-    dispatch(fetchbooking());
-  }, [dispatch]);
+    if (user?.email) {
+      dispatch(fetchMyBooking(user.email));
+    }
+  }, [dispatch, user?.email]);
 
-  // Handle status update
-  // const handleStatus = (id, status) => {
-  //   dispatch(updateBookingStatus({ id, status }));
-  // };
+  const formatDate = (dateStr) => {
+    return new Date(dateStr).toLocaleDateString("en-US", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
+  if (!bookings?.length) return <p>No bookings found.</p>;
 
   return (
     <div className="space-y-4">
       <h2 className="text-2xl font-bold mb-4">My Bookings</h2>
-
-      {bookings?.map((booking) => (
-        <MotionDiv
+      {bookings.map((booking) => (
+        <motion.div
           key={booking._id}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 shadow-sm"
+          transition={{ duration: 0.5 }}
+          className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-3"
         >
-          <div className="flex flex-col md:flex-row md:items-center gap-4">
-            <img
-              src={booking.image}
-              alt={booking.property}
-              className="w-full md:w-40 h-32 object-cover rounded-lg"
-            />
-            <div className="flex-1">
-              <h3 className="text-lg font-semibold">{booking.property}</h3>
-              <p className="text-gray-500">Hosted by {booking.host}</p>
-              <p className="text-sm text-gray-600">
-                {new Date(booking.checkIn).toLocaleDateString()} -{" "}
-                {new Date(booking.checkOut).toLocaleDateString()}
-              </p>
-              <p className="font-semibold">৳{booking.totalPrice}</p>
+          <div className="flex flex-col sm:flex-row gap-4 items-stretch">
+            {/* Left Side: Image */}
+            <div className="flex-shrink-0 w-full sm:w-60 h-40">
+              <img
+                src={booking.img}
+                alt={booking.title}
+                className="w-full h-full object-cover rounded-lg"
+              />
+            </div>
 
-              {/* Action buttons */}
-              {/* <div className="mt-3 flex gap-3">
-                <button
-                  onClick={() => handleStatus(booking._id, "active")}
-                  className="px-4 py-2 rounded-lg bg-emerald-500 text-white hover:bg-emerald-600"
-                >
-                  Active
+            {/* Right Side: Details */}
+            <div className="flex-grow p-1 relative">
+              <span
+                className={`absolute top-0 right-0 px-3 py-1 text-sm font-medium rounded-full ${booking.status === "confirmed"
+                    ? "bg-green-100 text-green-700"
+                    : "bg-yellow-100 text-yellow-700"
+                  }`}
+              >
+                {booking.status}
+              </span>
+
+              <h2 className="text-xl font-semibold text-gray-800">
+                {booking.title}
+              </h2>
+              <p className="text-sm text-gray-500 mb-4">
+                Hosted by {booking.host || "Unknown"}
+              </p>
+
+              <div className="flex justify-between items-center text-gray-700 border-b border-gray-100 pb-3 mb-4">
+                <div>
+                  <p className="text-sm text-gray-500">Check-in</p>
+                  <p className="font-bold">{formatDate(booking.Checkin)}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Check-out</p>
+                  <p className="font-bold">{formatDate(booking.Checkout)}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm text-gray-500">Total Price</p>
+                  <p className="font-black text-lg">
+                    ৳{Number(booking.price).toLocaleString()}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-3 mt-4 flex-wrap">
+                <button className="px-4 py-2 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600 transition duration-150 shadow-md">
+                  Contact Host
                 </button>
-                <button
-                  onClick={() => handleStatus(booking._id, "rejected")}
-                  className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600"
-                >
-                  Reject
+                <button className="px-4 py-2 bg-white text-gray-700 border border-gray-300 font-medium rounded-lg hover:bg-gray-50 transition duration-150">
+                  Modify Booking
                 </button>
-              </div> */}
+                <button className="px-4 py-2 bg-red-500 text-white font-medium rounded-lg hover:bg-red-600 transition duration-150 shadow-md">
+                  Cancel Booking
+                </button>
+                <button className="px-4 py-2 bg-white text-gray-700 border border-gray-300 font-medium rounded-lg hover:bg-gray-50 transition duration-150 flex items-center">
+                  <svg
+                    className="w-5 h-5 mr-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                    ></path>
+                  </svg>
+                  Invoice
+                </button>
+              </div>
             </div>
           </div>
-        </MotionDiv>
+        </motion.div>
       ))}
     </div>
   );

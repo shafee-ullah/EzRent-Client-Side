@@ -188,7 +188,7 @@ const AuthPage = () => {
           email, // already lowercase
           role: "Guest",
         };
-        await axios.post("http://localhost:5000/users", userData);
+        await axios.post("https://ez-rent-server-side.vercel.app/users", userData);
         navigate("/");
         toast.success(
           `Registration successful. Verification email sent to ${userCredential.user.email}`
@@ -238,7 +238,7 @@ const AuthPage = () => {
       };
 
       // POST to backend
-      await axios.post("http://localhost:5000/users", userData);
+      await axios.post("https://ez-rent-server-side.vercel.app/users", userData);
       navigate("/");
       toast.success(`Welcome ${user.displayName || user.email}`);
 
