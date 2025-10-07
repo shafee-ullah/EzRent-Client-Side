@@ -1,0 +1,94 @@
+---
+alwaysApply: true
+---
+- Always follow the following design document whenever you are making any change or updating any feature.
+
+Take a whole look at the code structure of frontend and server side. Create a secure and responsive Stripe payment system where a guest user can pay their booking fee. The project should use React and Redux on the frontend, and Express.js with native MongoDB (not Mongoose) on the backend. The code must be clean, modular, and include proper comments for easy understanding.Use proper routing.
+
+-Frontend Requirements:
+
+Use React functional components with hooks, Redux Toolkit for global state management, Axios for API requests, and Stripe integration using @stripe/react-stripe-js and @stripe/stripe-js.
+
+Build a PaymentForm component that allows the guest to enter card details, confirm payment, and see success or error feedback.
+
+Manage payment data and states in Redux (paymentSlice.js).
+
+On form submission, send a POST request to /api/payment/create-payment-intent to generate a clientSecret from the backend.
+
+Use Stripe’s confirmCardPayment function to complete the transaction.
+
+After successful payment, send payment details (amount, transaction ID, booking ID, user ID, etc.) to the backend to store in MongoDB.
+
+Show loading states, validation messages, and success/error alerts.
+
+Design should be responsive with Tailwind CSS and include a confirmation message or modal after successful payment.
+
+-Backend Requirements:
+
+Use Express.js for server setup and routing.
+
+Use Stripe Node.js SDK for handling payment intents.
+
+Use the native MongoDB driver (mongodb) for database operations, not Mongoose.
+
+
+Create two endpoints:
+
+POST /api/payment/create-payment-intent → Accepts amount, bookingId, and userId, creates a Stripe PaymentIntent, and returns the clientSecret.
+
+POST /api/payment/confirm → Accepts payment details (transaction ID, amount, booking ID, user ID, status) and stores them in a “payments” collection in MongoDB.
+
+MongoDB payment document example:
+{
+bookingId: "123abc",
+userId: "456xyz",
+amount: 200,
+transactionId: "pi_1ABCDEFG",
+paymentStatus: "succeeded",
+createdAt: new Date()
+}
+
+-Security:
+
+Validate inputs before processing payments.
+
+Never store card details in the database.
+
+Handle all errors gracefully and return meaningful responses.
+
+Folder Structure Example:
+client/
+redux/paymentSlice.js
+components/PaymentForm.jsx
+pages/PaymentPage.jsx
+server/
+routes/paymentRoutes.js
+controllers/paymentController.js
+config/db.js
+index.js
+
+Payment Flow:
+
+Guest clicks “Pay Now” on booking page.
+
+PaymentForm loads and sends booking data to backend.
+
+Backend creates Stripe PaymentIntent and returns clientSecret.
+
+Frontend confirms payment using Stripe.
+
+After success, payment info is stored in MongoDB.
+
+Show payment success message or redirect to “My Bookings”.
+
+Deliverables:
+
+Fully working frontend (React + Redux + Stripe integration)
+
+Backend APIs (Express + Stripe + MongoDB)
+
+Data stored in MongoDB after successful payment
+
+Responsive UI and clear inline comments
+
+Clean folder structure and organized code.

@@ -24,6 +24,7 @@ import GuestDashboard from "./GuestDashboard";
 import HostDashboard from "./HostDashboard";
 import AdminDashboard from "./AdminDashboard";
 import { fetchUserByEmail } from "../../redux/PropertieSlice";
+import toast from "react-hot-toast";
 
 const MotionDiv = motion.div;
 
@@ -32,10 +33,27 @@ const DashboardLayout = () => {
   const dispatch = useDispatch();
   // console.log(authUser);
 
+
+
+
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const { user, loading, } = useSelector((state) => state.products);
-  // console.log("this is db user", user);
+  console.log("this is db user", user);
+
+
+  useEffect(() => {
+    if (user && authUser) {
+      setFormData((prev) => ({
+        ...prev,
+        name: user.name || authUser.displayName || "",
+        email: user.email || authUser.email || "",
+        photoURL: authUser.photoURL || "",
+        role: user.role || "Guest",
+        userId: user._id,
+      }));
+    }
+  }, [user, authUser]);
 
 
   const [formData, setFormData] = useState({
@@ -56,12 +74,31 @@ const DashboardLayout = () => {
 
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios.post('http://localhost:5000/hostRequest', formData)
-    console.log("Host form submitted:", formData);
-    setOpen(false);
+
+    try {
+      const res = await axios.post("http://localhost:5000/hostRequest", formData);
+      console.log("form data", formData);
+
+      if (res.status === 200 || res.status === 201) {
+        toast.success("🎉 Host request submitted successfully!");
+        setOpen(false);
+      } else {
+        toast.error("⚠️ Something went wrong while submitting your request.");
+      }
+    } catch (error) {
+      // Backend custom message (if any)
+      if (error.response && error.response.data?.message) {
+        toast.error(error.response.data.message);
+      }
+      // Fallback error message
+      else {
+        toast.error(" You have already submitted a request or an error occurred.");
+      }
+    }
   };
+
 
 
   // Mock notifications
@@ -249,7 +286,7 @@ const DashboardLayout = () => {
           }
 
 
-         
+
 
         </MotionDiv>
       </div>
@@ -305,7 +342,7 @@ const DashboardLayout = () => {
                   <input
                     type="text"
                     name="name"
-                    value={authUser?.displayName}
+                    value={authUser?.displayName || ""}
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 dark:focus:border-emerald-400 transition-all duration-200"
@@ -321,7 +358,7 @@ const DashboardLayout = () => {
                   <input
                     type="tel"
                     name="number"
-                    value={formData.number}
+                    value={formData.number || ""}
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 dark:focus:border-emerald-400 transition-all duration-200"
@@ -349,7 +386,7 @@ const DashboardLayout = () => {
                   <input
                     type="email"
                     name="email"
-                    value={authUser?.email}
+                    value={authUser?.email || ""}
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 dark:focus:border-emerald-400 transition-all duration-200"
@@ -365,7 +402,7 @@ const DashboardLayout = () => {
                   <input
                     type="url"
                     name="photoURL"
-                    value={authUser?.photoURL}
+                    value={authUser?.photoURL || ""}
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 dark:focus:border-emerald-400 transition-all duration-200"
