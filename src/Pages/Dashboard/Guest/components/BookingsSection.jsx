@@ -2,7 +2,10 @@ import React, { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { AuthContext } from "../../../../Context/AuthContext";
-import { fetchMyBooking } from "../../../../redux/PropertieSlice";
+import { deleteBooking, fetchMyBooking } from "../../../../redux/PropertieSlice";
+import Swal from "sweetalert2";
+
+
 
 const BookingsSection = () => {
   const dispatch = useDispatch();
@@ -18,6 +21,30 @@ const BookingsSection = () => {
       dispatch(fetchMyBooking(user.email));
     }
   }, [dispatch, user?.email]);
+
+
+  const handleCancelBooking = (id) => {
+    Swal.fire({
+      title: "Cancel this booking?",
+      text: "This action cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, cancel it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteBooking(id))
+          .unwrap()
+          .then(() => {
+            Swal.fire("Cancelled!", "Your booking has been deleted.", "success");
+          })
+          .catch(() => {
+            Swal.fire("Error", "Failed to cancel booking.", "error");
+          });
+      }
+    });
+  };
 
   const formatDate = (dateStr) => {
     return new Date(dateStr).toLocaleDateString("en-US", {
@@ -56,8 +83,8 @@ const BookingsSection = () => {
             <div className="flex-grow p-1 relative">
               <span
                 className={`absolute top-0 right-0 px-3 py-1 text-sm font-medium rounded-full ${booking.status === "confirmed"
-                    ? "bg-green-100 text-green-700"
-                    : "bg-yellow-100 text-yellow-700"
+                  ? "bg-green-100 text-green-700"
+                  : "bg-yellow-100 text-yellow-700"
                   }`}
               >
                 {booking.status}
@@ -91,10 +118,11 @@ const BookingsSection = () => {
                 <button className="px-4 py-2 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600 transition duration-150 shadow-md">
                   Contact Host
                 </button>
-                <button className="px-4 py-2 bg-white text-gray-700 border border-gray-300 font-medium rounded-lg hover:bg-gray-50 transition duration-150">
-                  Modify Booking
-                </button>
-                <button className="px-4 py-2 bg-red-500 text-white font-medium rounded-lg hover:bg-red-600 transition duration-150 shadow-md">
+                {/* Cancel Booking Button */}
+                <button
+                  onClick={() => handleCancelBooking(booking._id)}
+                  className="px-4 py-2 bg-red-500 text-white font-medium rounded-lg hover:bg-red-600 transition duration-150 shadow-md"
+                >
                   Cancel Booking
                 </button>
                 <button className="px-4 py-2 bg-white text-gray-700 border border-gray-300 font-medium rounded-lg hover:bg-gray-50 transition duration-150 flex items-center">
