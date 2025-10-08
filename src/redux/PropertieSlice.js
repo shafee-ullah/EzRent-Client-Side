@@ -11,16 +11,22 @@ export const fetchProducts = createAsyncThunk(
 );
 
 // 🟢 Fetch Limit (Featured)
-export const fetchlimit = createAsyncThunk("products/fetchLimit", async () => {
-  const res = await axios.get("https://ez-rent-server-side.vercel.app/FeaturedProperties");
-  return res.data;
-});
+export const fetchlimit = createAsyncThunk(
+  "products/fetchLimit",
+  async () => {
+    const res = await axios.get("https://ez-rent-server-side.vercel.app/FeaturedProperties");
+    return res.data;
+  }
+);
 
 // 🟢 Fetch All Bookings (Admin)
-export const fetchbooking = createAsyncThunk("products/fetchbooking", async () => {
-  const res = await axios.get("https://ez-rent-server-side.vercel.app/bookinghotel");
-  return res.data;
-});
+export const fetchbooking = createAsyncThunk(
+  "products/fetchbooking",
+  async () => {
+    const res = await axios.get("https://ez-rent-server-side.vercel.app/bookinghotel");
+    return res.data;
+  }
+);
 
 // 🟢 Fetch My Bookings (by email)
 export const fetchMyBooking = createAsyncThunk(
@@ -79,15 +85,41 @@ export const fetchHostRequests = createAsyncThunk(
   }
 );
 
+// 🟢 Wishlist Actions
+export const addToWishlist = createAsyncThunk(
+  "products/addToWishlist",
+  async (wishlistItem) => {
+    const res = await axios.post("http://localhost:5000/api/wishlist", wishlistItem);
+    return res.data;
+  }
+);
+
+export const removeFromWishlist = createAsyncThunk(
+  "products/removeFromWishlist",
+  async ({ propertyId, email }) => {
+    await axios.delete(`http://localhost:5000/api/wishlist/${propertyId}?email=${email}`);
+    return propertyId;
+  }
+);
+
+export const fetchWishlist = createAsyncThunk(
+  "products/fetchWishlist",
+  async (email) => {
+    const res = await axios.get(`http://localhost:5000/api/wishlist?email=${email}`);
+    return res.data;
+  }
+);
+
 const productSlice = createSlice({
   name: "products",
   initialState: {
-    items: [], // 🏠 all properties
+    items: [],
     featured: [],
-    bookings: [], // ✅ separate from items
-    myBookings: [], // ✅ separate for logged-in user
+    bookings: [],
+    myBookings: [],
     user: null,
     hostRequests: [],
+    wishlist: [], // ✅ add wishlist here
     loading: false,
     error: null,
   },
@@ -157,6 +189,19 @@ const productSlice = createSlice({
       // 🧾 Host requests
       .addCase(fetchHostRequests.fulfilled, (state, action) => {
         state.hostRequests = action.payload;
+      })
+
+      // 🧡 Wishlist actions
+      .addCase(addToWishlist.fulfilled, (state, action) => {
+        const exists = state.wishlist.some((w) => w.propertyId === action.payload.propertyId);
+        if (!exists) state.wishlist.push(action.payload);
+      })
+      .addCase(removeFromWishlist.fulfilled, (state, action) => {
+        // ✅ Replace wishlist with a new set excluding removed property
+        state.wishlist = state.wishlist.filter((w) => w.propertyId !== action.payload);
+      })
+      .addCase(fetchWishlist.fulfilled, (state, action) => {
+        state.wishlist = action.payload;
       });
   },
 });
