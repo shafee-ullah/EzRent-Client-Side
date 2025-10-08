@@ -14,6 +14,7 @@ import Error from "../Error/Error";
 import AboutEzRent from "../Pages/About/AboutEzRent";
 import AdminDashboard from "../Pages/Dashboard/AdminDashboard";
 import PaymentPage from "../Pages/PaymentPage/PaymentPage";
+import BecomeHostPage from "../Pages/BecomeHost/BecomeHostPage";
 //  import AddProperty from "../Pages/Dashboard/AddProperty/AddProperty.jsx";
 
 const router = createBrowserRouter([
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "about",
         Component: AboutEzRent,
+      },
+      {
+        path: "become-host",
+        Component: BecomeHostPage,
       },
       {
         path: "join",
