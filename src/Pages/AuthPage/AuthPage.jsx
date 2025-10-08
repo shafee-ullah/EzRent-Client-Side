@@ -286,7 +286,7 @@ const AuthPage = () => {
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
             {isLogin ? "Sign in to continue with " : "Register to get started with "}
             <span className="font-semibold text-green-700 dark:text-green-500">
-              RzRent
+              EzRent
             </span>
           </p>
         </div>
@@ -453,7 +453,7 @@ const AuthPage = () => {
 
         <div className="mt-6 relative">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
+            {/* <div className="w-full border-t border-gray-300 dark:border-gray-600"></div> */}
           </div>
           <div className="relative flex justify-center text-sm">
             <span className="px-2 bg-transparent text-gray-500 dark:text-gray-400">
