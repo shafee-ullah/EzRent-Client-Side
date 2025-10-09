@@ -110,6 +110,7 @@ export const fetchWishlist = createAsyncThunk(
   }
 );
 
+
 const productSlice = createSlice({
   name: "products",
   initialState: {

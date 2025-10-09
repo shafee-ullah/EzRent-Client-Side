@@ -276,10 +276,10 @@ const DashboardLayout = () => {
         >
 
           {
-            user?.role == "Guest" && <GuestDashboard></GuestDashboard>
+            user?.role == "guest" && <GuestDashboard></GuestDashboard>
           }
           {
-            user?.role == "Host" && <HostDashboard></HostDashboard>
+            user?.role == "host" && <HostDashboard></HostDashboard>
           }
           {
             user?.role == "Admin" && <AdminDashboard></AdminDashboard>
