@@ -293,144 +293,263 @@ const DashboardLayout = () => {
 
       {/* Enhanced Modal */}
       <AnimatePresence>
-        {open && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+  {open && (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {/* Backdrop */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        onClick={() => setOpen(false)}
+      />
+
+      {/* Modal */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.9, y: 20 }}
+        transition={{ type: "spring", damping: 25, stiffness: 300 }}
+        className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-700"
+      >
+        {/* Header */}
+        <div className="p-6 border-b border-gray-200 dark:border-gray-700 sticky top-0 bg-white dark:bg-gray-800 z-10">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-green-600 dark:from-emerald-400 dark:to-green-400">
+                Become a Host
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400 mt-1 text-sm">
+                Start your hosting journey with us
+              </p>
+            </div>
+            <button
               onClick={() => setOpen(false)}
-            />
-
-            {/* Modal */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-md bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-700"
+              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition-colors duration-200"
             >
-              {/* Header */}
-              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-green-600 dark:from-emerald-400 dark:to-green-400">
-                      Become a Host
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400 mt-1 text-sm">
-                      Start your hosting journey with us
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => setOpen(false)}
-                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition-colors duration-200"
-                  >
-                    <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-                  </button>
-                </div>
-              </div>
-
-              {/* Form */}
-              <form onSubmit={handleSubmit} className="p-6 space-y-5">
-                {/* Name */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={authUser?.displayName || ""}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 dark:focus:border-emerald-400 transition-all duration-200"
-                    placeholder="Enter your full name"
-                  />
-                </div>
-
-                {/* Number */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    name="number"
-                    value={formData.number || ""}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 dark:focus:border-emerald-400 transition-all duration-200"
-                    placeholder="Enter your phone number"
-                  />
-                </div>
-
-                <div className="space-y-2 hidden">
-                  <input
-                    type="tel"
-                    name="status"
-                    value={"pending"}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 dark:focus:border-emerald-400 transition-all duration-200"
-                    placeholder="Enter your phone number"
-                  />
-                </div>
-
-                {/* Email */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={authUser?.email || ""}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 dark:focus:border-emerald-400 transition-all duration-200"
-                    placeholder="Enter your email address"
-                  />
-                </div>
-
-                {/* Photo URL */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-                    Photo URL
-                  </label>
-                  <input
-                    type="url"
-                    name="photoURL"
-                    value={authUser?.photoURL || ""}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 dark:focus:border-emerald-400 transition-all duration-200"
-                    placeholder="Enter your photo URL"
-                  />
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex gap-3 pt-4">
-                  <button
-                    type="button"
-                    onClick={() => setOpen(false)}
-                    className="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="flex-1 px-4 py-3 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:from-emerald-600 hover:to-green-600 shadow-md hover:shadow-lg transition-all duration-200"
-                  >
-                    Submit Application
-                  </button>
-                </div>
-              </form>
-            </motion.div>
+              <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+            </button>
           </div>
-        )}
-      </AnimatePresence>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="p-6 space-y-5">
+          {/* Full Name */}
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
+              Full Name
+            </label>
+            <input
+              type="text"
+              name="name"
+              value={authUser?.displayName || ""}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-200"
+              placeholder="Enter your full name"
+            />
+          </div>
+
+          {/* Phone Number */}
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
+              Phone Number
+            </label>
+            <input
+              type="tel"
+              name="number"
+              value={formData.number || ""}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-200"
+              placeholder="Enter your phone number"
+            />
+          </div>
+
+          {/* Email */}
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
+              Email Address
+            </label>
+            <input
+              type="email"
+              name="email"
+              value={authUser?.email || ""}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-200"
+              placeholder="Enter your email address"
+            />
+          </div>
+
+          {/* Address */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
+                Address
+              </label>
+              <input
+                type="text"
+                name="address"
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700"
+                placeholder="Street / Area"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
+                City
+              </label>
+              <input
+                type="text"
+                name="city"
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700"
+                placeholder="City"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
+                Country
+              </label>
+              <input
+                type="text"
+                name="country"
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700"
+                placeholder="Country"
+              />
+            </div>
+          </div>
+
+          {/* Short Bio */}
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
+              Short Bio
+            </label>
+            <textarea
+              name="bio"
+              onChange={handleChange}
+              rows="3"
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
+              placeholder="Tell us a bit about yourself as a host..."
+            ></textarea>
+          </div>
+
+          {/* Preferred Language & Emergency Contact */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
+                Preferred Language(s)
+              </label>
+              <input
+                type="text"
+                name="language"
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700"
+                placeholder="e.g., English, Bangla"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
+                Emergency Contact Number
+              </label>
+              <input
+                type="tel"
+                name="emergencyContact"
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700"
+                placeholder="Enter emergency contact"
+              />
+            </div>
+          </div>
+
+          {/* Payout Method */}
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
+              Preferred Payout Method
+            </label>
+            <select
+              name="payoutMethod"
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
+            >
+              <option value="">Select payout method</option>
+              <option value="bank">Bank Transfer</option>
+              <option value="bkash">bKash</option>
+              <option value="paypal">PayPal</option>
+              <option value="stripe">Stripe</option>
+            </select>
+          </div>
+
+          {/* Account Info & ID */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
+                Account / Payment Info
+              </label>
+              <input
+                type="text"
+                name="accountInfo"
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700"
+                placeholder="Enter account number or details"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
+                National ID / Passport Number
+              </label>
+              <input
+                type="text"
+                name="nid"
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700"
+                placeholder="For verification"
+              />
+            </div>
+          </div>
+
+          {/* Agreement Checkboxes */}
+          <div className="space-y-2 pt-3">
+            <label className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+              <input type="checkbox" required className="rounded border-gray-300 text-emerald-600" />
+              I agree to the <span className="text-emerald-600 font-semibold">Terms of Hosting</span> and Community Guidelines.
+            </label>
+            <label className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+              <input type="checkbox" required className="rounded border-gray-300 text-emerald-600" />
+              I confirm that all information provided is accurate.
+            </label>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex gap-3 pt-4">
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              className="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="flex-1 px-4 py-3 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:from-emerald-600 hover:to-green-600 shadow-md hover:shadow-lg transition-all duration-200"
+            >
+              Submit Application
+            </button>
+          </div>
+        </form>
+      </motion.div>
+    </div>
+  )}
+</AnimatePresence>
+
     </div>
   );
 };

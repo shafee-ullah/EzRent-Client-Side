@@ -2,13 +2,23 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // 🟢 Fetch All Properties
-export const fetchProducts = createAsyncThunk(
-  "products/fetchProducts",
-  async () => {
-    const res = await axios.get("https://ez-rent-server-side.vercel.app/properties");
-    return res.data;
-  }
-);
+// export const fetchProducts = createAsyncThunk(
+//   "products/fetchProducts",
+//   async (email, { rejectWithValue }) => {
+//     try {
+//       const res = await axios.get(`https://ez-rent-server-side.vercel.app/properties`, {
+//         params: { email },
+//       });
+//       return res.data;
+//     } catch (error) {
+//       return rejectWithValue(error.response?.data?.message || "Failed to fetch properties");
+//     }
+//   }
+// );
+export const fetchProducts = createAsyncThunk("products/fetchProducts", async () => {
+  const res = await axios.get("https://ez-rent-server-side.vercel.app/properties");
+  return res.data;
+});
 
 // 🟢 Fetch Limit (Featured)
 export const fetchlimit = createAsyncThunk("products/fetchLimit", async () => {
@@ -83,6 +93,7 @@ const productSlice = createSlice({
   name: "products",
   initialState: {
     items: [], // 🏠 all properties
+    featuredItems: [], // 👉 featured properties
     featured: [],
     bookings: [], // ✅ separate from items
     myBookings: [], // ✅ separate for logged-in user
@@ -115,9 +126,18 @@ const productSlice = createSlice({
         state.error = action.error.message;
       })
 
-      // ⭐ Featured
+      // 🟢 fetch featured
+      .addCase(fetchlimit.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(fetchlimit.fulfilled, (state, action) => {
-        state.featured = action.payload;
+        state.loading = false;
+        state.featuredItems = action.payload; // 👉 separate state
+      })
+      .addCase(fetchlimit.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       })
 
       // 🧾 All bookings

@@ -1,26 +1,26 @@
 
-import React, { useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { Calendar } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchbooking, } from "../../../../redux/PropertieSlice";
 import Loading from "../../../../components/Loading";
+import { fetchbooking } from "../../../../redux/PropertieSlice";
 
 const BookingsSection = () => {
-  const dispatch = useDispatch();
+   const dispatch = useDispatch();
+  
   // dispatch already declared above
-  const { items: bookings, loading, error } = useSelector(
-    (state) => state.products
-  );
-  console.log(bookings)
+ const { bookings, loading, error } = useSelector((state) => state.products);
+ 
   const [activeTab, setActiveTab] = useState("all");
 
-  useEffect(() => {
-    if(!bookings.length ){
+ useEffect(() => {
+    if (!bookings.length) {
       dispatch(fetchbooking());
     }
-     // Only run once on mount
-   }, []);
+  }, [dispatch, bookings.length]);
 
+  console.log("this booking data", bookings);
+    // console.log( "this boking data",bookings)
   // ট্যাব সেটিং
   const tabs = [
     { id: "all", label: "All Bookings", count: bookings.length },
@@ -46,28 +46,28 @@ const BookingsSection = () => {
       ? bookings
       : bookings.filter((booking) => booking.status === activeTab);
 
-  const getStatusColor = (status) => {
-    const colors = {
-      pending:
-        "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300",
-      confirmed:
-        "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300",
-      completed:
-        "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
-      cancelled: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
-    };
-    return colors[status] || "bg-gray-100 text-gray-800";
-  };
+  // const getStatusColor = (status) => {
+  //   const colors = {
+  //     pending:
+  //       "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300",
+  //     confirmed:
+  //       "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300",
+  //     completed:
+  //       "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
+  //     cancelled: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
+  //   };
+  //   return colors[status] || "bg-gray-100 text-gray-800";
+  // };
 
-  // const dispatch = useDispatch();
-  const handleStatusUpdate = (bookingId, newStatus) => {
-    dispatch({
-      type: "products/updateBookingStatus",
-      payload: { bookingId, newStatus }
-    });
-    // If you have updateBookingStatus exported from slice, use:
-    // dispatch(updateBookingStatus({ bookingId, newStatus }));
-  };
+  //  const dispatch = useDispatch();
+  // const handleStatusUpdate = (bookingId, newStatus) => {
+  //   dispatch({
+  //     type: "products/updateBookingStatus",
+  //     payload: { bookingId, newStatus }
+  //   });
+  //   // If you have updateBookingStatus exported from slice, use:
+  //   // dispatch(updateBookingStatus({ bookingId, newStatus }));
+  // };
 
   // Loading & Error
   if (loading) {
@@ -154,9 +154,9 @@ const BookingsSection = () => {
                   </td>
                   <td className="px-6 py-4">
                     <div className="text-sm text-gray-900 dark:text-white">
-                      {new Date(booking.Checkin).toLocaleDateString()} -{" "}
+                      {new Date(booking.checkin).toLocaleDateString()} -{" "}
                       {new Date(booking.
-                        Checkout).toLocaleDateString()}
+                        checkout).toLocaleDateString()}
                     </div>
                     <div className="text-sm text-gray-500 dark:text-gray-400">
                       {booking.guest} guests
@@ -166,56 +166,16 @@ const BookingsSection = () => {
                     <div className="text-sm font-semibold text-gray-900 dark:text-white">
                       ${booking.price}
                     </div>
-                    <div
-                      className={`text-xs ${booking.status === "paid"
-                          ? "text-emerald-600 dark:text-emerald-400"
-                          : "text-amber-600 dark:text-amber-400"
-                        }`}
-                    >
-                      {booking.status}
-                    </div>
+                 
                   </td>
-                  <td className="px-6 py-4">
-                    <span
-                      className={`inline-flex px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(
-                        booking.status
-                      )}`}
-                    >
-                      {booking.status}
-                    </span>
+                  {/* states */}
+                  <td>
+                    <p>pending</p>
                   </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      {booking.status === "pending" && (
-                        <>
-                          <button
-                            onClick={() =>
-                              handleStatusUpdate(booking.id, "confirmed")
-                            }
-                            className="px-3 py-1 bg-emerald-500 text-white rounded-lg text-sm font-medium hover:bg-emerald-600 transition-colors"
-                          >
-                            Accept
-                          </button>
-                          <button
-                            onClick={() =>
-                              handleStatusUpdate(booking.id, "cancelled")
-                            }
-                            className="px-3 py-1 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 transition-colors"
-                          >
-                            Reject
-                          </button>
-                        </>
-                      )}
-                      {booking.status === "confirmed" && (
-                        <button
-                          onClick={() =>
-                            handleStatusUpdate(booking.id, "completed")
-                          }
-                          className="px-3 py-1 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors"
-                        >
-                          Complete
-                        </button>
-                      )}
+                   <td>
+                    <div className="flex gap-2">
+                      <button  className="px-3 py-1 text-white bg-green-400 rounded-lg">Accept</button> 
+                    <button  className="px-3 py-1 text-white bg-red-500 rounded-lg">Reject</button>
                     </div>
                   </td>
                 </tr>

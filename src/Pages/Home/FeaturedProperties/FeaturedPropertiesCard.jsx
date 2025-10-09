@@ -38,11 +38,11 @@ const FeaturedPropertiesCard = () => {
   // const [properties, setProperties] = useState([]);
 
   const dispatch = useDispatch();
-  const { items, loading, error } = useSelector((state) => state.products);
-  useEffect(() => {
-    dispatch(fetchlimit());
-  }, [dispatch]);
-
+  const {  featuredItems, loading, error } = useSelector((state) => state.products);
+ useEffect(() => {
+  dispatch(fetchlimit());
+}, [dispatch]);
+  console.log( featuredItems)
   const toggleWishlist = (id) => {
     setWishlist((prev) =>
       prev.includes(id) ? prev.filter((w) => w !== id) : [...prev, id]
@@ -89,7 +89,7 @@ const FeaturedPropertiesCard = () => {
       {/* ✅ Show Skeletons when loading */}
 
       <div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12 px-4 md:px-14">
-        {items?.map((propertie, index) => (
+        { featuredItems?.map((propertie, index) => (
           <motion.div
             key={propertie.id}
             initial={{ opacity: 0, y: 40 }}

@@ -13,25 +13,25 @@ import {
   Snowflake,
   Coffee,
 } from "lucide-react";
-import { fetchbooking, fetchProducts, deleteProperty } from "../../../../redux/PropertieSlice";
+import {  fetchProducts, deleteProperty } from "../../../../redux/PropertieSlice";
 import AddPropertyModal from "../../AddProperty/AddProperty";
-
+//  import { AuthContext } from "../../../../Context/AuthContext";
 const MotionDiv = motion.div;
 
 const ListingsSection = () => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editProperty, setEditProperty] = useState(null);
   const dispatch = useDispatch();
+  //  const {user}=useContext(AuthContext)
+  //  console.log(user)
   const { items: properties, loading, error } = useSelector((state) => state.products);
   const [isAddPropertyModalOpen, setIsAddPropertyModalOpen] = useState(false);
 
-  useEffect(() => {
-   if(!properties.length ){
-     dispatch(fetchProducts());
-   }
-    // Only run once on mount
-  }, []);
+useEffect(() => {
+  dispatch(fetchProducts());
+}, [dispatch]);
 
+  console.log("this property data",properties)
   const togglePropertyStatus = (propertyId, currentStatus) => {
     const newStatus = currentStatus === "active" ? "inactive" : "active";
     dispatch({
@@ -43,10 +43,10 @@ const ListingsSection = () => {
 
 
 
-  const handlePropertyAdded = () => {
-    // Refresh the properties list
-    dispatch(fetchbooking());
-  };
+  // const handlePropertyAdded = () => {
+  //   // Refresh the properties list
+  //   dispatch(fetchProducts());
+  // };
 
   return (
     <div className="space-y-6">
@@ -54,7 +54,7 @@ const ListingsSection = () => {
       <AddPropertyModal
         isOpen={isAddPropertyModalOpen}
         onClose={() => setIsAddPropertyModalOpen(false)}
-        onPropertyAdded={handlePropertyAdded}
+        // onPropertyAdded={handlePropertyAdded}
       />
 
       <div className="flex items-center justify-between">
@@ -105,7 +105,7 @@ const ListingsSection = () => {
                       : "bg-gray-400 text-white"
                     }`}
                 >
-                  {property.status === "active" ? "Active" : "Inactive"}
+                  {property.status === "pending" ? "Active" : "Inactive"}
                 </span>
               </div>
 
@@ -143,7 +143,7 @@ const ListingsSection = () => {
                         : "bg-emerald-100 text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300"
                       }`}
                   >
-                    {property.status === "active" ? "Deactivate" : "Activate"}
+                    {property.status === "pending" ? "Deactivate" : "Activate"}
                   </button>
                   <button
                     className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"

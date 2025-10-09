@@ -16,9 +16,10 @@ const BrowseProperties = () => {
  const dispatch=useDispatch();
  const {items, loading, error}=useSelector((state)=>state.products)
 //  console.log(items)
- useEffect(()=>{
-  dispatch(fetchProducts())
- },[dispatch])
+ useEffect(() => {
+  dispatch(fetchProducts());
+}, [dispatch]);
+
 
   const [price, setPrice] = useState(500);
   const [expanded, setExpanded] = useState(null);
