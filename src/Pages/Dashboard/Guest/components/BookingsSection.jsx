@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { AuthContext } from "../../../../Context/AuthContext";
 import { deleteBooking, fetchMyBooking } from "../../../../redux/PropertieSlice";
 import Swal from "sweetalert2";
+import { MdHotel } from "react-icons/md";
+import { Link } from "react-router";
 
 
 
@@ -56,96 +58,120 @@ const BookingsSection = () => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
-  if (!bookings?.length) return <p>No bookings found.</p>;
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-2xl font-bold mb-4">My Bookings</h2>
-      {bookings.map((booking) => (
-        <motion.div
-          key={booking._id}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-3"
-        >
-          <div className="flex flex-col sm:flex-row gap-4 items-stretch">
-            {/* Left Side: Image */}
-            <div className="flex-shrink-0 w-full sm:w-60 h-40">
-              <img
-                src={booking.img}
-                alt={booking.title}
-                className="w-full h-full object-cover rounded-lg"
-              />
-            </div>
+    <div>
+      {
+        bookings.length === 0 ? <>
 
-            {/* Right Side: Details */}
-            <div className="flex-grow p-1 relative">
-              <span
-                className={`absolute top-0 right-0 px-3 py-1 text-sm font-medium rounded-full ${booking.status === "confirmed"
-                  ? "bg-green-100 text-green-700"
-                  : "bg-yellow-100 text-yellow-700"
-                  }`}
-              >
-                {booking.status}
-              </span>
-
-              <h2 className="text-xl font-semibold text-gray-800">
-                {booking.title}
-              </h2>
-              <p className="text-sm text-gray-500 mb-4">
-                Hosted by {booking.host || "Unknown"}
-              </p>
-
-              <div className="flex justify-between items-center text-gray-700 border-b border-gray-100 pb-3 mb-4">
-                <div>
-                  <p className="text-sm text-gray-500">Check-in</p>
-                  <p className="font-bold">{formatDate(booking.Checkin)}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Check-out</p>
-                  <p className="font-bold">{formatDate(booking.Checkout)}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm text-gray-500">Total Price</p>
-                  <p className="font-black text-lg">
-                    ৳{Number(booking.price).toLocaleString()}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-3 mt-4 flex-wrap">
-                <button className="px-4 py-2 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600 transition duration-150 shadow-md">
-                  Contact Host
-                </button>
-                {/* Cancel Booking Button */}
-                <button
-                  onClick={() => handleCancelBooking(booking._id)}
-                  className="px-4 py-2 bg-red-500 text-white font-medium rounded-lg hover:bg-red-600 transition duration-150 shadow-md"
-                >
-                  Cancel Booking
-                </button>
-                <button className="px-4 py-2 bg-white text-gray-700 border border-gray-300 font-medium rounded-lg hover:bg-gray-50 transition duration-150 flex items-center">
-                  <svg
-                    className="w-5 h-5 mr-1"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                    ></path>
-                  </svg>
-                  Invoice
-                </button>
-              </div>
-            </div>
+          <div className="flex flex-col items-center justify-center py-20 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-md text-center mx-4 md:mx-0">
+            <MdHotel className="w-20 h-20 mb-4 text-gray-300 dark:text-gray-600" />
+            <h3 className="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              No Bookings Yet
+            </h3>
+            <p className="text-gray-500 dark:text-gray-400 mb-6 px-4">
+              You haven't made any bookings yet. Browse our properties and book your favorite stay.
+            </p>
+            <Link to="/BrowseProperties">
+              <button className="px-6 py-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
+                Browse Properties
+              </button>
+            </Link>
           </div>
-        </motion.div>
-      ))}
+        </> : <>
+
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold mb-4">My Bookings</h2>
+            {bookings.map((booking) => (
+              <motion.div
+                key={booking._id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-3"
+              >
+                <div className="flex flex-col sm:flex-row gap-4 items-stretch">
+                  {/* Left Side: Image */}
+                  <div className="flex-shrink-0 w-full sm:w-60 h-40">
+                    <img
+                      src={booking.img}
+                      alt={booking.title}
+                      className="w-full h-full object-cover rounded-lg"
+                    />
+                  </div>
+
+                  {/* Right Side: Details */}
+                  <div className="flex-grow p-1 relative">
+                    <span
+                      className={`absolute top-0 right-0 px-3 py-1 text-sm font-medium rounded-full ${booking.status === "confirmed"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-yellow-100 text-yellow-700"
+                        }`}
+                    >
+                      {booking.status}
+                    </span>
+
+                    <h2 className="text-xl font-semibold text-gray-800">
+                      {booking.title}
+                    </h2>
+                    <p className="text-sm text-gray-500 mb-4">
+                      Hosted by {booking.host || "Unknown"}
+                    </p>
+
+                    <div className="flex justify-between items-center text-gray-700 border-b border-gray-100 pb-3 mb-4">
+                      <div>
+                        <p className="text-sm text-gray-500">Check-in</p>
+                        <p className="font-bold">{formatDate(booking.Checkin)}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-500">Check-out</p>
+                        <p className="font-bold">{formatDate(booking.Checkout)}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm text-gray-500">Total Price</p>
+                        <p className="font-black text-lg">
+                          ৳{Number(booking.price).toLocaleString()}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3 mt-4 flex-wrap">
+                      <button className="px-4 py-2 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600 transition duration-150 shadow-md">
+                        Contact Host
+                      </button>
+                      {/* Cancel Booking Button */}
+                      <button
+                        onClick={() => handleCancelBooking(booking._id)}
+                        className="px-4 py-2 bg-red-500 text-white font-medium rounded-lg hover:bg-red-600 transition duration-150 shadow-md"
+                      >
+                        Cancel Booking
+                      </button>
+                      <button className="px-4 py-2 bg-white text-gray-700 border border-gray-300 font-medium rounded-lg hover:bg-gray-50 transition duration-150 flex items-center">
+                        <svg
+                          className="w-5 h-5 mr-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                          ></path>
+                        </svg>
+                        Invoice
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+
+        </>
+      }
     </div>
   );
 };
