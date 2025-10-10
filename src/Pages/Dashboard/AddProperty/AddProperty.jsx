@@ -19,6 +19,7 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
     guest: "",
     reating: "",
     image: null,
+    status:"avaliable"
   });
 
   // Prefill form if editing

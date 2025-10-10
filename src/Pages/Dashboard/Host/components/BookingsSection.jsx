@@ -1,9 +1,9 @@
 
-import React, {  useEffect, useState } from "react";
+import React, {  useEffect, } from "react";
 import { Calendar } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../../../components/Loading";
-import { fetchbooking } from "../../../../redux/PropertieSlice";
+import {  deleteBooking, fetchbooking, updateBookingStatus } from "../../../../redux/PropertieSlice";
 
 const BookingsSection = () => {
    const dispatch = useDispatch();
@@ -11,7 +11,7 @@ const BookingsSection = () => {
   // dispatch already declared above
  const { bookings, loading, error } = useSelector((state) => state.products);
  
-  const [activeTab, setActiveTab] = useState("all");
+  // const [activeTab, setActiveTab] = useState("all");
 
  useEffect(() => {
     if (!bookings.length) {
@@ -22,29 +22,29 @@ const BookingsSection = () => {
   console.log("this booking data", bookings);
     // console.log( "this boking data",bookings)
   // ট্যাব সেটিং
-  const tabs = [
-    { id: "all", label: "All Bookings", count: bookings.length },
-    {
-      id: "pending",
-      label: "Pending",
-      count: bookings.filter((b) => b.status === "pending").length,
-    },
-    {
-      id: "confirmed",
-      label: "Confirmed",
-      count: bookings.filter((b) => b.status === "confirmed").length,
-    },
-    {
-      id: "completed",
-      label: "Completed",
-      count: bookings.filter((b) => b.status === "completed").length,
-    },
-  ];
+  // const tabs = [
+  //   { id: "all", label: "All Bookings", count: bookings.length },
+  //   {
+  //     id: "pending",
+  //     label: "Pending",
+  //     count: bookings.filter((b) => b.status === "pending").length,
+  //   },
+  //   {
+  //     id: "confirmed",
+  //     label: "Confirmed",
+  //     count: bookings.filter((b) => b.status === "confirmed").length,
+  //   },
+  //   {
+  //     id: "completed",
+  //     label: "Completed",
+  //     count: bookings.filter((b) => b.status === "completed").length,
+  //   },
+  // ];
 
-  const filteredBookings =
-    activeTab === "all"
-      ? bookings
-      : bookings.filter((booking) => booking.status === activeTab);
+  // const filteredBookings =
+  //   activeTab === "all"
+  //     ? bookings
+  //     : bookings.filter((booking) => booking.status === activeTab);
 
   // const getStatusColor = (status) => {
   //   const colors = {
@@ -89,7 +89,7 @@ const BookingsSection = () => {
         </button>
       </div>
 
-      {/* Tabs */}
+      {/* Tabs
       <div className="flex gap-2 border-b border-gray-200 dark:border-gray-700">
         {tabs.map((tab) => (
           <button
@@ -111,7 +111,7 @@ const BookingsSection = () => {
             </span>
           </button>
         ))}
-      </div>
+      </div> */}
 
       {/* Table */}
       <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
@@ -137,7 +137,7 @@ const BookingsSection = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-              {filteredBookings.map((booking) => (
+              {bookings.map((booking) => (
                 <tr
                   key={booking._id}
                   className="hover:bg-gray-50 dark:hover:bg-gray-700/50"
@@ -154,9 +154,8 @@ const BookingsSection = () => {
                   </td>
                   <td className="px-6 py-4">
                     <div className="text-sm text-gray-900 dark:text-white">
-                      {new Date(booking.checkin).toLocaleDateString()} -{" "}
-                      {new Date(booking.
-                        checkout).toLocaleDateString()}
+                      {new Date(booking.Checkin).toLocaleDateString()} -{" "}
+                      {new Date(booking.Checkout).toLocaleDateString()}
                     </div>
                     <div className="text-sm text-gray-500 dark:text-gray-400">
                       {booking.guest} guests
@@ -170,12 +169,14 @@ const BookingsSection = () => {
                   </td>
                   {/* states */}
                   <td>
-                    <p>pending</p>
+                    <p>{booking.status}</p>
                   </td>
                    <td>
                     <div className="flex gap-2">
-                      <button  className="px-3 py-1 text-white bg-green-400 rounded-lg">Accept</button> 
-                    <button  className="px-3 py-1 text-white bg-red-500 rounded-lg">Reject</button>
+                      <button   onClick={() =>
+        dispatch(updateBookingStatus({ bookingId: booking._id, newStatus: "confirmed" }))
+      } className="px-3 py-1 text-white bg-green-400 rounded-lg">Accept</button> 
+                    <button onClick={()=>dispatch(deleteBooking(booking._id))}  className="px-3 py-1 text-white bg-red-500 rounded-lg">Reject</button>
                     </div>
                   </td>
                 </tr>
@@ -183,7 +184,7 @@ const BookingsSection = () => {
             </tbody>
           </table>
 
-          {filteredBookings.length === 0 && (
+          {bookings.length === 0 && (
             <p className="text-center text-gray-500 py-6">No bookings found</p>
           )}
         </div>

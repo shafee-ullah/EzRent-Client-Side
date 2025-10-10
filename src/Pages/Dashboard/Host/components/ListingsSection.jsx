@@ -28,7 +28,10 @@ const ListingsSection = () => {
   const [isAddPropertyModalOpen, setIsAddPropertyModalOpen] = useState(false);
 
 useEffect(() => {
-  dispatch(fetchProducts());
+  if(!properties.length){
+     dispatch(fetchProducts());
+  }
+ 
 }, [dispatch]);
 
   console.log("this property data",properties)
@@ -105,7 +108,7 @@ useEffect(() => {
                       : "bg-gray-400 text-white"
                     }`}
                 >
-                  {property.status === "pending" ? "Active" : "Inactive"}
+                  {property.status === "avaliable" ? "Active" : "Inactive"}
                 </span>
               </div>
 
@@ -143,7 +146,7 @@ useEffect(() => {
                         : "bg-emerald-100 text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300"
                       }`}
                   >
-                    {property.status === "pending" ? "Deactivate" : "Activate"}
+                    {property.status === "avaliable" ? "Deactivate" : "Activate"}
                   </button>
                   <button
                     className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
@@ -156,7 +159,7 @@ useEffect(() => {
                   </button>
                     <button
                       className="p-2 text-red-500 hover:text-red-700"
-                      onClick={() => dispatch(deleteProperty(property._id || property.id))}
+                      onClick={() => dispatch(deleteProperty(property._id ))}
                     >
                       <Trash2 className="w-4 h-4" />
                   </button>
