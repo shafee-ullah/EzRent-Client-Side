@@ -49,6 +49,7 @@ const UserManagementSection = () => {
 
   // Delete user (Reject)
   const handleRejectUser = async (id) => {
+    console.log('user rejected');
     toast.custom(
       (t) => (
         <div

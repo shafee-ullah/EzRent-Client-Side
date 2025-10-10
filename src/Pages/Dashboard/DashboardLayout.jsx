@@ -243,7 +243,7 @@ const DashboardLayout = () => {
             </div>
 
             {/* Become Host Button - Enhanced */}
-            {user?.role === "Guest" && (
+            {user?.role === "guest" && (
               <div className="relative">
                 <button
                   onClick={() => setOpen(true)}
