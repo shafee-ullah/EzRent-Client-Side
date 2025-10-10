@@ -15,8 +15,8 @@ createRoot(document.getElementById("root")).render(
     <AuthProvider>
       <Provider store={store}>
         <ThemeProvider>
-          <RouterProvider router={router} />
           <Toaster position="top-right" reverseOrder={false} />
+          <RouterProvider router={router} />
         </ThemeProvider>
 
       </Provider>

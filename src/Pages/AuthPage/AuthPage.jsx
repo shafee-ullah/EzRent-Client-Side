@@ -186,7 +186,7 @@ const AuthPage = () => {
         const userData = {
           name: formData.name,
           email, // already lowercase
-          role: "Guest",
+          role: "guest",
         };
         await axios.post("https://ez-rent-server-side.vercel.app/users", userData);
         navigate("/");
@@ -234,7 +234,7 @@ const AuthPage = () => {
       const userData = {
         name: user.displayName || "Anonymous",
         email: user.email,
-        role: "Guest",
+        role: "guest",
       };
 
       // POST to backend
