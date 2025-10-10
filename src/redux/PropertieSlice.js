@@ -43,7 +43,7 @@ export const updateBookingStatus = createAsyncThunk(
   async ({ bookingId, newStatus }) => {
     // console.log("hello",bookingId)
     const res = await axios.patch(
-      `https://ez-rent-server-side.vercel.app/bookings/${bookingId}`,
+      `http://localhost:5000/bookings/${bookingId}`,
       { status: newStatus }
     );
     return res.data.booking; // updated booking from DB
@@ -83,13 +83,13 @@ export const deleteBooking = createAsyncThunk(
   }
 );
 
-export const updateProperty = createAsyncThunk(
-  "products/updateProperty",
-  async ({ propertyId, updatedData }) => {
-    await axios.put(`https://ez-rent-server-side.vercel.app/properties/${propertyId}`, updatedData);
-    return { propertyId, updatedData };
-  }
-);
+// export const updateProperty = createAsyncThunk(
+//   "products/updateProperty",
+//   async ({ propertyId, updatedData }) => {
+//     await axios.put(`https://ez-rent-server-side.vercel.app/properties/${propertyId}`, updatedData);
+//     return { propertyId, updatedData };
+//   }
+// );
 
 export const deleteProperty = createAsyncThunk(
   "products/deleteProperty",
@@ -207,12 +207,12 @@ const productSlice = createSlice({
       })
 
       // 🏗 Update property
-      .addCase(updateProperty.fulfilled, (state, action) => {
-        const { propertyId, updatedData } = action.payload;
-        state.items = state.items.map((item) =>
-          item._id === propertyId ? { ...item, ...updatedData } : item
-        );
-      })
+      // .addCase(updateProperty.fulfilled, (state, action) => {
+      //   const { propertyId, updatedData } = action.payload;
+      //   state.items = state.items.map((item) =>
+      //     item._id === propertyId ? { ...item, ...updatedData } : item
+      //   );
+      // })
 
       // 🧾 Host requests
       .addCase(fetchHostRequests.fulfilled, (state, action) => {

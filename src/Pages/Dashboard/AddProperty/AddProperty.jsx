@@ -1,13 +1,13 @@
 // components/AddPropertyModal.jsx
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import Swal from "sweetalert2";
-import { updateProperty } from "../../../redux/PropertieSlice";
+// import { updateProperty } from "../../../redux/PropertieSlice";
 
 const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [product, setProduct] = useState({
     name: "",
     description: "",
@@ -75,14 +75,14 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
       }
       const updatedData = { ...product, image: imageUrl };
       // Update property in backend
-      await fetch(`https://ez-rent-server-side.vercel.app/properties/${property._id || property.id}`, {
+      await fetch(`https://ez-rent-server-side.vercel.app/AddProperty/${property._id}`, {
         method: "PUT",
         headers: {
           "content-type": "application/json",
         },
         body: JSON.stringify(updatedData),
       });
-      await dispatch(updateProperty({ propertyId: property._id || property.id, updatedData }));
+    
       Swal.fire({
         icon: "success",
         title: "Property Updated Successfully!",
