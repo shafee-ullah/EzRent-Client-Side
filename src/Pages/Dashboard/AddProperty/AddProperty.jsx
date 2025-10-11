@@ -1,13 +1,16 @@
 // components/AddPropertyModal.jsx
-import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect, useContext } from "react";
+// import { useDispatch } from "react-redux";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import Swal from "sweetalert2";
-import { updateProperty } from "../../../redux/PropertieSlice";
+import { AuthContext } from "../../../Context/AuthContext";
+
 
 const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
-  const dispatch = useDispatch();
+  const {user}=useContext(AuthContext)
+  console.log(user)
+  // const dispatch = useDispatch();
   const [product, setProduct] = useState({
     name: "",
     description: "",
@@ -17,8 +20,11 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
     offerPrice: "",
     Location: "",
     guest: "",
-    reating: "",
     image: null,
+    email:user?.email,
+    Name:user.displayName,
+    status:"active",
+    propertystatus:"pending",
   });
 
   // Prefill form if editing
@@ -74,14 +80,14 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
       }
       const updatedData = { ...product, image: imageUrl };
       // Update property in backend
-      await fetch(`https://ez-rent-server-side.vercel.app/properties/${property._id || property.id}`, {
+      await fetch(`https://ez-rent-server-side.vercel.app/AddProperty/${property._id}`, {
         method: "PUT",
         headers: {
           "content-type": "application/json",
         },
         body: JSON.stringify(updatedData),
       });
-      await dispatch(updateProperty({ propertyId: property._id || property.id, updatedData }));
+    
       Swal.fire({
         icon: "success",
         title: "Property Updated Successfully!",
@@ -329,26 +335,7 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
               />
             </div>
 
-            <div>
-              <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
-                Rating
-              </label>
-              <input
-                type="number"
-                name="reating"
-                value={product.reating}
-                onChange={handleChange}
-                min="0"
-                max="5"
-                step="0.1"
-                placeholder="0.0"
-                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-              />
-            </div>
-          </div>
-
-          {/* Services */}
-          <div>
+         <div>
             <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
               Services (comma separated)
             </label>
@@ -361,6 +348,10 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
               className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
             />
           </div>
+          </div>
+
+          {/* Services */}
+        
 
           {/* Buttons */}
           <div className="flex gap-3 pt-4">

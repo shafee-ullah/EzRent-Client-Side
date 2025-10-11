@@ -1,7 +1,6 @@
 import { io } from "socket.io-client";
 import store from "../app/Store";
 import {
-  setSocket,
   setConnectionStatus,
   addMessage,
   setUserOnline,
@@ -28,8 +27,7 @@ class SocketService {
       forceNew: true,
     });
 
-    // Store socket in Redux
-    store.dispatch(setSocket(this.socket));
+    // Socket is managed locally in this service
 
     // Connection event handlers
     this.socket.on("connect", () => {

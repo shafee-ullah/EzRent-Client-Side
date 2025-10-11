@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useContext } from "react";
 import { CiLocationOn, CiCalendar } from "react-icons/ci";
 import { FaStar } from "react-icons/fa";
@@ -9,15 +10,16 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addToWishlist,
   fetchWishlist,
-  fetchProducts,
+ 
   removeFromWishlist,
+  fetchmanageproperty,
 } from "../../redux/PropertieSlice";
 import Loading from "../../components/Loading";
 import Search from "./Search";
 import { MdCategory } from "react-icons/md";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Context/AuthContext";
-import axios from "axios";
+// import axios from "axios";
 
 const BrowseProperties = () => {
   const dispatch = useDispatch();
@@ -26,13 +28,30 @@ const BrowseProperties = () => {
     (state) => state.products
   );
 
-  const [price, setPrice] = useState(500);
+  const [price, setPrice] = useState(1000);
   const [expanded, setExpanded] = useState(null);
 
   useEffect(() => {
-    dispatch(fetchProducts());
+    console.log("Fetching properties...");
+    dispatch(fetchmanageproperty())
+      .unwrap()
+      .then(response => {
+        console.log("Properties fetched:", response);
+      })
+      .catch(error => {
+        console.error("Error fetching properties:", error);
+      });
+
     if (user?.email) {
-      dispatch(fetchWishlist(user.email));
+      console.log("Fetching wishlist for:", user.email);
+      dispatch(fetchWishlist(user.email))
+        .unwrap()
+        .then(response => {
+          console.log("Wishlist fetched:", response);
+        })
+        .catch(error => {
+          console.error("Error fetching wishlist:", error);
+        });
     }
   }, [dispatch, user?.email]);
 
@@ -73,6 +92,11 @@ const BrowseProperties = () => {
 
   return (
     <div className="max-w-11/12 mx-auto">
+      {error && (
+        <div className="text-red-500 p-4 bg-red-100 rounded mb-4">
+          Error: {error}
+        </div>
+      )}
       <div className="md:flex justify-center text-center my-4 w-full shadow-md dark:bg-gray-900">
         <Search />
       </div>
@@ -125,9 +149,12 @@ const BrowseProperties = () => {
         {/* Cards Section */}
         <div className="w-full h-screen overflow-y-scroll md:p-6 p-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {console.log("Rendering items:", items)}
             {items
-              .filter((p) => p.price <= price)
-              ?.map((property, index) => {
+              .filter((p) => {
+                console.log("Filtering property:", p.name, "Price:", p.price, "Status:", p.propertystatus);
+                return p.price <= price && p.propertystatus === "active";
+              })?.map((property, index) => {
                 const isInWishlist = wishlist?.some(
                   (w) => w.propertyId === property._id
                 );

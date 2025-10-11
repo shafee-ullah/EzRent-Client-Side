@@ -110,8 +110,7 @@ const initialState = {
   messagesLoading: false,
   messagesError: null,
 
-  // Socket connection
-  socket: null,
+  // Connection status
   isConnected: false,
 
   // Online users
@@ -132,11 +131,6 @@ const chatSlice = createSlice({
   name: "chat",
   initialState,
   reducers: {
-    // Socket connection actions
-    setSocket: (state, action) => {
-      state.socket = action.payload;
-    },
-
     setConnectionStatus: (state, action) => {
       state.isConnected = action.payload;
     },
