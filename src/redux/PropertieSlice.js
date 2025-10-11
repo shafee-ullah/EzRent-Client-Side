@@ -1,14 +1,46 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// 🟢 Fetch All Properties
 export const fetchProducts = createAsyncThunk(
-  "products/fetchProducts",
-  async () => {
-    const res = await axios.get("https://ez-rent-server-side.vercel.app/properties");
+  "properties/fetchProducts",
+  async (email) => {
+    const res = await axios.get(
+      `http://localhost:5000/properties?email=${email}`
+    );
     return res.data;
   }
 );
+
+// 🟢 Fetch All Properties
+export const fetchmanageproperty = createAsyncThunk("products/fetchmanageproperty", async () => {
+  const res = await axios.get("http://localhost:5000/manageproperty");
+  return res.data;
+});
+// redux/PropertieSlice.js
+export const updatePropertyStatusAdmin = createAsyncThunk(
+  "products/updatePropertyStatusAdmin",
+  async ({ id,  propertystatus }) => {
+    const res = await axios.patch(
+      `http://localhost:5000/AddProperty/${id}`, // adjust API route
+      {  propertystatus }
+    );
+    return res.data; // updated property
+  }
+);
+
+
+//update propery status update
+export const updatePropertyStatus = createAsyncThunk(
+  "products/updatePropertyStatus",
+  async ({ propertyId, newStatus }) => {
+    const res = await axios.patch(
+      `http://localhost:5000/Property/${propertyId}`, // 👈 adjust your API URL
+      { status: newStatus }
+    );
+    return res.data; // return updated property
+  }
+);
+
 
 // 🟢 Fetch Limit (Featured)
 export const fetchlimit = createAsyncThunk(
@@ -25,6 +57,18 @@ export const fetchbooking = createAsyncThunk(
   async () => {
     const res = await axios.get("https://ez-rent-server-side.vercel.app/bookinghotel");
     return res.data;
+  }
+);
+// Update booking status by ID
+export const updateBookingStatus = createAsyncThunk(
+  "products/updateBookingStatus",
+  async ({ bookingId, newStatus }) => {
+    // console.log("hello",bookingId)
+    const res = await axios.patch(
+      `http://localhost:5000/bookings/${bookingId}`,
+      { status: newStatus }
+    );
+    return res.data.booking; // updated booking from DB
   }
 );
 
@@ -61,13 +105,7 @@ export const deleteBooking = createAsyncThunk(
   }
 );
 
-export const updateProperty = createAsyncThunk(
-  "products/updateProperty",
-  async ({ propertyId, updatedData }) => {
-    await axios.put(`https://ez-rent-server-side.vercel.app/properties/${propertyId}`, updatedData);
-    return { propertyId, updatedData };
-  }
-);
+
 
 export const deleteProperty = createAsyncThunk(
   "products/deleteProperty",
@@ -114,8 +152,9 @@ export const fetchWishlist = createAsyncThunk(
 const productSlice = createSlice({
   name: "products",
   initialState: {
-    items: [],
+    items: [], // 🏠 all properties
     featured: [],
+    manageproperty:[],
     bookings: [],
     myBookings: [],
     user: null,
@@ -126,11 +165,7 @@ const productSlice = createSlice({
   },
 
   reducers: {
-    updateBookingStatus: (state, action) => {
-      const { bookingId, newStatus } = action.payload;
-      const booking = state.bookings.find((b) => b._id === bookingId);
-      if (booking) booking.status = newStatus;
-    },
+    
   },
 
   extraReducers: (builder) => {
@@ -147,10 +182,31 @@ const productSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
+      // 🏠 Fetch all manageproperties
+      .addCase(fetchmanageproperty.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchmanageproperty.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = action.payload;
+      })
+      .addCase(fetchmanageproperty.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
 
-      // ⭐ Featured
+      // 🟢 fetch featured
+      .addCase(fetchlimit.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(fetchlimit.fulfilled, (state, action) => {
-        state.featured = action.payload;
+        state.loading = false;
+        state.featuredItems = action.payload; // 👉 separate state
+      })
+      .addCase(fetchlimit.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       })
 
       // 🧾 All bookings
@@ -179,13 +235,21 @@ const productSlice = createSlice({
         state.myBookings = state.myBookings.filter((b) => b._id !== action.payload);
       })
 
-      // 🏗 Update property
-      .addCase(updateProperty.fulfilled, (state, action) => {
-        const { propertyId, updatedData } = action.payload;
-        state.items = state.items.map((item) =>
-          item._id === propertyId ? { ...item, ...updatedData } : item
-        );
-      })
+    // // ✅ Update status in Redux state immediately
+    //   .addCase(updatePropertyStatus.fulfilled, (state, action) => {
+    //     const updated = action.payload;
+    //     state.items = state.items.map((p) =>
+    //       p._id === updated._id ? updated : p
+    //     );
+    //   })
+       .addCase(updatePropertyStatus.fulfilled, (state, action) => {
+  const updatedProperty = action.payload;
+  const index = state.items.findIndex(p => p._id === updatedProperty._id);
+  if (index !== -1) {
+    state.items[index] = updatedProperty; // instantly replace old property
+  }
+})
+
 
       // 🧾 Host requests
       .addCase(fetchHostRequests.fulfilled, (state, action) => {
@@ -203,7 +267,23 @@ const productSlice = createSlice({
       })
       .addCase(fetchWishlist.fulfilled, (state, action) => {
         state.wishlist = action.payload;
+      })
+
+       .addCase(updateBookingStatus.fulfilled, (state, action) => {
+        const updatedBooking = action.payload;
+        const index = state.bookings.findIndex((b) => b._id === updatedBooking._id);
+        if (index !== -1) {
+          state.bookings[index] = updatedBooking; // local state update
+        }
+      })
+       .addCase(updatePropertyStatusAdmin.fulfilled, (state, action) => {
+        const updated = action.payload;
+        const index = state.items.findIndex((p) => p._id === updated._id);
+        if (index !== -1) {
+          state.items[index] = updated;
+        }
       });
+       
   },
 });
 

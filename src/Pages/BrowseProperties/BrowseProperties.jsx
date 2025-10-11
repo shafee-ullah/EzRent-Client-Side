@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useContext } from "react";
 import { CiLocationOn, CiCalendar } from "react-icons/ci";
 import { FaStar } from "react-icons/fa";
@@ -9,15 +10,16 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addToWishlist,
   fetchWishlist,
-  fetchProducts,
+ 
   removeFromWishlist,
+  fetchmanageproperty,
 } from "../../redux/PropertieSlice";
 import Loading from "../../components/Loading";
 import Search from "./Search";
 import { MdCategory } from "react-icons/md";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Context/AuthContext";
-import axios from "axios";
+// import axios from "axios";
 
 const BrowseProperties = () => {
   const dispatch = useDispatch();
@@ -30,7 +32,7 @@ const BrowseProperties = () => {
   const [expanded, setExpanded] = useState(null);
 
   useEffect(() => {
-    dispatch(fetchProducts());
+    dispatch(fetchmanageproperty());
     if (user?.email) {
       dispatch(fetchWishlist(user.email));
     }
@@ -126,8 +128,7 @@ const BrowseProperties = () => {
         <div className="w-full h-screen overflow-y-scroll md:p-6 p-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {items
-              .filter((p) => p.price <= price)
-              ?.map((property, index) => {
+              .filter((p) => p.price <= price && p.propertystatus === "active")?.map((property, index) => {
                 const isInWishlist = wishlist?.some(
                   (w) => w.propertyId === property._id
                 );
