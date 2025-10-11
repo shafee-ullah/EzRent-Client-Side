@@ -3,92 +3,82 @@ alwaysApply: true
 ---
 - Always follow the following design document whenever you are making any change or updating any feature.
 
-Take a whole look at the code structure of frontend and server side. Create a secure and responsive Stripe payment system where a guest user can pay their booking fee. The project should use React and Redux on the frontend, and Express.js with native MongoDB (not Mongoose) on the backend. The code must be clean, modular, and include proper comments for easy understanding.Use proper routing.
+Take a whole look at the code structure of frontend and server side. 
 
--Frontend Requirements:
+I want to build a guest ↔ host chat system that works in real time using Socket.io and Redux.
+Please give me a complete setup covering both backend and frontend.
 
-Use React functional components with hooks, Redux Toolkit for global state management, Axios for API requests, and Stripe integration using @stripe/react-stripe-js and @stripe/stripe-js.
+My MongoDB users collection stores data like this:
 
-Build a PaymentForm component that allows the guest to enter card details, confirm payment, and see success or error feedback.
-
-Manage payment data and states in Redux (paymentSlice.js).
-
-On form submission, send a POST request to /api/payment/create-payment-intent to generate a clientSecret from the backend.
-
-Use Stripe’s confirmCardPayment function to complete the transaction.
-
-After successful payment, send payment details (amount, transaction ID, booking ID, user ID, etc.) to the backend to store in MongoDB.
-
-Show loading states, validation messages, and success/error alerts.
-
-Design should be responsive with Tailwind CSS and include a confirmation message or modal after successful payment.
-
--Backend Requirements:
-
-Use Express.js for server setup and routing.
-
-Use Stripe Node.js SDK for handling payment intents.
-
-Use the native MongoDB driver (mongodb) for database operations, not Mongoose.
-
-
-Create two endpoints:
-
-POST /api/payment/create-payment-intent → Accepts amount, bookingId, and userId, creates a Stripe PaymentIntent, and returns the clientSecret.
-
-POST /api/payment/confirm → Accepts payment details (transaction ID, amount, booking ID, user ID, status) and stores them in a “payments” collection in MongoDB.
-
-MongoDB payment document example:
 {
-bookingId: "123abc",
-userId: "456xyz",
-amount: 200,
-transactionId: "pi_1ABCDEFG",
-paymentStatus: "succeeded",
-createdAt: new Date()
+  _id: ObjectId("68e9b4260b78f525ff8c1b36"),
+  name: "A K M Shafee Ullah",
+  email: "shafeeullah.412@gmail.com",
+  role: "guest"
+},
+{
+  _id: ObjectId("68e9b4b18beac499d42b65ac"),
+  name: "John Cena",
+  email: "johncena@gmail.com",
+  role: "host"
 }
 
--Security:
+Include the following details:
 
-Validate inputs before processing payments.
+1.Folder structure for backend and frontend (chat system integrated with existing booking app).
 
-Never store card details in the database.
+2.MongoDB collection design using native driver (not Mongoose):
 
-Handle all errors gracefully and return meaningful responses.
+-users
 
-Folder Structure Example:
-client/
-redux/paymentSlice.js
-components/PaymentForm.jsx
-pages/PaymentPage.jsx
-server/
-routes/paymentRoutes.js
-controllers/paymentController.js
-config/db.js
-index.js
+-conversations
 
-Payment Flow:
+-messages
+With sample documents for each.
 
-Guest clicks “Pay Now” on booking page.
+3.Backend Express.js routes (using native driver) for:
 
-PaymentForm loads and sends booking data to backend.
+-Creating a new conversation
 
-Backend creates Stripe PaymentIntent and returns clientSecret.
+-Fetching all conversations for a user
 
-Frontend confirms payment using Stripe.
+-Sending a message
 
-After success, payment info is stored in MongoDB.
+-Fetching all messages of a conversation
 
-Show payment success message or redirect to “My Bookings”.
+4.Socket.io integration for real-time message updates:
 
-Deliverables:
+-How to initialize the socket server in server.js
 
-Fully working frontend (React + Redux + Stripe integration)
+-How to join chat rooms using conversationId
 
-Backend APIs (Express + Stripe + MongoDB)
+-How to emit and listen for new messages
 
-Data stored in MongoDB after successful payment
+5.Frontend React setup with Redux Toolkit:
 
-Responsive UI and clear inline comments
+-chatSlice.js for managing conversations and messages in Redux
 
-Clean folder structure and organized code.
+-Using socket.io-client for connecting to the backend
+
+-React components for:
+
+-Chat list (show all conversations)
+
+-Chat window (messages + input field)
+
+-“Message Host” button (creates or opens a conversation)
+
+6.Integration with existing booking flow:
+
+-When a guest clicks “Contact Host” on My Bookings on Guest Dashboard:
+
+-Check if a conversation between guest and host exists → open it
+
+-If not → create a new conversation and open chat modal/page
+
+-After Creating the Conversation guest can message directly from  Messages option in the guest dashboard and host can see the message in the Messages option in host dashboard
+
+7.Add typing indicators and online/offline status tracking with Socket.io events 
+
+Please use async/await, modular Express routes, and Redux best practices.
+Make sure the entire setup works with native MongoDB driver, not Mongoose.The code must be clean, modular, and include proper comments for easy understanding.Use proper routing.

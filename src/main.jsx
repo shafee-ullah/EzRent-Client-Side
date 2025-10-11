@@ -6,8 +6,9 @@ import router from "./Router/Router.jsx";
 import { ThemeProvider } from "./Context/ThemeContext.jsx";
 import { Provider } from "react-redux";
 // import Store from "./app/store.js";
-import store from "./app/store.js";
-import AuthProvider from "../src/Context/AuthProvider.jsx"
+import store from "./app/Store.js";
+import AuthProvider from "../src/Context/AuthProvider.jsx";
+import ChatProvider from "./Components/Chat/ChatProvider.jsx";
 import { Toaster } from "react-hot-toast";
 
 createRoot(document.getElementById("root")).render(
@@ -15,12 +16,12 @@ createRoot(document.getElementById("root")).render(
     <AuthProvider>
       <Provider store={store}>
         <ThemeProvider>
-          <Toaster position="top-right" reverseOrder={false} />
-          <RouterProvider router={router} />
+          <ChatProvider>
+            <Toaster position="top-right" reverseOrder={false} />
+            <RouterProvider router={router} />
+          </ChatProvider>
         </ThemeProvider>
-
       </Provider>
     </AuthProvider>
-
   </StrictMode>
 );
