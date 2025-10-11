@@ -2,7 +2,11 @@ import React, { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { AuthContext } from "../../../../Context/AuthContext";
-import { deleteBooking, fetchMyBooking } from "../../../../redux/PropertieSlice";
+import {
+  deleteBooking,
+  fetchMyBooking,
+} from "../../../../redux/PropertieSlice";
+import { ContactHostButton } from "../../../../Components/Chat/MessageHostButton";
 import Swal from "sweetalert2";
 import { MdHotel } from "react-icons/md";
 import { Link } from "react-router";
@@ -13,16 +17,17 @@ const BookingsSection = () => {
   const { user } = useContext(AuthContext);
 
   // Use myBookings from Redux state
-  const { myBookings: bookings, loading, error } = useSelector(
-    (state) => state.products
-  );
+  const {
+    myBookings: bookings,
+    loading,
+    error,
+  } = useSelector((state) => state.products);
 
   useEffect(() => {
     if (user?.email) {
       dispatch(fetchMyBooking(user.email));
     }
   }, [dispatch, user?.email]);
-
 
   const handleCancelBooking = (id) => {
     Swal.fire({
@@ -38,7 +43,11 @@ const BookingsSection = () => {
         dispatch(deleteBooking(id))
           .unwrap()
           .then(() => {
-            Swal.fire("Cancelled!", "Your booking has been deleted.", "success");
+            Swal.fire(
+              "Cancelled!",
+              "Your booking has been deleted.",
+              "success"
+            );
           })
           .catch(() => {
             Swal.fire("Error", "Failed to cancel booking.", "error");
@@ -60,16 +69,16 @@ const BookingsSection = () => {
 
   return (
     <div>
-      {
-        bookings.length === 0 ? <>
-
+      {bookings.length === 0 ? (
+        <>
           <div className="flex flex-col items-center justify-center py-20 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-md text-center mx-4 md:mx-0">
             <MdHotel className="w-20 h-20 mb-4 text-gray-300 dark:text-gray-600" />
             <h3 className="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
               No Bookings Yet
             </h3>
             <p className="text-gray-500 dark:text-gray-400 mb-6 px-4">
-              You haven't made any bookings yet. Browse our properties and book your favorite stay.
+              You haven't made any bookings yet. Browse our properties and book
+              your favorite stay.
             </p>
             <Link to="/BrowseProperties">
               <button className="px-6 py-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
@@ -77,8 +86,9 @@ const BookingsSection = () => {
               </button>
             </Link>
           </div>
-        </> : <>
-
+        </>
+      ) : (
+        <>
           <div className="space-y-4">
             <h2 className="text-2xl font-bold mb-4">My Bookings</h2>
             {bookings.map((booking) => (
@@ -102,10 +112,11 @@ const BookingsSection = () => {
                   {/* Right Side: Details */}
                   <div className="flex-grow p-1 relative">
                     <span
-                      className={`absolute top-0 right-0 px-3 py-1 text-sm font-medium rounded-full ${booking.status === "confirmed"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-yellow-100 text-yellow-700"
-                        }`}
+                      className={`absolute top-0 right-0 px-3 py-1 text-sm font-medium rounded-full ${
+                        booking.status === "confirmed"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-yellow-100 text-yellow-700"
+                      }`}
                     >
                       {booking.status}
                     </span>
@@ -120,11 +131,15 @@ const BookingsSection = () => {
                     <div className="flex justify-between items-center text-gray-700 border-b border-gray-100 pb-3 mb-4">
                       <div>
                         <p className="text-sm text-gray-500">Check-in</p>
-                        <p className="font-bold">{formatDate(booking.Checkin)}</p>
+                        <p className="font-bold">
+                          {formatDate(booking.Checkin)}
+                        </p>
                       </div>
                       <div>
                         <p className="text-sm text-gray-500">Check-out</p>
-                        <p className="font-bold">{formatDate(booking.Checkout)}</p>
+                        <p className="font-bold">
+                          {formatDate(booking.Checkout)}
+                        </p>
                       </div>
                       <div className="text-right">
                         <p className="text-sm text-gray-500">Total Price</p>
@@ -135,9 +150,13 @@ const BookingsSection = () => {
                     </div>
 
                     <div className="flex gap-3 mt-4 flex-wrap">
-                      <button className="px-4 py-2 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600 transition duration-150 shadow-md">
-                        Contact Host
-                      </button>
+                      <ContactHostButton
+                        hostId={booking.hostId}
+                        hostName={booking.host}
+                        propertyId={booking.propertyId}
+                        propertyTitle={booking.title}
+                        className="px-4 py-2"
+                      />
                       {/* Cancel Booking Button */}
                       <button
                         onClick={() => handleCancelBooking(booking._id)}
@@ -167,10 +186,8 @@ const BookingsSection = () => {
               </motion.div>
             ))}
           </div>
-
-
         </>
-      }
+      )}
     </div>
   );
 };
