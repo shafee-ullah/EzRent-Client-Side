@@ -1,5 +1,6 @@
+
 // Updated ListingsSection.jsx
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { motion } from "framer-motion";
 import {
@@ -13,51 +14,37 @@ import {
   Snowflake,
   Coffee,
 } from "lucide-react";
-import {  fetchProducts, deleteProperty } from "../../../../redux/PropertieSlice";
+import { fetchProducts, deleteProperty, updatePropertyStatus } from "../../../../redux/PropertieSlice";
 import AddPropertyModal from "../../AddProperty/AddProperty";
-//  import { AuthContext } from "../../../../Context/AuthContext";
+import toast, { Toaster } from "react-hot-toast"; // <-- import toast
+import { AuthContext } from "../../../../Context/AuthContext";
+
 const MotionDiv = motion.div;
 
 const ListingsSection = () => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editProperty, setEditProperty] = useState(null);
+  const {user}=useContext(AuthContext)
   const dispatch = useDispatch();
-  //  const {user}=useContext(AuthContext)
-  //  console.log(user)
+
   const { items: properties, loading, error } = useSelector((state) => state.products);
   const [isAddPropertyModalOpen, setIsAddPropertyModalOpen] = useState(false);
 
-useEffect(() => {
-  if(!properties.length){
-     dispatch(fetchProducts());
+ useEffect(() => {
+  if (user?.email && !properties.length ) {
+    dispatch(fetchProducts(user?.email));
   }
- 
-}, [dispatch]);
-
-  console.log("this property data",properties)
-  const togglePropertyStatus = (propertyId, currentStatus) => {
-    const newStatus = currentStatus === "active" ? "inactive" : "active";
-    dispatch({
-      type: "products/updateBookingStatus/pending",
-      meta: {},
-      payload: { bookingId: propertyId, newStatus }
-    });
-  };
-
-
-
-  // const handlePropertyAdded = () => {
-  //   // Refresh the properties list
-  //   dispatch(fetchProducts());
-  // };
+}, [dispatch, user?.email ]);
 
   return (
     <div className="space-y-6">
+      {/* Toast Container */}
+      {/* <Toaster position="top-right" reverseOrder={false} /> */}
+
       {/* Add Property Modal */}
       <AddPropertyModal
         isOpen={isAddPropertyModalOpen}
         onClose={() => setIsAddPropertyModalOpen(false)}
-        // onPropertyAdded={handlePropertyAdded}
       />
 
       <div className="flex items-center justify-between">
@@ -103,10 +90,11 @@ useEffect(() => {
                   className="w-full h-44 object-cover bg-gray-100"
                 />
                 <span
-                  className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold ${property.status === "active"
+                  className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold ${
+                    property.status === "avaliable"
                       ? "bg-emerald-500 text-white"
                       : "bg-gray-400 text-white"
-                    }`}
+                  }`}
                 >
                   {property.status === "avaliable" ? "Active" : "Inactive"}
                 </span>
@@ -123,9 +111,8 @@ useEffect(() => {
                   </div>
                   <div className="flex items-center gap-2 mb-2">
                     <Star className="w-4 h-4 fill-current text-amber-500" />
-                    <span className="text-sm font-medium">{property.reating || property.reating || "N/A"}</span>
+                    <span className="text-sm font-medium">{property.reating || "N/A"}</span>
                   </div>
-                  
                 </div>
 
                 <div className="flex items-center justify-between mt-2">
@@ -139,15 +126,37 @@ useEffect(() => {
                 </div>
 
                 <div className="flex items-center gap-2 mt-4">
+                  {/* Status Toggle Button with Toast */}
                   <button
-                    onClick={() => togglePropertyStatus(property.id || property._id, property.status)}
-                    className={`flex-1 py-2 px-3 rounded-lg text-sm font-semibold transition-colors ${property.status === "active"
-                        ? "bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-300"
-                        : "bg-emerald-100 text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300"
-                      }`}
+                    onClick={() => {
+                      dispatch(
+                        updatePropertyStatus({
+                          propertyId: property._id,
+                          newStatus: property.status === "avaliable" ? "inactive" : "avaliable"
+                        })
+                      )
+                        .unwrap()
+                        .then(() => {
+                          toast.success(
+                            `Property status updated to ${
+                              property.status === "avaliable" ? "Inactive" : "Active"
+                            }`
+                          );
+                          dispatch(fetchProducts()); // refresh UI
+                        })
+                        .catch(() => {
+                          toast.error("Failed to update status");
+                        });
+                    }}
+                    className={`flex-1 py-2 px-3 rounded-lg text-sm font-semibold transition-colors ${
+                      property.status === "avaliable"
+                        ? "bg-emerald-100 text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300"
+                        : "bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-300"
+                    }`}
                   >
                     {property.status === "avaliable" ? "Deactivate" : "Activate"}
                   </button>
+
                   <button
                     className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
                     onClick={() => {
@@ -157,11 +166,12 @@ useEffect(() => {
                   >
                     <Edit className="w-4 h-4" />
                   </button>
-                    <button
-                      className="p-2 text-red-500 hover:text-red-700"
-                      onClick={() => dispatch(deleteProperty(property._id ))}
-                    >
-                      <Trash2 className="w-4 h-4" />
+
+                  <button
+                    className="p-2 text-red-500 hover:text-red-700"
+                    onClick={() => dispatch(deleteProperty(property._id))}
+                  >
+                    <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
               </div>
@@ -185,17 +195,18 @@ useEffect(() => {
           )
         )}
       </div>
-    {/* Edit/Add Property Modal */}
-    <AddPropertyModal
-      isOpen={editModalOpen}
-      onClose={() => {
-        setEditModalOpen(false);
-        setEditProperty(null);
-      }}
-      property={editProperty}
-      onPropertyAdded={() => dispatch(fetchProducts())}
-    />
-  </div>
+
+      {/* Edit/Add Property Modal */}
+      <AddPropertyModal
+        isOpen={editModalOpen}
+        onClose={() => {
+          setEditModalOpen(false);
+          setEditProperty(null);
+        }}
+        property={editProperty}
+        onPropertyAdded={() => dispatch(fetchProducts())}
+      />
+    </div>
   );
 };
 

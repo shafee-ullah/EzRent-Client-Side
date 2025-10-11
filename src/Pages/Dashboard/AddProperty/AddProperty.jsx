@@ -1,12 +1,15 @@
 // components/AddPropertyModal.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 // import { useDispatch } from "react-redux";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import Swal from "sweetalert2";
-// import { updateProperty } from "../../../redux/PropertieSlice";
+import { AuthContext } from "../../../Context/AuthContext";
+
 
 const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
+  const {user}=useContext(AuthContext)
+  console.log(user)
   // const dispatch = useDispatch();
   const [product, setProduct] = useState({
     name: "",
@@ -17,9 +20,11 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
     offerPrice: "",
     Location: "",
     guest: "",
-    reating: "",
     image: null,
-    status:"avaliable"
+    email:user?.email,
+    Name:user.displayName,
+    status:"active",
+    propertystatus:"pending",
   });
 
   // Prefill form if editing
@@ -330,26 +335,7 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
               />
             </div>
 
-            <div>
-              <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
-                Rating
-              </label>
-              <input
-                type="number"
-                name="reating"
-                value={product.reating}
-                onChange={handleChange}
-                min="0"
-                max="5"
-                step="0.1"
-                placeholder="0.0"
-                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-              />
-            </div>
-          </div>
-
-          {/* Services */}
-          <div>
+         <div>
             <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
               Services (comma separated)
             </label>
@@ -362,6 +348,10 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
               className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
             />
           </div>
+          </div>
+
+          {/* Services */}
+        
 
           {/* Buttons */}
           <div className="flex gap-3 pt-4">

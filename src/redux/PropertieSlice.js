@@ -1,24 +1,46 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+export const fetchProducts = createAsyncThunk(
+  "properties/fetchProducts",
+  async (email) => {
+    const res = await axios.get(
+      `http://localhost:5000/properties?email=${email}`
+    );
+    return res.data;
+  }
+);
+
 // 🟢 Fetch All Properties
-// export const fetchProducts = createAsyncThunk(
-//   "products/fetchProducts",
-//   async (email, { rejectWithValue }) => {
-//     try {
-//       const res = await axios.get(`https://ez-rent-server-side.vercel.app/properties`, {
-//         params: { email },
-//       });
-//       return res.data;
-//     } catch (error) {
-//       return rejectWithValue(error.response?.data?.message || "Failed to fetch properties");
-//     }
-//   }
-// );
-export const fetchProducts = createAsyncThunk("products/fetchProducts", async () => {
-  const res = await axios.get("https://ez-rent-server-side.vercel.app/properties");
+export const fetchmanageproperty = createAsyncThunk("products/fetchmanageproperty", async () => {
+  const res = await axios.get("http://localhost:5000/manageproperty");
   return res.data;
 });
+// redux/PropertieSlice.js
+export const updatePropertyStatusAdmin = createAsyncThunk(
+  "products/updatePropertyStatusAdmin",
+  async ({ id,  propertystatus }) => {
+    const res = await axios.patch(
+      `http://localhost:5000/AddProperty/${id}`, // adjust API route
+      {  propertystatus }
+    );
+    return res.data; // updated property
+  }
+);
+
+
+//update propery status update
+export const updatePropertyStatus = createAsyncThunk(
+  "products/updatePropertyStatus",
+  async ({ propertyId, newStatus }) => {
+    const res = await axios.patch(
+      `http://localhost:5000/Property/${propertyId}`, // 👈 adjust your API URL
+      { status: newStatus }
+    );
+    return res.data; // return updated property
+  }
+);
+
 
 // 🟢 Fetch Limit (Featured)
 export const fetchlimit = createAsyncThunk(
@@ -83,13 +105,7 @@ export const deleteBooking = createAsyncThunk(
   }
 );
 
-// export const updateProperty = createAsyncThunk(
-//   "products/updateProperty",
-//   async ({ propertyId, updatedData }) => {
-//     await axios.put(`https://ez-rent-server-side.vercel.app/properties/${propertyId}`, updatedData);
-//     return { propertyId, updatedData };
-//   }
-// );
+
 
 export const deleteProperty = createAsyncThunk(
   "products/deleteProperty",
@@ -138,6 +154,7 @@ const productSlice = createSlice({
   initialState: {
     items: [], // 🏠 all properties
     featured: [],
+    manageproperty:[],
     bookings: [],
     myBookings: [],
     user: null,
@@ -162,6 +179,18 @@ const productSlice = createSlice({
         state.items = action.payload;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      // 🏠 Fetch all manageproperties
+      .addCase(fetchmanageproperty.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchmanageproperty.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = action.payload;
+      })
+      .addCase(fetchmanageproperty.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })
@@ -206,13 +235,21 @@ const productSlice = createSlice({
         state.myBookings = state.myBookings.filter((b) => b._id !== action.payload);
       })
 
-      // 🏗 Update property
-      // .addCase(updateProperty.fulfilled, (state, action) => {
-      //   const { propertyId, updatedData } = action.payload;
-      //   state.items = state.items.map((item) =>
-      //     item._id === propertyId ? { ...item, ...updatedData } : item
-      //   );
-      // })
+    // // ✅ Update status in Redux state immediately
+    //   .addCase(updatePropertyStatus.fulfilled, (state, action) => {
+    //     const updated = action.payload;
+    //     state.items = state.items.map((p) =>
+    //       p._id === updated._id ? updated : p
+    //     );
+    //   })
+       .addCase(updatePropertyStatus.fulfilled, (state, action) => {
+  const updatedProperty = action.payload;
+  const index = state.items.findIndex(p => p._id === updatedProperty._id);
+  if (index !== -1) {
+    state.items[index] = updatedProperty; // instantly replace old property
+  }
+})
+
 
       // 🧾 Host requests
       .addCase(fetchHostRequests.fulfilled, (state, action) => {
@@ -238,7 +275,15 @@ const productSlice = createSlice({
         if (index !== -1) {
           state.bookings[index] = updatedBooking; // local state update
         }
+      })
+       .addCase(updatePropertyStatusAdmin.fulfilled, (state, action) => {
+        const updated = action.payload;
+        const index = state.items.findIndex((p) => p._id === updated._id);
+        if (index !== -1) {
+          state.items[index] = updated;
+        }
       });
+       
   },
 });
 

@@ -169,14 +169,16 @@ const BookingsSection = () => {
                   </td>
                   {/* states */}
                   <td>
-                    <p>{booking.status}</p>
+                    <p   className={`${
+booking.status === "confirmed" ? "text-orange-400" : booking.status === "pending"? "text-blue-500": "text-gray-500"
+     }`}>{booking.status}</p>
                   </td>
                    <td>
                     <div className="flex gap-2">
                       <button   onClick={() =>
         dispatch(updateBookingStatus({ bookingId: booking._id, newStatus: "confirmed" }))
-      } className="px-3 py-1 text-white bg-green-400 rounded-lg">Accept</button> 
-                    <button onClick={()=>dispatch(deleteBooking(booking._id))}  className="px-3 py-1 text-white bg-red-500 rounded-lg">Reject</button>
+      } disabled={booking.status == "confirmed"} className={`px-3 py-1 text-white bg-green-400 rounded-lg ${booking.status==="confirmed"? "bg-gray-500 cursor-not-allowed":"bg-green-400 hover:bg-green-500"}`}>Accept</button> 
+                    <button onClick={()=>dispatch(deleteBooking(booking._id))}  disabled={booking.status === "confirmed"}  className={`px-3 py-1 text-white bg-red-500 rounded-lg ${booking.status==="confirmed"? "bg-gray-500 cursor-not-allowed":"bg-green-400 hover:bg-green-500"} ` }>Reject</button>
                     </div>
                   </td>
                 </tr>
