@@ -270,9 +270,26 @@ const BrowseProperties = () => {
   const [selectedAmenities, setSelectedAmenities] = useState([]);
 
   useEffect(() => {
-    dispatch(fetchmanageproperty());
+    console.log("Fetching properties...");
+    dispatch(fetchmanageproperty())
+      .unwrap()
+      .then(response => {
+        console.log("Properties fetched:", response);
+      })
+      .catch(error => {
+        console.error("Error fetching properties:", error);
+      });
+
     if (user?.email) {
-      dispatch(fetchWishlist(user.email));
+      console.log("Fetching wishlist for:", user.email);
+      dispatch(fetchWishlist(user.email))
+        .unwrap()
+        .then(response => {
+          console.log("Wishlist fetched:", response);
+        })
+        .catch(error => {
+          console.error("Error fetching wishlist:", error);
+        });
     }
   }, [dispatch, user?.email]);
 

@@ -3,7 +3,7 @@ import { CiLocationOn, CiCalendar } from "react-icons/ci";
 import { FaStar } from "react-icons/fa";
 import { IoMdContacts } from "react-icons/io";
 import { AiFillHeart } from "react-icons/ai";
-import { Link } from "react-router"; // ✅ Correct import for routing
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchlimit } from "../../../redux/PropertieSlice";
@@ -91,7 +91,7 @@ const FeaturedPropertiesCard = () => {
       <div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12 px-4 md:px-14">
         { featuredItems?.filter((p)=>p.propertystatus=== "active")?.map((propertie, index) => (
           <motion.div
-            key={propertie.id}
+            key={propertie._id}
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.15, duration: 0.5 }}
