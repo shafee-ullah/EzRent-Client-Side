@@ -1,26 +1,29 @@
-
-import React, {  useEffect, } from "react";
+import React, { useEffect } from "react";
 import { Calendar } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../../../components/Loading";
-import {  deleteBooking, fetchbooking, updateBookingStatus } from "../../../../redux/PropertieSlice";
+import {
+  deleteBooking,
+  fetchbooking,
+  updateBookingStatus,
+} from "../../../../redux/PropertieSlice";
 
 const BookingsSection = () => {
-   const dispatch = useDispatch();
-  
+  const dispatch = useDispatch();
+
   // dispatch already declared above
- const { bookings, loading, error } = useSelector((state) => state.products);
- 
+  const { bookings, loading, error } = useSelector((state) => state.products);
+
   // const [activeTab, setActiveTab] = useState("all");
 
- useEffect(() => {
+  useEffect(() => {
     if (!bookings.length) {
       dispatch(fetchbooking());
     }
   }, [dispatch, bookings.length]);
 
   console.log("this booking data", bookings);
-    // console.log( "this boking data",bookings)
+  // console.log( "this boking data",bookings)
   // ট্যাব সেটিং
   // const tabs = [
   //   { id: "all", label: "All Bookings", count: bookings.length },
@@ -165,20 +168,49 @@ const BookingsSection = () => {
                     <div className="text-sm font-semibold text-gray-900 dark:text-white">
                       ${booking.price}
                     </div>
-                 
                   </td>
                   {/* states */}
                   <td>
-                    <p   className={`${
-booking.status === "confirmed" ? "text-orange-400" : booking.status === "pending"? "text-blue-500": "text-gray-500"
-     }`}>{booking.status}</p>
+                    <p
+                      className={` px-2 py-1 w-fit rounded-full text-xs font-medium ${
+                        booking.status === "confirmed"
+                          ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300"
+                    : "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300" }`}
+                    >
+                      {booking.status}
+                    </p>
                   </td>
-                   <td>
+                  <td>
                     <div className="flex gap-2">
-                      <button   onClick={() =>
-        dispatch(updateBookingStatus({ bookingId: booking._id, newStatus: "confirmed" }))
-      } disabled={booking.status == "confirmed"} className={`px-3 py-1 text-white bg-green-400 rounded-lg ${booking.status==="confirmed"? "bg-gray-500 cursor-not-allowed":"bg-green-400 hover:bg-green-500"}`}>Accept</button> 
-                    <button onClick={()=>dispatch(deleteBooking(booking._id))}  disabled={booking.status === "confirmed"}  className={`px-3 py-1 text-white bg-red-500 rounded-lg ${booking.status==="confirmed"? "bg-gray-500 cursor-not-allowed":"bg-green-400 hover:bg-green-500"} ` }>Reject</button>
+                      <button
+                        onClick={() =>
+                          dispatch(
+                            updateBookingStatus({
+                              bookingId: booking._id,
+                              newStatus: "confirmed",
+                            })
+                          )
+                        }
+                        disabled={booking.status == "confirmed"}
+                        className={`px-3 py-1 text-white bg-green-400 rounded-lg ${
+                          booking.status === "confirmed"
+                            ? "bg-gray-500 cursor-not-allowed"
+                            : "bg-green-400 hover:bg-green-600"
+                        }`}
+                      >
+                        Accept
+                      </button>
+                      <button
+                        onClick={() => dispatch(deleteBooking(booking._id))}
+                        disabled={booking.status === "confirmed"}
+                        className={`px-3 py-1 text-white bg-red-500 rounded-lg ${
+                          booking.status === "confirmed"
+                            ? "bg-gray-500 cursor-not-allowed"
+                            : "bg-green-400 hover:bg-red-700"
+                        } `}
+                      >
+                        Reject
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -196,6 +228,3 @@ booking.status === "confirmed" ? "text-orange-400" : booking.status === "pending
 };
 
 export default BookingsSection;
-
-
-

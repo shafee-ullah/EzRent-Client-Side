@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Home, Calendar, DollarSign, Users } from "lucide-react";
 import {
@@ -10,21 +10,37 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchbooking, fetchmanageproperty } from "../../../../redux/PropertieSlice";
 
 const MotionDiv = motion.div;
 
 const OverviewSection = ({ data, formatCurrency }) => {
+  const dispatch = useDispatch();
+  const { items  } = useSelector((state) => state.products);
+  const { bookings,  } = useSelector((state) => state.products);
+  console.log(bookings,)
+  useEffect(()=>{
+    if(!items.length){
+    dispatch(fetchmanageproperty())
+    dispatch(fetchbooking())
+    }
+    
+  },[dispatch])
+
+
+
   const stats = [
     {
       label: "Total Properties",
-      value: data.stats.totalProperties,
+      value: items.length,
       icon: <Home className="w-6 h-6" />,
       color: "from-blue-500 to-cyan-500",
       description: "Listed properties",
     },
     {
       label: "Active Bookings",
-      value: data.stats.activeBookings,
+      value:bookings.filter(booking=>booking.status==="confirmed").length,
       icon: <Calendar className="w-6 h-6" />,
       color: "from-emerald-500 to-green-500",
       description: "Current bookings",
@@ -38,7 +54,7 @@ const OverviewSection = ({ data, formatCurrency }) => {
     },
     {
       label: "Pending Requests",
-      value: data.stats.pendingRequests,
+      value: bookings.filter(booking=>booking.status==="pending").length,
       icon: <Users className="w-6 h-6" />,
       color: "from-purple-500 to-pink-500",
       description: "Booking requests",
@@ -127,7 +143,7 @@ const OverviewSection = ({ data, formatCurrency }) => {
             <Calendar className="w-5 h-5 text-emerald-500" />
           </div>
           <div className="space-y-4">
-            {data.bookings.slice(0, 3).map((booking) => (
+            {bookings.slice(-2).reverse() .map((booking) => (
               <div
                 key={booking.id}
                 className="flex gap-4 p-4 border border-gray-200 dark:border-gray-700 rounded-xl hover:shadow-md transition-all duration-300"
@@ -137,21 +153,25 @@ const OverviewSection = ({ data, formatCurrency }) => {
                     {booking.property}
                   </h4>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    by {booking.guestName}
+                    by {booking.name}
                   </p>
                   <div className="flex items-center gap-4 mt-2 text-sm text-gray-600 dark:text-gray-400">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-4 h-4" />
-                      {new Date(booking.checkIn).toLocaleDateString()}
+                      {new Date(booking.Checkin).toLocaleDateString()}
+                    </div>
+                     <div className="flex items-center gap-1">
+                      <Calendar className="w-4 h-4" />
+                      {new Date(booking.Checkout).toLocaleDateString()}
                     </div>
                     <div className="flex items-center gap-1">
                       <Users className="w-4 h-4" />
-                      {booking.guestCount} guests
+                      {booking.guest} guests
                     </div>
                   </div>
                   <div className="flex items-center justify-between mt-2">
                     <span className="font-semibold text-gray-900 dark:text-white">
-                      {formatCurrency(booking.totalAmount)}
+                      {formatCurrency(booking.price)}
                     </span>
                     <span
                       className={`px-2 py-1 rounded-full text-xs font-medium ${
