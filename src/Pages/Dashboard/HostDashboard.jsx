@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from "react";
+import React, { use, useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Home,
@@ -119,7 +119,7 @@ const HostDashboard = () => {
   const [activeSection, setActiveSection] = useState("overview");
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [hostData] = useState(mockHostData);
-
+  
   const { user: authUser } = use(AuthContext);
   const [HostData, setHostData] = useState(mockHostData);
 
@@ -242,7 +242,7 @@ const HostDashboard = () => {
               Host Dashboard
             </h1>
             <p className="text-gray-600 dark:text-gray-300 mt-2 text-lg">
-              Welcome back, {hostData.user.name}! Manage your properties and
+              Welcome back, <span className="text-green-600 font-bold">{user.name} </span>Manage your properties and
               bookings. 🏠
             </p>
           </div>
