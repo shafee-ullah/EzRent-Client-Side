@@ -52,13 +52,23 @@ export const fetchlimit = createAsyncThunk(
 );
 
 // 🟢 Fetch All Bookings (Admin)
+// export const fetchbooking = createAsyncThunk(
+//   "products/fetchbooking",
+//   async () => {
+//     const res = await axios.get("https://ez-rent-server-side.vercel.app/bookinghotel");
+//     return res.data;
+//   }
+// );
 export const fetchbooking = createAsyncThunk(
   "products/fetchbooking",
-  async () => {
-    const res = await axios.get("https://ez-rent-server-side.vercel.app/bookinghotel");
+  async (email) => {
+    const res = await axios.get(
+      `http://localhost:5000/bookinghotel?email=${email}`
+    );
     return res.data;
   }
 );
+
 // Update booking status by ID
 export const updateBookingStatus = createAsyncThunk(
   "products/updateBookingStatus",

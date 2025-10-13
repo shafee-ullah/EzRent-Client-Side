@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Home, Calendar, DollarSign, Users } from "lucide-react";
 import {
@@ -11,29 +11,34 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchbooking, fetchmanageproperty } from "../../../../redux/PropertieSlice";
+import { fetchbooking, fetchProducts } from "../../../../redux/PropertieSlice";
+import { AuthContext } from "../../../../Context/AuthContext";
 
 const MotionDiv = motion.div;
 
 const OverviewSection = ({ data, formatCurrency }) => {
   const dispatch = useDispatch();
-  const { items  } = useSelector((state) => state.products);
+  const { user } = useContext(AuthContext);
+  const { properties  } = useSelector((state) => state.products);
   const { bookings,  } = useSelector((state) => state.products);
-  console.log(bookings,)
+ 
   useEffect(()=>{
-    if(!items.length){
-    dispatch(fetchmanageproperty())
-    dispatch(fetchbooking())
-    }
+    if(user?.email &&!properties.length){
+    dispatch(fetchProducts(user?.email))
     
-  },[dispatch])
+    }
+    if(!bookings.length){
+      dispatch(fetchbooking())
+    }
+   
+  },[dispatch,user?.email])
 
 
 
   const stats = [
     {
       label: "Total Properties",
-      value: items.length,
+      value: properties.length,
       icon: <Home className="w-6 h-6" />,
       color: "from-blue-500 to-cyan-500",
       description: "Listed properties",

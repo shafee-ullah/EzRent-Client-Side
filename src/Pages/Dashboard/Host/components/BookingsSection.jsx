@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {  useContext, useEffect } from "react";
 import { Calendar } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../../../components/Loading";
@@ -7,70 +7,23 @@ import {
   fetchbooking,
   updateBookingStatus,
 } from "../../../../redux/PropertieSlice";
-
+ import { AuthContext } from "../../../../Context/AuthContext";
 const BookingsSection = () => {
+   const {user}=useContext(AuthContext)
   const dispatch = useDispatch();
-
-  // dispatch already declared above
-  const { bookings, loading, error } = useSelector((state) => state.products);
-
+  
+const {bookings,loading,error}=useSelector((state)=>state.products)
+   console.log(bookings)  
   // const [activeTab, setActiveTab] = useState("all");
-
+console.log(user)
   useEffect(() => {
-    if (!bookings.length) {
-      dispatch(fetchbooking());
+    if (user?.email ) {
+      dispatch(fetchbooking(user.email));
     }
-  }, [dispatch, bookings.length]);
+  }, [dispatch,user?.email]);
 
   console.log("this booking data", bookings);
-  // console.log( "this boking data",bookings)
-  // ট্যাব সেটিং
-  // const tabs = [
-  //   { id: "all", label: "All Bookings", count: bookings.length },
-  //   {
-  //     id: "pending",
-  //     label: "Pending",
-  //     count: bookings.filter((b) => b.status === "pending").length,
-  //   },
-  //   {
-  //     id: "confirmed",
-  //     label: "Confirmed",
-  //     count: bookings.filter((b) => b.status === "confirmed").length,
-  //   },
-  //   {
-  //     id: "completed",
-  //     label: "Completed",
-  //     count: bookings.filter((b) => b.status === "completed").length,
-  //   },
-  // ];
-
-  // const filteredBookings =
-  //   activeTab === "all"
-  //     ? bookings
-  //     : bookings.filter((booking) => booking.status === activeTab);
-
-  // const getStatusColor = (status) => {
-  //   const colors = {
-  //     pending:
-  //       "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300",
-  //     confirmed:
-  //       "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300",
-  //     completed:
-  //       "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
-  //     cancelled: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
-  //   };
-  //   return colors[status] || "bg-gray-100 text-gray-800";
-  // };
-
-  //  const dispatch = useDispatch();
-  // const handleStatusUpdate = (bookingId, newStatus) => {
-  //   dispatch({
-  //     type: "products/updateBookingStatus",
-  //     payload: { bookingId, newStatus }
-  //   });
-  //   // If you have updateBookingStatus exported from slice, use:
-  //   // dispatch(updateBookingStatus({ bookingId, newStatus }));
-  // };
+  
 
   // Loading & Error
   if (loading) {
