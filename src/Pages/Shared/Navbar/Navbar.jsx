@@ -100,6 +100,7 @@ const Navbar = () => {
                 Browse Properties
               </NavLink>
             </li>
+
             <li>
               <NavLink
                 onClick={closeMenu}
