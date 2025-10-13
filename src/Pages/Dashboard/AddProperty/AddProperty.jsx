@@ -23,7 +23,7 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
     image: null,
     email:user?.email,
     Name:user.displayName,
-    status:"active",
+    status:"avaliable",
     propertystatus:"pending",
   });
 

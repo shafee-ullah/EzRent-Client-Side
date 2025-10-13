@@ -39,6 +39,7 @@ const FeaturedPropertiesCard = () => {
 
   const dispatch = useDispatch();
   const {  featuredItems, loading, error } = useSelector((state) => state.products);
+  console.log("faturelimit",featuredItems)
  useEffect(() => {
   dispatch(fetchlimit());
 }, [dispatch]);
