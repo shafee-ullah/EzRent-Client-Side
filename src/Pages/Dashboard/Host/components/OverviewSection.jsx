@@ -45,7 +45,7 @@ const OverviewSection = ({ data, formatCurrency }) => {
     },
     {
       label: "Active Bookings",
-      value:bookings.filter(booking=>booking.status==="confirmed").length,
+      value:bookings.filter(booking=>booking.hostemail===user?.email && booking.status==="confirmed").length,
       icon: <Calendar className="w-6 h-6" />,
       color: "from-emerald-500 to-green-500",
       description: "Current bookings",
@@ -59,7 +59,7 @@ const OverviewSection = ({ data, formatCurrency }) => {
     },
     {
       label: "Pending Requests",
-      value: bookings.filter(booking=>booking.status==="pending").length,
+      value: bookings.filter(booking=>booking.hostemail===user?.email && booking.status==="pending").length,
       icon: <Users className="w-6 h-6" />,
       color: "from-purple-500 to-pink-500",
       description: "Booking requests",
