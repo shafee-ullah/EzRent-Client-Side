@@ -49,8 +49,6 @@ export default function ExperienceFeed() {
       toast.error(err?.message || "Failed to rate");
     }
   };
-
-  // const handleDelete = async (id) => {
   //   const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
   //   if (!currentUser || !currentUser.email) {
   //     toast.error("You must provide the same email used to post to delete");
