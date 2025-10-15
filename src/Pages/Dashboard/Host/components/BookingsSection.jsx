@@ -15,12 +15,12 @@ const BookingsSection = () => {
 const {bookings,loading,error}=useSelector((state)=>state.products)
    console.log(bookings)  
   // const [activeTab, setActiveTab] = useState("all");
-console.log(user)
+// console.log(user)
   useEffect(() => {
-    if (user?.email ) {
-      dispatch(fetchbooking(user.email));
+    if (bookings.length===0)  {
+      dispatch(fetchbooking());
     }
-  }, [dispatch,user?.email]);
+  }, [dispatch,bookings.length]);
 
   console.log("this booking data", bookings);
   
@@ -44,30 +44,6 @@ console.log(user)
           Calendar View
         </button>
       </div>
-
-      {/* Tabs
-      <div className="flex gap-2 border-b border-gray-200 dark:border-gray-700">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center gap-2 px-4 py-3 border-b-2 transition-all duration-300 ${activeTab === tab.id
-                ? "border-emerald-500 text-emerald-600 dark:text-emerald-400 font-semibold"
-                : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-              }`}
-          >
-            {tab.label}
-            <span
-              className={`px-2 py-1 rounded-full text-xs ${activeTab === tab.id
-                  ? "bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-300"
-                  : "bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400"
-                }`}
-            >
-              {tab.count}
-            </span>
-          </button>
-        ))}
-      </div> */}
 
       {/* Table */}
       <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
@@ -93,7 +69,7 @@ console.log(user)
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-              {bookings.map((booking) => (
+              {bookings.filter((h)=>h.hostemail===user?.email)?.map((booking) => (
                 <tr
                   key={booking._id}
                   className="hover:bg-gray-50 dark:hover:bg-gray-700/50"
@@ -134,38 +110,32 @@ console.log(user)
                     </p>
                   </td>
                   <td>
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() =>
-                          dispatch(
-                            updateBookingStatus({
-                              bookingId: booking._id,
-                              newStatus: "confirmed",
-                            })
-                          )
-                        }
-                        disabled={booking.status == "confirmed"}
-                        className={`px-3 py-1 text-white bg-green-400 rounded-lg ${
-                          booking.status === "confirmed"
-                            ? "bg-gray-500 cursor-not-allowed"
-                            : "bg-green-400 hover:bg-green-600"
-                        }`}
-                      >
-                        Accept
-                      </button>
-                      <button
-                        onClick={() => dispatch(deleteBooking(booking._id))}
-                        disabled={booking.status === "confirmed"}
-                        className={`px-3 py-1 text-white bg-red-500 rounded-lg ${
-                          booking.status === "confirmed"
-                            ? "bg-gray-500 cursor-not-allowed"
-                            : "bg-green-400 hover:bg-red-700"
-                        } `}
-                      >
-                        Reject
-                      </button>
-                    </div>
-                  </td>
+  {/* যদি status confirmed হয়, তাহলে Accept/Reject বাটন দেখাবে না */}
+  {booking.status !== "confirmed" ? (
+    <div className="flex gap-2">
+      <button
+        onClick={() =>
+          dispatch(
+            updateBookingStatus({
+              bookingId: booking._id,
+              newStatus: "confirmed",
+            })
+          )
+        }
+        className="px-3 py-1 text-white bg-green-500 rounded-lg hover:bg-green-600"
+      >
+        Accept
+      </button>
+
+      <button
+        onClick={() => dispatch(deleteBooking(booking._id))}
+        className="px-3 py-1 text-white bg-red-500 rounded-lg hover:bg-red-600"
+      >
+        Reject
+      </button>
+    </div>
+  ) : ('')}
+</td>
                 </tr>
               ))}
             </tbody>

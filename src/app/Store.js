@@ -5,6 +5,8 @@ import paymentReducer from "../redux/paymentSlice";
 import chatReducer from "../redux/chatSlice";
 import usersReducer from "../redux/UserSlice"; 
 import bookingStatsReducer from "../redux/bookingStateSlice"; 
+import experienceReducer from "../redux/experienceSlice";
+
 
 const store = configureStore({
   reducer: {
@@ -13,6 +15,7 @@ const store = configureStore({
     chat: chatReducer,
     users: usersReducer,
     bookingStats: bookingStatsReducer,
+    experience: experienceReducer, 
   },
 });
 
