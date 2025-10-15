@@ -11,7 +11,6 @@ import Swal from "sweetalert2";
 import { MdHotel } from "react-icons/md";
 import { Link } from "react-router";
 
-
 const BookingsSection = () => {
   const dispatch = useDispatch();
   const { user } = useContext(AuthContext);
@@ -151,7 +150,7 @@ const BookingsSection = () => {
 
                     <div className="flex gap-3 mt-4 flex-wrap">
                       <ContactHostButton
-                        hostId={booking.hostId}
+                        id={booking.id}
                         hostName={booking.host}
                         propertyId={booking.propertyId}
                         propertyTitle={booking.title}

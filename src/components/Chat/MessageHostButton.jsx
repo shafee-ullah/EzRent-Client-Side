@@ -10,7 +10,7 @@ import {
 } from "../../redux/chatSlice";
 
 const MessageHostButton = ({
-  hostId,
+  id,
   hostName,
   propertyId,
   propertyTitle,
@@ -24,13 +24,13 @@ const MessageHostButton = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const handleMessageHost = async () => {
-    if (!user?._id || !hostId) {
+    if (!user?._id || !id) {
       console.error("User ID or Host ID is missing");
       return;
     }
 
     // Don't allow messaging yourself
-    if (user._id === hostId) {
+    if (user._id === id) {
       console.error("Cannot message yourself");
       return;
     }
@@ -42,7 +42,7 @@ const MessageHostButton = ({
       const result = await dispatch(
         createConversation({
           guestId: user._id,
-          hostId: hostId,
+          hostId: id, // Renamed from 'id' to 'hostId' for clarity
           propertyId: propertyId,
           propertyTitle: propertyTitle,
         })
@@ -97,7 +97,7 @@ const MessageHostButton = ({
 
 // Contact Host Button for booking cards
 export const ContactHostButton = ({
-  hostId,
+  id,
   hostName,
   propertyId,
   propertyTitle,
@@ -110,13 +110,13 @@ export const ContactHostButton = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const handleContactHost = async () => {
-    if (!user?._id || !hostId) {
+    if (!user?._id || !id) {
       console.error("User ID or Host ID is missing");
       return;
     }
 
     // Don't allow messaging yourself
-    if (user._id === hostId) {
+    if (user._id === id) {
       console.error("Cannot message yourself");
       return;
     }
@@ -128,7 +128,7 @@ export const ContactHostButton = ({
       const result = await dispatch(
         createConversation({
           guestId: user._id,
-          hostId: hostId,
+          hostId: id, // Renamed from 'id' to 'hostId' for clarity
           propertyId: propertyId,
           propertyTitle: propertyTitle,
         })
@@ -164,7 +164,7 @@ export const ContactHostButton = ({
 
 // Quick Message Button for property listings
 export const QuickMessageButton = ({
-  hostId,
+  id,
   hostName,
   propertyId,
   propertyTitle,
@@ -177,14 +177,13 @@ export const QuickMessageButton = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const handleQuickMessage = async () => {
-    if (!user?._id || !hostId) {
-   
+    if (!user?._id || !id) {
       console.error("User ID or Host ID is missing");
       return;
     }
- 
+
     // Don't allow messaging yourself
-    if (user._id === hostId) {
+    if (user._id === id) {
       console.error("Cannot message yourself");
       return;
     }
@@ -196,7 +195,7 @@ export const QuickMessageButton = ({
       const result = await dispatch(
         createConversation({
           guestId: user._id,
-          hostId: hostId,
+          hostId: id, // Renamed from 'id' to 'hostId' for clarity
           propertyId: propertyId,
           propertyTitle: propertyTitle,
         })
