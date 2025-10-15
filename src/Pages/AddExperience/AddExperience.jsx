@@ -35,11 +35,7 @@ export default function AddExperience({ isOpen, onClose }) {
     try {
       setUploading(true);
       const res = await axios.post(
-<<<<<<< HEAD
         "http://localhost:5001/api/experiences/upload",
-=======
-        "https://ez-rent-server-side.vercel.app/api/experiences/upload",
->>>>>>> 1cad0057a097641c0a5265dce9b39c91a7030469
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
