@@ -1,417 +1,29 @@
-// // components/AddPropertyModal.jsx
-// import React, { useState, useEffect, useContext } from "react";
-// // import { useDispatch } from "react-redux";
-// import { motion } from "framer-motion";
-// import { X } from "lucide-react";
-// import Swal from "sweetalert2";
-// import { AuthContext } from "../../../Context/AuthContext";
-
-
-// const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
-//   const {user}=useContext(AuthContext)
-//   console.log(user)
-//   // const dispatch = useDispatch();
-//   const [product, setProduct] = useState({
-//     name: "",
-//     description: "",
-//     category: "",
-//     services: "",
-//     price: "",
-//     offerPrice: "",
-//     Location: "",
-//     guest: "",
-//     bookings:0,
-//     image: null,
-//     email:user?.email,
-//     Name:user.displayName,
-//     status:"avaliable",
-//     propertystatus:"pending",
-//   });
-
-//   // Prefill form if editing
-//   useEffect(() => {
-//     if (property) {
-//       setProduct({
-//         name: property.name || "",
-//         description: property.description || "",
-//         category: property.category || "",
-//         services: property.services || "",
-//         price: property.price || "",
-//         offerPrice: property.offerPrice || "",
-//         Location: property.Location || "",
-//         guest: property.guest || "",
-//         reating: property.reating || "",
-//         image:  null,
-//       });
-//     }
-//   }, [property]);
-
-//   const handleImageChange = (e) => {
-//     setProduct({ ...product, image: e.target.files[0] });
-//   };
-
-//   const handleChange = (e) => {
-//     setProduct({ ...product, [e.target.name]: e.target.value });
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-
-//     // If editing, update property
-//     if (property) {
-//       let imageUrl = property.image;
-//       if (product.image) {
-//         // Upload new image if changed
-//         const formData = new FormData();
-//         formData.append("image", product.image);
-//         const imgbbAPI = "https://api.imgbb.com/1/upload?key=e45319e6715cdaa4b72e32898ac377b1";
-//         try {
-//           const res = await fetch(imgbbAPI, {
-//             method: "POST",
-//             body: formData,
-//           });
-//           const imgData = await res.json();
-//           if (imgData.success) {
-//             imageUrl = imgData.data.url;
-//           }
-//         } catch {
-//           Swal.fire("Error!", "Image upload failed.", "error");
-//           return;
-//         }
-//       }
-//       const updatedData = { ...product, image: imageUrl };
-//       // Update property in backend
-//       await fetch(`https://ez-rent-server-side.vercel.app/AddProperty/${property._id}`, {
-//         method: "PUT",
-//         headers: {
-//           "content-type": "application/json",
-//         },
-//         body: JSON.stringify(updatedData),
-//       });
-    
-//       Swal.fire({
-//         icon: "success",
-//         title: "Property Updated Successfully!",
-//         showConfirmButton: false,
-//         timer: 1500,
-//       });
-//       onClose();
-//       if (onPropertyAdded) onPropertyAdded();
-//       return;
-//     }
-
-//     // Add new property
-//     if (!product.image) {
-//       Swal.fire("Please upload an image first!");
-//       return;
-//     }
-//     const formData = new FormData();
-//     formData.append("image", product.image);
-//     const imgbbAPI = "https://api.imgbb.com/1/upload?key=e45319e6715cdaa4b72e32898ac377b1";
-//     try {
-//       const res = await fetch(imgbbAPI, {
-//         method: "POST",
-//         body: formData,
-//       });
-//       const imgData = await res.json();
-//       if (imgData.success) {
-//         const imageUrl = imgData.data.url;
-//         const newProduct = {
-//           ...product,
-//           image: imageUrl,
-//         };
-//         const dbRes = await fetch("https://ez-rent-server-side.vercel.app/AddProperty", {
-//           method: "POST",
-//           headers: {
-//             "content-type": "application/json",
-//           },
-//           body: JSON.stringify(newProduct),
-//         });
-//   await dbRes.json();
-//         Swal.fire({
-//           icon: "success",
-//           title: "Property Added Successfully!",
-//           showConfirmButton: false,
-//           timer: 1500,
-//         });
-//         setProduct({
-//           name: "",
-//           description: "",
-//           category: "",
-//           services: "",
-//           price: "",
-//           offerPrice: "",
-//           Location: "",
-//           guest: "",
-//           reating: "",
-//           image: null,
-//         });
-//         onClose();
-//         if (onPropertyAdded) onPropertyAdded();
-//       }
-//     } catch {
-//       Swal.fire("Error!", "Something went wrong while uploading.", "error");
-//     }
-//   };
-
-//   if (!isOpen) return null;
-
-//   return (
-//     <div className="fixed inset-0 z-50 flex items-center justify-center  bg-opacity-50 backdrop-blur-sm">
-//       <motion.div
-//         initial={{ opacity: 0, scale: 0.9 }}
-//         animate={{ opacity: 1, scale: 1 }}
-//         exit={{ opacity: 0, scale: 0.9 }}
-//         className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
-//       >
-//         {/* Header */}
-//         <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-//           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-//             {property ? "Edit Property" : "Add New Property"}
-//           </h2>
-//           <button
-//             onClick={onClose}
-//             className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-//           >
-//             <X className="w-5 h-5" />
-//           </button>
-//         </div>
-
-//         {/* Form */}
-//         <form onSubmit={handleSubmit} className="p-6 space-y-6">
-//           {/* Image Upload */}
-//           <div>
-//             <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
-//               Property Image
-//             </label>
-//             <label className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-6 h-48 flex flex-col items-center justify-center cursor-pointer w-full hover:border-emerald-400 transition-colors">
-//               <input
-//                 type="file"
-//                 accept="image/*"
-//                 className="hidden"
-//                 onChange={handleImageChange}
-//               />
-//               {product.image ? (
-//                 <div className="relative w-full h-full">
-//                   <img
-//                     src={URL.createObjectURL(product.image)}
-//                     alt="preview"
-//                     className="w-full h-full object-cover rounded-lg"
-//                   />
-//                   <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 transition-all rounded-lg flex items-center justify-center">
-//                     <span className="text-white opacity-0 hover:opacity-100 transition-opacity">
-//                       Change Image
-//                     </span>
-//                   </div>
-//                 </div>
-//               ) : (
-//                 <div className="text-center">
-//                   <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center mx-auto mb-3">
-//                     <span className="text-2xl">📷</span>
-//                   </div>
-//                   <span className="text-gray-600 dark:text-gray-400 font-medium">
-//                     Click to upload property image
-//                   </span>
-//                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-//                     PNG, JPG, JPEG up to 5MB
-//                   </p>
-//                 </div>
-//               )}
-//             </label>
-//           </div>
-
-//           {/* Property Name */}
-//           <div>
-//             <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
-//               Property Name
-//             </label>
-//             <input
-//               type="text"
-//               name="name"
-//               placeholder="Enter property name"
-//               value={product.name}
-//               onChange={handleChange}
-//               required
-//               className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-//             />
-//           </div>
-
-//           {/* Property Description */}
-//           <div>
-//             <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
-//               Property Description
-//             </label>
-//             <textarea
-//               name="description"
-//               placeholder="Describe your property..."
-//               value={product.description}
-//               onChange={handleChange}
-//               required
-//               rows={4}
-//               className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all resize-none"
-//             ></textarea>
-//           </div>
-
-//           {/* Grid of Inputs */}
-//           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//             <div>
-//               <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
-//                 Category
-//               </label>
-//               <select
-//                 name="category"
-//                 value={product.category}
-//                 onChange={handleChange}
-//                 required
-//                 className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-//               >
-//                 <option value="">Select Category</option>
-//                 <option value="House">House</option>
-//                 <option value="Cabin">Cabin</option>
-//                 <option value="Apartment">Apartment</option>
-//                 <option value="Villa">Villa</option>
-//                 <option value="Studio">Studio</option>
-//               </select>
-//             </div>
-
-//             <div>
-//               <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
-//                 Price per Night ($)
-//               </label>
-//               <input
-//                 type="number"
-//                 name="price"
-//                 value={product.price}
-//                 onChange={handleChange}
-//                 required
-//                 min="0"
-//                 placeholder="0.00"
-//                 className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-//               />
-//             </div>
-
-//             <div>
-//               <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
-//                 Offer Price ($)
-//               </label>
-//               <input
-//                 type="number"
-//                 name="offerPrice"
-//                 value={product.offerPrice}
-//                 onChange={handleChange}
-//                 min="0"
-//                 placeholder="0.00"
-//                 className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-//               />
-//             </div>
-
-//             <div>
-//               <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
-//                 Location
-//               </label>
-//               <input
-//                 type="text"
-//                 name="Location"
-//                 value={product.Location}
-//                 onChange={handleChange}
-//                 required
-//                 placeholder="Enter location"
-//                 className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-//               />
-//             </div>
-
-//             <div>
-//               <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
-//                 Maximum Guests
-//               </label>
-//               <input
-//                 type="number"
-//                 name="guest"
-//                 value={product.guest}
-//                 onChange={handleChange}
-//                 required
-//                 min="1"
-//                 placeholder="0"
-//                 className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-//               />
-//             </div>
-
-//          <div>
-//             <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
-//               Services (comma separated)
-//             </label>
-//             <input
-//               type="text"
-//               name="services"
-//               value={product.services}
-//               onChange={handleChange}
-//               placeholder="e.g., WiFi, Parking, AC, Kitchen"
-//               className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-//             />
-//           </div>
-          
-//           </div>
-
-//           {/* Services */}
-        
-
-//           {/* Buttons */}
-//           <div className="flex gap-3 pt-4">
-//             <button
-//               type="button"
-//               onClick={onClose}
-//               className="flex-1 py-3 px-6 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-//             >
-//               Cancel
-//             </button>
-//             <button
-//               type="submit"
-//               className="flex-1 py-3 px-6 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
-//             >
-//               {property ? "Update Property" : "Add Property"}
-//             </button>
-//           </div>
-//         </form>
-//       </motion.div>
-//     </div>
-//   );
-// };
-
-// export default AddPropertyModal;
 
 // components/AddPropertyModal.jsx
 import React, { useState, useEffect, useContext } from "react";
 import { motion } from "framer-motion";
-import { X } from "lucide-react";
+import { X, Loader2 } from "lucide-react";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../../Context/AuthContext";
 
-const servicesOptions = [
-  "Free Wifi",
-  "Free Parking",
-  "Organic Restaurant",
-  "Garden & Terrace",
-  "Marina Access",
-  "Bar & Lounge",
-  "Air Conditioning",
-  "Kitchen",
-  "Pool",
-  "Pet Friendly",
-];
-
 const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
   const { user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
 
   const [product, setProduct] = useState({
     name: "",
     description: "",
     category: "",
-    services: [],
+    services: "",
     price: "",
     offerPrice: "",
     Location: "",
     guest: "",
-    bookings: 0,
+    bedrooms: "",
+    beds: "",
+    bathrooms: "",
+    cancellationPolicy: "",
+    rules: "",
     image: null,
     email: user?.email,
     Name: user?.displayName,
@@ -426,11 +38,16 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
         name: property.name || "",
         description: property.description || "",
         category: property.category || "",
-        services: property.services || [],
+        services: property.services || "",
         price: property.price || "",
         offerPrice: property.offerPrice || "",
         Location: property.Location || "",
         guest: property.guest || "",
+        bedrooms: property.bedrooms || "",
+        beds: property.beds || "",
+        bathrooms: property.bathrooms || "",
+        cancellationPolicy: property.cancellationPolicy || "",
+        rules: property.rules || "",
         image: null,
       });
     }
@@ -446,76 +63,74 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Image upload logic
-    let imageUrl = property?.image || "";
-    if (product.image) {
-      const formData = new FormData();
-      formData.append("image", product.image);
-      const imgbbAPI =
-        "https://api.imgbb.com/1/upload?key=e45319e6715cdaa4b72e32898ac377b1";
-      try {
-        const res = await fetch(imgbbAPI, { method: "POST", body: formData });
-        const imgData = await res.json();
-        if (imgData.success) imageUrl = imgData.data.url;
-      } catch {
-        Swal.fire("Error!", "Image upload failed.", "error");
-        return;
-      }
-    }
-
-    const finalProduct = { ...product, image: imageUrl };
+    setLoading(true);
 
     try {
-      if (property) {
-        // Update existing property
-        await fetch(
-          `https://ez-rent-server-side.vercel.app/AddProperty/${property._id}`,
-          {
-            method: "PUT",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify(finalProduct),
-          }
-        );
-        Swal.fire({
-          icon: "success",
-          title: "Property Updated Successfully!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      } else {
-        // Add new property
-        if (!product.image) {
-          Swal.fire("Please upload an image first!");
-          return;
-        }
-        await fetch("https://ez-rent-server-side.vercel.app/AddProperty", {
+      let imageUrl = property ? property.image : null;
+
+      // Upload new image if provided
+      if (product.image) {
+        const formData = new FormData();
+        formData.append("image", product.image);
+        const imgbbAPI =
+          "https://api.imgbb.com/1/upload?key=e45319e6715cdaa4b72e32898ac377b1";
+        const res = await fetch(imgbbAPI, {
           method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(finalProduct),
+          body: formData,
         });
-        Swal.fire({
-          icon: "success",
-          title: "Property Added Successfully!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        const imgData = await res.json();
+        if (imgData.success) imageUrl = imgData.data.url;
+        else throw new Error("Image upload failed");
       }
+
+      const newProduct = { ...product, image: imageUrl };
+
+      const url = property
+        ? `https://ez-rent-server-side.vercel.app/AddProperty/${property._id}`
+        : "https://ez-rent-server-side.vercel.app/AddProperty";
+
+      const method = property ? "PUT" : "POST";
+
+      const response = await fetch(url, {
+        method,
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(newProduct),
+      });
+
+      if (!response.ok) throw new Error("Failed to save property");
+
+      Swal.fire({
+        icon: "success",
+        title: property
+          ? "Property Updated Successfully!"
+          : "Property Added Successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
       setProduct({
         name: "",
         description: "",
         category: "",
-        services: [],
+        services: "",
         price: "",
         offerPrice: "",
         Location: "",
         guest: "",
+        bedrooms: "",
+        beds: "",
+        bathrooms: "",
+        cancellationPolicy: "",
+        rules: "",
         image: null,
       });
+
       onClose();
       if (onPropertyAdded) onPropertyAdded();
-    } catch {
-      Swal.fire("Error!", "Something went wrong.", "error");
+    } catch (error) {
+      Swal.fire("Error!", error.message || "Something went wrong.", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -563,11 +178,6 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
                     alt="preview"
                     className="w-full h-full object-cover rounded-lg"
                   />
-                  <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 transition-all rounded-lg flex items-center justify-center">
-                    <span className="text-white opacity-0 hover:opacity-100 transition-opacity">
-                      Change Image
-                    </span>
-                  </div>
                 </div>
               ) : (
                 <div className="text-center">
@@ -585,7 +195,7 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
             </label>
           </div>
 
-          {/* Property Name */}
+          {/* Property Info */}
           <div>
             <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
               Property Name
@@ -597,11 +207,10 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
               value={product.name}
               onChange={handleChange}
               required
-              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3"
             />
           </div>
 
-          {/* Property Description */}
           <div>
             <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
               Property Description
@@ -613,11 +222,11 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
               onChange={handleChange}
               required
               rows={4}
-              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all resize-none"
+              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 resize-none"
             ></textarea>
           </div>
 
-          {/* Grid Inputs */}
+          {/* Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Category */}
             <div>
@@ -629,7 +238,7 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
                 value={product.category}
                 onChange={handleChange}
                 required
-                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3"
               >
                 <option value="">Select Category</option>
                 <option value="House">House</option>
@@ -653,23 +262,7 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
                 required
                 min="0"
                 placeholder="0.00"
-                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-              />
-            </div>
-
-            {/* Offer Price */}
-            <div>
-              <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
-                Offer Price ($)
-              </label>
-              <input
-                type="number"
-                name="offerPrice"
-                value={product.offerPrice}
-                onChange={handleChange}
-                min="0"
-                placeholder="0.00"
-                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3"
               />
             </div>
 
@@ -685,13 +278,13 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
                 onChange={handleChange}
                 required
                 placeholder="Enter location"
-                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3"
               />
             </div>
 
-            {/* Maximum Guests */}
+            {/* Max Guests */}
             <div>
-              <label className=" block font-medium mb-2 text-gray-700 dark:text-gray-300">
+              <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
                 Maximum Guests
               </label>
               <input
@@ -702,47 +295,105 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
                 required
                 min="1"
                 placeholder="0"
-                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3"
               />
             </div>
 
-            {/* Services Click-to-Select */}
-            <div className="md:col-span-2">
+            {/* Bedrooms */}
+            <div>
               <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
-                Services
+                Bedrooms
               </label>
-              <div className="flex flex-wrap gap-2">
-                {servicesOptions.map((service) => {
-                  const selected = product.services.includes(service);
-                  return (
-                    <button
-                      key={service}
-                      type="button"
-                      onClick={() => {
-                        if (selected) {
-                          setProduct({
-                            ...product,
-                            services: product.services.filter((s) => s !== service),
-                          });
-                        } else {
-                          setProduct({
-                            ...product,
-                            services: [...product.services, service],
-                          });
-                        }
-                      }}
-                      className={`px-3 py-1 rounded-md border transition-all duration-200 ${
-                        selected
-                          ? "bg-emerald-500 text-white border-emerald-500"
-                          : "bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600"
-                      }`}
-                    >
-                      {service}
-                    </button>
-                  );
-                })}
-              </div>
+              <input
+                type="number"
+                name="bedrooms"
+                value={product.bedrooms}
+                onChange={handleChange}
+                min="0"
+                placeholder="Number of bedrooms"
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3"
+              />
             </div>
+
+            {/* Beds */}
+            <div>
+              <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+                Beds
+              </label>
+              <input
+                type="number"
+                name="beds"
+                value={product.beds}
+                onChange={handleChange}
+                min="0"
+                placeholder="Number of beds"
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3"
+              />
+            </div>
+
+            {/* Bathrooms */}
+            <div>
+              <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+                Bathrooms
+              </label>
+              <input
+                type="number"
+                name="bathrooms"
+                value={product.bathrooms}
+                onChange={handleChange}
+                min="0"
+                placeholder="Number of bathrooms"
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3"
+              />
+            </div>
+
+            {/* Cancellation Policy */}
+            <div>
+              <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+                Cancellation Policy
+              </label>
+              <select
+                name="cancellationPolicy"
+                value={product.cancellationPolicy}
+                onChange={handleChange}
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3"
+              >
+                <option value="">Select Policy</option>
+                <option value="Flexible">Flexible</option>
+                <option value="Moderate">Moderate</option>
+                <option value="Strict">Strict</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Services */}
+          <div>
+            <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+              Services (comma separated)
+            </label>
+            <input
+              type="text"
+              name="services"
+              value={product.services}
+              onChange={handleChange}
+              placeholder="e.g., WiFi, Parking, AC, Kitchen"
+              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3"
+            />
+          </div>
+
+          {/* Host Rules */}
+          <div>
+            <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+              Host Rules / Restrictions
+            </label>
+            <textarea
+              name="rules"
+              value={product.rules}
+              onChange={handleChange}
+              placeholder='e.g., "No smoking", "No parties", "Pets allowed"'
+              rows={3}
+              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 resize-none"
+            ></textarea>
           </div>
 
           {/* Buttons */}
@@ -750,15 +401,30 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
             <button
               type="button"
               onClick={onClose}
+              disabled={loading}
               className="flex-1 py-3 px-6 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="flex-1 py-3 px-6 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
+              disabled={loading}
+              className={`flex-1 py-3 px-6 rounded-xl font-semibold text-white transition-all duration-300 ${
+                loading
+                  ? "bg-gray-500 cursor-not-allowed"
+                  : "bg-gradient-to-r from-emerald-500 to-green-500 hover:shadow-lg"
+              }`}
             >
-              {property ? "Update Property" : "Add Property"}
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <Loader2 className="animate-spin w-5 h-5" />{" "}
+                  {property ? "Updating..." : "Adding..."}
+                </span>
+              ) : property ? (
+                "Update Property"
+              ) : (
+                "Add Property"
+              )}
             </button>
           </div>
         </form>
