@@ -348,6 +348,7 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
               className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
             />
           </div>
+          
           </div>
 
           {/* Services */}

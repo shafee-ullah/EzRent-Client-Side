@@ -22,8 +22,9 @@ const Search = ({hendalSerch}) => {
   </svg>
   <input 
   onChange={e=>setserchtext(e.target.value)}
+
   value={serchtext}
-   type="search" required placeholder="Search" />
+   type="search" required placeholder="name or Location" />
 </label>
  <button className='hover:bg-green-600 text-green-300   border-2 py-2 px-4 rounded-md ml-2 font-semibold' type='submit' > search</button>
            </div>
@@ -33,3 +34,5 @@ const Search = ({hendalSerch}) => {
 };
 
 export default Search;
+
+

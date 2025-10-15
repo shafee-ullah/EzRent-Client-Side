@@ -16,6 +16,8 @@ import AdminDashboard from "../Pages/Dashboard/AdminDashboard";
 import PaymentPage from "../Pages/PaymentPage/PaymentPage";
 import BecomeHostPage from "../Pages/BecomeHost/BecomeHostPage";
 //  import AddProperty from "../Pages/Dashboard/AddProperty/AddProperty.jsx";
+import ExperienceFeed from "../Pages/AddExperience/ExperienceFeed";
+import AddExperience from "../Pages/AddExperience/AddExperience";
 
 const router = createBrowserRouter([
   {
@@ -52,7 +54,14 @@ const router = createBrowserRouter([
         path: "payment",
         Component: PaymentPage,
       },
-    
+
+      { path: "guest-experiences", 
+        Component: ExperienceFeed 
+      },
+
+      { path: "guest-experiences/add",
+        Component: AddExperience
+      },
 
       {
         path: "dashboard",

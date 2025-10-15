@@ -150,11 +150,11 @@ export const fetchWishlist = createAsyncThunk(
 
 
 const productSlice = createSlice({
-  name: "products",
-  initialState: {
+   name: "products",
+   initialState: {
+    properties: [],
     items: [], // 🏠 all properties
     featured: [],
-    manageproperty:[],
     bookings: [],
     myBookings: [],
     user: null,
@@ -171,12 +171,12 @@ const productSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // 🏠 Fetch all properties
-      .addCase(fetchProducts.pending, (state) => {
+        .addCase(fetchProducts.pending, (state) => {
         state.loading = true;
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = action.payload;
+        state.properties = action.payload; // ✅ storing properly
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.loading = false;
