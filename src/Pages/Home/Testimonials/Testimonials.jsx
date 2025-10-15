@@ -184,7 +184,7 @@ const Testimonials = () => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="relative max-w-7xl mx-auto px-4 py-12 lg:py-8"
+      className="relative max-w-7xl mx-auto px-4 py-16 lg:py-12"
     >
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/30 via-transparent to-green-50/20 dark:from-emerald-900/10 dark:via-transparent dark:to-green-900/5 rounded-3xl" />
