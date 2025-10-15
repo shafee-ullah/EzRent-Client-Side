@@ -19,7 +19,7 @@ export const updateUserRole = createAsyncThunk(
     'users/updateRole',
     async ({ id, role }, { rejectWithValue }) => {
         try {
-            const response = await fetch(`http://localhost:5000/users/role/${id}`, {
+            const response = await fetch(`http://localhost:5001/users/role/${id}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ role: role.toLowerCase() }),
@@ -42,7 +42,7 @@ export const deleteUser = createAsyncThunk(
     'users/deleteUser',
     async (id, { rejectWithValue }) => {
         try {
-            const response = await fetch(`http://localhost:5000/users/${id}`, {
+            const response = await fetch(`http://localhost:5001/users/${id}`, {
                 method: 'DELETE',
             });
 

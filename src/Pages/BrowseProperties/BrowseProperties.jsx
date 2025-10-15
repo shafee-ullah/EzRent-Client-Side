@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useContext } from "react";
 import { CiLocationOn, CiCalendar } from "react-icons/ci";
 import { FaStar } from "react-icons/fa";
@@ -34,39 +33,29 @@ const BrowseProperties = () => {
   const [selectedAmenities, setSelectedAmenities] = useState([]);
 
   useEffect(() => {
-    console.log("Fetching properties...");
-    dispatch(fetchmanageproperty())
-      .unwrap()
-      .then(response => {
-        console.log("Properties fetched:", response);
-      })
-      .catch(error => {
-        console.error("Error fetching properties:", error);
-      });
-
+    dispatch(fetchmanageproperty());
     if (user?.email) {
-      console.log("Fetching wishlist for:", user.email);
-      dispatch(fetchWishlist(user.email))
-        .unwrap()
-        .then(response => {
-          console.log("Wishlist fetched:", response);
-        })
-        .catch(error => {
-          console.error("Error fetching wishlist:", error);
-        });
+      dispatch(fetchWishlist(user.email));
     }
   }, [dispatch, user?.email]);
 
-  // 🔹 Search handler
   const hendalSerch = (e, text) => {
     e.preventDefault();
     setSearchText(text.toLowerCase());
   };
 
-  // 🔹 Wishlist handler
   const handleWishlist = (property) => {
     if (!user?.email) {
-      return Swal.fire("Login required", "Please login first", "warning");
+      return Swal.fire({
+        title: "Login Required",
+        text: "Please login to save properties",
+        icon: "warning",
+        confirmButtonColor: "#10b981",
+        background: "rgba(255, 255, 255, 0.8)",
+        customClass: {
+          popup: 'backdrop-blur-sm rounded-3xl'
+        }
+      });
     }
 
     const isInWishlist = wishlist?.some((w) => w.propertyId === property._id);
@@ -75,9 +64,23 @@ const BrowseProperties = () => {
       dispatch(removeFromWishlist({ propertyId: property._id, email: user.email }))
         .unwrap()
         .then(() =>
-          Swal.fire("Removed!", "Property removed from wishlist", "success")
+          Swal.fire({
+            title: "Removed!",
+            text: "Property removed from wishlist",
+            icon: "success",
+            confirmButtonColor: "#10b981",
+            background: "rgba(255, 255, 255, 0.8)",
+            customClass: { popup: 'backdrop-blur-sm rounded-3xl' }
+          })
         )
-        .catch(() => Swal.fire("Error", "Failed to remove", "error"));
+        .catch(() => Swal.fire({
+          title: "Error",
+          text: "Failed to remove from wishlist",
+          icon: "error",
+          confirmButtonColor: "#ef4444",
+          background: "rgba(255, 255, 255, 0.8)",
+          customClass: { popup: 'backdrop-blur-sm rounded-3xl' }
+        }));
     } else {
       const wishlistPayload = {
         email: user.email,
@@ -91,13 +94,26 @@ const BrowseProperties = () => {
       dispatch(addToWishlist(wishlistPayload))
         .unwrap()
         .then(() =>
-          Swal.fire("Saved!", "Property added to wishlist", "success")
+          Swal.fire({
+            title: "Saved!",
+            text: "Property added to wishlist",
+            icon: "success",
+            confirmButtonColor: "#10b981",
+            background: "rgba(255, 255, 255, 0.8)",
+            customClass: { popup: 'backdrop-blur-sm rounded-3xl' }
+          })
         )
-        .catch(() => Swal.fire("Error", "Already added to wishlist", "error"));
+        .catch(() => Swal.fire({
+          title: "Error",
+          text: "Already added to wishlist",
+          icon: "error",
+          confirmButtonColor: "#ef4444",
+          background: "rgba(255, 255, 255, 0.8)",
+          customClass: { popup: 'backdrop-blur-sm rounded-3xl' }
+        }));
     }
   };
 
-  // 🔹 Amenities handler
   const toggleAmenity = (amenity) => {
     if (selectedAmenities.includes(amenity)) {
       setSelectedAmenities(selectedAmenities.filter((a) => a !== amenity));
@@ -106,7 +122,6 @@ const BrowseProperties = () => {
     }
   };
 
-  // 🔹 Reset all filters
   const resetFilters = () => {
     setPrice(500);
     setSelectedCategory("All Types");
@@ -115,9 +130,8 @@ const BrowseProperties = () => {
   };
 
   if (loading) return <Loading />;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  if (error) return <p className="text-red-500 text-center py-8">{error}</p>;
 
-  // 🔹 Filtered items
   const filteredItems = items.filter((p) => {
     const matchesPrice = p.price <= price;
     const matchesCategory =
@@ -139,187 +153,263 @@ const BrowseProperties = () => {
   });
 
   return (
-    <div className="max-w-11/12 mx-auto">
-      {/* Search */}
-      <div className="md:flex justify-center text-center my-4 w-full shadow-md dark:bg-gray-900">
-        <Search hendalSerch={hendalSerch} />
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50/50 via-white to-green-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-emerald-900/10">
+      <div className="max-w-11/12 mx-auto py-8 px-4">
+        {/* Header Section */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-8"
+        >
+          <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-green-600 mb-4">
+            Browse Properties
+          </h1>
+          <p className="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto">
+            Discover your perfect stay from our curated collection of exceptional properties
+          </p>
+        </motion.div>
 
-      <div className="flex flex-col md:flex-row h-screen">
-        {/* Sidebar Filters */}
-        <div className="md:w-1/3 w-full dark:bg-gray-900 p-4 h-screen shadow-md md:top-0 md:left-0 overflow-y-auto">
-          <h2 className="text-3xl font-semibold mb-4 text-center">Filters</h2>
+        {/* Search Bar - Above the filters and properties */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mb-6"
+        >
+          <Search hendalSerch={hendalSerch} />
+        </motion.div>
 
-          {/* Price */}
-          <div className="mb-6">
-            <label className="block mb-2 font-medium">Price Range</label>
-            <input
-              type="range"
-              min="0"
-              max="1000"
-              step="50"
-              value={price}
-              onChange={(e) => setPrice(Number(e.target.value))}
-              className="w-full"
-            />
-            <div className="flex justify-between text-sm text-gray-500">
-              <span>$0</span>
-              <span>${price}</span>
-              <span>$1000+</span>
-            </div>
-          </div>
-
-          {/* Category */}
-          <div className="mb-6">
-            <label className="block mb-2 font-medium">Property Type</label>
-            <select
-              className="w-full border rounded dark:bg-black p-2"
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
+        {/* Results Count */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+          className="flex justify-between items-center mb-6"
+        >
+          <p className="text-gray-600 dark:text-gray-300">
+            Found <span className="font-semibold text-emerald-600">{filteredItems.length}</span> properties
+          </p>
+          {searchText && (
+            <button
+              onClick={() => setSearchText("")}
+              className="text-sm text-emerald-600 hover:text-emerald-700 font-semibold transition-colors duration-200"
             >
-              <option>All Types</option>
-              <option>Apartment</option>
-              <option>Cabin</option>
-              <option>House</option>
-              <option>Villa</option>
-              <option>Studio</option>
-            </select>
-          </div>
+              Clear Search
+            </button>
+          )}
+        </motion.div>
 
-          {/* Amenities */}
-          <div className="mb-6">
-            <label className="block mb-2 font-medium">Amenities</label>
-            {[
-              "WiFi",
-              "Kitchen",
-              "Parking",
-              "Pool",
-              "Pet Friendly",
-              "Air Conditioning",
-            ].map((amenity, i) => (
-              <div key={i} className="flex items-center mb-2">
-                <input
-                  type="checkbox"
-                  className="mr-2"
-                  checked={selectedAmenities.includes(amenity)}
-                  onChange={() => toggleAmenity(amenity)}
-                />
-                <span>{amenity}</span>
-              </div>
-            ))}
-          </div>
-
-          <button
-            onClick={resetFilters}
-            className="w-full bg-gray-200 py-2 rounded-md dark:text-black"
+        {/* Main Content Area - Filters and Properties Side by Side */}
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Sidebar Filters */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="lg:w-1/4 w-full"
           >
-            Reset Filters
-          </button>
-        </div>
+            <div className="backdrop-blur-sm bg-gradient-to-br from-emerald-50/50 via-white to-green-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-emerald-900/10 border border-gray-200 dark:border-gray-700 rounded-3xl shadow-lg p-6 sticky top-6">
+              <h2 className="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-green-600 text-center">
+                Filters
+              </h2>
 
-        {/* Cards */}
-        <div className="w-full h-screen overflow-y-scroll md:p-6 p-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredItems.map((property, index) => {
-              const isInWishlist = wishlist?.some(
-                (w) => w.propertyId === property._id
-              );
+              {/* Price Range */}
+              <div className="mb-6">
+                <label className="block mb-3 font-semibold text-gray-700 dark:text-gray-300">
+                  Price Range: <span className="text-emerald-600">${price}</span>
+                </label>
+                <input
+                  type="range"
+                  min="0"
+                  max="1000"
+                  step="50"
+                  value={price}
+                  onChange={(e) => setPrice(Number(e.target.value))}
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-gradient-to-r from-emerald-500 to-green-500"
+                />
+                <div className="flex justify-between text-sm text-gray-500 dark:text-gray-400 mt-2">
+                  <span>$0</span>
+                  <span>$1000+</span>
+                </div>
+              </div>
 
-              return (
-                <motion.div
-                  key={property._id}
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.15, duration: 0.5 }}
-                  className="relative group bg-white dark:bg-gray-900 my-2 rounded-2xl overflow-hidden shadow-lg border-gray-100 dark:border-gray-800 hover:shadow-2xl transition-all"
+              {/* Category */}
+              <div className="mb-6">
+                <label className="block mb-3 font-semibold text-gray-700 dark:text-gray-300">
+                  Property Type
+                </label>
+                <select
+                  className="w-full px-4 py-3 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300"
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
                 >
-                  {/* Image & Price */}
-                  <div className="relative">
-                    <img
-                      src={property.image}
-                      alt={property.name}
-                      className="w-full h-44 object-cover rounded-t-2xl transition-transform duration-500 group-hover:scale-110"
-                    />
-                    <motion.span
-                      whileHover={{ scale: 1.1 }}
-                      className="absolute top-3 left-3 bg-[#16a34a] text-white text-sm px-3 py-1 rounded-full shadow-md"
+                  <option>All Types</option>
+                  <option>Apartment</option>
+                  <option>Cabin</option>
+                  <option>House</option>
+                  <option>Villa</option>
+                  <option>Studio</option>
+                </select>
+              </div>
+
+              {/* Amenities */}
+              <div className="mb-6">
+                <label className="block mb-3 font-semibold text-gray-700 dark:text-gray-300">
+                  Amenities
+                </label>
+                <div className="grid grid-cols-2 gap-3">
+                  {["WiFi", "Kitchen", "Parking", "Pool", "Pet Friendly", "Air Conditioning"].map(
+                    (amenity, i) => (
+                      <label 
+                        key={i} 
+                        className="flex items-center gap-2 cursor-pointer p-2 rounded-xl hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-300"
+                      >
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 accent-emerald-500 rounded"
+                          checked={selectedAmenities.includes(amenity)}
+                          onChange={() => toggleAmenity(amenity)}
+                        />
+                        <span className="text-sm text-gray-700 dark:text-gray-300">{amenity}</span>
+                      </label>
+                    )
+                  )}
+                </div>
+              </div>
+
+              {/* Reset Button */}
+              <motion.button
+                onClick={resetFilters}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-full py-3 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                Reset Filters
+              </motion.button>
+            </div>
+          </motion.div>
+
+          {/* Properties Grid */}
+          <div className="flex-1">
+            {filteredItems.length === 0 ? (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-center py-12"
+              >
+                <div className="backdrop-blur-sm bg-gradient-to-br from-emerald-50/50 via-white to-green-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-emerald-900/10 border border-gray-200 dark:border-gray-700 rounded-3xl p-12">
+                  <div className="text-6xl mb-4">🏠</div>
+                  <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
+                    No Properties Found
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-300 mb-6">
+                    Try adjusting your filters or search terms
+                  </p>
+                  <button
+                    onClick={resetFilters}
+                    className="px-6 py-3 rounded-2xl bg-gradient-to-r from-emerald-500 to-green-500 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                  >
+                    Reset All Filters
+                  </button>
+                </div>
+              </motion.div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {filteredItems.map((property, index) => {
+                  const isInWishlist = wishlist?.some(
+                    (w) => w.propertyId === property._id
+                  );
+
+                  return (
+                    <div
+                      key={property._id}
+                      className="backdrop-blur-sm bg-gradient-to-br from-emerald-50/50 via-white to-green-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-emerald-900/10 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg hover:shadow-xl overflow-hidden transition-all duration-300 hover:-translate-y-1"
                     >
-                      ${property.price}/night
-                    </motion.span>
-
-                    {/* Wishlist Button */}
-                    <button
-                      onClick={() => handleWishlist(property)}
-                      className="absolute top-3 right-3 bg-white p-2 rounded-full shadow-md hover:scale-110 transition"
-                    >
-                      <AiFillHeart
-                        size={20}
-                        className={
-                          isInWishlist ? "text-red-500" : "text-gray-400"
-                        }
-                      />
-                    </button>
-                  </div>
-
-                  {/* Card Content */}
-                  <div className="p-4 space-y-1">
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-1 font-medium text-gray-600 text-sm">
-                        <CiLocationOn size={18} className="text-red-500" />
-                        <p className="dark:text-[#ffffff]">{property.Location}</p>
+                      {/* Image Section */}
+                      <div className="relative overflow-hidden">
+                        <img
+                          src={property.image}
+                          alt={property.name}
+                          className="w-full h-48 object-cover transition-transform duration-500 hover:scale-105"
+                        />
+                        <div className="absolute top-3 left-3">
+                          <span className="px-3 py-1 rounded-full bg-gradient-to-r from-emerald-500 to-green-500 text-white text-sm font-semibold shadow-lg">
+                            ${property.price}/night
+                          </span>
+                        </div>
+                        <button
+                          onClick={() => handleWishlist(property)}
+                          className="absolute top-3 right-3 bg-white/80 dark:bg-gray-800/80 p-2 rounded-full backdrop-blur-sm hover:bg-emerald-500 transition-all duration-300"
+                        >
+                          <AiFillHeart
+                            size={20}
+                            className={isInWishlist ? "text-red-500" : "text-gray-600 dark:text-gray-400"}
+                          />
+                        </button>
                       </div>
-                      <motion.div
-                        whileTap={{ scale: 1.2 }}
-                        className="flex items-center gap-1 text-yellow-500 font-semibold text-sm"
-                      >
-                        <FaStar /> {property.reating}
-                      </motion.div>
+
+                      {/* Content Section */}
+                      <div className="p-5 space-y-4">
+                        {/* Location and Rating */}
+                        <div className="flex justify-between items-center">
+                          <div className="flex items-center gap-1 text-gray-600 dark:text-gray-300">
+                            <CiLocationOn size={18} className="text-emerald-500" />
+                            <p className="text-sm font-medium">{property.Location}</p>
+                          </div>
+                          <div className="flex items-center gap-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white px-2 py-1 rounded-full">
+                            <FaStar className="text-xs" /> 
+                            <span className="text-sm font-semibold">{property.reating}</span>
+                          </div>
+                        </div>
+
+                        {/* Property Name */}
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white line-clamp-1">
+                          {property.name}
+                        </h3>
+
+                        {/* Description */}
+                        <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                          {expanded === property._id
+                            ? property.description
+                            : `${property.description?.slice(0, 80)}...`}
+                          {property.description?.length > 80 && (
+                            <button
+                              onClick={() =>
+                                setExpanded(expanded === property._id ? null : property._id)
+                              }
+                              className="text-emerald-600 font-semibold ml-1 hover:underline text-sm"
+                            >
+                              {expanded === property._id ? "Show less" : "Read more"}
+                            </button>
+                          )}
+                        </p>
+
+                        {/* Details */}
+                        <div className="flex justify-between text-gray-600 dark:text-gray-300 text-sm">
+                          <div className="flex items-center gap-2">
+                            <IoMdContacts size={18} className="text-emerald-500" />
+                            <p>{property.guest} guests</p>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <MdCategory size={18} className="text-emerald-500" />
+                            <p className="font-semibold text-emerald-600">{property.category}</p>
+                          </div>
+                        </div>
+
+                        {/* Book Button */}
+                        <Link to={`/FeaturepropertiesDitels/${property._id}`}>
+                          <button
+                            className="w-full py-3 rounded-2xl bg-gradient-to-r from-emerald-500 to-green-500 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 hover:-translate-y-0.5"
+                          >
+                            <CiCalendar size={18} />
+                            Quick Book
+                          </button>
+                        </Link>
+                      </div>
                     </div>
-
-                    <h1 className="text-lg font-semibold text-gray-800 dark:text-[#ffffff]">
-                      {property.name}
-                    </h1>
-
-                    <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
-                      {expanded === property.id
-                        ? property.description
-                        : `${property.description?.slice(0, 65)}...`}
-                      <button
-                        onClick={() =>
-                          setExpanded(
-                            expanded === property.id ? null : property.id
-                          )
-                        }
-                        className="text-green-600 ml-2 hover:underline text-sm"
-                      >
-                        {expanded === property.id ? "Show less" : "Read more"}
-                      </button>
-                    </p>
-
-                    <div className="flex justify-between">
-                      <div className="flex items-center gap-2 text-gray-700 text-sm dark:text-[#ffffff]">
-                        <IoMdContacts size={18} />
-                        <p>{property.guest} guests</p>
-                      </div>
-                      <div className="flex items-center gap-2 text-gray-700 text-sm dark:text-[#ffffff]">
-                        <MdCategory size={18} />
-                        <p className="text-green-400">{property.category}</p>
-                      </div>
-                    </div>
-
-                    <Link to={`/FeaturepropertiesDitels/${property._id}`}>
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.9 }}
-                        className="mt-3 w-full py-2 flex justify-center items-center gap-2 rounded-full font-semibold bg-gradient-to-r from-emerald-500 to-green-500 text-white transition"
-                      >
-                        <CiCalendar size={18} /> Quick Book
-                      </motion.button>
-                    </Link>
-                  </div>
-                </motion.div>
-              );
-            })}
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -328,4 +418,3 @@ const BrowseProperties = () => {
 };
 
 export default BrowseProperties;
-

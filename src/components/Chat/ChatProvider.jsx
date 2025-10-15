@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { use } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 import socketService from "../../services/socketService";
-import { setConnectionStatus } from "../../redux/chatSlice";
+import { setConnectionStatus, fetchConversations, addConversation } from "../../redux/chatSlice";
 
 const ChatProvider = ({ children }) => {
   const dispatch = useDispatch();
@@ -18,6 +18,15 @@ const ChatProvider = ({ children }) => {
 
       // Set connection status
       dispatch(setConnectionStatus(socket ? true : false));
+
+      // Listen for new conversations (especially important for hosts)
+      socketService.listenForNewConversations((conversation) => {
+        // Add the new conversation to Redux store
+        dispatch(addConversation(conversation));
+        
+        // Refresh conversations list to ensure it's up to date
+        dispatch(fetchConversations(user._id));
+      });
 
       return () => {
         // Cleanup on unmount

@@ -1,16 +1,14 @@
 // components/AddPropertyModal.jsx
 import React, { useState, useEffect, useContext } from "react";
-// import { useDispatch } from "react-redux";
 import { motion } from "framer-motion";
-import { X } from "lucide-react";
+import { X, Loader2 } from "lucide-react";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../../Context/AuthContext";
 
-
 const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
-  const {user}=useContext(AuthContext)
-  console.log(user)
-  // const dispatch = useDispatch();
+  const { user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
+
   const [product, setProduct] = useState({
     name: "",
     description: "",
@@ -20,12 +18,20 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
     offerPrice: "",
     Location: "",
     guest: "",
+<<<<<<< HEAD
+    bedrooms: "",
+    beds: "",
+    bathrooms: "",
+    cancellationPolicy: "",
+    rules: "",
+=======
     bookings:0,
+>>>>>>> 1cad0057a097641c0a5265dce9b39c91a7030469
     image: null,
-    email:user?.email,
-    Name:user.displayName,
-    status:"avaliable",
-    propertystatus:"pending",
+    email: user?.email,
+    Name: user?.displayName,
+    status: "available",
+    propertystatus: "pending",
   });
 
   // Prefill form if editing
@@ -40,8 +46,12 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
         offerPrice: property.offerPrice || "",
         Location: property.Location || "",
         guest: property.guest || "",
-        reating: property.reating || "",
-        image:  null,
+        bedrooms: property.bedrooms || "",
+        beds: property.beds || "",
+        bathrooms: property.bathrooms || "",
+        cancellationPolicy: property.cancellationPolicy || "",
+        rules: property.rules || "",
+        image: null,
       });
     }
   }, [property]);
@@ -56,108 +66,81 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
-    // If editing, update property
-    if (property) {
-      let imageUrl = property.image;
+    try {
+      let imageUrl = property ? property.image : null;
+
+      // Upload new image if provided
       if (product.image) {
-        // Upload new image if changed
         const formData = new FormData();
         formData.append("image", product.image);
-        const imgbbAPI = "https://api.imgbb.com/1/upload?key=e45319e6715cdaa4b72e32898ac377b1";
-        try {
-          const res = await fetch(imgbbAPI, {
-            method: "POST",
-            body: formData,
-          });
-          const imgData = await res.json();
-          if (imgData.success) {
-            imageUrl = imgData.data.url;
-          }
-        } catch {
-          Swal.fire("Error!", "Image upload failed.", "error");
-          return;
-        }
+        const imgbbAPI =
+          "https://api.imgbb.com/1/upload?key=e45319e6715cdaa4b72e32898ac377b1";
+        const res = await fetch(imgbbAPI, {
+          method: "POST",
+          body: formData,
+        });
+        const imgData = await res.json();
+        if (imgData.success) imageUrl = imgData.data.url;
+        else throw new Error("Image upload failed");
       }
-      const updatedData = { ...product, image: imageUrl };
-      // Update property in backend
-      await fetch(`https://ez-rent-server-side.vercel.app/AddProperty/${property._id}`, {
-        method: "PUT",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(updatedData),
+
+      const newProduct = { ...product, image: imageUrl };
+
+      const url = property
+        ? `https://ez-rent-server-side.vercel.app/AddProperty/${property._id}`
+        : "https://ez-rent-server-side.vercel.app/AddProperty";
+
+      const method = property ? "PUT" : "POST";
+
+      const response = await fetch(url, {
+        method,
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(newProduct),
       });
-    
+
+      if (!response.ok) throw new Error("Failed to save property");
+
       Swal.fire({
         icon: "success",
-        title: "Property Updated Successfully!",
+        title: property
+          ? "Property Updated Successfully!"
+          : "Property Added Successfully!",
         showConfirmButton: false,
         timer: 1500,
       });
+
+      setProduct({
+        name: "",
+        description: "",
+        category: "",
+        services: "",
+        price: "",
+        offerPrice: "",
+        Location: "",
+        guest: "",
+        bedrooms: "",
+        beds: "",
+        bathrooms: "",
+        cancellationPolicy: "",
+        rules: "",
+        image: null,
+      });
+
       onClose();
       if (onPropertyAdded) onPropertyAdded();
-      return;
-    }
-
-    // Add new property
-    if (!product.image) {
-      Swal.fire("Please upload an image first!");
-      return;
-    }
-    const formData = new FormData();
-    formData.append("image", product.image);
-    const imgbbAPI = "https://api.imgbb.com/1/upload?key=e45319e6715cdaa4b72e32898ac377b1";
-    try {
-      const res = await fetch(imgbbAPI, {
-        method: "POST",
-        body: formData,
-      });
-      const imgData = await res.json();
-      if (imgData.success) {
-        const imageUrl = imgData.data.url;
-        const newProduct = {
-          ...product,
-          image: imageUrl,
-        };
-        const dbRes = await fetch("https://ez-rent-server-side.vercel.app/AddProperty", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(newProduct),
-        });
-  await dbRes.json();
-        Swal.fire({
-          icon: "success",
-          title: "Property Added Successfully!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        setProduct({
-          name: "",
-          description: "",
-          category: "",
-          services: "",
-          price: "",
-          offerPrice: "",
-          Location: "",
-          guest: "",
-          reating: "",
-          image: null,
-        });
-        onClose();
-        if (onPropertyAdded) onPropertyAdded();
-      }
-    } catch {
-      Swal.fire("Error!", "Something went wrong while uploading.", "error");
+    } catch (error) {
+      Swal.fire("Error!", error.message || "Something went wrong.", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center  bg-opacity-50 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -198,11 +181,6 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
                     alt="preview"
                     className="w-full h-full object-cover rounded-lg"
                   />
-                  <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 transition-all rounded-lg flex items-center justify-center">
-                    <span className="text-white opacity-0 hover:opacity-100 transition-opacity">
-                      Change Image
-                    </span>
-                  </div>
                 </div>
               ) : (
                 <div className="text-center">
@@ -220,7 +198,7 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
             </label>
           </div>
 
-          {/* Property Name */}
+          {/* Property Info */}
           <div>
             <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
               Property Name
@@ -232,11 +210,10 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
               value={product.name}
               onChange={handleChange}
               required
-              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3"
             />
           </div>
 
-          {/* Property Description */}
           <div>
             <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
               Property Description
@@ -248,12 +225,13 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
               onChange={handleChange}
               required
               rows={4}
-              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all resize-none"
+              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 resize-none"
             ></textarea>
           </div>
 
-          {/* Grid of Inputs */}
+          {/* Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Category */}
             <div>
               <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
                 Category
@@ -263,7 +241,7 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
                 value={product.category}
                 onChange={handleChange}
                 required
-                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3"
               >
                 <option value="">Select Category</option>
                 <option value="House">House</option>
@@ -274,6 +252,7 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
               </select>
             </div>
 
+            {/* Price */}
             <div>
               <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
                 Price per Night ($)
@@ -286,25 +265,11 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
                 required
                 min="0"
                 placeholder="0.00"
-                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3"
               />
             </div>
 
-            <div>
-              <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
-                Offer Price ($)
-              </label>
-              <input
-                type="number"
-                name="offerPrice"
-                value={product.offerPrice}
-                onChange={handleChange}
-                min="0"
-                placeholder="0.00"
-                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-              />
-            </div>
-
+            {/* Location */}
             <div>
               <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
                 Location
@@ -316,10 +281,11 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
                 onChange={handleChange}
                 required
                 placeholder="Enter location"
-                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3"
               />
             </div>
 
+            {/* Max Guests */}
             <div>
               <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
                 Maximum Guests
@@ -332,11 +298,79 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
                 required
                 min="1"
                 placeholder="0"
-                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3"
               />
             </div>
 
-         <div>
+            {/* Bedrooms */}
+            <div>
+              <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+                Bedrooms
+              </label>
+              <input
+                type="number"
+                name="bedrooms"
+                value={product.bedrooms}
+                onChange={handleChange}
+                min="0"
+                placeholder="Number of bedrooms"
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3"
+              />
+            </div>
+
+            {/* Beds */}
+            <div>
+              <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+                Beds
+              </label>
+              <input
+                type="number"
+                name="beds"
+                value={product.beds}
+                onChange={handleChange}
+                min="0"
+                placeholder="Number of beds"
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3"
+              />
+            </div>
+
+            {/* Bathrooms */}
+            <div>
+              <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+                Bathrooms
+              </label>
+              <input
+                type="number"
+                name="bathrooms"
+                value={product.bathrooms}
+                onChange={handleChange}
+                min="0"
+                placeholder="Number of bathrooms"
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3"
+              />
+            </div>
+
+            {/* Cancellation Policy */}
+            <div>
+              <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+                Cancellation Policy
+              </label>
+              <select
+                name="cancellationPolicy"
+                value={product.cancellationPolicy}
+                onChange={handleChange}
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3"
+              >
+                <option value="">Select Policy</option>
+                <option value="Flexible">Flexible</option>
+                <option value="Moderate">Moderate</option>
+                <option value="Strict">Strict</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Services */}
+          <div>
             <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
               Services (comma separated)
             </label>
@@ -346,29 +380,54 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
               value={product.services}
               onChange={handleChange}
               placeholder="e.g., WiFi, Parking, AC, Kitchen"
-              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3"
             />
           </div>
-          
-          </div>
 
-          {/* Services */}
-        
+          {/* Host Rules */}
+          <div>
+            <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+              Host Rules / Restrictions
+            </label>
+            <textarea
+              name="rules"
+              value={product.rules}
+              onChange={handleChange}
+              placeholder='e.g., "No smoking", "No parties", "Pets allowed"'
+              rows={3}
+              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3 resize-none"
+            ></textarea>
+          </div>
 
           {/* Buttons */}
           <div className="flex gap-3 pt-4">
             <button
               type="button"
               onClick={onClose}
+              disabled={loading}
               className="flex-1 py-3 px-6 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="flex-1 py-3 px-6 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
+              disabled={loading}
+              className={`flex-1 py-3 px-6 rounded-xl font-semibold text-white transition-all duration-300 ${
+                loading
+                  ? "bg-gray-500 cursor-not-allowed"
+                  : "bg-gradient-to-r from-emerald-500 to-green-500 hover:shadow-lg"
+              }`}
             >
-              {property ? "Update Property" : "Add Property"}
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <Loader2 className="animate-spin w-5 h-5" />{" "}
+                  {property ? "Updating..." : "Adding..."}
+                </span>
+              ) : property ? (
+                "Update Property"
+              ) : (
+                "Add Property"
+              )}
             </button>
           </div>
         </form>
@@ -378,5 +437,3 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
 };
 
 export default AddPropertyModal;
-
-

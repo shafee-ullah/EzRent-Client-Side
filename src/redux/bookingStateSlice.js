@@ -6,7 +6,7 @@ export const fetchTotalBookings = createAsyncThunk(
     "bookings/fetchTotalBookings",
     async (_, { rejectWithValue }) => {
         try {
-            const response = await axios.get("http://localhost:5000/totalBookings"); // change to your backend URL
+            const response = await axios.get("http://localhost:5001/totalBookings"); // change to your backend URL
             return response.data.totalBookings;
         } catch (error) {
             return rejectWithValue(error.response?.data || "Server Error");
