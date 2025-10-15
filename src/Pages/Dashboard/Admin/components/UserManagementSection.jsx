@@ -1,32 +1,42 @@
-import React, { useState, useEffect } from "react";
+// components/UserManagementSection.js
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
+import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { Shield, Download, XCircle, Home, User } from "lucide-react";
 
-const MotionDiv = motion.div;
+// Redux imports
+import {
+  fetchUsers,
+  updateUserRole,
+  deleteUser,
+  setFilter,
+  clearError
+} from "../../../../redux/UserSlice.js";
 
 const UserManagementSection = () => {
-  const [users, setUsers] = useState([]);
-  const [filter, setFilter] = useState("all");
-  const [loading, setLoading] = useState(true); // <-- Loading state
+  const dispatch = useDispatch();
+  const { users, filter, loading, error } = useSelector((state) => state.users);
 
   console.log("user", users);
 
-  // Fetch users from backend
+  // Fetch users on component mount
   useEffect(() => {
-    setLoading(true);
-    fetch("https://ez-rent-server-side.vercel.app/users")
-      .then((res) => res.json())
-      .then((data) => setUsers(data))
-      .catch((err) => console.error(err))
-      .finally(() => setLoading(false));
-  }, []);
+    dispatch(fetchUsers());
+  }, [dispatch]);
+
+  // Handle errors
+  useEffect(() => {
+    if (error) {
+      toast.error(`❌ ${error}`);
+      dispatch(clearError());
+    }
+  }, [error, dispatch]);
 
   // Update user role
   const handleUpdateRole = async (id, role) => {
-    role = role.toLowerCase();
     try {
-      const res = await fetch(`https://ez-rent-server-side.vercel.app/users/role/${id}`, {
+      const res = await fetch(`http://localhost:5000/users/role/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ role }),
@@ -42,8 +52,8 @@ const UserManagementSection = () => {
         toast.error(`❌ ${data.message}`);
       }
     } catch (error) {
-      console.error(error);
-      toast.error("⚠️ Error updating role");
+      // Error is handled by the slice and will be caught in the error useEffect
+      console.log("Failed to update role:", error);
     }
   };
 
@@ -85,7 +95,7 @@ const UserManagementSection = () => {
                     toast.dismiss(t.id);
                     try {
                       const res = await fetch(
-                        `https://ez-rent-server-side.vercel.app/users/${id}`,
+                        `http://localhost:5000/users/${id}`,
                         { method: "DELETE" }
                       );
                       const data = await res.json();
@@ -103,8 +113,8 @@ const UserManagementSection = () => {
                         toast.error(data.message || "Failed to delete user");
                       }
                     } catch (error) {
-                      console.error(error);
-                      toast.error("⚠️ Error deleting user");
+                      // Error is handled by the slice
+                      console.log(error);
                     }
                   }}
                   className="px-3 py-1.5 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-md transition"
@@ -138,7 +148,6 @@ const UserManagementSection = () => {
     }
   };
 
-
   // Status color classes
   const getStatusColor = (status) => {
     const colors = {
@@ -166,7 +175,7 @@ const UserManagementSection = () => {
         <div className="flex items-center gap-3">
           <select
             value={filter}
-            onChange={(e) => setFilter(e.target.value)}
+            onChange={(e) => dispatch(setFilter(e.target.value))}
             className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500"
           >
             <option value="all">All Users</option>
@@ -282,32 +291,32 @@ const UserManagementSection = () => {
 
                     {/* Actions Column */}
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center justify-start gap-4">
+                      <div className="flex items-center justify-start gap-3">
                         <button
                           onClick={() => handleUpdateRole(user._id, "host")}
-                          className="group flex flex-col items-center text-emerald-600 hover:text-emerald-700 dark:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-200"
+                          className="group relative flex flex-col items-center p-3 rounded-xl bg-emerald-50/80 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-800/30 border border-emerald-200 dark:border-emerald-700 hover:border-emerald-300 dark:hover:border-emerald-600 hover:shadow-md transition-all duration-300 ease-out hover:-translate-y-1"
                           title="Set as Host"
                         >
-                          <Home className="w-4 h-4 mb-1 group-hover:scale-110 transition-transform" />
-                          <span className="text-xs font-medium">Host</span>
+                          <Home className="w-5 h-5 mb-2 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300" />
+                          <span className="text-xs font-semibold group-hover:tracking-wide transition-all duration-200">Host</span>
                         </button>
 
                         <button
                           onClick={() => handleUpdateRole(user._id, "guest")}
-                          className="group flex flex-col items-center text-blue-600 hover:text-blue-700 dark:text-blue-500 dark:hover:text-blue-400 transition-colors duration-200"
+                          className="group relative flex flex-col items-center p-3 rounded-xl bg-blue-50/80 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-800/30 border border-blue-200 dark:border-blue-700 hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-md transition-all duration-300 ease-out hover:-translate-y-1"
                           title="Set as Guest"
                         >
-                          <User className="w-4 h-4 mb-1 group-hover:scale-110 transition-transform" />
-                          <span className="text-xs font-medium">Guest</span>
+                          <User className="w-5 h-5 mb-2 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300" />
+                          <span className="text-xs font-semibold group-hover:tracking-wide transition-all duration-200">Guest</span>
                         </button>
 
                         <button
                           onClick={() => handleRejectUser(user._id)}
-                          className="group flex flex-col items-center text-red-600 hover:text-red-700 dark:text-red-500 dark:hover:text-red-400 transition-colors duration-200"
+                          className="group relative flex flex-col items-center p-3 rounded-xl bg-red-50/80 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-800/30 border border-red-200 dark:border-red-700 hover:border-red-300 dark:hover:border-red-600 hover:shadow-md transition-all duration-300 ease-out hover:-translate-y-1"
                           title="Reject User"
                         >
-                          <XCircle className="w-4 h-4 mb-1 group-hover:scale-110 transition-transform" />
-                          <span className="text-xs font-medium">Reject</span>
+                          <XCircle className="w-5 h-5 mb-2 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300" />
+                          <span className="text-xs font-semibold group-hover:tracking-wide transition-all duration-200">Reject</span>
                         </button>
                       </div>
                     </td>

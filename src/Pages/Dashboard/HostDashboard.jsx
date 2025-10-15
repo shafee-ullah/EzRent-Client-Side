@@ -1,4 +1,4 @@
-import React, { use, useContext, useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Home,
@@ -111,7 +111,7 @@ const mockHostData = {
 // Recharts import for earnings graph
 
 import { Link } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { AuthContext } from "../../Context/AuthContext";
 import { fetchUserByEmail } from "../../redux/PropertieSlice";
 
@@ -129,17 +129,17 @@ const HostDashboard = () => {
 
 
   const dispatch = useDispatch();
-  const { user, loading, error } = useSelector((state) => state.products);
+  // const { user, loading, error } = useSelector((state) => state.products);
   // console.log('auth user', user);
 
 
-  useEffect(() => {
-    if (user) {
-      setHostData({ ...mockHostData, user });
-    } else {
-      setHostData(mockHostData);
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     setHostData({ ...mockHostData, user });
+  //   } else {
+  //     setHostData(mockHostData);
+  //   }
+  // }, [user]);
 
 
 
@@ -152,8 +152,8 @@ const HostDashboard = () => {
   }, [authUser, dispatch]);
 
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  // if (loading) return <p>Loading...</p>;
+  // if (error) return <p>{error}</p>;
 
 
   const navigationItems = [
@@ -213,7 +213,7 @@ const HostDashboard = () => {
       case "reviews":
         return <ReviewsSection />;
       case "settings":
-        return <SettingsSection data={user} />;
+        return <SettingsSection data={authUser} />;
       default:
         return (
           <OverviewSection data={hostData} formatCurrency={formatCurrency} />
@@ -242,7 +242,7 @@ const HostDashboard = () => {
               Host Dashboard
             </h1>
             <p className="text-gray-600 dark:text-gray-300 mt-2 text-lg">
-              Welcome back, <span className="text-green-600 font-bold">{user.name} </span>Manage your properties and
+              Welcome back, <span className="text-green-600 font-bold">{authUser?.name} </span>Manage your properties and
               bookings. 🏠
             </p>
           </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Download } from "lucide-react";
 import {
@@ -10,86 +10,128 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllPayments, selectAllPayments } from "../../../../redux/paymentSlice";
 
 const MotionDiv = motion.div;
 
 const AnalyticsSection = ({ formatCurrency }) => {
-  const topDestinations = [
-    { name: "Cox's Bazar", bookings: 12450, revenue: 31200000 },
-    { name: "Dhaka", bookings: 9850, revenue: 24500000 },
-    { name: "Sylhet", bookings: 7650, revenue: 18900000 },
-    { name: "Chattogram", bookings: 5420, revenue: 13500000 },
-    { name: "Saint Martin", bookings: 3210, revenue: 9800000 },
+  // Calculate key metrics
+
+  const dispatch = useDispatch();
+  const payments  = useSelector(selectAllPayments);
+  console.log(payments)
+  // or if you store all payments somewhere else, adjust accordingly
+
+
+  // Fetch all payments on mount
+  useEffect(() => {
+    dispatch(fetchAllPayments());
+  }, [dispatch]);
+  const { totalRevenue, platformRevenue, averagePayment, commissionRate } = useMemo(() => {
+    const total = payments.reduce((sum, p) => sum + (p.amount || 0), 0);
+    const count = payments.length || 1;
+    const commission = 0.12; // 12%
+    const platformRev = total * commission;
+
+    return {
+      totalRevenue: total,
+      platformRevenue: platformRev,
+      averagePayment: total / count,
+      commissionRate: commission * 100,
+    };
+  }, [payments]);
+
+  // Example chart data for monthly payments
+  const monthlyData = [
+    { month: "Jan", revenue: 8500 },
+    { month: "Feb", revenue: 12500 },
+    { month: "Mar", revenue: 9800 },
+    { month: "Apr", revenue: 14200 },
+    { month: "May", revenue: 11700 },
+    { month: "Jun", revenue: 15900 },
   ];
 
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-          Reports & Analytics
+          Payment Analytics
         </h2>
-        <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
-          <Download className="w-4 h-4" />
-          Export Full Report
-        </button>
       </div>
 
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl p-6 text-white">
+          <p className="text-sm opacity-90">Total Revenue</p>
+          <p className="text-2xl font-bold mt-2">{formatCurrency(totalRevenue)}</p>
+        </div>
+
+        <div className="bg-gradient-to-br from-emerald-500 to-green-500 rounded-2xl p-6 text-white">
+          <p className="text-sm opacity-90">Platform Revenue</p>
+          <p className="text-2xl font-bold mt-2">{formatCurrency(platformRevenue)}</p>
+        </div>
+
+        <div className="bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl p-6 text-white">
+          <p className="text-sm opacity-90">Average Payment</p>
+          <p className="text-2xl font-bold mt-2">{formatCurrency(averagePayment)}</p>
+        </div>
+
+        <div className="bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl p-6 text-white">
+          <p className="text-sm opacity-90">Commission Rate</p>
+          <p className="text-2xl font-bold mt-2">{commissionRate}%</p>
+        </div>
+      </div>
+
+      {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Top Earners */}
         <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
-            Top Destinations
+            Top Earning Hosts
           </h3>
           <div className="space-y-4">
-            {topDestinations.map((destination, index) => (
+            {[
+              { name: "Arafat Rahman", revenue: 21000 },
+              { name: "Sadia Hasan", revenue: 17800 },
+              { name: "Tanvir Islam", revenue: 15200 },
+              { name: "Mim Chowdhury", revenue: 12600 },
+              { name: "Zahin Mahmud", revenue: 11300 },
+            ].map((host, index) => (
               <div
-                key={destination.name}
+                key={host.name}
                 className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-xl"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                  <div className="w-8 h-8 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
                     {index + 1}
                   </div>
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-white">
-                      {destination.name}
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {destination.bookings} bookings
-                    </p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p className="font-semibold text-gray-900 dark:text-white">
-                    {formatCurrency(destination.revenue)}
-                  </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Revenue
+                  <p className="font-medium text-gray-900 dark:text-white">
+                    {host.name}
                   </p>
                 </div>
+                <p className="font-semibold text-gray-900 dark:text-white">
+                  {formatCurrency(host.revenue)}
+                </p>
               </div>
             ))}
           </div>
         </div>
 
+        {/* Monthly Revenue Chart */}
         <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
-            Seasonal Performance
+            Monthly Revenue Growth
           </h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={[
-                  { season: "Winter", bookings: 8500, growth: 15 },
-                  { season: "Spring", bookings: 10500, growth: 25 },
-                  { season: "Summer", bookings: 12800, growth: 32 },
-                  { season: "Autumn", bookings: 9200, growth: 18 },
-                ]}
-              >
+              <BarChart data={monthlyData}>
                 <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-                <XAxis dataKey="season" />
+                <XAxis dataKey="month" />
                 <YAxis />
                 <Tooltip />
-                <Bar dataKey="bookings" fill="#10b981" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="revenue" fill="#0ea5e9" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

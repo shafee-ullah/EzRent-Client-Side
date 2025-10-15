@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
   Users,
@@ -17,42 +17,80 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTotalBookings } from "../../../../redux/bookingStateSlice";
+import { selectAllPayments } from "../../../../redux/paymentSlice";
 
 const MotionDiv = motion.div;
 
 const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
+  // Redux state selectors
+  const { users } = useSelector((state) => state.users);
+  const { items } = useSelector((state) => state.products);
+  const { totalBookings, loading, error } = useSelector((state) => state.bookingStats);
+  const allPayments = useSelector(selectAllPayments);
+
+  const dispatch = useDispatch();
+
+  // Fetch total bookings on component mount
+  useEffect(() => {
+    dispatch(fetchTotalBookings());
+  }, [dispatch]);
+
+  // Calculate platform revenue from payments
+  const { platformRevenue } = useMemo(() => {
+    const total = allPayments.reduce((sum, p) => sum + p.amount, 0);
+    const commissionRate = 0.12; // 12%
+    const platformRev = total * commissionRate;
+
+    return {
+      totalRevenue: total,
+      platformRevenue: platformRev,
+      commissionRate: commissionRate * 100,
+    };
+  }, [allPayments]);
+
+  // Filter active hosts from users
+  const activeHosts = useMemo(() => {
+    if (!users) return [];
+    return users.filter(
+      (user) => user.role === "host" && user.isActive !== false
+    );
+  }, [users]);
+
+  // Statistics cards data
   const stats = [
     {
       label: "Total Users",
-      value: formatNumber(data.overview.totalUsers),
+      value: formatNumber(users?.length || 0),
       icon: <Users className="w-6 h-6" />,
       color: "from-blue-500 to-cyan-500",
       description: "Guests + Hosts",
     },
     {
       label: "Active Hosts",
-      value: formatNumber(data.overview.totalHosts),
+      value: formatNumber(activeHosts?.length || 0),
       icon: <Users className="w-6 h-6" />,
       color: "from-emerald-500 to-green-500",
       description: "Verified hosts",
     },
     {
       label: "Active Listings",
-      value: formatNumber(data.overview.activeListings),
+      value: formatNumber(items?.length || 0),
       icon: <Home className="w-6 h-6" />,
       color: "from-purple-500 to-pink-500",
       description: "Available properties",
     },
     {
       label: "Total Bookings",
-      value: formatNumber(data.overview.totalBookings),
+      value: formatNumber(totalBookings || 0),
       icon: <Calendar className="w-6 h-6" />,
       color: "from-amber-500 to-orange-500",
       description: "All-time bookings",
     },
     {
       label: "Platform Revenue",
-      value: formatCurrency(data.overview.totalRevenue),
+      value: formatCurrency(platformRevenue || 0),
       icon: <DollarSign className="w-6 h-6" />,
       color: "from-green-500 to-emerald-500",
       description: "Total commission",
@@ -66,6 +104,7 @@ const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
     },
   ];
 
+  // System health metrics
   const systemHealth = [
     { name: "Uptime", value: 99.9, status: "excellent" },
     { name: "Response Time", value: 120, status: "good" },
@@ -73,8 +112,13 @@ const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
     { name: "Active Sessions", value: 1247, status: "normal" },
   ];
 
+  // Loading and error states
+  if (loading) return <p>Loading total bookings...</p>;
+  if (error) return <p className="text-red-500">Error: {error}</p>;
+
   return (
     <div className="space-y-6">
+      {/* Statistics Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {stats.map((stat, index) => (
           <MotionDiv
@@ -107,7 +151,9 @@ const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
         ))}
       </div>
 
+      {/* Charts and Additional Info */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Performance Chart */}
         <MotionDiv
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -156,7 +202,9 @@ const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
           </div>
         </MotionDiv>
 
+        {/* Alerts and System Health */}
         <div className="space-y-6">
+          {/* System Alerts */}
           <MotionDiv
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -173,11 +221,10 @@ const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
               {data.alerts.map((alert) => (
                 <div
                   key={alert.id}
-                  className={`p-4 rounded-xl border ${
-                    alert.severity === "high"
+                  className={`p-4 rounded-xl border ${alert.severity === "high"
                       ? "bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-800"
                       : "bg-amber-50 border-amber-200 dark:bg-amber-900/20 dark:border-amber-800"
-                  }`}
+                    }`}
                 >
                   <div className="flex items-start justify-between">
                     <div>
@@ -189,11 +236,10 @@ const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
                       </p>
                     </div>
                     <span
-                      className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        alert.severity === "high"
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${alert.severity === "high"
                           ? "bg-red-500 text-white"
                           : "bg-amber-500 text-white"
-                      }`}
+                        }`}
                     >
                       {alert.severity}
                     </span>
@@ -203,6 +249,7 @@ const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
             </div>
           </MotionDiv>
 
+          {/* System Health */}
           <MotionDiv
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -230,13 +277,12 @@ const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
                     className={`w-full h-2 bg-gray-200 dark:bg-gray-600 rounded-full mt-2`}
                   >
                     <div
-                      className={`h-2 rounded-full ${
-                        metric.status === "excellent"
+                      className={`h-2 rounded-full ${metric.status === "excellent"
                           ? "bg-emerald-500"
                           : metric.status === "good"
-                          ? "bg-green-500"
-                          : "bg-amber-500"
-                      }`}
+                            ? "bg-green-500"
+                            : "bg-amber-500"
+                        }`}
                       style={{
                         width: metric.status === "excellent" ? "100%" : "85%",
                       }}

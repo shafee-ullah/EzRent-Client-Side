@@ -22,6 +22,8 @@ import AnalyticsSection from "./Admin/components/AnalyticsSection";
 import PlatformSettingsSection from "./Admin/components/PlatformSettingsSection";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHostRequests } from "../../redux/PropertieSlice"
+import ReviewsSection from "./Guest/components/ReviewsSection";
+import ProfileSection from "./Guest/components/ProfileSection";
 
 
 const MotionDiv = motion.div;
@@ -89,6 +91,8 @@ const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState("overview");
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [adminData] = useState(mockAdminData);
+  const { user } = useSelector((state) => state.products);
+
 
 
 
@@ -96,6 +100,8 @@ const AdminDashboard = () => {
   // get all host req
   const dispatch = useDispatch();
   const { hostRequests, loading } = useSelector((state) => state.products);
+   const { items: properties } = useSelector((state) => state.products);
+  const { users } = useSelector((state) => state.users);
   console.log(hostRequests);
 
   useEffect(() => {
@@ -121,11 +127,11 @@ const AdminDashboard = () => {
       label: "Property Management",
       icon: <Home className="w-5 h-5" />,
     },
-    {
-      id: "bookings",
-      label: "Booking Management",
-      icon: <Calendar className="w-5 h-5" />,
-    },
+    // {
+    //   id: "bookings",
+    //   label: "Booking Management",
+    //   icon: <Calendar className="w-5 h-5" />,
+    // },
     {
       id: "payments",
       label: "Payments & Earnings",
@@ -133,7 +139,7 @@ const AdminDashboard = () => {
     },
     {
       id: "reviews",
-      label: "Content Moderation",
+      label: "All Reviews",
       icon: <Star className="w-5 h-5" />,
     },
     {
@@ -142,8 +148,8 @@ const AdminDashboard = () => {
       icon: <TrendingUp className="w-5 h-5" />,
     },
     {
-      id: "settings",
-      label: "Platform Settings",
+      id: "profile",
+      label: "Profile & Settings",
       icon: <Settings className="w-5 h-5" />,
     },
   ];
@@ -171,19 +177,21 @@ const AdminDashboard = () => {
           />
         );
       case "users":
-        return <UserManagementSection  data={hostRequests}/>;
+        return <UserManagementSection data={hostRequests} />;
       case "properties":
         return <PropertyManagementSection />;
-      case "bookings":
-        return <BookingManagementSection />;
+      // case "bookings":
+      //   return <BookingManagementSection />;
       case "payments":
         return <PaymentsSection formatCurrency={formatCurrency} />;
+      // case "reviews":
+      //   return <ReviewsModerationSection />;
       case "reviews":
-        return <ReviewsModerationSection />;
+        return <ReviewsSection />;
       case "analytics":
         return <AnalyticsSection formatCurrency={formatCurrency} />;
-      case "settings":
-        return <PlatformSettingsSection />;
+      case "profile":
+        return <ProfileSection data={user} />;
       default:
         return (
           <OverviewSection
@@ -246,7 +254,7 @@ const AdminDashboard = () => {
               </button>
             </div>
 
-  
+
           </div>
         </MotionDiv>
 
@@ -286,7 +294,7 @@ const AdminDashboard = () => {
                       Host Registrations
                     </span>
                     <span className="px-2 py-1 bg-amber-500 text-white rounded-full text-xs font-bold">
-                      {adminData.pendingActions.hostRegistrations}
+                      {users?.length}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
@@ -294,17 +302,10 @@ const AdminDashboard = () => {
                       Property Listings
                     </span>
                     <span className="px-2 py-1 bg-amber-500 text-white rounded-full text-xs font-bold">
-                      {adminData.pendingActions.propertyListings}
+                      {properties?.length}
                     </span>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-amber-700 dark:text-amber-400">
-                      Payout Requests
-                    </span>
-                    <span className="px-2 py-1 bg-amber-500 text-white rounded-full text-xs font-bold">
-                      {adminData.pendingActions.payoutRequests}
-                    </span>
-                  </div>
+                
                 </div>
               </div>
             </div>
