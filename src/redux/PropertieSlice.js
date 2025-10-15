@@ -5,7 +5,7 @@ export const fetchProducts = createAsyncThunk(
   "properties/fetchProducts",
   async (email) => {
     const res = await axios.get(
-      `http://localhost:5000/properties?email=${email}`
+      `http://localhost:5001/properties?email=${email}`
     );
     return res.data;
   }
@@ -13,7 +13,7 @@ export const fetchProducts = createAsyncThunk(
 
 // 🟢 Fetch All Properties
 export const fetchmanageproperty = createAsyncThunk("products/fetchmanageproperty", async () => {
-  const res = await axios.get("http://localhost:5000/manageproperty");
+  const res = await axios.get("http://localhost:5001/manageproperty");
   return res.data;
 });
 // redux/PropertieSlice.js
@@ -21,7 +21,7 @@ export const updatePropertyStatusAdmin = createAsyncThunk(
   "products/updatePropertyStatusAdmin",
   async ({ id,  propertystatus }) => {
     const res = await axios.patch(
-      `http://localhost:5000/AddProperty/${id}`, // adjust API route
+      `http://localhost:5001/AddProperty/${id}`, // adjust API route
       {  propertystatus }
     );
     return res.data; // updated property
@@ -34,7 +34,7 @@ export const updatePropertyStatus = createAsyncThunk(
   "products/updatePropertyStatus",
   async ({ propertyId, newStatus }) => {
     const res = await axios.patch(
-      `http://localhost:5000/Property/${propertyId}`, // 👈 adjust your API URL
+      `http://localhost:5001/Property/${propertyId}`, // 👈 adjust your API URL
       { status: newStatus }
     );
     return res.data; // return updated property
@@ -46,7 +46,7 @@ export const updatePropertyStatus = createAsyncThunk(
 export const fetchlimit = createAsyncThunk(
   "products/fetchLimit",
   async () => {
-    const res = await axios.get("http://localhost:5000/FeaturedProperties");
+    const res = await axios.get("http://localhost:5001/FeaturedProperties");
     return res.data;
   }
 );
@@ -55,7 +55,7 @@ export const fetchlimit = createAsyncThunk(
 export const fetchbooking = createAsyncThunk(
   "products/fetchbooking",
   async () => {
-    const res = await axios.get("http://localhost:5000/bookinghotel");
+    const res = await axios.get("http://localhost:5001/bookinghotel");
     return res.data;
   }
 );
@@ -63,7 +63,7 @@ export const fetchbooking = createAsyncThunk(
 //   "products/fetchbooking",
 //   async (email) => {
 //     const res = await axios.get(
-//       `http://localhost:5000/bookinghotel?email=${email}`
+//       `http://localhost:5001/bookinghotel?email=${email}`
 //     );
 //     return res.data;
 //   }
@@ -75,7 +75,7 @@ export const updateBookingStatus = createAsyncThunk(
   async ({ bookingId, newStatus }) => {
     // console.log("hello",bookingId)
     const res = await axios.patch(
-      `http://localhost:5000/bookings/${bookingId}`,
+      `http://localhost:5001/bookings/${bookingId}`,
       { status: newStatus }
     );
     return res.data.booking; // updated booking from DB
@@ -137,7 +137,7 @@ export const fetchHostRequests = createAsyncThunk(
 export const addToWishlist = createAsyncThunk(
   "products/addToWishlist",
   async (wishlistItem) => {
-    const res = await axios.post("http://localhost:5000/api/wishlist", wishlistItem);
+    const res = await axios.post("http://localhost:5001/api/wishlist", wishlistItem);
     return res.data;
   }
 );
@@ -145,7 +145,7 @@ export const addToWishlist = createAsyncThunk(
 export const removeFromWishlist = createAsyncThunk(
   "products/removeFromWishlist",
   async ({ propertyId, email }) => {
-    await axios.delete(`http://localhost:5000/api/wishlist/${propertyId}?email=${email}`);
+    await axios.delete(`http://localhost:5001/api/wishlist/${propertyId}?email=${email}`);
     return propertyId;
   }
 );
@@ -153,7 +153,7 @@ export const removeFromWishlist = createAsyncThunk(
 export const fetchWishlist = createAsyncThunk(
   "products/fetchWishlist",
   async (email) => {
-    const res = await axios.get(`http://localhost:5000/api/wishlist?email=${email}`);
+    const res = await axios.get(`http://localhost:5001/api/wishlist?email=${email}`);
     return res.data;
   }
 );

@@ -150,7 +150,7 @@ const BookingsSection = () => {
 
                     <div className="flex gap-3 mt-4 flex-wrap">
                       <ContactHostButton
-                        hostId={booking.hostId}
+                        id={booking.id}
                         hostName={booking.host}
                         propertyId={booking.propertyId}
                         propertyTitle={booking.title}

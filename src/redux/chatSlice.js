@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // Base URL for API calls
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "http://localhost:5001/api";
 
 // Async thunks for API calls
 export const createConversation = createAsyncThunk(
@@ -139,6 +139,15 @@ const chatSlice = createSlice({
     setCurrentConversation: (state, action) => {
       state.currentConversation = action.payload;
       state.currentConversationId = action.payload?._id;
+    },
+    
+    addConversation: (state, action) => {
+      const newConversation = action.payload;
+      // Check if conversation already exists
+      const exists = state.conversations.some(conv => conv._id === newConversation._id);
+      if (!exists) {
+        state.conversations.unshift(newConversation);
+      }
     },
 
     // Message actions
@@ -362,6 +371,7 @@ export const {
   setSocket,
   setConnectionStatus,
   setCurrentConversation,
+  addConversation,
   addMessage,
   updateMessage,
   markMessagesAsRead,

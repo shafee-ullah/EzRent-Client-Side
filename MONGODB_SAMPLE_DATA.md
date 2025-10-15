@@ -45,7 +45,7 @@
 {
   "_id": ObjectId("68e9b5a10b78f525ff8c1b37"),
   "guestId": ObjectId("68e9b4260b78f525ff8c1b36"),
-  "hostId": ObjectId("68e9b4b18beac499d42b65ac"),
+  "id": ObjectId("68e9b4b18beac499d42b65ac"),
   "propertyId": ObjectId("68e9b6a10b78f525ff8c1b38"),
   "propertyTitle": "Luxury Apartment in Gulshan",
   "createdAt": ISODate("2024-01-15T10:30:00.000Z"),
@@ -59,7 +59,7 @@
 {
   "_id": ObjectId("68e9b5b20b78f525ff8c1b39"),
   "guestId": ObjectId("68e9b4c28beac499d42b65ad"),
-  "hostId": ObjectId("68e9b4d38beac499d42b65ae"),
+  "id": ObjectId("68e9b4d38beac499d42b65ae"),
   "propertyId": ObjectId("68e9b6b20b78f525ff8c1b3a"),
   "propertyTitle": "Beachfront Villa Cox's Bazar",
   "createdAt": ISODate("2024-01-14T09:15:00.000Z"),
@@ -213,7 +213,7 @@
   "_id": ObjectId("68e9b9a10b78f525ff8c1b44"),
   "title": "Luxury Apartment in Gulshan",
   "host": "John Cena",
-  "hostId": ObjectId("68e9b4b18beac499d42b65ac"),
+  "id": ObjectId("68e9b4b18beac499d42b65ac"),
   "propertyId": ObjectId("68e9b6a10b78f525ff8c1b38"),
   "email": "shafeeullah.412@gmail.com",
   "Checkin": "2024-01-20",
@@ -232,7 +232,7 @@
 // POST /api/conversations
 {
   "guestId": "68e9b4260b78f525ff8c1b36",
-  "hostId": "68e9b4b18beac499d42b65ac",
+  "id": "68e9b4b18beac499d42b65ac",
   "propertyId": "68e9b6a10b78f525ff8c1b38",
   "propertyTitle": "Luxury Apartment in Gulshan"
 }
@@ -273,7 +273,7 @@ db.conversations
   .find({
     $or: [
       { guestId: ObjectId("68e9b4260b78f525ff8c1b36") },
-      { hostId: ObjectId("68e9b4260b78f525ff8c1b36") },
+      { id: ObjectId("68e9b4260b78f525ff8c1b36") },
     ],
   })
   .sort({ updatedAt: -1 });
@@ -329,7 +329,7 @@ db.messages.updateMany(
 
 ```javascript
 // Conversations collection
-db.conversations.createIndex({ guestId: 1, hostId: 1 });
+db.conversations.createIndex({ guestId: 1, id: 1 });
 db.conversations.createIndex({ updatedAt: -1 });
 
 // Messages collection

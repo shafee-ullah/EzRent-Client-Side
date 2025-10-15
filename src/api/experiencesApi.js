@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = "http://localhost:5001";
 
 export const fetchExperiences = (page = 1, limit = 20) =>
   axios.get(`${API_BASE}/api/experiences?page=${page}&limit=${limit}`).then(r => r.data);
