@@ -13,7 +13,7 @@ const PropertyManagementSection = () => {
   const dispatch = useDispatch();
   const { items: properties, loading } = useSelector((state) => state.products);
 
-  // Filter only active properties
+  // Filter only active properties fcdfds
   const activeProperties = properties.filter((p) => p.status === "avaliable");
 
   useEffect(() => {
