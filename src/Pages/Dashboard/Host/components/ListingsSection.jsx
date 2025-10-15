@@ -374,7 +374,7 @@ const ListingsSection = () => {
                   <span className="text-xs text-gray-500">
                     {property.bookings
                       ? `${property.bookings} bookings`
-                      : "No bookings"}
+                      : ""}
                   </span>
                 </div>
 

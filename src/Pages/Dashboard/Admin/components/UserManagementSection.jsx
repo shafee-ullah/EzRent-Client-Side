@@ -36,9 +36,21 @@ const UserManagementSection = () => {
   // Update user role
   const handleUpdateRole = async (id, role) => {
     try {
-      const result = await dispatch(updateUserRole({ id, role })).unwrap();
-      toast.success(`✅ Role updated to ${role}`);
-      console.log(result);
+      const res = await fetch(`https://ez-rent-server-side.vercel.app/users/role/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ role }),
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        setUsers((prev) =>
+          prev.map((u) => (u._id === id ? { ...u, role } : u))
+        );
+        toast.success(`✅ Role updated to ${role}`);
+      } else {
+        toast.error(`❌ ${data.message}`);
+      }
     } catch (error) {
       // Error is handled by the slice and will be caught in the error useEffect
       console.log("Failed to update role:", error);
@@ -82,14 +94,24 @@ const UserManagementSection = () => {
                   onClick={async () => {
                     toast.dismiss(t.id);
                     try {
-                      await dispatch(deleteUser(id)).unwrap();
-                      toast.success("User deleted successfully 🗑️", {
-                        style: {
-                          borderRadius: "8px",
-                          background: "#10B981",
-                          color: "#fff",
-                        },
-                      });
+                      const res = await fetch(
+                        `https://ez-rent-server-side.vercel.app/users/${id}`,
+                        { method: "DELETE" }
+                      );
+                      const data = await res.json();
+
+                      if (res.ok) {
+                        setUsers((prev) => prev.filter((u) => u._id !== id));
+                        toast.success("User deleted successfully 🗑️", {
+                          style: {
+                            borderRadius: "8px",
+                            background: "#10B981",
+                            color: "#fff",
+                          },
+                        });
+                      } else {
+                        toast.error(data.message || "Failed to delete user");
+                      }
                     } catch (error) {
                       // Error is handled by the slice
                       console.log(error);
