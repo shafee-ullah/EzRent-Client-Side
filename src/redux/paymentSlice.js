@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // Base URL for API calls
-const API_BASE_URL = "https://ez-rent-server-side.vercel.app";
+const API_BASE_URL = "http://localhost:5000";
 
 // Create payment intent
 export const createPaymentIntent = createAsyncThunk(
@@ -25,6 +25,22 @@ export const createPaymentIntent = createAsyncThunk(
     }
   }
 );
+
+// Fetch all payments (Admin or Dashboard use)
+export const fetchAllPayments = createAsyncThunk(
+  "payment/fetchAllPayments",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/payments`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.error || "Failed to fetch all payments"
+      );
+    }
+  }
+);
+
 
 // Confirm payment
 export const confirmPayment = createAsyncThunk(
@@ -106,6 +122,11 @@ const paymentSlice = createSlice({
     isProcessing: false,
     error: null,
     successMessage: null,
+
+    allPayments: [],
+    isFetchingAllPayments: false,
+    allPaymentsError: null,
+
   },
 
   reducers: {
@@ -216,7 +237,22 @@ const paymentSlice = createSlice({
       .addCase(fetchPaymentByTransactionId.rejected, (state, action) => {
         state.isFetchingCurrentPayment = false;
         state.currentPaymentError = action.payload;
+      })
+      // Fetch All Payments
+      .addCase(fetchAllPayments.pending, (state) => {
+        state.isFetchingAllPayments = true;
+        state.allPaymentsError = null;
+      })
+      .addCase(fetchAllPayments.fulfilled, (state, action) => {
+        state.isFetchingAllPayments = false;
+        state.allPayments = action.payload;
+        state.allPaymentsError = null;
+      })
+      .addCase(fetchAllPayments.rejected, (state, action) => {
+        state.isFetchingAllPayments = false;
+        state.allPaymentsError = action.payload;
       });
+
   },
 });
 
@@ -240,5 +276,8 @@ export const selectSuccessMessage = (state) => state.payment.successMessage;
 export const selectUserPayments = (state) => state.payment.userPayments;
 export const selectLastConfirmedPayment = (state) =>
   state.payment.lastConfirmedPayment;
+export const selectAllPayments = (state) => state.payment.allPayments;
+
+
 
 export default paymentSlice.reducer;
