@@ -101,7 +101,7 @@ const DashboardLayout = () => {
 
 
 
-  // Mock notifications
+  // Mock notifications all
   const notifications = [
     { id: 1, message: "New booking request for your villa", time: "2 hours ago", read: false },
     { id: 2, message: "Your payment has been processed", time: "1 day ago", read: true },

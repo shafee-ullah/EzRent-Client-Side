@@ -20,6 +20,7 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
     offerPrice: "",
     Location: "",
     guest: "",
+    bookings:0,
     image: null,
     email:user?.email,
     Name:user.displayName,
