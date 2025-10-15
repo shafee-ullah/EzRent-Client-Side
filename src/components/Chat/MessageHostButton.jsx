@@ -178,11 +178,10 @@ export const QuickMessageButton = ({
 
   const handleQuickMessage = async () => {
     if (!user?._id || !hostId) {
-   
       console.error("User ID or Host ID is missing");
       return;
     }
- 
+
     // Don't allow messaging yourself
     if (user._id === hostId) {
       console.error("Cannot message yourself");

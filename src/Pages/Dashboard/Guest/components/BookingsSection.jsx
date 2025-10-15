@@ -11,7 +11,6 @@ import Swal from "sweetalert2";
 import { MdHotel } from "react-icons/md";
 import { Link } from "react-router";
 
-
 const BookingsSection = () => {
   const dispatch = useDispatch();
   const { user } = useContext(AuthContext);
