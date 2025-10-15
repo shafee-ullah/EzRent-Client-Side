@@ -119,7 +119,7 @@ const Navbar = () => {
                 Experiences
               </NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink
                 onClick={closeMenu}
                 to="/guest-experiences/add"
@@ -127,7 +127,7 @@ const Navbar = () => {
               >
                 Share Experience
               </NavLink>
-            </li>
+            </li> */}
             <li>
               <NavLink
                 onClick={closeMenu}
@@ -292,13 +292,13 @@ const Navbar = () => {
               >
                 <Heart /> Experiences
               </Link>
-              <Link
+              {/* <Link
                 onClick={closeMenu}
                 to="/guest-experiences/add"
                 className="flex gap-2 items-center"
               >
                 <Codepen /> Share Experience
-              </Link>
+              </Link> */}
 
               <Link
                 onClick={closeMenu}

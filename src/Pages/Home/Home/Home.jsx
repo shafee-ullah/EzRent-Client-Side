@@ -7,8 +7,7 @@ import Testimonials from "../Testimonials/Testimonials";
 import HowItWorks from "../HowItWorks/HowItWorks";
 import BlogSection from "../BlogSection/BlogSection";
 import Newsletter from "../Newsletter/Newsletter";
- 
-
+import GuestExperienceSection from "../GuestExperienceSection/GuestExperienceSection.jsx";
 
 // import JourneySection from '../JourneySection/JourneySection';
 const Home = () => {
@@ -16,11 +15,12 @@ const Home = () => {
     <div>
       <Banner></Banner>
       <FeaturedPropertiesCard></FeaturedPropertiesCard>
-      <PopularDestinations></PopularDestinations>
+      <PopularDestinations></PopularDestinations>      
       <HowItWorks></HowItWorks>
       <WhyChooseUs></WhyChooseUs>
       <Testimonials></Testimonials>
       <BlogSection></BlogSection>
+      <GuestExperienceSection></GuestExperienceSection>
       <Newsletter></Newsletter>
     </div>
   );

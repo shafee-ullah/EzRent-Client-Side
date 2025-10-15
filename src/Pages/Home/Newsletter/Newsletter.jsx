@@ -28,7 +28,7 @@ const Newsletter = () => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.6 }}
-      className="relative max-w-11/12 mx-auto px-4 py-12 lg:py-8"
+      className="relative max-w-11/12 mx-auto px-4 py-16 lg:py-12"
     >
       {/* Background decorations */}
       {/* <div className="pointer-events-none absolute inset-0 overflow-hidden">

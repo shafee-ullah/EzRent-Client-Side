@@ -39,6 +39,7 @@ const FeaturedPropertiesCard = () => {
 
   const dispatch = useDispatch();
   const {  featuredItems, loading, error } = useSelector((state) => state.products);
+  console.log("faturelimit",featuredItems)
  useEffect(() => {
   dispatch(fetchlimit());
 }, [dispatch]);
@@ -58,7 +59,7 @@ const FeaturedPropertiesCard = () => {
     );
   if (error) return <p style={{ color: "red" }}>{error}</p>;
   return (
-    <div className="my-16 py-16 lg:py-8 ">
+    <div className="relative max-w-11/12 mx-auto px-4 py-16 lg:py-12 ">
       {/* Section Title */}
       <div className="flex flex-col items-center px-4">
         {/* <p className="text-3xl font-semibold text-gray-800 text-center dark:text-[#ffffff]">

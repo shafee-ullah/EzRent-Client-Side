@@ -46,7 +46,7 @@ export const updatePropertyStatus = createAsyncThunk(
 export const fetchlimit = createAsyncThunk(
   "products/fetchLimit",
   async () => {
-    const res = await axios.get("https://ez-rent-server-side.vercel.app/FeaturedProperties");
+    const res = await axios.get("http://localhost:5000/FeaturedProperties");
     return res.data;
   }
 );
@@ -55,10 +55,20 @@ export const fetchlimit = createAsyncThunk(
 export const fetchbooking = createAsyncThunk(
   "products/fetchbooking",
   async () => {
-    const res = await axios.get("https://ez-rent-server-side.vercel.app/bookinghotel");
+    const res = await axios.get("http://localhost:5000/bookinghotel");
     return res.data;
   }
 );
+// export const fetchbooking = createAsyncThunk(
+//   "products/fetchbooking",
+//   async (email) => {
+//     const res = await axios.get(
+//       `http://localhost:5000/bookinghotel?email=${email}`
+//     );
+//     return res.data;
+//   }
+// );
+
 // Update booking status by ID
 export const updateBookingStatus = createAsyncThunk(
   "products/updateBookingStatus",
@@ -153,6 +163,7 @@ const productSlice = createSlice({
    name: "products",
    initialState: {
     properties: [],
+    featuredItems:[],
     items: [], // 🏠 all properties
     featured: [],
     bookings: [],
