@@ -1,35 +1,81 @@
 import { createBrowserRouter } from "react-router";
-import RootLayouts from '../Layouts/RootLayouts'
-import Home from "../Pages/Home/Home/Home"
+import AddProperty from "../Pages/Dashboard/AddProperty/AddProperty";
+import RootLayouts from "../Layouts/RootLayouts";
+import Home from "../Pages/Home/Home/Home";
 import FeaturepropertiesDitels from "../Pages/Home/FeaturedProperties/FeaturepropertiesDitels";
-import Login from "../Pages/Login/Login"; 
-import Register from "../Pages/Register/Register"; 
-
+import DashboardLayout from "../Pages/Dashboard/DashboardLayout";
+import GuestDashboard from "../Pages/Dashboard/GuestDashboard";
+import HostDashboard from "../Pages/Dashboard/HostDashboard";
+import BrowseProperties from "../Pages/BrowseProperties/BrowseProperties";
+import Register from "../Pages/AuthPage/AuthPage";
+import { LogIn } from "lucide-react";
+import AuthPage from "../Pages/AuthPage/AuthPage";
+import Error from "../Error/Error";
+import AboutEzRent from "../Pages/About/AboutEzRent";
+import AdminDashboard from "../Pages/Dashboard/AdminDashboard";
+import PaymentPage from "../Pages/PaymentPage/PaymentPage";
+import BecomeHostPage from "../Pages/BecomeHost/BecomeHostPage";
+//  import AddProperty from "../Pages/Dashboard/AddProperty/AddProperty.jsx";
+import ExperienceFeed from "../Pages/AddExperience/ExperienceFeed";
+import AddExperience from "../Pages/AddExperience/AddExperience";
 
 const router = createBrowserRouter([
-    {
-        path: "/",
-        Component: RootLayouts,
-        children: [
-            {
-                index: true,
-                Component: Home
-            },
-            {
-              path: "/FeaturepropertiesDitels/:id",
-              Component:FeaturepropertiesDitels
-            },
-            {
-              path: "/login", 
-              Component: Login
-            },
-            {
-              path: "/register", 
-              Component: Register
-            }
-        ]
-    },
-]);
+  {
+    path: "/",
+    Component: RootLayouts,
+    errorElement: <Error></Error>,
+    children: [
+      {
+        index: true,
+        Component: Home,
+      },
+      {
+        path: "about",
+        Component: AboutEzRent,
+      },
+      {
+        path: "become-host",
+        Component: BecomeHostPage,
+      },
+      {
+        path: "join",
+        Component: AuthPage,
+      },
 
+      {
+        path: "FeaturepropertiesDitels/:id",
+        Component: FeaturepropertiesDitels,
+      },
+      {
+        path: "BrowseProperties",
+        Component: BrowseProperties,
+      },
+      {
+        path: "payment",
+        Component: PaymentPage,
+      },
+
+      { path: "guest-experiences", 
+        Component: ExperienceFeed 
+      },
+
+      { path: "guest-experiences/add",
+        Component: AddExperience
+      },
+
+      {
+        path: "dashboard",
+        Component: DashboardLayout,
+        children: [
+          { index: true, Component: GuestDashboard },
+          { path: "host/AddProperty", Component: AddProperty },
+          { path: "guest", Component: GuestDashboard },
+          { path: "host", Component: HostDashboard },
+          { path: "admin", Component: AdminDashboard },
+        ],
+      },
+    ],
+  },
+]);
 
 export default router;

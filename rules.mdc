@@ -1,0 +1,79 @@
+---
+alwaysApply: true
+---
+- Always follow the following design document whenever you are making any change or updating any feature.
+
+Take a whole look at the code structure of frontend and server side. 
+
+I’m building a full-featured booking and rental platform called EzRent using the MERN stack (MongoDB, Express, React, Node.js) and Redux Toolkit for state management, with Tailwind CSS for styling.I want to add a new feature/section on my site called “Guest Experiences”, where only users with the role "guest" can share their travel experiences — similar to a Facebook timeline but without comments. Other users (hosts or guests) can only rate each experience on a scale of 1–10.
+
+Please build the complete implementation for this feature step-by-step with code examples for both backend (Express + MongoDB) and frontend (React + Redux + Tailwind).
+
+🔹 Requirements:
+
+1.Guests can create posts with:
+
+-title
+
+-description
+
+-location
+
+-multiple images (URLs for now)
+
+-user info (name, email, id)
+
+2.Other users can rate the post once (1–10 scale).
+
+3.Display average rating and total number of ratings on each experience card.
+
+4.Feed should show all posts sorted by newest first.
+
+5.No comments, no edit/delete by others — only the guest who created can delete their own post.
+
+6.Use proper REST API endpoints for CRUD operations and rating.
+
+7.No comments or editing by others.
+
+8.Add authentication checks for “guest” role before allowing post creation.
+
+9.Design clean frontend components:
+-Add Experience” form page
+-Experiences Feed” page (grid or card layout)
+-Rating button/input (1–10)
+-Display average rating stars or numeric score
+
+10.Use Tailwind CSS for responsive styling.
+
+🔹Expected Deliverables:
+
+MongoDB schema for experiences and ratings
+
+Express routes & controllers (/api/experiences and /api/experiences/:id/rate)
+
+React pages: AddExperience.jsx and ExperienceFeed.jsx
+
+Redux slice for experiences
+
+Example Tailwind-based UI layout for cards and ratings
+
+Step-by-step setup guide
+
+Example Data:
+
+// experience document
+{
+  _id: "68ebc4a218ad1169707b77a1",
+  userId: "68ea9fb418ad1169707b775a",
+  userName: "A K M Shafee Ullah",
+  title: "My Trip to Cox’s Bazar",
+  description: "Had an amazing beach view!",
+  photos: ["https://i.ibb.co/trip1.jpg"],
+  location: "Cox’s Bazar",
+  avgRating: 9.2,
+  ratingsCount: 10,
+  createdAt: "2025-10-12T10:00:00Z"
+}
+
+Build the entire workflow end-to-end with best practices, clean code structure, and sample UI for the feed. Use the project theme for styling the components
+
