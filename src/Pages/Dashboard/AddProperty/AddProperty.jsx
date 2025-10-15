@@ -18,11 +18,15 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
     offerPrice: "",
     Location: "",
     guest: "",
+<<<<<<< HEAD
     bedrooms: "",
     beds: "",
     bathrooms: "",
     cancellationPolicy: "",
     rules: "",
+=======
+    bookings:0,
+>>>>>>> 1cad0057a097641c0a5265dce9b39c91a7030469
     image: null,
     email: user?.email,
     Name: user?.displayName,

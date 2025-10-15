@@ -63,7 +63,7 @@ export const fetchbooking = createAsyncThunk(
 //   "products/fetchbooking",
 //   async (email) => {
 //     const res = await axios.get(
-//       `http://localhost:5001/bookinghotel?email=${email}`
+//       `https://ez-rent-server-side.vercel.app/bookinghotel?email=${email}`
 //     );
 //     return res.data;
 //   }
