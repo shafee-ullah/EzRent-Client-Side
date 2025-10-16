@@ -109,7 +109,7 @@ const BookingsSection = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-3"
+                className="max-w-4xl mx-auto shadow-lg bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700"
               >
                 <div className="flex flex-col sm:flex-row gap-4 items-stretch">
                   {/* Left Side: Image */}
@@ -133,30 +133,30 @@ const BookingsSection = () => {
                       {booking.status}
                     </span>
 
-                    <h2 className="text-xl font-semibold text-gray-800">
+                    <h2 className="text-xl font-semibold text-gray-800  dark:text-gray-100">
                       {booking.title}
                     </h2>
-                    <p className="text-sm text-gray-500 mb-4">
+                    <p className="text-sm text-gray-500 mb-4 dark:text-gray-300">
                       {/* Hosted by {booking.host || "Unknown"} */}
                       Hosted by {booking.hostName || "Unknown"}
                     </p>
 
                     <div className="flex justify-between items-center text-gray-700 border-b border-gray-100 pb-3 mb-4">
                       <div>
-                        <p className="text-sm text-gray-500">Check-in</p>
-                        <p className="font-bold">
+                        <p className="text-sm text-gray-500  dark:text-gray-100">Check-in</p>
+                        <p className="font-bold dark:text-gray-400">
                           {formatDate(booking.Checkin)}
                         </p>
                       </div>
                       <div>
-                        <p className="text-sm text-gray-500">Check-out</p>
-                        <p className="font-bold">
+                        <p className="text-sm text-gray-500 dark:text-gray-100">Check-out</p>
+                        <p className="font-bold dark:text-gray-400">
                           {formatDate(booking.Checkout)}
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm text-gray-500">Total Price</p>
-                        <p className="font-black text-lg">
+                        <p className="text-sm text-gray-500 dark:text-gray-100">Total Price</p>
+                        <p className="font-black text-lg dark:text-gray-400">
                           ৳{Number(booking.price).toLocaleString()}
                         </p>
                       </div>
@@ -184,7 +184,7 @@ const BookingsSection = () => {
                       >
                         Cancel Booking
                       </button>
-                      <button className="px-4 py-2 bg-white text-gray-700 border border-gray-300 font-medium rounded-lg hover:bg-gray-50 transition duration-150 flex items-center">
+                      <button className="px-4 py-2 bg-white  text-gray-700 border border-gray-300 font-medium rounded-lg hover:bg-gray-50 transition duration-150 flex items-center">
                         <svg
                           className="w-5 h-5 mr-1"
                           fill="none"
