@@ -1,10 +1,6 @@
 import axios from "axios";
 
-<<<<<<< HEAD
-const API_BASE = "http://localhost:5001";
-=======
-const API_BASE = "https://ez-rent-server-side.vercel.app";
->>>>>>> 1cad0057a097641c0a5265dce9b39c91a7030469
+const API_BASE = "http://localhost:5000";
 
 export const fetchExperiences = (page = 1, limit = 20) =>
   axios.get(`${API_BASE}/api/experiences?page=${page}&limit=${limit}`).then(r => r.data);

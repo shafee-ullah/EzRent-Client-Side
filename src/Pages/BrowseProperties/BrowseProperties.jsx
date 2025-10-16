@@ -314,7 +314,7 @@ const BrowseProperties = () => {
               </motion.div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {filteredItems.map((property, index) => {
+                {filteredItems.map((property, ) => {
                   const isInWishlist = wishlist?.some(
                     (w) => w.propertyId === property._id
                   );
