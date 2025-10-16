@@ -140,11 +140,13 @@ const chatSlice = createSlice({
       state.currentConversation = action.payload;
       state.currentConversationId = action.payload?._id;
     },
-    
+
     addConversation: (state, action) => {
       const newConversation = action.payload;
       // Check if conversation already exists
-      const exists = state.conversations.some(conv => conv._id === newConversation._id);
+      const exists = state.conversations.some(
+        (conv) => conv._id === newConversation._id
+      );
       if (!exists) {
         state.conversations.unshift(newConversation);
       }

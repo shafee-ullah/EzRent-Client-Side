@@ -250,17 +250,17 @@ const HostDashboard = () => {
           {/* Quick Actions */}
           <div className="flex items-center gap-4">
             {/* Search Bar */}
-            <div className="hidden md:flex items-center relative">
+            {/* <div className="hidden md:flex items-center relative">
               <Search className="w-5 h-5 text-gray-400 absolute left-3" />
               <input
                 type="text"
                 placeholder="Search..."
                 className="pl-10 pr-4 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 w-64"
               />
-            </div>
+            </div> */}
 
             {/* Notifications */}
-            <div className="relative">
+            {/* <div className="relative">
               <button
                 onClick={() => setNotificationsOpen(!notificationsOpen)}
                 className="relative p-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl hover:shadow-md transition-all duration-300 hover:border-emerald-300 dark:hover:border-emerald-600"
@@ -270,7 +270,7 @@ const HostDashboard = () => {
                   3
                 </span>
               </button>
-            </div>
+            </div> */}
 
 
           </div>
@@ -315,7 +315,7 @@ const HostDashboard = () => {
                       {authUser?.displayName}
                     </p>
                     <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
-                      {HostData.user?.email}
+                      {authUser?.email}
                     </p>
                   </div>
                 </div>
@@ -323,7 +323,7 @@ const HostDashboard = () => {
                   <div className="flex items-center gap-1 mt-2 text-emerald-600 dark:text-emerald-400">
                     <Shield className="w-4 h-4" />
                     <span className="text-sm font-medium">
-                      Verified Traveler
+                      EzRent Verified Host
                     </span>
                   </div>
                 )}

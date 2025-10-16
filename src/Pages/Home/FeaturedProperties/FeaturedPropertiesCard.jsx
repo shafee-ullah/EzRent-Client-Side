@@ -117,7 +117,7 @@ const FeaturedPropertiesCard = () => {
               </motion.span>
 
               {/* Wishlist Button */}
-              <button
+              {/* <button
                 onClick={() => toggleWishlist(propertie._id)}
                 aria-label={
                   wishlist.includes(propertie._id)
@@ -134,7 +134,7 @@ const FeaturedPropertiesCard = () => {
                       : "text-gray-400"
                   }`}
                 />
-              </button>
+              </button> */}
             </div>
 
             {/* Card Content */}
