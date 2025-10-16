@@ -12,12 +12,6 @@ export const fetchProducts = createAsyncThunk(
 );
 
 // 🟢 Fetch All Properties
-<<<<<<< HEAD
-export const fetchmanageproperty = createAsyncThunk("products/fetchmanageproperty", async () => {
-  const res = await axios.get("http://localhost:5000/manageproperty");
-  return res.data;
-});
-=======
 export const fetchmanageproperty = createAsyncThunk(
   "products/fetchmanageproperty",
   async () => {
@@ -25,18 +19,13 @@ export const fetchmanageproperty = createAsyncThunk(
     return res.data;
   }
 );
->>>>>>> b06aaac05cf2e853a83262960f8d3cda933d2913
 // redux/PropertieSlice.js
 export const updatePropertyStatusAdmin = createAsyncThunk(
   "products/updatePropertyStatusAdmin",
   async ({ id, propertystatus }) => {
     const res = await axios.patch(
       `http://localhost:5000/AddProperty/${id}`, // adjust API route
-<<<<<<< HEAD
       {  propertystatus }
-=======
-      { propertystatus }
->>>>>>> b06aaac05cf2e853a83262960f8d3cda933d2913
     );
     return res.data; // updated property
   }
@@ -55,20 +44,10 @@ export const updatePropertyStatus = createAsyncThunk(
 );
 
 // 🟢 Fetch Limit (Featured)
-<<<<<<< HEAD
-export const fetchlimit = createAsyncThunk(
-  "products/fetchLimit",
-  async () => {
-    const res = await axios.get("http://localhost:5000/FeaturedProperties");
-    return res.data;
-  }
-);
-=======
 export const fetchlimit = createAsyncThunk("products/fetchLimit", async () => {
   const res = await axios.get("http://localhost:5000/FeaturedProperties");
   return res.data;
 });
->>>>>>> b06aaac05cf2e853a83262960f8d3cda933d2913
 
 // 🟢 Fetch All Bookings (Admin)
 export const fetchbooking = createAsyncThunk(
@@ -164,14 +143,7 @@ export const fetchHostRequests = createAsyncThunk(
 export const addToWishlist = createAsyncThunk(
   "products/addToWishlist",
   async (wishlistItem) => {
-<<<<<<< HEAD
     const res = await axios.post("http://localhost:5000/api/wishlist", wishlistItem);
-=======
-    const res = await axios.post(
-      "http://localhost:5000/api/wishlist",
-      wishlistItem
-    );
->>>>>>> b06aaac05cf2e853a83262960f8d3cda933d2913
     return res.data;
   }
 );
@@ -179,13 +151,7 @@ export const addToWishlist = createAsyncThunk(
 export const removeFromWishlist = createAsyncThunk(
   "products/removeFromWishlist",
   async ({ propertyId, email }) => {
-<<<<<<< HEAD
     await axios.delete(`http://localhost:5000/api/wishlist/${propertyId}?email=${email}`);
-=======
-    await axios.delete(
-      `http://localhost:5000/api/wishlist/${propertyId}?email=${email}`
-    );
->>>>>>> b06aaac05cf2e853a83262960f8d3cda933d2913
     return propertyId;
   }
 );
@@ -193,13 +159,7 @@ export const removeFromWishlist = createAsyncThunk(
 export const fetchWishlist = createAsyncThunk(
   "products/fetchWishlist",
   async (email) => {
-<<<<<<< HEAD
     const res = await axios.get(`http://localhost:5000/api/wishlist?email=${email}`);
-=======
-    const res = await axios.get(
-      `http://localhost:5000/api/wishlist?email=${email}`
-    );
->>>>>>> b06aaac05cf2e853a83262960f8d3cda933d2913
     return res.data;
   }
 );
