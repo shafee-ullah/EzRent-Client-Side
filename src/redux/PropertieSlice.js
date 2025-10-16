@@ -25,7 +25,7 @@ export const updatePropertyStatusAdmin = createAsyncThunk(
   async ({ id, propertystatus }) => {
     const res = await axios.patch(
       `http://localhost:5000/AddProperty/${id}`, // adjust API route
-      { propertystatus }
+      {  propertystatus }
     );
     return res.data; // updated property
   }
@@ -143,10 +143,7 @@ export const fetchHostRequests = createAsyncThunk(
 export const addToWishlist = createAsyncThunk(
   "products/addToWishlist",
   async (wishlistItem) => {
-    const res = await axios.post(
-      "http://localhost:5000/api/wishlist",
-      wishlistItem
-    );
+    const res = await axios.post("http://localhost:5000/api/wishlist", wishlistItem);
     return res.data;
   }
 );
@@ -154,9 +151,7 @@ export const addToWishlist = createAsyncThunk(
 export const removeFromWishlist = createAsyncThunk(
   "products/removeFromWishlist",
   async ({ propertyId, email }) => {
-    await axios.delete(
-      `http://localhost:5000/api/wishlist/${propertyId}?email=${email}`
-    );
+    await axios.delete(`http://localhost:5000/api/wishlist/${propertyId}?email=${email}`);
     return propertyId;
   }
 );
@@ -164,9 +159,7 @@ export const removeFromWishlist = createAsyncThunk(
 export const fetchWishlist = createAsyncThunk(
   "products/fetchWishlist",
   async (email) => {
-    const res = await axios.get(
-      `http://localhost:5000/api/wishlist?email=${email}`
-    );
+    const res = await axios.get(`http://localhost:5000/api/wishlist?email=${email}`);
     return res.data;
   }
 );

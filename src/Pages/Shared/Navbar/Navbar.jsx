@@ -16,15 +16,19 @@ import Swal from "sweetalert2";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../firebase";
 import logo from "../../../assets/ezrent-logo.png";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const { theme, toggleTheme } = useContext(ThemeContext);
-  const { user, setUser } = useContext(AuthContext);
-  console.log(user);
+  const { user: authUser, setUser } = useContext(AuthContext);
+  console.log(authUser);
   const handleMenuToggle = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
+  const { user } = useSelector((state) => state.products);
+  console.log("user", user);
+
 
   const logoutUser = () => {
     Swal.fire({
@@ -78,7 +82,7 @@ const Navbar = () => {
                 Home
               </NavLink>
             </li>
-            {user && (
+            {authUser && (
               <>
                 <li>
                   <NavLink
@@ -101,15 +105,19 @@ const Navbar = () => {
               </NavLink>
             </li>
 
-            <li>
-              <NavLink
-                onClick={closeMenu}
-                to="/become-host"
-                className="hover:border-b-2 hover:border-green-600"
-              >
-                Become A Host
-              </NavLink>
-            </li>
+            {
+              user?.role === 'guest' && <>
+                <li>
+                  <NavLink
+                    onClick={closeMenu}
+                    to="/become-host"
+                    className="hover:border-b-2 hover:border-green-600"
+                  >
+                    Become A Host
+                  </NavLink>
+                </li>
+              </>
+            }
             <li>
               <NavLink
                 onClick={closeMenu}
@@ -148,7 +156,7 @@ const Navbar = () => {
           >
             {theme === "light" ? "🌞" : "🌙"}
           </button>
-          {!user ? (
+          {!authUser ? (
             <>
               <NavLink
                 to="/join"
@@ -159,7 +167,7 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              {user && (
+              {authUser && (
                 <div className="relative">
                   {/* Avatar — clickable */}
                   <div
@@ -168,7 +176,7 @@ const Navbar = () => {
                   >
                     <img
                       src={
-                        user.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"
+                        authUser.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"
                       }
                       alt="avatar"
                       className="w-12 h-12 rounded-full border-2 border-green-500 object-cover p-0.5 hover:scale-105 transition-all duration-200"
@@ -182,7 +190,7 @@ const Navbar = () => {
                       <div className="flex items-center gap-3 p-4">
                         <img
                           src={
-                            user?.photoURL ||
+                            authUser?.photoURL ||
                             "https://i.ibb.co/4pDNDk1/avatar.png"
                           }
                           alt="User Avatar"
@@ -190,10 +198,10 @@ const Navbar = () => {
                         />
                         <div>
                           <p className="text-gray-900 dark:text-white font-semibold text-sm">
-                            {user.displayName}
+                            {authUser.displayName}
                           </p>
                           <p className="text-gray-500 dark:text-gray-400 text-xs truncate">
-                            {user.email}
+                            {authUser.email}
                           </p>
                         </div>
                       </div>
@@ -307,7 +315,7 @@ const Navbar = () => {
               >
                 <Info /> About
               </Link>
-              {user && (
+              {authUser && (
                 <>
                   <Link
                     onClick={closeMenu}
@@ -335,7 +343,7 @@ const Navbar = () => {
                 {theme === "light" ? "🌞 Light Mode" : "🌙 Dark Mode"}
               </button>
 
-              {!user ? (
+              {!authUser ? (
                 <NavLink
                   onClick={closeMenu}
                   to="/join"
