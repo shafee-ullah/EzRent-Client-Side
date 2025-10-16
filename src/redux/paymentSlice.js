@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // Base URL for API calls
-const API_BASE_URL = "http://localhost:5001";
+const API_BASE_URL = "http://localhost:5000";
 
 // Create payment intent
 export const createPaymentIntent = createAsyncThunk(
@@ -40,7 +40,6 @@ export const fetchAllPayments = createAsyncThunk(
     }
   }
 );
-
 
 // Confirm payment
 export const confirmPayment = createAsyncThunk(
@@ -126,7 +125,6 @@ const paymentSlice = createSlice({
     allPayments: [],
     isFetchingAllPayments: false,
     allPaymentsError: null,
-
   },
 
   reducers: {
@@ -252,7 +250,6 @@ const paymentSlice = createSlice({
         state.isFetchingAllPayments = false;
         state.allPaymentsError = action.payload;
       });
-
   },
 });
 
@@ -277,7 +274,5 @@ export const selectUserPayments = (state) => state.payment.userPayments;
 export const selectLastConfirmedPayment = (state) =>
   state.payment.lastConfirmedPayment;
 export const selectAllPayments = (state) => state.payment.allPayments;
-
-
 
 export default paymentSlice.reducer;
