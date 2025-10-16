@@ -217,7 +217,7 @@ const GuestDashboard = () => {
           </div>
 
           {/* Quick Actions */}
-          <div className="flex items-center gap-4">
+          {/* <div className="flex items-center gap-4">
             <button className="p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl hover:shadow-md transition-all duration-300 hover:border-emerald-300 dark:hover:border-emerald-600">
               <Bell className="w-5 h-5 text-gray-600 dark:text-gray-400" />
             </button>
@@ -225,7 +225,7 @@ const GuestDashboard = () => {
               <Search className="w-4 h-4" />
               Search Stays
             </button>
-          </div>
+          </div> */}
         </MotionDiv>
 
         <div className="flex flex-col lg:flex-row gap-6">

@@ -28,6 +28,19 @@ const BookingsSection = () => {
     }
   }, [dispatch, user?.email]);
 
+  //  useEffect(() => {
+  //   if (bookings.length > 0) {
+  //     console.log("=== BOOKING DATA AFTER FIX ===");
+  //     console.log("Full booking object:", bookings[0]);
+  //     console.log("booking.hostId:", bookings[0].hostId);
+  //     console.log("booking.hostName:", bookings[0].hostName);
+  //     console.log("booking.propertyId:", bookings[0].propertyId);
+  //     console.log("booking.id:", bookings[0].id);
+  //     console.log("Available fields:", Object.keys(bookings[0]));
+  //     console.log("================================");
+  //   }
+  // }, [bookings]);
+
   const handleCancelBooking = (id) => {
     Swal.fire({
       title: "Cancel this booking?",
@@ -124,7 +137,8 @@ const BookingsSection = () => {
                       {booking.title}
                     </h2>
                     <p className="text-sm text-gray-500 mb-4">
-                      Hosted by {booking.host || "Unknown"}
+                      {/* Hosted by {booking.host || "Unknown"} */}
+                      Hosted by {booking.hostName || "Unknown"}
                     </p>
 
                     <div className="flex justify-between items-center text-gray-700 border-b border-gray-100 pb-3 mb-4">
@@ -150,12 +164,19 @@ const BookingsSection = () => {
 
                     <div className="flex gap-3 mt-4 flex-wrap">
                       <ContactHostButton
-                        id={booking.id}
-                        hostName={booking.host}
+                        id={booking.hostId || booking.id} // Fallback for now
+                        hostName={booking.hostName || booking.host}
                         propertyId={booking.propertyId}
                         propertyTitle={booking.title}
                         className="px-4 py-2"
+                        // onClick={() => {
+                        //   console.log("=== CLICKING MESSAGE BUTTON ===");
+                        //   console.log("Passing hostId:", booking.hostId || booking.id);
+                        //   console.log("Passing hostName:", booking.hostName || booking.host);
+                        // }
+                        // }
                       />
+
                       {/* Cancel Booking Button */}
                       <button
                         onClick={() => handleCancelBooking(booking._id)}

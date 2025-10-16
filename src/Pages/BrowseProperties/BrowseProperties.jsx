@@ -186,9 +186,9 @@ const BrowseProperties = () => {
           transition={{ delay: 0.3 }}
           className="flex justify-between items-center mb-6"
         >
-          <p className="text-gray-600 dark:text-gray-300">
+          {/* <p className="text-gray-600 dark:text-gray-300">
             Found <span className="font-semibold text-emerald-600">{filteredItems.length}</span> properties
-          </p>
+          </p> */}
           {searchText && (
             <button
               onClick={() => setSearchText("")}
