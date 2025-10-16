@@ -1,28 +1,10 @@
-import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Search, Calendar, MapPin, Users, Filter } from "lucide-react";
 
 const MotionDiv = motion.div;
 
 const SearchSection = () => {
-  const [filters, setFilters] = useState({
-    location: "",
-    checkIn: "",
-    checkOut: "",
-    guests: 1,
-    priceRange: [500, 10000],
-    propertyType: "any",
-    amenities: [],
-  });
-
-  const amenitiesList = [
-    "wifi",
-    "parking",
-    "ac",
-    "kitchen",
-    "pool",
-    "breakfast",
-  ];
+ 
 
   return (
     <div className="space-y-6">
