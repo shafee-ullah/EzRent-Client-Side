@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   loadExperiences,
@@ -11,8 +11,11 @@ import { motion } from "framer-motion";
 import Swal from "sweetalert2";
 import { Plus, Loader } from "lucide-react";
 import toast from "react-hot-toast";
+import { AuthContext } from "../../Context/AuthContext";
 
 export default function ExperienceFeed() {
+
+  const { user } = use(AuthContext);
   const dispatch = useDispatch();
   const experiences = useSelector((s) => s.experience.items || []);
   const loading = useSelector((s) => s.experience.loading);
@@ -68,6 +71,7 @@ export default function ExperienceFeed() {
   // };
 
   const handleDelete = async (id) => {
+
     const currentUser = JSON.parse(
       localStorage.getItem("currentUser") || "null"
     );
@@ -188,22 +192,25 @@ export default function ExperienceFeed() {
       </div>
 
       {/* Add Experience Button */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-        className="flex justify-center mb-8"
-      >
-        <motion.button
-          onClick={openAddExperience}
-          whileHover={{ scale: 1.05, y: -2 }}
-          whileTap={{ scale: 0.95 }}
-          className="px-8 py-4 rounded-2xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-3"
-        >
-          <Plus className="w-5 h-5" />
-          Share Your Experience
-        </motion.button>
-      </motion.div>
+      {
+        user && <>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="flex justify-center mb-8"
+          >
+            <motion.button
+              onClick={openAddExperience}
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 rounded-2xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-3"
+            >
+              <Plus className="w-5 h-5" />
+              Share Your Experience
+            </motion.button>
+          </motion.div></>
+      }
 
       {/* Loading State */}
       {loading && (

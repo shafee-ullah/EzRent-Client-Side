@@ -18,7 +18,7 @@ import BecomeHostPage from "../Pages/BecomeHost/BecomeHostPage";
 //  import AddProperty from "../Pages/Dashboard/AddProperty/AddProperty.jsx";
 import ExperienceFeed from "../Pages/AddExperience/ExperienceFeed";
 import AddExperience from "../Pages/AddExperience/AddExperience";
-
+import PrivaterRoute from "./PrivateRoute";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -35,16 +35,12 @@ const router = createBrowserRouter([
       },
       {
         path: "become-host",
-        Component: BecomeHostPage,
-      },
-      {
-        path: "join",
-        Component: AuthPage,
+        element: <PrivaterRoute><BecomeHostPage></BecomeHostPage></PrivaterRoute>
       },
 
       {
         path: "FeaturepropertiesDitels/:id",
-        Component: FeaturepropertiesDitels,
+        element: <PrivaterRoute><FeaturepropertiesDitels></FeaturepropertiesDitels> </PrivaterRoute>
       },
       {
         path: "BrowseProperties",
@@ -55,17 +51,19 @@ const router = createBrowserRouter([
         Component: PaymentPage,
       },
 
-      { path: "guest-experiences", 
-        Component: ExperienceFeed 
+      {
+        path: "guest-experiences",
+        Component: ExperienceFeed
       },
 
-      { path: "guest-experiences/add",
+      {
+        path: "guest-experiences/add",
         Component: AddExperience
       },
 
       {
         path: "dashboard",
-        Component: DashboardLayout,
+        element: <PrivaterRoute><DashboardLayout></DashboardLayout></PrivaterRoute>,
         children: [
           { index: true, Component: GuestDashboard },
           { path: "host/AddProperty", Component: AddProperty },
@@ -75,6 +73,10 @@ const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: "join",
+    Component: AuthPage,
   },
 ]);
 
