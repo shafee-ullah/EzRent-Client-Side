@@ -13,7 +13,7 @@ import {
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
@@ -83,6 +83,7 @@ const InputField = ({
 );
 
 const AuthPage = () => {
+  const locations = useLocation();
   const navigate = useNavigate();
   // now includes resetPassword
   const {
@@ -169,9 +170,13 @@ const AuthPage = () => {
 
         if (!userCredential.user.emailVerified) {
           toast.success(`Welcome back ${userCredential.user.email}`);
-          navigate("/");
+          navigate(locations?.state || '/', {
+            state: { toastMessage: 'Login successful!' }
+          });
         } else {
-          navigate("/");
+          navigate(locations?.state || '/', {
+            state: { toastMessage: 'Login successful!' }
+          });
           toast.success(`Welcome back ${userCredential.user.email}`);
 
         }
@@ -189,7 +194,9 @@ const AuthPage = () => {
           role: "guest",
         };
         await axios.post("https://ez-rent-server-side.vercel.app/users", userData);
-        navigate("/");
+        navigate(locations?.state || '/', {
+          state: { toastMessage: 'Login successful!' }
+        });
         toast.success(
           `Registration successful. Verification email sent to ${userCredential.user.email}`
         );
@@ -239,7 +246,9 @@ const AuthPage = () => {
 
       // POST to backend
       await axios.post("https://ez-rent-server-side.vercel.app/users", userData);
-      navigate("/");
+      navigate(locations?.state || '/', {
+        state: { toastMessage: 'Login successful!' }
+      });
       toast.success(`Welcome ${user.displayName || user.email}`);
 
     } catch (error) {
@@ -248,7 +257,9 @@ const AuthPage = () => {
           "This email is already registered with a different provider. Please use the original provider to login."
         );
       } else {
-        navigate("/");
+        navigate(locations?.state || '/', {
+          state: { toastMessage: 'Login successful!' }
+        });
         toast.error(error.message);
       }
     } finally {
@@ -257,10 +268,12 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden p-4">
+    <div className="min-h-screen py-10 flex items-center justify-center bg-gradient-to-br from-green-100 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden p-4">
       <Toaster position="top-right" reverseOrder={false} />
       <div className="absolute -top-24 -left-24 w-96 h-96 bg-green-700/10 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 right-0 w-[30rem] h-[30rem] bg-green-700/20 rounded-full blur-3xl"></div>
+
+
 
       <motion.div
         initial={{ opacity: 0, y: 40 }}
@@ -268,8 +281,17 @@ const AuthPage = () => {
         transition={{ duration: 0.7 }}
         className="relative z-10 w-full max-w-md bg-white/30 dark:bg-gray-800/30 backdrop-blur-2xl p-8 sm:p-10 rounded-3xl shadow-2xl border border-white/40 dark:border-gray-700/40"
       >
+        {/* ✅ Back Home Button */}
+        <Link
+          to="/"
+          className="absolute top-6 left-6 inline-flex items-center px-4 py-2 text-green-700 text-sm font-medium transition-all duration-300 ease-in-out hover:text-green-900 hover:translate-x-1 hover:scale-105"
+        >
+          ← Back Home
+        </Link>
+
+
         <div className="text-center">
-          <motion.div
+          {/* <motion.div
             className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-700 text-white shadow-xl"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
@@ -279,8 +301,8 @@ const AuthPage = () => {
             ) : (
               <UserPlus className="h-8 w-8" />
             )}
-          </motion.div>
-          <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+          </motion.div> */}
+          <h2 className="mt-8 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
             {isLogin ? "Welcome Back" : "Create Account"}
           </h2>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
