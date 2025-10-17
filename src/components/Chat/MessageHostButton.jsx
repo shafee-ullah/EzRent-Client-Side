@@ -137,6 +137,12 @@ export const ContactHostButton = ({
       // Set as current conversation and open chat
       dispatch(setCurrentConversation(result));
       dispatch(openChat());
+      
+      // Navigate to messages section in the dashboard
+      const messagesNavItem = document.querySelector('button[data-section="messages"]');
+      if (messagesNavItem) {
+        messagesNavItem.click();
+      }
     } catch (error) {
       console.error("Error creating conversation:", error);
     } finally {

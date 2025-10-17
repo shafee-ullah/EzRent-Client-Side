@@ -210,15 +210,23 @@ const Navbar = () => {
 
                       {/* Quick Actions */}
                       <div className="flex flex-col py-2">
-                        <button className="text-left px-5 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                        {/* <button className="text-left px-5 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                           Profile
-                        </button>
-                        <button className="text-left px-5 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                        </button> */}
+                        <NavLink
+                          onClick={closeMenu}
+                          to="/dashboard"
+                          className="text-left px-5 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                        >
                           Dashboard
-                        </button>
-                        <button className="text-left px-5 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                        </NavLink>
+                        <NavLink
+                          onClick={closeMenu}
+                          to="/become-host"
+                          className="text-left px-5 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                        >
                           Become a Host
-                        </button>
+                        </NavLink>
                       </div>
 
                       <hr className="border-gray-100 dark:border-gray-700" />

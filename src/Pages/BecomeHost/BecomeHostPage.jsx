@@ -13,13 +13,15 @@ import {
   ArrowRight,
   Star,
   TrendingUp,
-  X
+  X,
 } from "lucide-react";
 import { AuthContext } from "../../Context/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { fetchUserByEmail } from "../../redux/PropertieSlice";
+import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const MotionDiv = motion.div;
 const MotionButton = motion.button;
@@ -30,27 +32,31 @@ const BecomeHostPage = () => {
     {
       icon: <DollarSign className="w-8 h-8" />,
       title: "Earn Easily",
-      description: "Get paid securely after every stay with automatic payouts and clear earnings.",
-      gradient: "from-amber-500 to-orange-500"
+      description:
+        "Get paid securely after every stay with automatic payouts and clear earnings.",
+      gradient: "from-amber-500 to-orange-500",
     },
     {
       icon: <Globe className="w-8 h-8" />,
       title: "Reach More Guests",
-      description: "Your property will be visible to thousands of travelers worldwide.",
-      gradient: "from-blue-500 to-cyan-500"
+      description:
+        "Your property will be visible to thousands of travelers worldwide.",
+      gradient: "from-blue-500 to-cyan-500",
     },
     {
       icon: <Shield className="w-8 h-8" />,
       title: "Host Safely",
-      description: "We verify guests and handle payments securely with comprehensive protection.",
-      gradient: "from-emerald-500 to-green-500"
+      description:
+        "We verify guests and handle payments securely with comprehensive protection.",
+      gradient: "from-emerald-500 to-green-500",
     },
     {
       icon: <Headphones className="w-8 h-8" />,
       title: "24/7 Support",
-      description: "Get help whenever you need it from our dedicated host support team.",
-      gradient: "from-purple-500 to-pink-500"
-    }
+      description:
+        "Get help whenever you need it from our dedicated host support team.",
+      gradient: "from-purple-500 to-pink-500",
+    },
   ];
 
   // Steps data
@@ -59,30 +65,38 @@ const BecomeHostPage = () => {
       number: "01",
       icon: <Home className="w-6 h-6" />,
       title: "Create Your Listing",
-      description: "Add photos, set your price, and describe your space with our easy setup process.",
-      image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=500&auto=format&fit=crop"
+      description:
+        "Add photos, set your price, and describe your space with our easy setup process.",
+      image:
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=500&auto=format&fit=crop",
     },
     {
       number: "02",
       icon: <Calendar className="w-6 h-6" />,
       title: "Set Availability",
-      description: "Choose when your space is available and set your booking preferences.",
-      image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=500&auto=format&fit=crop"
+      description:
+        "Choose when your space is available and set your booking preferences.",
+      image:
+        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=500&auto=format&fit=crop",
     },
     {
       number: "03",
       icon: <Users className="w-6 h-6" />,
       title: "Host Guests",
-      description: "Welcome travelers, share local tips, and provide memorable experiences.",
-      image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=500&auto=format&fit=crop"
+      description:
+        "Welcome travelers, share local tips, and provide memorable experiences.",
+      image:
+        "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=500&auto=format&fit=crop",
     },
     {
       number: "04",
       icon: <CreditCard className="w-6 h-6" />,
       title: "Get Paid Securely",
-      description: "Receive fast, protected payouts directly to your bank account.",
-      image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=500&auto=format&fit=crop"
-    }
+      description:
+        "Receive fast, protected payouts directly to your bank account.",
+      image:
+        "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=500&auto=format&fit=crop",
+    },
   ];
 
   // Trust features
@@ -92,16 +106,15 @@ const BecomeHostPage = () => {
     "$1M host protection insurance",
     "24/7 customer support",
     "Host guarantee program",
-    "Cleaning fee protection"
+    "Cleaning fee protection",
   ];
 
   const [open, setOpen] = useState(false);
-  const { user, loading, } = useSelector((state) => state.products);
+  const { user, loading } = useSelector((state) => state.products);
   console.log("this is db user", user);
   const { user: authUser } = use(AuthContext);
   const dispatch = useDispatch();
   // console.log(authUser);
-
 
   useEffect(() => {
     if (user && authUser) {
@@ -115,7 +128,6 @@ const BecomeHostPage = () => {
       }));
     }
   }, [user, authUser]);
-
 
   const [formData, setFormData] = useState({
     name: user?.name,
@@ -132,14 +144,16 @@ const BecomeHostPage = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("https://ez-rent-server-side.vercel.app/hostRequest", formData);
+      const res = await axios.post(
+        "https://ez-rent-server-side.vercel.app/hostRequest",
+        formData
+      );
       console.log("form data", formData);
 
       if (res.status === 200 || res.status === 201) {
@@ -155,22 +169,18 @@ const BecomeHostPage = () => {
       }
       // Fallback error message
       else {
-        toast.error(" You have already submitted a request or an error occurred.");
+        toast.error(
+          " You have already submitted a request or an error occurred."
+        );
       }
     }
   };
-
-
 
   useEffect(() => {
     if (authUser?.email && !user?._id && !loading) {
       dispatch(fetchUserByEmail(authUser.email));
     }
   }, [authUser?.email, user?._id, loading, dispatch]);
-
-
-
-
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50/50 via-white to-green-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-emerald-900/10">
@@ -215,8 +225,8 @@ const BecomeHostPage = () => {
               </h1>
 
               <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                Join EZRent and reach thousands of travelers looking for unique places to stay.
-                Start earning from your extra space today.
+                Join EZRent and reach thousands of travelers looking for unique
+                places to stay. Start earning from your extra space today.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -229,13 +239,13 @@ const BecomeHostPage = () => {
                   <ArrowRight className="w-5 h-5" />
                 </MotionButton>
 
-                <MotionButton
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-8 py-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-2xl font-semibold text-lg hover:shadow-lg transition-all duration-300"
-                >
-                  Learn More
-                </MotionButton>
+                  <MotionButton
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-8 py-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-2xl font-semibold text-lg hover:shadow-lg transition-all duration-300"
+                  >
+                    Learn More
+                  </MotionButton>
               </div>
 
               {/* Stats */}
@@ -243,7 +253,7 @@ const BecomeHostPage = () => {
                 {[
                   { value: "5,000+", label: "Active Hosts" },
                   { value: "৳2.5Cr+", label: "Earned" },
-                  { value: "4.9★", label: "Average Rating" }
+                  { value: "4.9★", label: "Average Rating" },
                 ].map((stat, index) => (
                   <MotionDiv
                     key={stat.label}
@@ -318,7 +328,8 @@ const BecomeHostPage = () => {
               Why Become a Host?
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Join our community of hosts who are earning extra income while sharing their unique spaces with travelers.
+              Join our community of hosts who are earning extra income while
+              sharing their unique spaces with travelers.
             </p>
           </MotionDiv>
 
@@ -333,7 +344,9 @@ const BecomeHostPage = () => {
                 whileHover={{ y: -8 }}
                 className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300"
               >
-                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${benefit.gradient} flex items-center justify-center text-white mb-4`}>
+                <div
+                  className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${benefit.gradient} flex items-center justify-center text-white mb-4`}
+                >
                   {benefit.icon}
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
@@ -361,7 +374,8 @@ const BecomeHostPage = () => {
               How It Works
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Start hosting in just a few simple steps. We'll guide you through the entire process.
+              Start hosting in just a few simple steps. We'll guide you through
+              the entire process.
             </p>
           </MotionDiv>
 
@@ -373,8 +387,9 @@ const BecomeHostPage = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, delay: index * 0.2 }}
-                className={`flex flex-col lg:flex-row gap-8 items-center ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''
-                  }`}
+                className={`flex flex-col lg:flex-row gap-8 items-center ${
+                  index % 2 === 1 ? "lg:flex-row-reverse" : ""
+                }`}
               >
                 {/* Content */}
                 <div className="flex-1">
@@ -432,13 +447,17 @@ const BecomeHostPage = () => {
                   >
                     <div className="flex items-center gap-2 mb-4">
                       <Shield className="w-6 h-6" />
-                      <span className="font-semibold text-emerald-100">Host Protection</span>
+                      <span className="font-semibold text-emerald-100">
+                        Host Protection
+                      </span>
                     </div>
                     <h2 className="text-3xl lg:text-4xl font-bold mb-6">
                       Your Safety is Our Priority
                     </h2>
                     <p className="text-lg text-emerald-100 mb-8 leading-relaxed">
-                      We verify users, protect payments, and ensure secure hosting with comprehensive safety measures and insurance coverage.
+                      We verify users, protect payments, and ensure secure
+                      hosting with comprehensive safety measures and insurance
+                      coverage.
                     </p>
 
                     {/* Trust Features */}
@@ -467,19 +486,35 @@ const BecomeHostPage = () => {
                   viewport={{ once: true }}
                   className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
                 >
-                  <h3 className="text-xl font-semibold mb-6 text-center">Trust & Security</h3>
+                  <h3 className="text-xl font-semibold mb-6 text-center">
+                    Trust & Security
+                  </h3>
                   <div className="grid grid-cols-2 gap-6">
                     {[
-                      { icon: <Shield className="w-8 h-8" />, label: "Verified Users" },
-                      { icon: <CreditCard className="w-8 h-8" />, label: "Secure Payments" },
-                      { icon: <Headphones className="w-8 h-8" />, label: "24/7 Support" },
-                      { icon: <CheckCircle className="w-8 h-8" />, label: "Host Guarantee" }
-                    ].map((badge,) => (
+                      {
+                        icon: <Shield className="w-8 h-8" />,
+                        label: "Verified Users",
+                      },
+                      {
+                        icon: <CreditCard className="w-8 h-8" />,
+                        label: "Secure Payments",
+                      },
+                      {
+                        icon: <Headphones className="w-8 h-8" />,
+                        label: "24/7 Support",
+                      },
+                      {
+                        icon: <CheckCircle className="w-8 h-8" />,
+                        label: "Host Guarantee",
+                      },
+                    ].map((badge) => (
                       <div key={badge.label} className="text-center">
                         <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-2">
                           {badge.icon}
                         </div>
-                        <span className="text-sm text-emerald-100">{badge.label}</span>
+                        <span className="text-sm text-emerald-100">
+                          {badge.label}
+                        </span>
                       </div>
                     ))}
                   </div>
@@ -502,7 +537,8 @@ const BecomeHostPage = () => {
               Ready to Start Hosting?
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-              Join thousands of hosts who are earning extra income and sharing their spaces with travelers from around the world.
+              Join thousands of hosts who are earning extra income and sharing
+              their spaces with travelers from around the world.
             </p>
 
             <MotionButton
@@ -751,11 +787,23 @@ const BecomeHostPage = () => {
                     {/* Agreement Checkboxes */}
                     <div className="space-y-2 pt-3">
                       <label className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                        <input type="checkbox" required className="rounded border-gray-300 text-emerald-600" />
-                        I agree to the <span className="text-emerald-600 font-semibold">Terms of Hosting</span> and Community Guidelines.
+                        <input
+                          type="checkbox"
+                          required
+                          className="rounded border-gray-300 text-emerald-600"
+                        />
+                        I agree to the{" "}
+                        <span className="text-emerald-600 font-semibold">
+                          Terms of Hosting
+                        </span>{" "}
+                        and Community Guidelines.
                       </label>
                       <label className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                        <input type="checkbox" required className="rounded border-gray-300 text-emerald-600" />
+                        <input
+                          type="checkbox"
+                          required
+                          className="rounded border-gray-300 text-emerald-600"
+                        />
                         I confirm that all information provided is accurate.
                       </label>
                     </div>
