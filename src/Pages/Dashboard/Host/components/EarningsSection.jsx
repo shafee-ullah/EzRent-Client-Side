@@ -8,16 +8,7 @@ const EarningsSection = ({ data, formatCurrency }) => {
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
           Earnings & Payouts
         </h2>
-        <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl font-medium hover:shadow-md transition-all duration-300">
-            <Download className="w-4 h-4" />
-            Export CSV
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
-            <Upload className="w-4 h-4" />
-            Request Payout
-          </button>
-        </div>
+        
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

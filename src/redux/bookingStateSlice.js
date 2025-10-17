@@ -3,16 +3,6 @@ import axios from "axios";
 
 // ✅ Async thunk to fetch total bookings
 export const fetchTotalBookings = createAsyncThunk(
-<<<<<<< HEAD
-    "bookings/fetchTotalBookings",
-    async (_, { rejectWithValue }) => {
-        try {
-            const response = await axios.get("http://localhost:5000/totalBookings"); // change to your backend URL
-            return response.data.totalBookings;
-        } catch (error) {
-            return rejectWithValue(error.response?.data || "Server Error");
-        }
-=======
   "bookings/fetchTotalBookings",
   async (_, { rejectWithValue }) => {
     try {
@@ -20,7 +10,6 @@ export const fetchTotalBookings = createAsyncThunk(
       return response.data.totalBookings;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Server Error");
->>>>>>> f23f8acc5b8277fb9d8d1449820621d13adb170b
     }
   }
 );
