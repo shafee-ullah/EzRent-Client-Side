@@ -86,8 +86,8 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
       const newProduct = { ...product, image: imageUrl };
 
       const url = property
-        ? `https://ez-rent-server-side.vercel.app/AddProperty/${property._id}`
-        : "https://ez-rent-server-side.vercel.app/AddProperty";
+        ? `https://ez-rent-server-side.vercel.appAddProperty/${property._id}`
+        : "https://ez-rent-server-side.vercel.appAddProperty";
 
       const method = property ? "PUT" : "POST";
 

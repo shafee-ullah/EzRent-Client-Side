@@ -12,7 +12,7 @@ const FeaturepropertiesDitels = () => {
   const [data, setdata] = useState();
  
   useEffect(() => {
-     fetch (`https://ez-rent-server-side.vercel.app/FeaturepropertiesDitels/${id}`)
+     fetch (`https://ez-rent-server-side.vercel.appFeaturepropertiesDitels/${id}`)
        .then(res => res.json())
       .then(result => setdata(result));
     const ditels = items.find((propertie) => propertie._id == id);
