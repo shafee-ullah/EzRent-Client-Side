@@ -241,6 +241,7 @@ const GuestDashboard = () => {
                 {navigationItems.map((item) => (
                   <button
                     key={item.id}
+                    data-section={item.id}
                     onClick={() => setActiveSection(item.id)}
                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${activeSection === item.id
                       ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-lg"

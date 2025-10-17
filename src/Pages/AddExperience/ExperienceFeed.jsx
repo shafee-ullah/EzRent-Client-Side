@@ -14,7 +14,6 @@ import toast from "react-hot-toast";
 import { AuthContext } from "../../Context/AuthContext";
 
 export default function ExperienceFeed() {
-
   const { user } = use(AuthContext);
   const dispatch = useDispatch();
   const experiences = useSelector((s) => s.experience.items || []);
@@ -26,10 +25,21 @@ export default function ExperienceFeed() {
   }, [dispatch]);
 
   const handleRate = async (id, value) => {
-    const currentUser = JSON.parse(
-      localStorage.getItem("currentUser") || "null"
-    );
-    if (!currentUser || !currentUser.email) {
+    // Validate rating value 1-10
+    const parsed = parseInt(value, 10);
+    if (Number.isNaN(parsed) || parsed < 1 || parsed > 10) {
+      toast.error("Please select a rating between 1 and 10");
+      return;
+    }
+
+    // Resolve rater email from auth or localStorage
+    let raterEmail = user?.email;
+    if (!raterEmail) {
+      const ls = JSON.parse(localStorage.getItem("currentUser") || "null");
+      raterEmail = ls?.email || null;
+    }
+
+    if (!raterEmail) {
       const email = prompt("Enter your email to rate:");
       if (!email) {
         toast.error("Email required to rate");
@@ -39,13 +49,12 @@ export default function ExperienceFeed() {
         "currentUser",
         JSON.stringify({ name: "Anonymous", email })
       );
+      raterEmail = email;
     }
 
-    const raterEmail = (JSON.parse(localStorage.getItem("currentUser")) || {})
-      .email;
     try {
       await dispatch(
-        submitRating({ id, payload: { raterEmail, value } })
+        submitRating({ id, payload: { raterEmail, value: parsed } })
       ).unwrap();
       toast.success("Thanks for rating! 🌟");
     } catch (err) {
@@ -71,7 +80,6 @@ export default function ExperienceFeed() {
   // };
 
   const handleDelete = async (id) => {
-
     const currentUser = JSON.parse(
       localStorage.getItem("currentUser") || "null"
     );
@@ -192,8 +200,8 @@ export default function ExperienceFeed() {
       </div>
 
       {/* Add Experience Button */}
-      {
-        user && <>
+      {user && (
+        <>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -209,8 +217,9 @@ export default function ExperienceFeed() {
               <Plus className="w-5 h-5" />
               Share Your Experience
             </motion.button>
-          </motion.div></>
-      }
+          </motion.div>
+        </>
+      )}
 
       {/* Loading State */}
       {loading && (
