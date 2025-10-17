@@ -231,7 +231,7 @@ const PaymentForm = ({ bookingData, onPaymentSuccess }) => {
         </div>
         <p className="text-emerald-100">Secure payment processed by Stripe</p>
       </div>
-
+   {/* hgfd */}
       <div className="p-6">
         {/* Booking Summary */}
         {bookingData && (
