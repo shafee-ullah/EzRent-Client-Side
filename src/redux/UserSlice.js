@@ -18,14 +18,14 @@ export const fetchUsers = createAsyncThunk(
 );
 
 export const updateUserRole = createAsyncThunk(
-  "users/updateRole",
-  async ({ id, role }, { rejectWithValue }) => {
-    try {
-      const response = await fetch(`http://localhost:5000/users/role/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ role: role.toLowerCase() }),
-      });
+    'users/updateRole',
+    async ({ id, role }, { rejectWithValue }) => {
+        try {
+            const response = await fetch(`http://localhost:5000/users/role/${id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ role: role.toLowerCase() }),
+            });
 
       if (!response.ok) {
         const data = await response.json();
@@ -41,12 +41,12 @@ export const updateUserRole = createAsyncThunk(
 );
 
 export const deleteUser = createAsyncThunk(
-  "users/deleteUser",
-  async (id, { rejectWithValue }) => {
-    try {
-      const response = await fetch(`http://localhost:5000/users/${id}`, {
-        method: "DELETE",
-      });
+    'users/deleteUser',
+    async (id, { rejectWithValue }) => {
+        try {
+            const response = await fetch(`http://localhost:5000/users/${id}`, {
+                method: 'DELETE',
+            });
 
       if (!response.ok) {
         const data = await response.json();
