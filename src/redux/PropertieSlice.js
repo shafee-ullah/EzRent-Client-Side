@@ -5,7 +5,7 @@ export const fetchProducts = createAsyncThunk(
   "properties/fetchProducts",
   async (email) => {
     const res = await axios.get(
-      `http://localhost:5000/properties?email=${email}`
+      `https://ez-rent-server-side.vercel.app/properties?email=${email}`
     );
     return res.data;
   }
@@ -15,7 +15,7 @@ export const fetchProducts = createAsyncThunk(
 export const fetchmanageproperty = createAsyncThunk(
   "products/fetchmanageproperty",
   async () => {
-    const res = await axios.get("http://localhost:5000/manageproperty");
+    const res = await axios.get("https://ez-rent-server-side.vercel.app/manageproperty");
     return res.data;
   }
 );
@@ -24,7 +24,7 @@ export const updatePropertyStatusAdmin = createAsyncThunk(
   "products/updatePropertyStatusAdmin",
   async ({ id, propertystatus }) => {
     const res = await axios.patch(
-      `http://localhost:5000/AddProperty/${id}`, // adjust API route
+      `https://ez-rent-server-side.vercel.app/AddProperty/${id}`, // adjust API route
       {  propertystatus }
     );
     return res.data; // updated property
@@ -36,7 +36,7 @@ export const updatePropertyStatus = createAsyncThunk(
   "products/updatePropertyStatus",
   async ({ propertyId, newStatus }) => {
     const res = await axios.patch(
-      `http://localhost:5000/Property/${propertyId}`, // 👈 adjust your API URL
+      `https://ez-rent-server-side.vercel.app/Property/${propertyId}`, // 👈 adjust your API URL
       { status: newStatus }
     );
     return res.data; // return updated property
@@ -45,7 +45,7 @@ export const updatePropertyStatus = createAsyncThunk(
 
 // 🟢 Fetch Limit (Featured)
 export const fetchlimit = createAsyncThunk("products/fetchLimit", async () => {
-  const res = await axios.get("http://localhost:5000/FeaturedProperties");
+  const res = await axios.get("https://ez-rent-server-side.vercel.app/FeaturedProperties");
   return res.data;
 });
 
@@ -53,7 +53,7 @@ export const fetchlimit = createAsyncThunk("products/fetchLimit", async () => {
 export const fetchbooking = createAsyncThunk(
   "products/fetchbooking",
   async () => {
-    const res = await axios.get("http://localhost:5000/bookinghotel");
+    const res = await axios.get("https://ez-rent-server-side.vercel.app/bookinghotel");
     return res.data;
   }
 );
@@ -61,7 +61,7 @@ export const fetchbooking = createAsyncThunk(
 //   "products/fetchbooking",
 //   async (email) => {
 //     const res = await axios.get(
-//       `https://ez-rent-server-side.vercel.app/bookinghotel?email=${email}`
+//       `https://ez-rent-server-side.vercel.appbookinghotel?email=${email}`
 //     );
 //     return res.data;
 //   }
@@ -73,7 +73,7 @@ export const updateBookingStatus = createAsyncThunk(
   async ({ bookingId, newStatus }) => {
     // console.log("hello",bookingId)
     const res = await axios.patch(
-      `http://localhost:5000/bookings/${bookingId}`,
+      `https://ez-rent-server-side.vercel.app/bookings/${bookingId}`,
       { status: newStatus }
     );
     return res.data.booking; // updated booking from DB
@@ -85,7 +85,7 @@ export const fetchMyBooking = createAsyncThunk(
   "products/fetchMyBooking",
   async (email, { rejectWithValue }) => {
     try {
-      const res = await axios.get("http://localhost:5000/myBookings", {
+      const res = await axios.get("https://ez-rent-server-side.vercel.app/myBookings", {
         params: { email },
       });
       return res.data;
@@ -102,7 +102,7 @@ export const fetchUserByEmail = createAsyncThunk(
   "products/fetchUserByEmail",
   async (email) => {
     const res = await axios.get(
-      `https://ez-rent-server-side.vercel.app/users/${email}`
+      `https://ez-rent-server-side.vercel.appusers/${email}`
     );
     return res.data;
   }
@@ -113,7 +113,7 @@ export const deleteBooking = createAsyncThunk(
   "products/deleteBooking",
   async (bookingId) => {
     await axios.delete(
-      `https://ez-rent-server-side.vercel.app/bookinghotel/${bookingId}`
+      `https://ez-rent-server-side.vercel.appbookinghotel/${bookingId}`
     );
     return bookingId;
   }
@@ -123,7 +123,7 @@ export const deleteProperty = createAsyncThunk(
   "products/deleteProperty",
   async (propertyId) => {
     await axios.delete(
-      `https://ez-rent-server-side.vercel.app/properties/${propertyId}`
+      `https://ez-rent-server-side.vercel.appproperties/${propertyId}`
     );
     return propertyId;
   }
@@ -133,7 +133,7 @@ export const fetchHostRequests = createAsyncThunk(
   "products/fetchHostRequests",
   async () => {
     const res = await axios.get(
-      "https://ez-rent-server-side.vercel.app/hostRequest"
+      "https://ez-rent-server-side.vercel.apphostRequest"
     );
     return res.data;
   }
@@ -143,7 +143,7 @@ export const fetchHostRequests = createAsyncThunk(
 export const addToWishlist = createAsyncThunk(
   "products/addToWishlist",
   async (wishlistItem) => {
-    const res = await axios.post("http://localhost:5000/api/wishlist", wishlistItem);
+    const res = await axios.post("https://ez-rent-server-side.vercel.app/api/wishlist", wishlistItem);
     return res.data;
   }
 );
@@ -151,7 +151,7 @@ export const addToWishlist = createAsyncThunk(
 export const removeFromWishlist = createAsyncThunk(
   "products/removeFromWishlist",
   async ({ propertyId, email }) => {
-    await axios.delete(`http://localhost:5000/api/wishlist/${propertyId}?email=${email}`);
+    await axios.delete(`https://ez-rent-server-side.vercel.app/api/wishlist/${propertyId}?email=${email}`);
     return propertyId;
   }
 );
@@ -159,7 +159,7 @@ export const removeFromWishlist = createAsyncThunk(
 export const fetchWishlist = createAsyncThunk(
   "products/fetchWishlist",
   async (email) => {
-    const res = await axios.get(`http://localhost:5000/api/wishlist?email=${email}`);
+    const res = await axios.get(`https://ez-rent-server-side.vercel.app/api/wishlist?email=${email}`);
     return res.data;
   }
 );

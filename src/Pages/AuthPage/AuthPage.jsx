@@ -193,7 +193,7 @@ const AuthPage = () => {
           email, // already lowercase
           role: "guest",
         };
-        await axios.post("https://ez-rent-server-side.vercel.app/users", userData);
+        await axios.post("https://ez-rent-server-side.vercel.appusers", userData);
         navigate(locations?.state || '/', {
           state: { toastMessage: 'Login successful!' }
         });
@@ -245,7 +245,7 @@ const AuthPage = () => {
       };
 
       // POST to backend
-      await axios.post("https://ez-rent-server-side.vercel.app/users", userData);
+      await axios.post("https://ez-rent-server-side.vercel.appusers", userData);
       navigate(locations?.state || '/', {
         state: { toastMessage: 'Login successful!' }
       });
