@@ -12,9 +12,9 @@ export default function ExperienceCard({ exp, onRate, onDelete }) {
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-emerald-500 to-green-500 flex items-center justify-center text-white font-semibold text-sm">
+          {/* <div className="w-10 h-10 rounded-full bg-gradient-to-r from-emerald-500 to-green-500 flex items-center justify-center text-white font-semibold text-sm">
             {exp.userName?.charAt(0)?.toUpperCase() || "U"}
-          </div>
+          </div> */}
           <div>
             <p className="font-semibold text-gray-800 dark:text-gray-200">
               {exp.userName}
@@ -66,7 +66,7 @@ export default function ExperienceCard({ exp, onRate, onDelete }) {
       )}
 
       {/* Actions */}
-      {/* <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
+      <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
         <RatingInput experience={exp} onRate={onRate} />
         <motion.button
           onClick={() => onDelete && onDelete(exp._id)}
@@ -74,10 +74,10 @@ export default function ExperienceCard({ exp, onRate, onDelete }) {
           whileTap={{ scale: 0.95 }}
           className="flex items-center gap-2 px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-all duration-300"
         >
-          <Trash2 className="w-4 h-4" />
-          Delete
+          {/* <Trash2 className="w-4 h-4" />
+          Delete */}
         </motion.button>
-      </div> */}
+      </div>
     </motion.div>
   );
 }
