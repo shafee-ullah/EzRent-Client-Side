@@ -274,7 +274,7 @@ const PaymentForm = ({ bookingData, onPaymentSuccess }) => {
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600 dark:text-gray-400">Total Amount:</span>
                   <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-green-600 dark:from-emerald-400 dark:to-green-400">
-                    ৳{bookingData.amount || bookingData.totalPrice || 100}
+                    ৳{bookingData.amount || bookingData.price || 100}
                   </span>
                 </div>
               </div>
