@@ -46,7 +46,7 @@ const PaymentForm = ({ bookingData, onPaymentSuccess }) => {
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useDispatch();
-
+    console.log("booking data",bookingData)
   // Redux state
   const paymentState = useSelector(selectPaymentState);
   const clientSecret = useSelector(selectClientSecret);
@@ -92,7 +92,7 @@ const PaymentForm = ({ bookingData, onPaymentSuccess }) => {
     try {
       await dispatch(
         createPaymentIntent({
-          amount: bookingData.amount || bookingData.totalPrice || 100,
+          amount: bookingData.amount || bookingData.price|| 200,
           bookingId: bookingData.bookingId || bookingData._id || "temp-booking-id",
           userId: bookingData.userId || bookingData.user?.uid || "temp-user-id",
         })
@@ -101,7 +101,7 @@ const PaymentForm = ({ bookingData, onPaymentSuccess }) => {
       console.error("Failed to create payment intent:", error);
     }
   }, [bookingData, dispatch]);
-
+  console.log(bookingData)
   // Create payment intent when component mounts with booking data
   useEffect(() => {
     if (bookingData && !clientSecret && !isProcessing) {
@@ -142,7 +142,7 @@ const PaymentForm = ({ bookingData, onPaymentSuccess }) => {
       if (paymentIntent.status === "succeeded") {
         const paymentData = {
           transactionId: paymentIntent.id,
-          amount: paymentIntent.amount / 100,
+          amount: paymentIntent.amount / 200,
           bookingId: bookingData.bookingId || bookingData._id,
           userId: bookingData.userId || bookingData.user?.uid,
           status: paymentIntent.status,
@@ -231,7 +231,7 @@ const PaymentForm = ({ bookingData, onPaymentSuccess }) => {
         </div>
         <p className="text-emerald-100">Secure payment processed by Stripe</p>
       </div>
-
+   {/* hgfd */}
       <div className="p-6">
         {/* Booking Summary */}
         {bookingData && (
@@ -274,7 +274,7 @@ const PaymentForm = ({ bookingData, onPaymentSuccess }) => {
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600 dark:text-gray-400">Total Amount:</span>
                   <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-green-600 dark:from-emerald-400 dark:to-green-400">
-                    ৳{bookingData.amount || bookingData.totalPrice || 100}
+                    ৳{bookingData.amount || bookingData.price || 500}
                   </span>
                 </div>
               </div>

@@ -1,3 +1,4 @@
+
 // components/AddPropertyModal.jsx
 import React, { useState, useEffect, useContext } from "react";
 import { motion } from "framer-motion";
@@ -366,19 +367,70 @@ const AddPropertyModal = ({ isOpen, onClose, onPropertyAdded, property }) => {
           </div>
 
           {/* Services */}
-          <div>
-            <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
-              Services (comma separated)
-            </label>
-            <input
-              type="text"
-              name="services"
-              value={product.services}
-              onChange={handleChange}
-              placeholder="e.g., WiFi, Parking, AC, Kitchen"
-              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg p-3"
-            />
-          </div>
+    <div className="mb-4">
+  <label className="block font-medium mb-2 text-gray-700 dark:text-gray-300">
+    Select Services (max 10)
+  </label>
+
+  {/* ✅ Available Services */}
+  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+    {[
+      "WiFi",
+      "Kitchen",
+      "Parking",
+      "Pool",
+      "Pet Friendly",
+      "Air Conditioning",
+      "TV",
+      "Gym",
+      "Laundry",
+      "24/7 Security",
+    ].map((service) => (
+      <button
+        key={service}
+        type="button"
+        onClick={() => {
+          setProduct((prev) => {
+            const isSelected = prev.services?.includes(service);
+            const updated = isSelected
+              ? prev.services.filter((s) => s !== service)
+              : [...(prev.services || []), service];
+            return { ...prev, services: updated };
+          });
+        }}
+        className={`px-3 py-1 rounded-md border text-sm font-medium transition-all ${
+          product.services?.includes(service)
+            ? "bg-green-600 text-white border-green-500"
+            : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700"
+        }`}
+      >
+        {service}
+      </button>
+    ))}
+  </div>
+
+  {/* ✅ Selected Services */}
+  <div className="mt-4">
+    <p className="text-gray-700 dark:text-gray-300 text-sm font-medium mb-1">
+      Selected Services:
+    </p>
+    <div className="flex flex-wrap gap-2">
+      {product.services && product.services.length > 0 ? (
+        product.services.map((s) => (
+          <span
+            key={s}
+            className="bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-200 text-sm px-3 py-1 rounded-full"
+          >
+            {s}
+          </span>
+        ))
+      ) : (
+        <p className="text-gray-500 text-sm italic">No service selected</p>
+      )}
+    </div>
+  </div>
+</div>
+
 
           {/* Host Rules */}
           <div>
