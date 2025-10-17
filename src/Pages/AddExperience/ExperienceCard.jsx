@@ -66,7 +66,7 @@ export default function ExperienceCard({ exp, onRate, onDelete }) {
       )}
 
       {/* Actions */}
-      <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
+      {/* <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
         <RatingInput experience={exp} onRate={onRate} />
         <motion.button
           onClick={() => onDelete && onDelete(exp._id)}
@@ -77,7 +77,7 @@ export default function ExperienceCard({ exp, onRate, onDelete }) {
           <Trash2 className="w-4 h-4" />
           Delete
         </motion.button>
-      </div>
+      </div> */}
     </motion.div>
   );
 }
