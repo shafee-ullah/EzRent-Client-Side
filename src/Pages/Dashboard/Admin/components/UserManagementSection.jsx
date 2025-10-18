@@ -41,7 +41,7 @@
 //       toast.success(`✅ Role updated to ${role}`);
 //       console.log(result);
 // // =========
-//       const res = await fetch(`https://ez-rent-server-side.vercel.appusers/role/${id}`, {
+//       const res = await fetch(`https://ez-rent-server-side.vercel.app/users/role/${id}`, {
 //         method: "PATCH",
 //         headers: { "Content-Type": "application/json" },
 //         body: JSON.stringify({ role }),

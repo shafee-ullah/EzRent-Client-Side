@@ -7,7 +7,7 @@ export const fetchUsers = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        "https://ez-rent-server-side.vercel.appusers"
+        "https://ez-rent-server-side.vercel.app/users"
       );
       if (!response.ok) throw new Error("Failed to fetch users");
       return await response.json();
