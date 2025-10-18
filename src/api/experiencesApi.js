@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE = "https://ez-rent-server-side.vercel.app";
+const API_BASE = "https://ez-rent-server-side.vercel.app/";
 
 export const fetchExperiences = (page = 1, limit = 20) =>
   axios

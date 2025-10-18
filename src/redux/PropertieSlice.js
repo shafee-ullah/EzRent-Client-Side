@@ -61,7 +61,7 @@ export const fetchbooking = createAsyncThunk(
 //   "products/fetchbooking",
 //   async (email) => {
 //     const res = await axios.get(
-//       `https://ez-rent-server-side.vercel.appbookinghotel?email=${email}`
+//       `https://ez-rent-server-side.vercel.app/bookinghotel?email=${email}`
 //     );
 //     return res.data;
 //   }
@@ -102,7 +102,7 @@ export const fetchUserByEmail = createAsyncThunk(
   "products/fetchUserByEmail",
   async (email) => {
     const res = await axios.get(
-      `https://ez-rent-server-side.vercel.appusers/${email}`
+      `https://ez-rent-server-side.vercel.app/users/${email}`
     );
     return res.data;
   }
@@ -113,7 +113,7 @@ export const deleteBooking = createAsyncThunk(
   "products/deleteBooking",
   async (bookingId) => {
     await axios.delete(
-      `https://ez-rent-server-side.vercel.appbookinghotel/${bookingId}`
+      `https://ez-rent-server-side.vercel.app/bookinghotel/${bookingId}`
     );
     return bookingId;
   }
@@ -123,7 +123,7 @@ export const deleteProperty = createAsyncThunk(
   "products/deleteProperty",
   async (propertyId) => {
     await axios.delete(
-      `https://ez-rent-server-side.vercel.appproperties/${propertyId}`
+      `https://ez-rent-server-side.vercel.app/${propertyId}`
     );
     return propertyId;
   }
@@ -133,7 +133,7 @@ export const fetchHostRequests = createAsyncThunk(
   "products/fetchHostRequests",
   async () => {
     const res = await axios.get(
-      "https://ez-rent-server-side.vercel.apphostRequest"
+      "https://ez-rent-server-side.vercel.app/hostRequest"
     );
     return res.data;
   }

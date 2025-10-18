@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // Base URL for API calls
-const API_BASE_URL = "https://ez-rent-server-side.vercel.app";
+const API_BASE_URL = "https://ez-rent-server-side.vercel.app/";
 
 // Create payment intent
 export const createPaymentIntent = createAsyncThunk(
