@@ -2,7 +2,11 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // Base URL for API calls
+<<<<<<< HEAD
+const API_BASE_URL = "https://ez-rent-server-side-seven.vercel.app/api";
+=======
 const API_BASE_URL = "https://ez-rent-server-side.vercel.app/api";
+>>>>>>> 4746d7720caef06d86f0775b65cff25679fa5525
 
 // Async thunks for API calls
 export const createConversation = createAsyncThunk(

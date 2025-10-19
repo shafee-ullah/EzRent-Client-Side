@@ -33,6 +33,7 @@ const PaymentDemo = () => {
     });
   };
 
+
   const handleBookingDataChange = (field, value) => {
     setDemoBookingData((prev) => ({
       ...prev,
