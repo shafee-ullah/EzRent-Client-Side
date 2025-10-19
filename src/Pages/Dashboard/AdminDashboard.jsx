@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchHostRequests } from "../../redux/PropertieSlice"
 import ReviewsSection from "./Guest/components/ReviewsSection";
 import ProfileSection from "./Guest/components/ProfileSection";
+import Loading from "../../components/Loading";
 
 
 const MotionDiv = motion.div;
@@ -108,7 +109,7 @@ const AdminDashboard = () => {
     dispatch(fetchHostRequests());
   }, [dispatch]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
 
 
   const navigationItems = [

@@ -20,6 +20,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTotalBookings } from "../../../../redux/bookingStateSlice";
 import { selectAllPayments } from "../../../../redux/paymentSlice";
+import Loading from "../../../../components/Loading";
 
 const MotionDiv = motion.div;
 
@@ -113,7 +114,7 @@ const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
   ];
 
   // Loading and error states
-  if (loading) return <p>Loading total bookings...</p>;
+  if (loading) return <Loading />;
   if (error) return <p className="text-red-500">Error: {error}</p>;
 
   return (

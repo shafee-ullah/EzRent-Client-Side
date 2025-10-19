@@ -22,6 +22,7 @@ import ProfileSection from "./Guest/components/ProfileSection";
 import { AuthContext } from "../../Context/AuthContext";
 import { fetchUserByEmail } from "../../redux/PropertieSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Loading from "../../components/Loading";
 
 const MotionDiv = motion.div;
 
@@ -138,7 +139,7 @@ const GuestDashboard = () => {
 
 
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
   if (error) return <p>{error}</p>;
 
 

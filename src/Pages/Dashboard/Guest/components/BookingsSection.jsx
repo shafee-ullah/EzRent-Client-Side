@@ -10,6 +10,7 @@ import { ContactHostButton } from "../../../../Components/Chat/MessageHostButton
 import Swal from "sweetalert2";
 import { MdHotel } from "react-icons/md";
 import { Link } from "react-router";
+import Loading from "../../../../components/Loading";
 
 const BookingsSection = () => {
   const dispatch = useDispatch();
@@ -76,7 +77,7 @@ const BookingsSection = () => {
     });
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
