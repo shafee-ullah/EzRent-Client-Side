@@ -208,7 +208,7 @@ const BrowseProperties = () => {
             animate={{ opacity: 1, x: 0 }}
             className="lg:w-1/4 w-full"
           >
-            <div className="backdrop-blur-sm bg-white/70 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-700 rounded-3xl shadow-lg p-6 sticky top-6">
+            <div className="backdrop-blur-sm bg-white/70 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700 rounded-3xl shadow-lg p-6 sticky top-6">
               <h2 className="text-2xl font-bold mb-6 text-center text-emerald-600">
                 Filters
               </h2>
@@ -314,7 +314,7 @@ const BrowseProperties = () => {
                   return (
                     <div
                       key={property._id}
-                      className="bg-white/70 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg overflow-hidden hover:-translate-y-1 transition-all"
+                      className="bg-white/70 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg overflow-hidden hover:-translate-y-1 transition-all"
                     >
                       <div className="relative overflow-hidden">
                         <img

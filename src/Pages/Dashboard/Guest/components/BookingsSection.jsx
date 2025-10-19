@@ -109,7 +109,7 @@ const BookingsSection = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="max-w-4xl mx-auto shadow-lg bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700"
+                className="max-w-4xl mx-auto shadow-lg bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700"
               >
                 <div className="flex flex-col sm:flex-row gap-4 items-stretch">
                   {/* Left Side: Image */}

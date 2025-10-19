@@ -192,7 +192,7 @@ const PaymentPage = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 mt-12"
+          className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 mt-12"
         ></MotionDiv>
       </div>
     </PaymentErrorBoundary>
