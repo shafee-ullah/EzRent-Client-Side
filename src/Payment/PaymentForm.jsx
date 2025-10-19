@@ -232,7 +232,7 @@ const PaymentForm = ({ bookingData, onPaymentSuccess }) => {
     <MotionDiv
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="max-w-lg mx-auto bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden"
+      className="max-w-lg mx-auto bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden"
     >
       {/* Header */}
       <div className="bg-gradient-to-r from-emerald-500 to-green-500 p-6 text-white">

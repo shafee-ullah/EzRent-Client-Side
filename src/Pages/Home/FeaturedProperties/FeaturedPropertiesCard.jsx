@@ -138,7 +138,7 @@ const FeaturedPropertiesCard = () => {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.15, duration: 0.5 }}
-              className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all bg-[var(--primary-color)]/90 dark:bg-[var(--primary-color)] border border-gray-100/60 dark:border-gray-800 flex flex-col h-full"
+              className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all backdrop-blur-sm bg-white/80 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700 flex flex-col h-full"
             >
               {/* Image */}
               <div className="relative">
