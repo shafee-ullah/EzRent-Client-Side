@@ -21,7 +21,7 @@ class SocketService {
       return this.socket;
     }
 
-    this.socket = io("http://localhost:5000", {
+    this.socket = io("https://ez-rent-server-side.vercel.app/", {
       transports: ["websocket", "polling"],
       timeout: 20000,
       forceNew: true,

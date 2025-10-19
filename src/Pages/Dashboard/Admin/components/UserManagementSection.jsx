@@ -100,7 +100,7 @@
 //                     toast.dismiss(t.id);
 //                     try {
 //                       const res = await fetch(
-//                         `http://localhost:5000/users/${id}`,
+//                         `https://ez-rent-server-side.vercel.app/users/${id}`,
 //                         { method: "DELETE" }
 //                       );
 //                       const data = await res.json();
