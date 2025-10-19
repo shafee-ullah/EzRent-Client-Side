@@ -12,7 +12,7 @@ import GuestExperienceSection from "../GuestExperienceSection/GuestExperienceSec
 // import JourneySection from '../JourneySection/JourneySection';
 const Home = () => {
   return (
-    <div>
+    <div className="">
       <Banner></Banner>
       <FeaturedPropertiesCard></FeaturedPropertiesCard>
       <PopularDestinations></PopularDestinations>      

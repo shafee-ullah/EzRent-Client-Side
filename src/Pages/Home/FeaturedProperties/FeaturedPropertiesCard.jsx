@@ -116,7 +116,7 @@ const FeaturedPropertiesCard = () => {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="relative max-w-11/12 mx-auto px-4 py-16 lg:py-12">
+    <div className="relative  px-4 py-16 lg:py-12">
       <div className="flex flex-col items-center px-4">
         <MotionDiv initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }}>
           <h2 className="text-4xl lg:text-5xl font-bold tracking-tight mb-4">
@@ -138,7 +138,7 @@ const FeaturedPropertiesCard = () => {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.15, duration: 0.5 }}
-              className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all bg-[var(--primary-color)]/90 dark:bg-[var(--primary-color)] border border-gray-100/60 dark:border-gray-800 flex flex-col h-full"
+              className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all backdrop-blur-sm bg-white/80 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700 flex flex-col h-full"
             >
               {/* Image */}
               <div className="relative">

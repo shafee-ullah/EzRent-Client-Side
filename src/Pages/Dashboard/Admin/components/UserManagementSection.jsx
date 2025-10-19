@@ -100,7 +100,11 @@
 //                     toast.dismiss(t.id);
 //                     try {
 //                       const res = await fetch(
+<<<<<<< HEAD
 //                         `https://ez-rent-server-side-seven.vercel.app/users/${id}`,
+=======
+//                         `https://ez-rent-server-side.vercel.app/users/${id}`,
+>>>>>>> 4746d7720caef06d86f0775b65cff25679fa5525
 //                         { method: "DELETE" }
 //                       );
 //                       const data = await res.json();
@@ -517,7 +521,7 @@ const UserManagementSection = () => {
           <div className="w-12 h-12 border-4 border-dashed rounded-full animate-spin border-emerald-500 dark:border-emerald-300"></div>
         </div>
       ) : (
-        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm">
+        <div className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-gray-50/80 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-600">
