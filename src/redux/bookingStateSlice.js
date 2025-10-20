@@ -6,7 +6,9 @@ export const fetchTotalBookings = createAsyncThunk(
   "bookings/fetchTotalBookings",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("https://ez-rent-server-side-seven.vercel.app/totalBookings"); // change to your backend URL
+      const response = await axios.get(
+        "https://ezrent-backend.vercel.app/totalBookings"
+      ); // change to your backend URL
       return response.data.totalBookings;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Server Error");

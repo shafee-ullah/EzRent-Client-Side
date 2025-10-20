@@ -5,7 +5,7 @@ export const fetchProducts = createAsyncThunk(
   "properties/fetchProducts",
   async (email) => {
     const res = await axios.get(
-      `https://ez-rent-server-side-seven.vercel.app/properties?email=${email}`
+      `https://ezrent-backend.vercel.app/properties?email=${email}`
     );
     return res.data;
   }
@@ -15,7 +15,9 @@ export const fetchProducts = createAsyncThunk(
 export const fetchmanageproperty = createAsyncThunk(
   "products/fetchmanageproperty",
   async () => {
-    const res = await axios.get("https://ez-rent-server-side-seven.vercel.app/manageproperty");
+    const res = await axios.get(
+      "https://ezrent-backend.vercel.app/manageproperty"
+    );
     return res.data;
   }
 );
@@ -24,8 +26,8 @@ export const updatePropertyStatusAdmin = createAsyncThunk(
   "products/updatePropertyStatusAdmin",
   async ({ id, propertystatus }) => {
     const res = await axios.patch(
-      `https://ez-rent-server-side-seven.vercel.app/AddProperty/${id}`, // adjust API route
-      {  propertystatus }
+      `https://ezrent-backend.vercel.app/AddProperty/${id}`, // adjust API route
+      { propertystatus }
     );
     return res.data; // updated property
   }
@@ -36,7 +38,7 @@ export const updatePropertyStatus = createAsyncThunk(
   "products/updatePropertyStatus",
   async ({ propertyId, newStatus }) => {
     const res = await axios.patch(
-      `https://ez-rent-server-side-seven.vercel.app/Property/${propertyId}`, // 👈 adjust your API URL
+      `https://ezrent-backend.vercel.app/Property/${propertyId}`, // 👈 adjust your API URL
       { status: newStatus }
     );
     return res.data; // return updated property
@@ -45,7 +47,9 @@ export const updatePropertyStatus = createAsyncThunk(
 
 // 🟢 Fetch Limit (Featured)
 export const fetchlimit = createAsyncThunk("products/fetchLimit", async () => {
-  const res = await axios.get("https://ez-rent-server-side-seven.vercel.app/FeaturedProperties");
+  const res = await axios.get(
+    "https://ezrent-backend.vercel.app/FeaturedProperties"
+  );
   return res.data;
 });
 
@@ -53,7 +57,9 @@ export const fetchlimit = createAsyncThunk("products/fetchLimit", async () => {
 export const fetchbooking = createAsyncThunk(
   "products/fetchbooking",
   async () => {
-    const res = await axios.get("https://ez-rent-server-side-seven.vercel.app/bookinghotel");
+    const res = await axios.get(
+      "https://ezrent-backend.vercel.app/bookinghotel"
+    );
     return res.data;
   }
 );
@@ -61,7 +67,7 @@ export const fetchbooking = createAsyncThunk(
 //   "products/fetchbooking",
 //   async (email) => {
 //     const res = await axios.get(
-//       `https://ez-rent-server-side-seven.vercel.app/bookinghotel?email=${email}`
+//       `https://ezrent-backend.vercel.app/bookinghotel?email=${email}`
 //     );
 //     return res.data;
 //   }
@@ -73,7 +79,7 @@ export const updateBookingStatus = createAsyncThunk(
   async ({ bookingId, newStatus }) => {
     // console.log("hello",bookingId)
     const res = await axios.patch(
-      `https://ez-rent-server-side-seven.vercel.app/bookings/${bookingId}`,
+      `https://ezrent-backend.vercel.app/bookings/${bookingId}`,
       { status: newStatus }
     );
     return res.data.booking; // updated booking from DB
@@ -85,9 +91,12 @@ export const fetchMyBooking = createAsyncThunk(
   "products/fetchMyBooking",
   async (email, { rejectWithValue }) => {
     try {
-      const res = await axios.get("https://ez-rent-server-side-seven.vercel.app/myBookings", {
-        params: { email },
-      });
+      const res = await axios.get(
+        "https://ezrent-backend.vercel.app/myBookings",
+        {
+          params: { email },
+        }
+      );
       return res.data;
     } catch (error) {
       return rejectWithValue(
@@ -102,7 +111,7 @@ export const fetchUserByEmail = createAsyncThunk(
   "products/fetchUserByEmail",
   async (email) => {
     const res = await axios.get(
-      `https://ez-rent-server-side-seven.vercel.app/users/${email}`
+      `https://ezrent-backend.vercel.app/users/${email}`
     );
     return res.data;
   }
@@ -113,7 +122,7 @@ export const deleteBooking = createAsyncThunk(
   "products/deleteBooking",
   async (bookingId) => {
     await axios.delete(
-      `https://ez-rent-server-side-seven.vercel.app/bookinghotel/${bookingId}`
+      `https://ezrent-backend.vercel.app/bookinghotel/${bookingId}`
     );
     return bookingId;
   }
@@ -122,9 +131,7 @@ export const deleteBooking = createAsyncThunk(
 export const deleteProperty = createAsyncThunk(
   "products/deleteProperty",
   async (propertyId) => {
-    await axios.delete(
-      `https://ez-rent-server-side-seven.vercel.app/properties/${propertyId}`
-    );
+    await axios.delete(`https://ezrent-backend.vercel.app/${propertyId}`);
     return propertyId;
   }
 );
@@ -132,9 +139,7 @@ export const deleteProperty = createAsyncThunk(
 export const fetchHostRequests = createAsyncThunk(
   "products/fetchHostRequests",
   async () => {
-    const res = await axios.get(
-      "https://ez-rent-server-side-seven.vercel.app/hostRequest"
-    );
+    const res = await axios.get("https://ezrent-backend.vercel.app/hostRequest");
     return res.data;
   }
 );
@@ -143,7 +148,10 @@ export const fetchHostRequests = createAsyncThunk(
 export const addToWishlist = createAsyncThunk(
   "products/addToWishlist",
   async (wishlistItem) => {
-    const res = await axios.post("https://ez-rent-server-side-seven.vercel.app/api/wishlist", wishlistItem);
+    const res = await axios.post(
+      "https://ezrent-backend.vercel.app/api/wishlist",
+      wishlistItem
+    );
     return res.data;
   }
 );
@@ -151,7 +159,9 @@ export const addToWishlist = createAsyncThunk(
 export const removeFromWishlist = createAsyncThunk(
   "products/removeFromWishlist",
   async ({ propertyId, email }) => {
-    await axios.delete(`https://ez-rent-server-side-seven.vercel.app/api/wishlist/${propertyId}?email=${email}`);
+    await axios.delete(
+      `https://ezrent-backend.vercel.app/api/wishlist/${propertyId}?email=${email}`
+    );
     return propertyId;
   }
 );
@@ -159,7 +169,9 @@ export const removeFromWishlist = createAsyncThunk(
 export const fetchWishlist = createAsyncThunk(
   "products/fetchWishlist",
   async (email) => {
-    const res = await axios.get(`https://ez-rent-server-side-seven.vercel.app/api/wishlist?email=${email}`);
+    const res = await axios.get(
+      `https://ezrent-backend.vercel.app/api/wishlist?email=${email}`
+    );
     return res.data;
   }
 );

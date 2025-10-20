@@ -31,11 +31,10 @@ export default function AddExperience({ isOpen, onClose }) {
     const formData = new FormData();
     photos.forEach((file) => formData.append("photos", file));
 
- 
     try {
       setUploading(true);
       const res = await axios.post(
-        "https://ez-rent-server-side-seven.vercel.app/api/experiences/upload",
+        "https://ezrent-backend.vercel.app/api/experiences/upload",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
