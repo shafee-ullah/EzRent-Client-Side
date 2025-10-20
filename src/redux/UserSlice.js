@@ -1,5 +1,6 @@
 // store/userSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 // Async thunks
 export const fetchUsers = createAsyncThunk(
@@ -16,16 +17,6 @@ export const fetchUsers = createAsyncThunk(
 );
 
 export const updateUserRole = createAsyncThunk(
-<<<<<<< HEAD
-    'users/updateRole',
-    async ({ id, role }, { rejectWithValue }) => {
-        try {
-            const response = await fetch(`https://ezrent-backend.vercel.app/users/role/${id}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ role: role.toLowerCase() }),
-            });
-=======
   "users/updateRole",
   async ({ id, role }, { rejectWithValue }) => {
     try {
@@ -33,7 +24,6 @@ export const updateUserRole = createAsyncThunk(
         `https://ezrent-backend.vercel.app/users/role/${id}`,
         { role }
       );
->>>>>>> 9afabb7be04eda4d4ca960fcaad1d4ac0b983d78
 
       if (!response.ok) {
         const data = await response.json();
@@ -49,21 +39,12 @@ export const updateUserRole = createAsyncThunk(
 );
 
 export const deleteUser = createAsyncThunk(
-<<<<<<< HEAD
-    'users/deleteUser',
-    async (id, { rejectWithValue }) => {
-        try {
-            const response = await fetch(`https://ezrent-backend.vercel.app/users/${id}`, {
-                method: 'DELETE',
-            });
-=======
   "users/deleteUser",
   async (id, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
         `https://ezrent-backend.vercel.app/users/${id}`
       );
->>>>>>> 9afabb7be04eda4d4ca960fcaad1d4ac0b983d78
 
       if (!response.ok) {
         const data = await response.json();

@@ -5,6 +5,7 @@ import axios from "axios";
 const API_BASE_URL = "https://ezrent-backend.vercel.app/api";
 
 // Async thunks for API calls
+export const createConversation = createAsyncThunk(
   "chat/createConversation",
   async (
     { guestId, hostId, propertyId, propertyTitle },
