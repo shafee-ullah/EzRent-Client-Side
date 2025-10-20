@@ -3,11 +3,12 @@ import { useEffect } from "react";
 import { useParams } from "react-router";
 import FeaturepropertiesDitelsCard from "./FeaturepropertiesDitelsCard";
 import { useDispatch, useSelector } from "react-redux";
+import ReviewsSection from "./ReviewSection";
 
 const FeaturepropertiesDitels = () => {
-  const { id } = useParams();
-  const dispatch = useDispatch();
-  const { items, loading, error } = useSelector((state) => state.products);
+  const { id } = useParams()
+  const dispatch = useDispatch()
+  const { items, loading, error } = useSelector((state) => state.products)
 
   const [data, setdata] = useState();
 
@@ -20,11 +21,8 @@ const FeaturepropertiesDitels = () => {
   }, [id, dispatch]);
   return (
     <div>
-      <FeaturepropertiesDitelsCard
-        data={data}
-        loading={loading}
-        error={error}
-      ></FeaturepropertiesDitelsCard>
+      <FeaturepropertiesDitelsCard data={data} loading={loading} error={error}></FeaturepropertiesDitelsCard>
+      <ReviewsSection data={data} loading={loading} error={error}></ReviewsSection>
     </div>
   );
 };
