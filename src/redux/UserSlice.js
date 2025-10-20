@@ -6,7 +6,9 @@ export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch("https://ezrent-backend.vercel.app/users");
+      const response = await fetch(
+        "https://ez-rent-server-side-seven.vercel.app/users"
+      );
       if (!response.ok) throw new Error("Failed to fetch users");
       return await response.json();
     } catch (error) {
@@ -20,7 +22,7 @@ export const updateUserRole = createAsyncThunk(
   async ({ id, role }, { rejectWithValue }) => {
     try {
       const response = await axios.patch(
-        `https://ezrent-backend.vercel.app/users/role/${id}`,
+        `https://ez-rent-server-side-seven.vercel.app/users/role/${id}`,
         { role }
       );
 
@@ -42,7 +44,7 @@ export const deleteUser = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
-        `https://ezrent-backend.vercel.app/users/${id}`
+        `https://ez-rent-server-side-seven.vercel.app/users/${id}`
       );
 
       if (!response.ok) {

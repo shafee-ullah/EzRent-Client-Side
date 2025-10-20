@@ -139,7 +139,7 @@ const BookingsSection = () => {
                     </h2>
                     <p className="text-sm text-gray-500 mb-4 dark:text-gray-300">
                       {/* Hosted by {booking.host || "Unknown"} */}
-                      Hosted by {booking.hostName || "Unknown"}
+                      Hosted by {booking.hostname || "Unknown"}
                     </p>
 
                     <div className="flex justify-between items-center text-gray-700 border-b border-gray-100 pb-3 mb-4">
@@ -166,7 +166,7 @@ const BookingsSection = () => {
                     <div className="flex gap-3 mt-4 flex-wrap">
                       <ContactHostButton
                         id={booking.hostId || booking.id} // Fallback for now
-                        hostName={booking.hostName || booking.host}
+                        hostName={booking.hostname || booking.host}
                         propertyId={booking.propertyId}
                         propertyTitle={booking.title}
                         className="px-4 py-2"

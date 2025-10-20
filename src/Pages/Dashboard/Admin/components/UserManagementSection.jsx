@@ -41,7 +41,7 @@
 //       toast.success(`✅ Role updated to ${role}`);
 //       console.log(result);
 // // =========
-//       const res = await fetch(`https://ezrent-backend.vercel.appusers/role/${id}`, {
+//       const res = await fetch(`https://ez-rent-server-side-seven.vercel.appusers/role/${id}`, {
 //         method: "PATCH",
 //         headers: { "Content-Type": "application/json" },
 //         body: JSON.stringify({ role }),
@@ -100,7 +100,7 @@
 //                     toast.dismiss(t.id);
 //                     try {
 //                       const res = await fetch(
-//                         `https://ezrent-backend.vercel.appusers/${id}`,
+//                         `https://ez-rent-server-side-seven.vercel.appusers/${id}`,
 //                         { method: "DELETE" }
 //                       );
 //                       const data = await res.json();
