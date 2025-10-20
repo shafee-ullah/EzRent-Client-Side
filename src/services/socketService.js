@@ -27,6 +27,7 @@ class SocketService {
       forceNew: true,
     });
 
+
     // Socket is managed locally in this service
 
     // Connection event handlers

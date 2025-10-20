@@ -220,13 +220,18 @@ const Navbar = () => {
                         >
                           Dashboard
                         </NavLink>
-                        <NavLink
-                          onClick={closeMenu}
-                          to="/become-host"
-                          className="text-left px-5 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                        >
-                          Become a Host
-                        </NavLink>
+
+                        {
+                          user?.role === 'guest' && <>
+                            <NavLink
+                              onClick={closeMenu}
+                              to="/become-host"
+                              className="text-left px-5 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                            >
+                              Become a Host
+                            </NavLink>
+                          </>
+                        }
                       </div>
 
                       <hr className="border-gray-100 dark:border-gray-700" />

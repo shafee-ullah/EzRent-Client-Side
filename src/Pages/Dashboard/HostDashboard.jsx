@@ -121,7 +121,7 @@ const HostDashboard = () => {
   const [hostData] = useState(mockHostData);
   
   const { user: authUser } = use(AuthContext);
-  const [HostData, setHostData] = useState(mockHostData);
+  const [HostData, setHostData ] = useState(mockHostData);
 
 
 
