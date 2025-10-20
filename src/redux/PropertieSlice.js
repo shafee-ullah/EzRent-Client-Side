@@ -131,7 +131,7 @@ export const deleteBooking = createAsyncThunk(
 export const deleteProperty = createAsyncThunk(
   "products/deleteProperty",
   async (propertyId) => {
-    await axios.delete(`https://ezrent-backend.vercel.app/${propertyId}`);
+    await axios.delete(`https://ezrent-backend.vercel.app/properties/${propertyId}`);
     return propertyId;
   }
 );
