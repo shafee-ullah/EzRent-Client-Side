@@ -13,7 +13,6 @@
 //   });
 //   const [submitting, setSubmitting] = useState(false);
 
-
 //   const handelcheckout = (e) => {
 //     e.preventDefault();
 //     const form = e.target;
@@ -49,7 +48,7 @@
 
 //     setSubmitting(true);
 
-//     fetch("https://ez-rent-server-side.vercel.app/bookinghotel", {
+//     fetch("https://ezrent-backend.vercel.appbookinghotel", {
 //       method: "POST",
 //       headers: { "content-type": "application/json" },
 //       body: JSON.stringify(Bookingdata),
@@ -135,7 +134,7 @@
 //               required
 //             />
 //           </div>
-        
+
 //           <div>
 //             <label>Rooms</label>
 //             <input
@@ -149,7 +148,7 @@
 //             />
 //           </div>
 //         </div>
-        
+
 //         <div>
 //               <label> Extra Options </label>
 //               <select
@@ -163,7 +162,7 @@
 //               </select>
 //             </div>
 //       </div>
-      
+
 //       {/* Book & Pay Button */}
 //       <div className="md:flex justify-center items-center mt-6 md:mt-0">
 //         <button
@@ -174,9 +173,9 @@
 //           {submitting ? "Processing..." : "Book & Pay Now"}
 //         </button>
 //       </div>
-      
+
 //     </form>
-    
+
 //   );
 // };
 
@@ -187,11 +186,10 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Context/AuthContext";
 
-
 const CheckoutForm = ({ data }) => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  console.log(user)
+  console.log(user);
   const handelcheckout = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -201,13 +199,13 @@ const CheckoutForm = ({ data }) => {
       Checkin: Updatedata.Checkin,
       Checkout: Updatedata.Checkout,
       guest: Updatedata.number,
-      room:Updatedata.room,
-      extaOptions:Updatedata.extaOptions,
+      room: Updatedata.room,
+      extaOptions: Updatedata.extaOptions,
       id: data._id,
       img: data.image,
       Location: data.Location,
-      hostemail:data.email,
-      hostname:data.Name,
+      hostemail: data.email,
+      hostname: data.Name,
       status: "pending",
       price: data.price,
       email: user?.email,
@@ -216,7 +214,7 @@ const CheckoutForm = ({ data }) => {
     };
 
     // Create booking first, then redirect to payment
-    fetch("https://ez-rent-server-side.vercel.app/bookinghotel", {
+    fetch("https://ezrent-backend.vercel.app/bookinghotel", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -336,20 +334,20 @@ const CheckoutForm = ({ data }) => {
               required
             />
           </div>
-          
-       <div>
-              <label> Extra Options </label>
-             <select
+
+          <div>
+            <label> Extra Options </label>
+            <select
               type="text"
-                name="extaOptions"
-                className= "rounded border  dark:bg-gray-800 border-gray-300 px-3 py-2 mt-1.5 w-full outline-none"
-              >
-                <option value="">Breakfast</option>
-                <option value="Flexible">Lunch</option>
-                <option value="Moderate">Dinner</option>
-                <option value="Strict">extraBed</option>
-              </select>
-            </div>
+              name="extaOptions"
+              className="rounded border  dark:bg-gray-800 border-gray-300 px-3 py-2 mt-1.5 w-full outline-none"
+            >
+              <option value="">Breakfast</option>
+              <option value="Flexible">Lunch</option>
+              <option value="Moderate">Dinner</option>
+              <option value="Strict">extraBed</option>
+            </select>
+          </div>
         </div>
 
         <div className="md:flex justify-center items-center">

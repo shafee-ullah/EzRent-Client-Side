@@ -35,9 +35,7 @@ const InputField = ({
 }) => (
   <div>
     <div className="relative">
-      {Icon && (
-        <Icon className="absolute left-3 top-4 h-5 w-5 text-gray-400" />
-      )}
+      {Icon && <Icon className="absolute left-3 top-4 h-5 w-5 text-gray-400" />}
       <input
         id={id}
         name={name}
@@ -45,13 +43,15 @@ const InputField = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={`w-full ${Icon ? "pl-11" : "pl-3"
-          } ${showPasswordToggle ? "pr-10" : "pr-3"} py-3 rounded-xl border bg-white/60 dark:bg-gray-700/60 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-700 focus:border-transparent transition-all ${error
+        className={`w-full ${Icon ? "pl-11" : "pl-3"} ${
+          showPasswordToggle ? "pr-10" : "pr-3"
+        } py-3 rounded-xl border bg-white/60 dark:bg-gray-700/60 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-700 focus:border-transparent transition-all ${
+          error
             ? "border-red-500"
             : success
-              ? "border-green-500"
-              : "border-gray-300 dark:border-gray-600"
-          }`}
+            ? "border-green-500"
+            : "border-gray-300 dark:border-gray-600"
+        }`}
         {...props}
       />
       {showPasswordToggle && (
@@ -92,7 +92,7 @@ const AuthPage = () => {
     googleSignIn,
     githubSignIn,
     resetPassword,
-    setUser
+    setUser,
   } = useContext(AuthContext);
 
   const [isLogin, setIsLogin] = useState(true);
@@ -170,19 +170,22 @@ const AuthPage = () => {
 
         if (!userCredential.user.emailVerified) {
           toast.success(`Welcome back ${userCredential.user.email}`);
-          navigate(locations?.state || '/', {
-            state: { toastMessage: 'Login successful!' }
+          navigate(locations?.state || "/", {
+            state: { toastMessage: "Login successful!" },
           });
         } else {
-          navigate(locations?.state || '/', {
-            state: { toastMessage: 'Login successful!' }
+          navigate(locations?.state || "/", {
+            state: { toastMessage: "Login successful!" },
           });
           toast.success(`Welcome back ${userCredential.user.email}`);
-
         }
       } else {
         // Firebase registration
-        const userCredential = await createUser(email, formData.password, formData.name);
+        const userCredential = await createUser(
+          email,
+          formData.password,
+          formData.name
+        );
 
         // Update global state / Redux
         if (setUser) setUser(userCredential.user);
@@ -193,14 +196,13 @@ const AuthPage = () => {
           email, // already lowercase
           role: "guest",
         };
-        await axios.post("https://ez-rent-server-side.vercel.app/users", userData);
-        navigate(locations?.state || '/', {
-          state: { toastMessage: 'Login successful!' }
+        await axios.post("https://ezrent-backend.vercel.app/users", userData);
+        navigate(locations?.state || "/", {
+          state: { toastMessage: "Login successful!" },
         });
         toast.success(
           `Registration successful. Verification email sent to ${userCredential.user.email}`
         );
-
 
         setIsLogin(true);
       }
@@ -210,9 +212,6 @@ const AuthPage = () => {
       setIsLoading(false);
     }
   };
-
-
-
 
   // handle password reset
   const handlePasswordReset = async () => {
@@ -245,20 +244,19 @@ const AuthPage = () => {
       };
 
       // POST to backend
-      await axios.post("https://ez-rent-server-side.vercel.app/users", userData);
-      navigate(locations?.state || '/', {
-        state: { toastMessage: 'Login successful!' }
+      await axios.post("https://ezrent-backend.vercel.app/users", userData);
+      navigate(locations?.state || "/", {
+        state: { toastMessage: "Login successful!" },
       });
       toast.success(`Welcome ${user.displayName || user.email}`);
-
     } catch (error) {
       if (error.code === "auth/account-exists-with-different-credential") {
         toast.error(
           "This email is already registered with a different provider. Please use the original provider to login."
         );
       } else {
-        navigate(locations?.state || '/', {
-          state: { toastMessage: 'Login successful!' }
+        navigate(locations?.state || "/", {
+          state: { toastMessage: "Login successful!" },
         });
         toast.error(error.message);
       }
@@ -273,8 +271,6 @@ const AuthPage = () => {
       <div className="absolute -top-24 -left-24 w-96 h-96 bg-green-700/10 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 right-0 w-[30rem] h-[30rem] bg-green-700/20 rounded-full blur-3xl"></div>
 
-
-
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -288,7 +284,6 @@ const AuthPage = () => {
         >
           ← Back Home
         </Link>
-
 
         <div className="text-center">
           {/* <motion.div
@@ -306,7 +301,9 @@ const AuthPage = () => {
             {isLogin ? "Welcome Back" : "Create Account"}
           </h2>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-            {isLogin ? "Sign in to continue with " : "Register to get started with "}
+            {isLogin
+              ? "Sign in to continue with "
+              : "Register to get started with "}
             <span className="font-semibold text-green-700 dark:text-green-500">
               EzRent
             </span>
@@ -316,19 +313,21 @@ const AuthPage = () => {
         <div className="flex justify-center mt-6 mb-8">
           <button
             onClick={() => setIsLogin(true)}
-            className={`px-6 py-2 rounded-l-xl font-medium transition-all ${isLogin
-              ? "bg-green-700 text-white shadow-md"
-              : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
-              }`}
+            className={`px-6 py-2 rounded-l-xl font-medium transition-all ${
+              isLogin
+                ? "bg-green-700 text-white shadow-md"
+                : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
+            }`}
           >
             Sign In
           </button>
           <button
             onClick={() => setIsLogin(false)}
-            className={`px-6 py-2 rounded-r-xl font-medium transition-all ${!isLogin
-              ? "bg-green-700 text-white shadow-md"
-              : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
-              }`}
+            className={`px-6 py-2 rounded-r-xl font-medium transition-all ${
+              !isLogin
+                ? "bg-green-700 text-white shadow-md"
+                : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
+            }`}
           >
             Register
           </button>
@@ -456,8 +455,8 @@ const AuthPage = () => {
                 ? "Signing In..."
                 : "Registering..."
               : isLogin
-                ? "Sign In"
-                : "Register"}
+              ? "Sign In"
+              : "Register"}
           </motion.button>
         </form>
 
