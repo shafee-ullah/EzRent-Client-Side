@@ -48,7 +48,7 @@
 
 //     setSubmitting(true);
 
-//     fetch("https://ezrent-backend.vercel.appbookinghotel", {
+//     fetch("https://ez-rent-server-side-seven.vercel.appbookinghotel", {
 //       method: "POST",
 //       headers: { "content-type": "application/json" },
 //       body: JSON.stringify(Bookingdata),
@@ -214,7 +214,7 @@ const CheckoutForm = ({ data }) => {
     };
 
     // Create booking first, then redirect to payment
-    fetch("https://ezrent-backend.vercel.app/bookinghotel", {
+    fetch("https://ez-rent-server-side-seven.vercel.app/bookinghotel", {
       method: "POST",
       headers: {
         "content-type": "application/json",
