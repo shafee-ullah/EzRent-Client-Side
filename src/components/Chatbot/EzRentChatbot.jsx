@@ -187,9 +187,10 @@ User's question: ${userMessage}`
           </div>
 
           {/* Chat Container */}
-          <div className="flex-1 flex flex-col shadow-2xl bg-white dark:bg-gray-900 border-x border-b border-gray-200 dark:border-gray-800 rounded-b-2xl">
+          <div className="flex-1 flex flex-col shadow-2xl bg-white dark:bg-gray-900 border-x border-b border-gray-200 dark:border-gray-800 rounded-b-2xl overflow-hidden">
             {/* Messages */}
-            <div className="flex-1 p-4 overflow-y-auto bg-gray-50/50 dark:bg-gray-950/50">
+            <div className="flex-1 p-4 overflow-y-auto  overflow-x-hidden bg-gray-50/50 dark:bg-gray-950/50"
+            style={{ maxHeight: '100%' }}>
               <div className="space-y-4">
                 {messages.map((message, index) => (
                   <div
@@ -281,7 +282,7 @@ User's question: ${userMessage}`
                     }
                   }}
                   placeholder="Ask about bookings, hosting, or travel..."
-                  className="flex-1 px-4 py-3 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all duration-300 text-sm font-medium bg-gray-50 dark:bg-gray-800 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:bg-white dark:focus:bg-gray-750"
+                  className="flex-1 px-4 py-3 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all duration-300 text-sm font-medium bg-gray-50 dark:bg-gray-800 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:bg-gray-750 dark:focus:bg-gray-750"
                   disabled={loading}
                 />
                 <button

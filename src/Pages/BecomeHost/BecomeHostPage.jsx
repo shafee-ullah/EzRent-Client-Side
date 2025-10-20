@@ -151,7 +151,7 @@ const BecomeHostPage = () => {
 
     try {
       const res = await axios.post(
-        "https://ezrent-backend.vercel.app/hostRequest",
+        "https://ez-rent-server-side-seven.vercel.app/hostRequest",
         formData
       );
       console.log("form data", formData);

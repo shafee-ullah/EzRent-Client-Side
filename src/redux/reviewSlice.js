@@ -6,7 +6,7 @@ export const addReview = createAsyncThunk(
     "reviews/addReview",
     async (reviewData, { rejectWithValue }) => {
         try {
-            const res = await axios.post("https://ezrent-backend.vercel.app/api/reviews", reviewData);
+            const res = await axios.post("https://ez-rent-server-side-seven.vercel.app/api/reviews", reviewData);
             toast.success("Review submitted!");
             return res.data.data;
         } catch (error) {
@@ -21,7 +21,7 @@ export const fetchReviews = createAsyncThunk(
     async (reviewCardId, { rejectWithValue }) => {
         try {
             const res = await axios.get(
-                `https://ezrent-backend.vercel.app/api/reviews?reviewCardId=${reviewCardId}`
+                `https://ez-rent-server-side-seven.vercel.app/api/reviews?reviewCardId=${reviewCardId}`
             );
             return res.data.data;
         } catch (error) {
@@ -34,7 +34,7 @@ export const fetchReviews = createAsyncThunk(
 export const updateReview = createAsyncThunk(
     "reviews/updateReview",
     async ({ id, updatedData }) => {
-        const response = await fetch(`https://ezrent-backend.vercel.app/api/reviews/${id}`, {
+        const response = await fetch(`https://ez-rent-server-side-seven.vercel.app/api/reviews/${id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(updatedData),
@@ -50,7 +50,7 @@ export const deleteReview = createAsyncThunk(
     "reviews/deleteReview",
     async (id, { rejectWithValue }) => {
         try {
-            await axios.delete(`https://ezrent-backend.vercel.app/api/reviews/${id}`);
+            await axios.delete(`https://ez-rent-server-side-seven.vercel.app/api/reviews/${id}`);
             toast.success("Review deleted!");
             return id;
         } catch (error) {

@@ -8,6 +8,8 @@ import HowItWorks from "../HowItWorks/HowItWorks";
 import BlogSection from "../BlogSection/BlogSection";
 import Newsletter from "../Newsletter/Newsletter";
 import GuestExperienceSection from "../GuestExperienceSection/GuestExperienceSection.jsx";
+import EzRentChatbot from "../../../Components/Chatbot/EzRentChatbot.jsx";
+
 
 // import JourneySection from '../JourneySection/JourneySection';
 const Home = () => {
@@ -22,6 +24,7 @@ const Home = () => {
       <BlogSection></BlogSection>
       <GuestExperienceSection></GuestExperienceSection>
       <Newsletter></Newsletter>
+      <EzRentChatbot></EzRentChatbot>    
     </div>
   );
 };
