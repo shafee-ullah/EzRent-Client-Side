@@ -151,7 +151,7 @@ const BecomeHostPage = () => {
 
     try {
       const res = await axios.post(
-        "https://ez-rent-server-side-seven.vercel.app/hostRequest",
+        "https://ezrent-backend.vercel.apphostRequest",
         formData
       );
       console.log("form data", formData);
@@ -239,13 +239,13 @@ const BecomeHostPage = () => {
                   <ArrowRight className="w-5 h-5" />
                 </MotionButton>
 
-                  <MotionButton
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="px-8 py-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-2xl font-semibold text-lg hover:shadow-lg transition-all duration-300"
-                  >
-                    Learn More
-                  </MotionButton>
+                <MotionButton
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-8 py-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-2xl font-semibold text-lg hover:shadow-lg transition-all duration-300"
+                >
+                  Learn More
+                </MotionButton>
               </div>
 
               {/* Stats */}
@@ -344,7 +344,6 @@ const BecomeHostPage = () => {
                 whileHover={{ y: -8 }}
                 className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300"
               >
-               
                 <div
                   className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${benefit.gradient} flex items-center justify-center text-white mb-4`}
                 >

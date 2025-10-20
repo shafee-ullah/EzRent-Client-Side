@@ -21,11 +21,7 @@ class SocketService {
       return this.socket;
     }
 
-<<<<<<< HEAD
-    this.socket = io("https://ez-rent-server-side-seven.vercel.app", {
-=======
-    this.socket = io("https://ez-rent-server-side.vercel.app/", {
->>>>>>> 4746d7720caef06d86f0775b65cff25679fa5525
+    this.socket = io("https://ezrent-backend.vercel.app", {
       transports: ["websocket", "polling"],
       timeout: 20000,
       forceNew: true,

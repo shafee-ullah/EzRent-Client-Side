@@ -41,7 +41,7 @@
 //       toast.success(`✅ Role updated to ${role}`);
 //       console.log(result);
 // // =========
-//       const res = await fetch(`https://ez-rent-server-side-seven.vercel.app/users/role/${id}`, {
+//       const res = await fetch(`https://ezrent-backend.vercel.appusers/role/${id}`, {
 //         method: "PATCH",
 //         headers: { "Content-Type": "application/json" },
 //         body: JSON.stringify({ role }),
@@ -100,11 +100,7 @@
 //                     toast.dismiss(t.id);
 //                     try {
 //                       const res = await fetch(
-<<<<<<< HEAD
-//                         `https://ez-rent-server-side-seven.vercel.app/users/${id}`,
-=======
-//                         `https://ez-rent-server-side.vercel.app/users/${id}`,
->>>>>>> 4746d7720caef06d86f0775b65cff25679fa5525
+//                         `https://ezrent-backend.vercel.appusers/${id}`,
 //                         { method: "DELETE" }
 //                       );
 //                       const data = await res.json();
@@ -342,7 +338,6 @@
 
 // export default UserManagementSection;
 
-
 // components/UserManagementSection.js
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -408,8 +403,8 @@ const UserManagementSection = () => {
                 Confirm Rejection
               </h4>
               <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
-                Are you sure you want to reject and delete this user? This action
-                cannot be undone.
+                Are you sure you want to reject and delete this user? This
+                action cannot be undone.
               </p>
 
               <div className="flex justify-end gap-2 mt-4">
@@ -475,10 +470,8 @@ const UserManagementSection = () => {
         "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300",
       pending:
         "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300",
-      suspended:
-        "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
-      rejected:
-        "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
+      suspended: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
+      rejected: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
     };
     return colors[status] || "bg-gray-100 text-gray-800";
   };

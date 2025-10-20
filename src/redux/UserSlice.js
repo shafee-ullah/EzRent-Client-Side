@@ -6,9 +6,7 @@ export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch(
-        "https://ez-rent-server-side-seven.vercel.app/users"
-      );
+      const response = await fetch("https://ezrent-backend.vercel.app/users");
       if (!response.ok) throw new Error("Failed to fetch users");
       return await response.json();
     } catch (error) {
@@ -18,18 +16,13 @@ export const fetchUsers = createAsyncThunk(
 );
 
 export const updateUserRole = createAsyncThunk(
-    'users/updateRole',
-    async ({ id, role }, { rejectWithValue }) => {
-        try {
-<<<<<<< HEAD
-            const response = await fetch(`https://ez-rent-server-side-seven.vercel.app/users/role/${id}`, {
-=======
-            const response = await fetch(`https://ez-rent-server-side.vercel.app/users/role/${id}`, {
->>>>>>> 4746d7720caef06d86f0775b65cff25679fa5525
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ role: role.toLowerCase() }),
-            });
+  "users/updateRole",
+  async ({ id, role }, { rejectWithValue }) => {
+    try {
+      const response = await axios.patch(
+        `https://ezrent-backend.vercel.app/users/role/${id}`,
+        { role }
+      );
 
       if (!response.ok) {
         const data = await response.json();
@@ -45,16 +38,12 @@ export const updateUserRole = createAsyncThunk(
 );
 
 export const deleteUser = createAsyncThunk(
-    'users/deleteUser',
-    async (id, { rejectWithValue }) => {
-        try {
-<<<<<<< HEAD
-            const response = await fetch(`https://ez-rent-server-side-seven.vercel.app/users/${id}`, {
-=======
-            const response = await fetch(`https://ez-rent-server-side.vercel.app/users/${id}`, {
->>>>>>> 4746d7720caef06d86f0775b65cff25679fa5525
-                method: 'DELETE',
-            });
+  "users/deleteUser",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(
+        `https://ezrent-backend.vercel.app/users/${id}`
+      );
 
       if (!response.ok) {
         const data = await response.json();
