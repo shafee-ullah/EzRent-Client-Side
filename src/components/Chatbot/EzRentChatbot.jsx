@@ -1,4 +1,3 @@
-// components/EzRentChatbot.jsx
 import { useState, useRef, useEffect } from 'react';
 import { Send, Bot, User, X, Loader2, Sparkles } from 'lucide-react';
 
@@ -15,6 +14,22 @@ const EzRentChatbot = () => {
   const [error, setError] = useState('');
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+
+  // NEW: Expose chatbot controls globally
+  useEffect(() => {
+    window.EzRentChatbot = {
+      openChat: () => setIsOpen(true),
+      closeChat: () => setIsOpen(false),
+      isOpen: () => isOpen,
+      resetChat: () => {
+        setMessages([{
+          role: 'model',
+          content: 'Hello! 👋 I\'m your EzRent AI Assistant. I can help you with property bookings, hosting questions, travel tips, and anything about the EzRent platform. How can I assist you today? 🏠'
+        }]);
+        setInput('');
+      }
+    };
+  }, [isOpen]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -186,7 +201,8 @@ User's question: ${userMessage}`
             </div>
           </div>
 
-          {/* Chat Container */}
+          {/* Rest of your existing JSX remains exactly the same... */}
+          {/* Messages Container */}
           <div className="flex-1 flex flex-col shadow-2xl bg-white dark:bg-gray-900 border-x border-b border-gray-200 dark:border-gray-800 rounded-b-2xl overflow-hidden">
             {/* Messages */}
             <div className="flex-1 p-4 overflow-y-auto  overflow-x-hidden bg-gray-50/50 dark:bg-gray-950/50"

@@ -187,7 +187,7 @@ const Testimonials = () => {
       className="relative max-w-7xl mx-auto px-4 py-16 lg:py-12"
     >
       {/* Background Pattern */}
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/30 via-transparent to-green-50/20 dark:from-emerald-900/10 dark:via-transparent dark:to-green-900/5 rounded-3xl" />
+      <div className="absolute inset-0 rounded-3xl" />
       
       {/* Floating Elements */}
       <div className="pointer-events-none absolute -top-10 right-10 h-48 w-48 rounded-full blur-3xl bg-emerald-400/20 dark:bg-emerald-300/10" />
@@ -216,7 +216,7 @@ const Testimonials = () => {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-4xl lg:text-5xl font-bold tracking-tight mb-4"
         >
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-green-600 dark:from-emerald-400 dark:to-green-400">
+          <span className="bg-clip-text text-transparent ">
             What Our Guests Say
           </span>
         </motion.h2>

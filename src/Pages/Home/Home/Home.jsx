@@ -9,6 +9,8 @@ import BlogSection from "../BlogSection/BlogSection";
 import Newsletter from "../Newsletter/Newsletter";
 import GuestExperienceSection from "../GuestExperienceSection/GuestExperienceSection.jsx";
 import EzRentChatbot from "../../../Components/Chatbot/EzRentChatbot.jsx";
+import AIAssistantSection from "../AIAssistantSection/AIAssistantSection.jsx";
+import ConversationPreview from "../ConversationPreview/ConversationPreview.jsx";
 
 
 // import JourneySection from '../JourneySection/JourneySection';
@@ -21,6 +23,8 @@ const Home = () => {
       <HowItWorks></HowItWorks>
       <WhyChooseUs></WhyChooseUs>
       <Testimonials></Testimonials>
+      {/* <AIAssistantSection></AIAssistantSection> */}
+      <ConversationPreview></ConversationPreview>
       <BlogSection></BlogSection>
       <GuestExperienceSection></GuestExperienceSection>
       <Newsletter></Newsletter>
