@@ -106,7 +106,7 @@ const Banner = () => {
           </h1>
           <p className="mt-4 mb-6 max-w-3xl text-lg md:text-xl opacity-90 mx-auto">
             Discover unique accommodations around the world. From cozy cabins to
-            luxury villas, create unforgettable memories with HopNow.
+            luxury villas, create unforgettable memories with EzRent.
           </p>
         </MotionDiv>
 

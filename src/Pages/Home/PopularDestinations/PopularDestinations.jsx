@@ -87,7 +87,7 @@ const DestinationCard = ({ destination, index, isMobile }) => {
       transition={{ duration: 0.5, delay: index * 0.1 }}
       onHoverStart={() => !isMobile && setIsHovered(true)}
       onHoverEnd={() => !isMobile && setIsHovered(false)}
-      className="relative group cursor-pointer"
+      className="relative group "
     >
       <div className="relative h-64 md:h-80 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
         {/* Image with overlay */}
@@ -118,7 +118,7 @@ const DestinationCard = ({ destination, index, isMobile }) => {
           )}
 
           {/* Like Button */}
-          <MotionDiv
+          {/* <MotionDiv
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             className="absolute top-4 right-4"
@@ -136,7 +136,7 @@ const DestinationCard = ({ destination, index, isMobile }) => {
             >
               <Heart className={`w-4 h-4 ${isLiked ? "fill-current" : ""}`} />
             </button>
-          </MotionDiv>
+          </MotionDiv> */}
 
           {/* Content Container */}
           <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
@@ -152,8 +152,8 @@ const DestinationCard = ({ destination, index, isMobile }) => {
                   <span className="font-semibold text-sm">{destination.name}</span>
                 </div>
                 <div className="flex items-center gap-1 bg-black/30 backdrop-blur-sm px-2 py-1 rounded-full">
-                  <Star className="w-3 h-4 fill-current text-amber-400" />
-                  <span className="text-sm font-medium">{destination.rating}</span>
+                  {/* <Star className="w-3 h-4 fill-current text-amber-400" />
+                  <span className="text-sm font-medium">{destination.rating}</span> */}
                 </div>
               </div>
 
@@ -165,19 +165,19 @@ const DestinationCard = ({ destination, index, isMobile }) => {
               {/* Stats */}
               <div className="flex items-center gap-4 text-xs opacity-80 mb-4">
                 <div className="flex items-center gap-1">
-                  <Users className="w-3 h-3" />
-                  <span>{destination.reviews} reviews</span>
+                  {/* <Users className="w-3 h-3" /> */}
+                  {/* <span>{destination.reviews} reviews</span> */}
                 </div>
                 <div className="flex items-center gap-1">
-                  <span>•</span>
-                  <span>{destination.properties} properties</span>
+                  {/* <span>•</span> */}
+                  {/* <span>{destination.properties} properties</span> */}
                 </div>
               </div>
 
               {/* Price and CTA */}
               <div className="flex items-center justify-between">
                 <div>
-                  <span className="text-lg font-bold">{destination.price}</span>
+                  {/* <span className="text-lg font-bold">{destination.price}</span> */}
                 </div>
                 <MotionDiv
                   whileHover={{ scale: 1.05 }}
@@ -210,9 +210,9 @@ const DestinationCard = ({ destination, index, isMobile }) => {
           scale: isHovered ? 1 : 0
         }}
         transition={{ duration: 0.3 }}
-        className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-gradient-to-r from-emerald-400 to-green-500 shadow-lg flex items-center justify-center"
+        // className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-gradient-to-r from-emerald-400 to-green-500 shadow-lg flex items-center justify-center"
       >
-        <Calendar className="w-3 h-3 text-white" />
+        {/* <Calendar className="w-3 h-3 text-white" /> */}
       </MotionDiv>
     </MotionDiv>
   );

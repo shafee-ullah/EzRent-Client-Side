@@ -116,7 +116,7 @@ const FeaturedPropertiesCard = () => {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="relative  px-4 py-16 lg:py-12">
+    <div className="relative  px-4 py-16 lg:py-16">
       <div className="flex flex-col items-center px-4">
         <MotionDiv initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }}>
           <h2 className="text-4xl lg:text-5xl font-bold tracking-tight mb-4">
