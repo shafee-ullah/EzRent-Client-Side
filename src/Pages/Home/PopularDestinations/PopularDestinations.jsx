@@ -382,12 +382,12 @@ const PopularDestinations = () => {
         transition={{ duration: 0.6, delay: 0.5 }}
         className="text-center mt-12"
       >
-        <button className="group px-8 py-3 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+        {/* <button className="group px-8 py-3 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
           <span className="flex items-center gap-2">
             View All Destinations
             <MapPin className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
           </span>
-        </button>
+        </button> */}
       </MotionDiv>
     </MotionSection>
   );
