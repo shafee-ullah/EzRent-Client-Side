@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useContext } from "react";
 import { CiLocationOn, CiCalendar } from "react-icons/ci";
 import { FaStar } from "react-icons/fa";
@@ -126,6 +127,7 @@ const BrowseProperties = () => {
       setSelectedAmenities([...selectedAmenities, amenity]);
     }
   };
+  // hello
 
   const resetFilters = () => {
     setPrice(500);
@@ -164,7 +166,8 @@ const BrowseProperties = () => {
       selectedAmenities.every((a) => p.services?.includes(a));
 
     return (
-      p.propertystatus === "active" &&
+      p.propertystatus === "active" && 
+      p.status ==="avaliable" &&
       matchesPrice &&
       matchesCategory &&
       matchesSearch &&
