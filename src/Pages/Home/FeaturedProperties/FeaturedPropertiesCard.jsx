@@ -129,14 +129,16 @@ const FeaturedPropertiesCard = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12 px-4 md:px-14">
-        {featuredItems?.map((property, index) => {
+        {featuredItems?.map((property,index ) => {
           const isInWishlist = wishlist?.some(w => w.propertyId === property._id);
 
           return (
             <motion.div
               key={property._id}
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0,}}
+               whileInView={{ opacity: 1 }}
+               viewport={{ once: true, amount: 0.3 }}
+              animate={{ opacity: 1, y: 1 }}
               transition={{ delay: index * 0.15, duration: 0.5 }}
               className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all backdrop-blur-sm bg-white/80 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700 flex flex-col h-full"
             >

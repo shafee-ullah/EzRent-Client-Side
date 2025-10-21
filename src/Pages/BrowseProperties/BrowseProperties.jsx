@@ -25,7 +25,7 @@ const BrowseProperties = () => {
   const { items, loading, error, wishlist } = useSelector(
     (state) => state.products
   );
-
+  console.log(items)
   const [price, setPrice] = useState(500);
   const [selectedCategory, setSelectedCategory] = useState("All Types");
   const [searchText, setSearchText] = useState("");
@@ -314,7 +314,7 @@ const BrowseProperties = () => {
                   return (
                     <div
                       key={property._id}
-                      className="bg-white/70 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg overflow-hidden hover:-translate-y-1 transition-all"
+                      className="  flex flex-col justify-between flex-grow bg-white/70 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg overflow-hidden hover:-translate-y-1 transition-all"
                     >
                       <div className="relative overflow-hidden">
                         <img
@@ -333,9 +333,12 @@ const BrowseProperties = () => {
                             }
                           />
                         </button>
+                         <span className="absolute top-3 left-3 px-3 py-1 rounded-full bg-gradient-to-r from-emerald-500 to-green-500 text-white text-sm font-semibold shadow-md">
+                  ${property.price}/night
+                </span>
                       </div>
 
-                      <div className="p-5 space-y-2">
+                      <div className=" flex flex-col justify-between flex-grow p-5 space-y-2">
                         <div className="flex justify-between items-center">
                           <div className="flex items-center gap-1 text-gray-600">
                             <CiLocationOn className="text-emerald-500" />
@@ -391,7 +394,7 @@ const BrowseProperties = () => {
                         </div>
 
                         <Link to={`/FeaturepropertiesDitels/${property._id}`}>
-                          <button className="w-full py-2.5 flex justify-center items-center gap-2 rounded-full font-semibold bg-gradient-to-r from-emerald-500 to-green-500 text-white hover:brightness-110 transition ">
+                          <button className="w-full py-2.5 flex justify-center items-center gap-2 rounded-full font-semibold bg-gradient-to-r from-emerald-500 to-green-500 text-white hover:brightness-110 transition">
                             <CiCalendar />
                             Quick Book
                           </button>
