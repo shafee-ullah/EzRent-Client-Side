@@ -127,6 +127,7 @@ const BrowseProperties = () => {
       setSelectedAmenities([...selectedAmenities, amenity]);
     }
   };
+  // hello
 
   const resetFilters = () => {
     setPrice(500);
