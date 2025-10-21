@@ -112,7 +112,7 @@ const PaymentForm = ({ bookingData, onPaymentSuccess }) => {
       console.error("Failed to create payment intent:", error);
     }
   }, [bookingData, dispatch]);
-  console.log(bookingData)
+  // console.log(bookingData)
   // Create payment intent when component mounts with booking data
   useEffect(() => {
     if (bookingData && !clientSecret && !isProcessing) {

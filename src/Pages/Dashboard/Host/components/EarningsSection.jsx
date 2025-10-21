@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Download, Upload } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllPayments, selectAllPayments } from "../../../../redux/paymentSlice";
 
 const EarningsSection = ({ data, formatCurrency }) => {
+   const dispatch = useDispatch();
+    const allPayments = useSelector(selectAllPayments);
+    console.log(allPayments)
+     useEffect(() => {
+       dispatch(fetchAllPayments());
+     }, [dispatch]);
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -19,7 +27,7 @@ const EarningsSection = ({ data, formatCurrency }) => {
                 Total Earnings
               </p>
               <p className="text-3xl font-bold text-gray-900 dark:text-white mt-2">
-                {formatCurrency(data.earnings.total)}
+                {formatCurrency(allPayments.reduce((sum,p)=>sum + p.amount,0))}
               </p>
             </div>
             <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
@@ -75,42 +83,29 @@ const EarningsSection = ({ data, formatCurrency }) => {
             Recent Payouts
           </h3>
           <div className="space-y-4">
-            {[
-              {
-                date: "2024-06-01",
-                amount: 45200,
-                method: "bKash",
-                status: "completed",
-              },
-              {
-                date: "2024-05-15",
-                amount: 38900,
-                method: "Bank",
-                status: "completed",
-              },
-              {
-                date: "2024-05-01",
-                amount: 56700,
-                method: "bKash",
-                status: "completed",
-              },
-            ].map((payout, index) => (
+            {allPayments.slice(-3).reverse().map((payout, index) => (
               <div
                 key={index}
                 className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg"
               >
                 <div>
-                  <p className="font-medium text-gray-900 dark:text-white">
+                  <div className="flex justify-between">
+  <p className="font-medium text-gray-900 dark:text-white">
                     {formatCurrency(payout.amount)}
+
                   </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    {new Date(payout.date).toLocaleDateString()} •{" "}
-                    {payout.method}
-                  </p>
-                </div>
-                <span className="px-2 py-1 bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300 rounded-full text-xs font-medium">
-                  {payout.status}
+                   <span className="px-2 py-1 bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300 rounded-full text-xs font-medium">
+                  {payout.paymentStatus}
                 </span>
+                  </div>
+                
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {new Date(payout.createdAt).toLocaleDateString()} •{" "}
+                    {payout.paymentMethod}
+                  </p>
+                 
+                </div>
+               
               </div>
             ))}
           </div>

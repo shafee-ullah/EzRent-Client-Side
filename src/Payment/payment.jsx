@@ -7,6 +7,7 @@ import PaymentForm from "./PaymentForm";
 const stripePromise = loadStripe(import.meta.env.VITE_payment_key);
 
 const Payment = ({ bookingData, onPaymentSuccess }) => {
+  console.log("hi log",bookingData)
   return (
     <div className="min-h-screen py-8 rounded-lg">
       <div className="container mx-auto px-4">
