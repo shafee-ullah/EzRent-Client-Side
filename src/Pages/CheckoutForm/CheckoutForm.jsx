@@ -8,7 +8,13 @@
 // const CheckoutForm = ({ data }) => {
 //   const { user } = useContext(AuthContext);
 //   const navigate = useNavigate();
-//   console.log(user)
+//   const [extras, setExtras] = useState({
+//     breakfast: false,
+//     airportPickup: false,
+//     extraBed: false,
+//   });
+//   const [submitting, setSubmitting] = useState(false);
+
 //   const handelcheckout = (e) => {
 //     e.preventDefault();
 //     const form = e.target;
@@ -31,9 +37,10 @@
 //       name: user?.displayName,
 //       title: data.name,
 //     };
-//     console.log(Bookingdata)
-//     // Create booking first, then redirect to payment
-//     fetch("https://ez-rent-server-side.vercel.app/bookinghotel", {
+
+//     setSubmitting(true);
+
+//     fetch("https://ez-rent-server-side-seven.vercel.appbookinghotel", {
 //       method: "POST",
 //       headers: {
 //         "content-type": "application/json",
@@ -128,6 +135,21 @@
 //               <label htmlFor="guests">Guests</label>
 //             </div>
 //             <input
+//               type="number"
+//               name="adults"
+//               min={1}
+//               max={10}
+//               defaultValue={1}
+//               className="rounded border border-gray-300 px-3 py-1.5 mt-1.5 w-full outline-none"
+//               required
+//             />
+//           </div>
+
+//           <div>
+//             <label>Rooms</label>
+//             <input
+//               type="number"
+//               name="rooms"
 //               min={1}
 //               max={5}
 //               id="guests"
@@ -138,23 +160,9 @@
 //               required
 //             />
 //           </div>
-//           <div>
-//             <div className="flex items-center gap-2">
-//               <label htmlFor="Rooms">Rooms</label>
-//             </div>
-//             <input
-//               min={1}
-//               max={5}
-//               id="Rooms"
-//               name="room"
-//               type="number"
-//               className=" rounded border border-gray-300 px-3 py-1.5 mt-1.5 text-sm outline-none mb-4  w-full"
-//               placeholder="0"
-//               required
-//             />
-//           </div>
-          
-//        <div>
+//         </div>
+
+//         <div>
 //               <label> Extra Options </label>
 //              <select
 //               type="text"
@@ -176,7 +184,20 @@
 //           </button>
 //         </div>
 //       </div>
+
+//       {/* Book & Pay Button */}
+//       <div className="md:flex justify-center items-center mt-6 md:mt-0">
+//         <button
+//           type="submit"
+//           disabled={submitting}
+//           className="w-full px-16 py-2 font-semibold bg-green-600 rounded-md text-white hover:bg-green-700 transition duration-200"
+//         >
+//           {submitting ? "Processing..." : "Book & Pay Now"}
+//         </button>
+//       </div>
+
 //     </form>
+
 //   );
 // };
 
@@ -191,59 +212,7 @@ import { AuthContext } from "../../Context/AuthContext";
 const CheckoutForm = ({ data }) => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [isAvailable, setIsAvailable] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const handleAvailabilityCheck = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    const checkIn = e.target.checkInDate.value;
-    const checkOut = e.target.checkOutDate.value;
-
-    if (!checkIn || !checkOut) {
-      Swal.fire({
-        icon: "warning",
-        title: "Please select Check-in & Check-out dates",
-      });
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const res = await fetch(
-        `http://localhost:5000/checkBooking?roomId=${data._id}&checkIn=${checkIn}&checkOut=${checkOut}`
-      );
-      const result = await res.json();
-
-      if (result?.isBooked) {
-        Swal.fire({
-          icon: "error",
-          title: "Already Booked!",
-          text: "This room is not available for the selected dates.",
-        });
-        setIsAvailable(false);
-      } else {
-        Swal.fire({
-          icon: "success",
-          title: "Room Available!",
-          text: "You can proceed to book this room.",
-          timer: 1500,
-          showConfirmButton: false,
-        });
-        setIsAvailable(true);
-      }
-    } catch (err) {
-      console.error(err);
-      Swal.fire({
-        icon: "error",
-        title: "Something went wrong!",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  console.log(user);
   const handelcheckout = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -258,8 +227,8 @@ const CheckoutForm = ({ data }) => {
       id: data._id,
       img: data.image,
       Location: data.Location,
-      hostemail: data?.email,
-      hostname: data?.Name,
+      hostemail: data.email,
+      hostname: data.Name,
       status: "pending",
       price: data.price,
       email: user?.email,
@@ -267,7 +236,8 @@ const CheckoutForm = ({ data }) => {
       title: data.name,
     };
 
-    fetch("https://ez-rent-server-side.vercel.app/bookinghotel", {
+    // Create booking first, then redirect to payment
+    fetch("https://ez-rent-server-side-seven.vercel.app/bookinghotel", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(Bookingdata),
@@ -372,15 +342,16 @@ const CheckoutForm = ({ data }) => {
           </div>
 
           <div>
-            <label>Extra Options</label>
+            <label> Extra Options </label>
             <select
+              type="text"
               name="extaOptions"
-              className="  rounded border dark:bg-gray-800 border-gray-300 px-3 py-2 mt-1.5 w-full md:w-fit outline-none mb-4 "
+              className="rounded border  dark:bg-gray-800 border-gray-300 px-3 py-2 mt-1.5 w-full outline-none"
             >
-              <option value="Breakfast">Breakfast</option>
-              <option value="Lunch">Lunch</option>
-              <option value="Dinner">Dinner</option>
-              <option value="extraBed">extraBed</option>
+              <option value="">Breakfast</option>
+              <option value="Flexible">Lunch</option>
+              <option value="Moderate">Dinner</option>
+              <option value="Strict">extraBed</option>
             </select>
           </div>
         </div>

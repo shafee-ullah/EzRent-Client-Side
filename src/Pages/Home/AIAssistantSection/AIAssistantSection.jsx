@@ -1,43 +1,66 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, ShieldCheck, Sparkles, Clock3, Star } from "lucide-react";
+import { MessageCircle, Bot, Zap, Shield, Calendar, UserPlus, Star, Heart, Sparkles } from "lucide-react";
 
 const MotionDiv = motion.div;
 const MotionSection = motion.section;
 
-const features = [
+const aiFeatures = [
   {
-    icon: <ShieldCheck className="w-6 h-6" />,
-    title: "Trusted & Verified",
-    desc: "All listings are verified to ensure safety and authenticity.",
-    stats: "5000+ Verified Stays",
+    icon: <Calendar className="w-6 h-6" />,
+    title: "How do I book property?",
+    desc: "Get step-by-step guidance to find and book your perfect stay with real-time availability and instant confirmation.",
+    stats: "Instant Booking Support",
     gradient: "from-blue-500 to-cyan-500",
     delay: 0.1
   },
   {
-    icon: <Sparkles className="w-6 h-6" />,
-    title: "Top-rated Properties",
-    desc: "Handpicked spaces with high ratings and great amenities.",
-    stats: "4.9/5 Average Rating",
-    gradient: "from-amber-500 to-orange-500",
+    icon: <UserPlus className="w-6 h-6" />,
+    title: "How do I become host?",
+    desc: "Learn everything about listing your property, setting prices, and managing bookings with our AI-guided onboarding.",
+    stats: "Host Setup Guide",
+    gradient: "from-purple-500 to-pink-500",
     delay: 0.2
   },
   {
-    icon: <Clock3 className="w-6 h-6" />,
-    title: "Flexible Booking",
-    desc: "Easy cancellations and date changes on eligible stays.",
-    stats: "24hr Free Cancellation",
-    gradient: "from-emerald-500 to-green-500",
+    icon: <Heart className="w-6 h-6" />,
+    title: "What is guest experiences?",
+    desc: "Discover how we ensure memorable stays with quality checks, guest support, and personalized recommendations.",
+    stats: "5-Star Experiences",
+    gradient: "from-amber-500 to-orange-500",
     delay: 0.3
   },
   {
-    icon: <CheckCircle2 className="w-6 h-6" />,
-    title: "24/7 Support",
-    desc: "We're here round-the-clock whenever you need help.",
-    stats: "2min Average Response",
-    gradient: "from-purple-500 to-pink-500",
+    icon: <Shield className="w-6 h-6" />,
+    title: "Secure & Hassle-Free Conversations",
+    desc: "Chat safely with hosts and guests through our encrypted platform with automated scam protection.",
+    stats: "100% Secure Messaging",
+    gradient: "from-emerald-500 to-green-500",
     delay: 0.4
   },
+];
+
+const aiCapabilities = [
+  {
+    icon: <Zap className="w-5 h-5" />,
+    text: "Instant property search & booking",
+    gradient: "from-amber-500 to-orange-500"
+  },
+  {
+    icon: <Bot className="w-5 h-5" />,
+    text: "24/7 automated support",
+    gradient: "from-emerald-500 to-green-500"
+  },
+  {
+    icon: <MessageCircle className="w-5 h-5" />,
+    text: "Natural conversation",
+    gradient: "from-blue-500 to-cyan-500"
+  },
+  {
+    icon: <Shield className="w-5 h-5" />,
+    text: "Secure transactions",
+    gradient: "from-purple-500 to-pink-500"
+  }
 ];
 
 const FeatureCard = ({ feature, index }) => {
@@ -66,7 +89,7 @@ const FeatureCard = ({ feature, index }) => {
         <div className="w-full h-full bg-white dark:bg-gray-900 rounded-2xl" />
       </div>
 
-      <div className="relative rounded-2xl bg-white dark:bg-gray-900 p-6 shadow-sm border border-gray-100 dark:border-gray-800 group-hover:shadow-xl transition-all duration-300 overflow-hidden">
+      <div className="relative rounded-2xl bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm p-6 shadow-lg border border-gray-200 dark:border-gray-700 group-hover:shadow-xl transition-all duration-300 overflow-hidden">
         
         {/* Animated Background Pattern */}
         <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-[0.02] transition-opacity duration-500`} />
@@ -109,7 +132,7 @@ const FeatureCard = ({ feature, index }) => {
           transition={{ duration: 0.5, delay: feature.delay + 0.3 }}
           className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r ${feature.gradient} text-white shadow-sm`}
         >
-          <Star className="w-3 h-3 fill-current" />
+          <Zap className="w-3 h-3 fill-current" />
           {feature.stats}
         </MotionDiv>
 
@@ -125,7 +148,7 @@ const FeatureCard = ({ feature, index }) => {
   );
 };
 
-const WhyChooseUs = () => {
+const AIAssistantSection = () => {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -142,8 +165,11 @@ const WhyChooseUs = () => {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.8 }}
-      className="relative max-w-11/12 mx-auto px-4 py-16 lg:py-16"
+      className="relative max-w-11/12 mx-auto px-4 py-16 lg:py-8"
     >
+      {/* Main Background Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/50 via-white to-green-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-emerald-900/10 -z-10" />
+
       {/* Animated Background Elements */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <MotionDiv
@@ -168,7 +194,7 @@ const WhyChooseUs = () => {
             repeat: Infinity,
             ease: "linear"
           }}
-          className="absolute -bottom-20 -left-20 w-80 h-80  opacity-30"
+          className="absolute -bottom-20 -left-20 w-80 h-80 bg-gradient-to-r from-blue-200 to-cyan-200 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-full blur-3xl opacity-30"
         />
         <MotionDiv
           animate={{
@@ -191,16 +217,13 @@ const WhyChooseUs = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-800 shadow-sm mb-6"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 shadow-sm mb-6"
         >
-          <div className="flex items-center gap-1 text-amber-500">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <Star key={i} className="w-4 h-4 fill-current" />
-            ))}
-          </div>
+          <Bot className="w-5 h-5 text-emerald-500" />
           <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-            Trusted by 50,000+ Travelers
+            Powered by Advanced AI
           </span>
+          <Sparkles className="w-4 h-4 text-amber-500" />
         </MotionDiv>
 
         <MotionDiv
@@ -209,9 +232,9 @@ const WhyChooseUs = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          <h2 className="text-4xl lg:text-5xl font-bold tracking-tight mb-2">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 dark:from-emerald-400 dark:via-green-400 dark:to-teal-400">
-              Why Travelers Choose Us
+          <h2 className="text-4xl lg:text-5xl font-bold tracking-tight mb-4">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-green-600 dark:from-emerald-400 dark:to-green-400">
+              Meet EzRent AI Assistant
             </span>
           </h2>
           
@@ -219,7 +242,7 @@ const WhyChooseUs = () => {
             initial={{ width: 0 }}
             whileInView={{ width: 120 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="h-1.5 bg-gradient-to-r from-emerald-400 to-green-600 rounded-full mx-auto mb-6"
+            className="h-1.5 bg-gradient-to-r from-emerald-400 to-green-600 rounded-full mx-auto mb-4"
           />
         </MotionDiv>
 
@@ -229,10 +252,33 @@ const WhyChooseUs = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <p className="text-lg lg:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Experience the difference with our commitment to excellence, 
-            ensuring every stay is memorable and hassle-free
+          <p className="text-lg lg:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed mb-6">
+            Your intelligent companion designed to help you find the perfect property, 
+            manage bookings, and get instant answers — anytime, anywhere.
           </p>
+          
+          {/* AI Capabilities */}
+          <div className="flex flex-wrap justify-center gap-4 mt-8">
+            {aiCapabilities.map((capability, index) => (
+              <MotionDiv
+                key={capability.text}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
+                whileHover={{ scale: 1.05, y: -2 }}
+                className="flex items-center gap-2 px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                <div className={`bg-gradient-to-r ${capability.gradient} rounded-lg p-1`}>
+                  <div className="text-white">
+                    {capability.icon}
+                  </div>
+                </div>
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  {capability.text}
+                </span>
+              </MotionDiv>
+            ))}
+          </div>
         </MotionDiv>
       </div>
 
@@ -242,9 +288,9 @@ const WhyChooseUs = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
-        className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8 relative"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 relative"
       >
-        {features.map((feature, index) => (
+        {aiFeatures.map((feature, index) => (
           <FeatureCard 
             key={feature.title} 
             feature={feature} 
@@ -261,13 +307,38 @@ const WhyChooseUs = () => {
         transition={{ duration: 0.6, delay: 0.5 }}
         className="text-center mt-12"
       >
-        <div className="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-          <ShieldCheck className="w-4 h-4 text-emerald-500" />
-          <span>30-day money-back guarantee • 24/7 customer support</span>
+        <MotionDiv
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.3 }}
+          className="inline-flex flex-col sm:flex-row items-center gap-6 bg-gradient-to-r from-emerald-500 to-green-600 rounded-3xl p-8 shadow-2xl backdrop-blur-sm border border-emerald-400/20"
+        >
+          <div className="text-left">
+            <h3 className="text-2xl font-bold text-white mb-2">
+              Ready to experience the future of renting?
+            </h3>
+            <p className="text-emerald-100 text-lg">
+              Chat with our AI Assistant now - no waiting, no browsing endlessly
+            </p>
+          </div>
+          <MotionDiv
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex-shrink-0"
+          >
+            <button className="bg-white text-emerald-600 px-8 py-4 rounded-2xl font-bold shadow-2xl hover:shadow-3xl transition-all duration-300 flex items-center gap-3 text-lg">
+              <MessageCircle className="w-6 h-6" />
+              Start Chatting Now
+            </button>
+          </MotionDiv>
+        </MotionDiv>
+        
+        <div className="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mt-6 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm px-4 py-2 rounded-2xl border border-gray-200 dark:border-gray-700">
+          <Shield className="w-4 h-4 text-emerald-500" />
+          <span>Always free • No signup required • 24/7 available</span>
         </div>
       </MotionDiv>
     </MotionSection>
   );
 };
 
-export default WhyChooseUs;
+export default AIAssistantSection;

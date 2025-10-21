@@ -22,6 +22,7 @@ import ProfileSection from "./Guest/components/ProfileSection";
 import { AuthContext } from "../../Context/AuthContext";
 import { fetchUserByEmail } from "../../redux/PropertieSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Loading from "../../components/Loading";
 
 const MotionDiv = motion.div;
 
@@ -138,7 +139,7 @@ const GuestDashboard = () => {
 
 
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
   if (error) return <p>{error}</p>;
 
 
@@ -236,7 +237,7 @@ const GuestDashboard = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="lg:w-64 flex-shrink-0"
           >
-            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700 p-4 sticky top-6">
+            <div className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700 p-4 sticky top-6">
               <nav className="space-y-2">
                 {navigationItems.map((item) => (
                   <button

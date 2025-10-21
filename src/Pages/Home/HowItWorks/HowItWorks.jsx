@@ -8,6 +8,7 @@ import {
   Home,
   ArrowRight,
   CheckCircle,
+  Zap
 } from "lucide-react";
 
 const MotionDiv = motion.div;
@@ -214,7 +215,7 @@ const HowItWorks = () => {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.8 }}
-      className="relative max-w-11/12 mx-auto px-4 py-16 lg:py-8"
+      className="relative max-w-11/12 mx-auto px-4 py-16 lg:py-14"
     >
       {/* Background Elements */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -305,7 +306,7 @@ const HowItWorks = () => {
       </div>
 
       {/* Bottom CTA */}
-      <MotionDiv
+      {/* <MotionDiv
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -328,7 +329,44 @@ const HowItWorks = () => {
             Start Exploring
           </Link>
         </div>
-      </MotionDiv>
+      </MotionDiv> */}
+      <MotionDiv
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.6, delay: 0.8 }}
+  className="text-center mt-12"
+>
+  <div className="inline-flex flex-col sm:flex-row items-center gap-6 bg-gradient-to-r from-emerald-500 to-green-600 rounded-3xl p-8 shadow-2xl backdrop-blur-sm border border-emerald-400/20">
+    <div className="text-left">
+      <h3 className="text-2xl font-bold text-white mb-2">
+        Ready to find your perfect stay?
+      </h3>
+      <p className="text-emerald-100 text-lg">
+        Discover amazing properties tailored just for you
+      </p>
+    </div>
+
+    <MotionDiv
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      className="flex-shrink-0"
+    >
+      <Link
+        to="/BrowseProperties"
+        className="bg-white text-emerald-600 px-8 py-4 rounded-2xl font-bold shadow-2xl hover:shadow-3xl transition-all duration-300 flex items-center gap-3 text-lg"
+      >
+        <ArrowRight className="w-6 h-6" />
+        Start Exploring
+      </Link>
+    </MotionDiv>
+  </div>
+
+  {/* <div className="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mt-6 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm px-4 py-2 rounded-2xl border border-gray-200 dark:border-gray-700">
+    <Zap className="w-4 h-4 text-amber-500" />
+    <span>Instant booking • Verified properties • Secure payments</span>
+  </div> */}
+</MotionDiv>
     </MotionSection>
   );
 };
