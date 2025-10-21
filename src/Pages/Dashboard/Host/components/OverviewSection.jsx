@@ -13,6 +13,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { fetchbooking, fetchProducts } from "../../../../redux/PropertieSlice";
 import { AuthContext } from "../../../../Context/AuthContext";
+import { fetchAllPayments, selectAllPayments } from "../../../../redux/paymentSlice";
 
 const MotionDiv = motion.div;
 
@@ -21,7 +22,7 @@ const OverviewSection = ({ data, formatCurrency }) => {
   const { user } = useContext(AuthContext);
   const { properties  } = useSelector((state) => state.products);
   const { bookings,  } = useSelector((state) => state.products);
- 
+ const allPayments = useSelector(selectAllPayments);
   useEffect(()=>{
     if(user?.email &&!properties.length){
     dispatch(fetchProducts(user?.email))
@@ -30,6 +31,7 @@ const OverviewSection = ({ data, formatCurrency }) => {
     if(!bookings.length){
       dispatch(fetchbooking())
     }
+    dispatch(fetchAllPayments())
    
   },[dispatch,user?.email])
 
@@ -52,7 +54,7 @@ const OverviewSection = ({ data, formatCurrency }) => {
     },
     {
       label: "Monthly Earnings",
-      value: formatCurrency(data.stats.monthlyEarnings),
+      value: formatCurrency(allPayments.reduce((sum,p)=>sum + p.amount,0)),
       icon: <DollarSign className="w-6 h-6" />,
       color: "from-amber-500 to-orange-500",
       description: "This month",

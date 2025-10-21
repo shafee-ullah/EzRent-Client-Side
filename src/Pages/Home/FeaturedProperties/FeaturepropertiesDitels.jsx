@@ -14,7 +14,7 @@ const FeaturepropertiesDitels = () => {
 
   useEffect(() => {
     fetch(
-      `https://ez-rent-server-side-seven.vercel.app/FeaturepropertiesDitels/${id}`
+      `https://ezrent-server-side-production.up.railway.app/FeaturepropertiesDitels/${id}`
     )
       .then((res) => res.json())
       .then((result) => setdata(result));
