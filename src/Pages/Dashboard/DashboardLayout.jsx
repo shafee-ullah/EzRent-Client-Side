@@ -73,7 +73,7 @@ const DashboardLayout = () => {
 
     try {
       const res = await axios.post(
-        "https://ezrent-backend.vercel.app/hostRequest",
+        "https://ezrent-server-side-production.up.railway.app/hostRequest",
         formData
       );
       console.log("form data", formData);

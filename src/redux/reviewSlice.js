@@ -7,7 +7,7 @@ export const addReview = createAsyncThunk(
   async (reviewData, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "https://ezrent-backend.vercel.app/api/reviews",
+        "https://ezrent-server-side-production.up.railway.app/api/reviews",
         reviewData
       );
       toast.success("Review submitted!");
@@ -24,7 +24,7 @@ export const fetchReviews = createAsyncThunk(
   async (reviewCardId, { rejectWithValue }) => {
     try {
       const res = await axios.get(
-        `https://ezrent-backend.vercel.app/api/reviews?reviewCardId=${reviewCardId}`
+        `https://ezrent-server-side-production.up.railway.app/api/reviews?reviewCardId=${reviewCardId}`
       );
       return res.data.data;
     } catch (error) {
@@ -38,7 +38,7 @@ export const updateReview = createAsyncThunk(
   "reviews/updateReview",
   async ({ id, updatedData }) => {
     const response = await fetch(
-      `https://ezrent-backend.vercel.app/api/reviews/${id}`,
+      `https://ezrent-server-side-production.up.railway.app/api/reviews/${id}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -55,7 +55,9 @@ export const deleteReview = createAsyncThunk(
   "reviews/deleteReview",
   async (id, { rejectWithValue }) => {
     try {
-      await axios.delete(`https://ezrent-backend.vercel.app/api/reviews/${id}`);
+      await axios.delete(
+        `https://ezrent-server-side-production.up.railway.app/api/reviews/${id}`
+      );
       toast.success("Review deleted!");
       return id;
     } catch (error) {
