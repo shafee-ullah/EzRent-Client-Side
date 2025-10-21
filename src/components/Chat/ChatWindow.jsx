@@ -3,13 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Send,
-  X,
   User,
-  Phone,
-  Video,
   MoreVertical,
-  Paperclip,
-  Smile,
   ArrowLeft,
   ArrowDown,
 } from "lucide-react";
@@ -17,14 +12,12 @@ import {
   fetchMessages,
   sendMessage,
   addMessage,
-  setTyping,
   markMessagesAsRead,
-  closeChat,
   fetchConversations,
 } from "../../redux/chatSlice";
 import socketService from "../../services/socketService";
 
-const ChatWindow = ({ conversation, onClose, onBack }) => {
+const ChatWindow = ({ conversation, onBack }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.products);
   const { messages, messagesLoading, typingUsers, onlineUsers } = useSelector(
@@ -36,6 +29,7 @@ const ChatWindow = ({ conversation, onClose, onBack }) => {
   const [typingTimeout, setTypingTimeout] = useState(null);
   const messagesEndRef = useRef(null);
   const messagesContainerRef = useRef(null);
+  const hasScrolledOnLoadRef = useRef(false); // Track if we've scrolled on initial load
 
   // Get messages for current conversation
   const conversationMessages = messages[conversation?._id] || [];
@@ -59,24 +53,32 @@ const ChatWindow = ({ conversation, onClose, onBack }) => {
     if (isConversationChange) {
       // Reset flags when conversation changes
       isInitialLoadRef.current = true;
-      prevMessageCountRef.current = conversationMessages.length;
+      prevMessageCountRef.current = 0; // Reset to 0 to detect first load
       prevConversationIdRef.current = conversation?._id;
-      return; // Don't scroll on conversation change
+      return;
+    }
+
+    // Scroll to bottom on initial load after messages are fetched
+    if (isInitialLoadRef.current && conversationMessages.length > 0) {
+      // Use requestAnimationFrame to ensure DOM is updated before scrolling
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
+          console.log("📜 Scrolled to bottom on initial load");
+        });
+      });
+      isInitialLoadRef.current = false;
+      prevMessageCountRef.current = conversationMessages.length;
+      return;
     }
 
     // Only scroll when new messages arrive from others (not when user sends)
-    // This prevents scrolling when the user sends a message
     if (
       !isInitialLoadRef.current &&
       !userSentMessageRef.current &&
       conversationMessages.length > prevMessageCountRef.current
     ) {
       scrollToBottom();
-    }
-
-    // After first render of a conversation, mark initial load as complete
-    if (isInitialLoadRef.current) {
-      isInitialLoadRef.current = false;
     }
 
     // Reset the user sent message flag
@@ -89,6 +91,9 @@ const ChatWindow = ({ conversation, onClose, onBack }) => {
   // Fetch messages when conversation changes
   useEffect(() => {
     if (conversation?._id) {
+      // Reset scroll flag when conversation changes
+      hasScrolledOnLoadRef.current = false;
+      
       dispatch(fetchMessages({ conversationId: conversation._id }));
 
       // Join conversation room
@@ -106,6 +111,54 @@ const ChatWindow = ({ conversation, onClose, onBack }) => {
       }
     }
   }, [conversation?._id, dispatch, user?._id]);
+
+  // Scroll to bottom after messages finish loading
+  useEffect(() => {
+    if (
+      !messagesLoading && 
+      conversationMessages.length > 0 && 
+      !hasScrolledOnLoadRef.current
+    ) {
+      // Messages finished loading, scroll to bottom
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
+          console.log("📜 Auto-scrolled to latest messages after loading");
+          hasScrolledOnLoadRef.current = true;
+        });
+      });
+    }
+  }, [messagesLoading, conversationMessages.length]);
+
+  // Listen for new messages via socket in real-time
+  useEffect(() => {
+    if (!conversation?._id || !socketService.getSocket()) return;
+
+    const handleNewMessage = (message) => {
+      console.log("📩 Real-time message received:", message);
+      
+      // Only update if the message is for the current conversation
+      if (message.conversationId === conversation._id) {
+        // Message will be added to Redux store automatically by socketService
+        // This useEffect ensures the component re-renders when new messages arrive
+        console.log("✅ Message is for current conversation, UI will update");
+        
+        // Auto-scroll to bottom when receiving new messages from others
+        if (message.senderId !== user?._id) {
+          setTimeout(() => scrollToBottom(), 100);
+        }
+      }
+    };
+
+    // Subscribe to new messages
+    const socket = socketService.getSocket();
+    socket.on("new-message", handleNewMessage);
+
+    // Cleanup listener when conversation changes or component unmounts
+    return () => {
+      socket.off("new-message", handleNewMessage);
+    };
+  }, [conversation?._id, user?._id]);
 
   // Handle typing indicators
   useEffect(() => {
@@ -145,13 +198,16 @@ const ChatWindow = ({ conversation, onClose, onBack }) => {
 
     if (!newMessage.trim() || !conversation?._id || !user?._id) return;
 
-    const messageData = {
+    const messageText = newMessage.trim();
+    const tempId = `temp-${Date.now()}-${Math.random()}`; // Unique temporary ID
+
+    const optimisticMessageData = {
       conversationId: conversation._id,
       senderId: user._id,
-      message: newMessage.trim(),
+      message: messageText,
       messageType: "text",
       timestamp: new Date().toISOString(),
-      _id: Date.now().toString(), // Temporary ID for optimistic UI update
+      _id: tempId, // Temporary ID for optimistic UI update
     };
 
     // Clear typing indicator
@@ -163,22 +219,57 @@ const ChatWindow = ({ conversation, onClose, onBack }) => {
     // Set flag to indicate user sent a message (for scrolling)
     userSentMessageRef.current = true;
 
-    // Add message to local state immediately for instant UI update
+    // Add message to local state immediately for instant UI update (optimistic)
     dispatch(
       addMessage({
         conversationId: conversation._id,
-        message: messageData,
+        message: optimisticMessageData,
       })
     );
 
-    // Update conversation in the list with the new message
-    dispatch(fetchConversations(user._id));
-
-    // Send message via socket
-    socketService.sendMessage(messageData);
-
-    // Clear input
+    // Clear input immediately for better UX
     setNewMessage("");
+
+    try {
+      // Send message to backend API to persist in MongoDB
+      // The backend will:
+      // 1. Save to database
+      // 2. Broadcast via socket to all users in the conversation
+      // 3. Return the saved message with real _id
+      const savedMessage = await dispatch(
+        sendMessage({
+          conversationId: conversation._id,
+          senderId: user._id,
+          message: messageText,
+          messageType: "text",
+        })
+      ).unwrap();
+
+      console.log("✅ Message saved to database:", savedMessage);
+
+      // Update the optimistic message with the real data from backend
+      // Replace the temporary message with the real one
+      const messages = [...(conversationMessages || [])];
+      const tempIndex = messages.findIndex(msg => msg._id === tempId);
+      if (tempIndex !== -1) {
+        // Remove the temporary message since sendMessage.fulfilled will add the real one
+        messages.splice(tempIndex, 1);
+        // Note: We don't need to manually update here because
+        // sendMessage.fulfilled reducer will handle adding the real message
+      }
+
+      // Update conversation in the list with the new message
+      dispatch(fetchConversations(user._id));
+    } catch (error) {
+      console.error("❌ Failed to send message:", error);
+      console.error("Error details:", {
+        conversationId: conversation._id,
+        senderId: user._id,
+        message: messageText,
+      });
+      // TODO: Show error toast to user and remove the optimistic message
+      // For now, the optimistic message will remain showing the send attempt
+    }
   };
 
   // Handle key press
