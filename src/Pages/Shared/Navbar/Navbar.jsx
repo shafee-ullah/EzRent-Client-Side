@@ -58,7 +58,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="sticky top-0 shadow-sm dark:bg-[#0f1113] bg-white dark:text-white z-50  backdrop-blur-md py-2">
+    <div className="bg-white dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
       <div className="navbar w-11/12 mx-auto">
         {/* Logo */}
         <div className="navbar-start flex items-center">
@@ -220,13 +220,18 @@ const Navbar = () => {
                         >
                           Dashboard
                         </NavLink>
-                        <NavLink
-                          onClick={closeMenu}
-                          to="/become-host"
-                          className="text-left px-5 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                        >
-                          Become a Host
-                        </NavLink>
+
+                        {
+                          user?.role === 'guest' && <>
+                            <NavLink
+                              onClick={closeMenu}
+                              to="/become-host"
+                              className="text-left px-5 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                            >
+                              Become a Host
+                            </NavLink>
+                          </>
+                        }
                       </div>
 
                       <hr className="border-gray-100 dark:border-gray-700" />

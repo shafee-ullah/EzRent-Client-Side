@@ -10,6 +10,7 @@ import { ContactHostButton } from "../../../../Components/Chat/MessageHostButton
 import Swal from "sweetalert2";
 import { MdHotel } from "react-icons/md";
 import { Link } from "react-router";
+import Loading from "../../../../components/Loading";
 
 const BookingsSection = () => {
   const dispatch = useDispatch();
@@ -76,7 +77,7 @@ const BookingsSection = () => {
     });
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
@@ -109,7 +110,7 @@ const BookingsSection = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="max-w-4xl mx-auto shadow-lg bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700"
+                className="max-w-4xl mx-auto shadow-lg bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700"
               >
                 <div className="flex flex-col sm:flex-row gap-4 items-stretch">
                   {/* Left Side: Image */}
@@ -138,7 +139,7 @@ const BookingsSection = () => {
                     </h2>
                     <p className="text-sm text-gray-500 mb-4 dark:text-gray-300">
                       {/* Hosted by {booking.host || "Unknown"} */}
-                      Hosted by {booking.hostName || "Unknown"}
+                      Hosted by {booking.hostname || "Unknown"}
                     </p>
 
                     <div className="flex justify-between items-center text-gray-700 border-b border-gray-100 pb-3 mb-4">
@@ -165,7 +166,7 @@ const BookingsSection = () => {
                     <div className="flex gap-3 mt-4 flex-wrap">
                       <ContactHostButton
                         id={booking.hostId || booking.id} // Fallback for now
-                        hostName={booking.hostName || booking.host}
+                        hostName={booking.hostname || booking.host}
                         propertyId={booking.propertyId}
                         propertyTitle={booking.title}
                         className="px-4 py-2"

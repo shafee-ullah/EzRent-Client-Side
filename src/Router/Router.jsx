@@ -19,6 +19,8 @@ import BecomeHostPage from "../Pages/BecomeHost/BecomeHostPage";
 import ExperienceFeed from "../Pages/AddExperience/ExperienceFeed";
 import AddExperience from "../Pages/AddExperience/AddExperience";
 import PrivaterRoute from "./PrivateRoute";
+import EzRentChatbot from "../Components/Chatbot/EzRentChatbot";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -59,6 +61,10 @@ const router = createBrowserRouter([
       {
         path: "guest-experiences/add",
         Component: AddExperience
+      },
+      {
+        path: "ezchat",
+        Component: EzRentChatbot,
       },
 
       {

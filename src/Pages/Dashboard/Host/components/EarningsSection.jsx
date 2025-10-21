@@ -22,7 +22,7 @@ const EarningsSection = ({ data, formatCurrency }) => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
+            <div className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
                 Total Earnings
               </p>
@@ -30,7 +30,7 @@ const EarningsSection = ({ data, formatCurrency }) => {
                 {formatCurrency(allPayments.reduce((sum,p)=>sum + p.amount,0))}
               </p>
             </div>
-            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
+            <div className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
                 Available for Payout
               </p>
@@ -38,7 +38,7 @@ const EarningsSection = ({ data, formatCurrency }) => {
                 {formatCurrency(data.earnings.available)}
               </p>
             </div>
-            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
+            <div className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
                 Service Fees
               </p>
@@ -48,7 +48,7 @@ const EarningsSection = ({ data, formatCurrency }) => {
             </div>
           </div>
 
-          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
+          <div className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
               Payout Methods
             </h3>
@@ -78,7 +78,7 @@ const EarningsSection = ({ data, formatCurrency }) => {
           </div>
         </div>
 
-        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
+        <div className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
             Recent Payouts
           </h3>
