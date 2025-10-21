@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useContext } from "react";
 import { CiLocationOn, CiCalendar } from "react-icons/ci";
 import { FaStar } from "react-icons/fa";
@@ -164,7 +165,8 @@ const BrowseProperties = () => {
       selectedAmenities.every((a) => p.services?.includes(a));
 
     return (
-      p.propertystatus === "active" &&
+      p.propertystatus === "active" && 
+      p.status ==="avaliable" &&
       matchesPrice &&
       matchesCategory &&
       matchesSearch &&
@@ -314,7 +316,7 @@ const BrowseProperties = () => {
                   return (
                     <div
                       key={property._id}
-                      className="bg-white/70 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg overflow-hidden hover:-translate-y-1 transition-all"
+                      className="  flex flex-col justify-between flex-grow bg-white/70 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg overflow-hidden hover:-translate-y-1 transition-all"
                     >
                       <div className="relative overflow-hidden">
                         <img
