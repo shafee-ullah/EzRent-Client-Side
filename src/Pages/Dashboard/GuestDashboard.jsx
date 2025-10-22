@@ -146,11 +146,11 @@ const GuestDashboard = () => {
 
   const navigationItems = [
     { id: "overview", label: "Overview", icon: <User className="w-5 h-5" /> },
-    {
-      id: "search",
-      label: "Search & Browse",
-      icon: <Search className="w-5 h-5" />,
-    },
+    // {
+    //   id: "search",
+    //   label: "Search & Browse",
+    //   icon: <Search className="w-5 h-5" />,
+    // },
     {
       id: "bookings",
       label: "My Bookings",
@@ -174,8 +174,8 @@ const GuestDashboard = () => {
     switch (activeSection) {
       case "overview":
         return <OverviewSection data={guestData} />;
-      case "search":
-        return <SearchSection />;
+      // case "search":
+      //   return <SearchSection />;
       case "bookings":
         return <BookingsSection data={guestData} />;
       case "wishlist":

@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, use } from "react";
 import { Shield, CreditCard, ChevronDown, User2, Camera, Edit3 } from "lucide-react";
 import { AuthContext } from "../../../../Context/AuthContext";
@@ -97,7 +98,7 @@ const ProfileSection = ({ data }) => {
       </h2>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-6">
+          <div className="bg-gray-100 dark:bg-gray-700/50 rounded-xl p-6">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
               Personal Information
             </h3>
@@ -135,7 +136,7 @@ const ProfileSection = ({ data }) => {
             </div>
           </div>
 
-          <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-6">
+          {/* <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-6">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
               Security
             </h3>
@@ -172,7 +173,7 @@ const ProfileSection = ({ data }) => {
                 <ChevronDown className="w-5 h-5 text-gray-400" />
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className="relative">

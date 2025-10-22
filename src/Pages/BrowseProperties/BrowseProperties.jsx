@@ -1,4 +1,5 @@
 
+
 import React, { useEffect, useState, useContext } from "react";
 import { CiLocationOn, CiCalendar } from "react-icons/ci";
 import { FaStar } from "react-icons/fa";
@@ -167,7 +168,7 @@ const BrowseProperties = () => {
 
     return (
       p.propertystatus === "active" && 
-      p.status ==="avaliable" &&
+      
       matchesPrice &&
       matchesCategory &&
       matchesSearch &&
