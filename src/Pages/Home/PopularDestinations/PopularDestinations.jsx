@@ -301,7 +301,7 @@ const PopularDestinations = () => {
             repeat: Infinity,
             ease: "linear"
           }}
-          className="absolute -top-20 -right-20 w-64 h-64 bg-gradient-to-r from-emerald-200 to-green-200 dark:from-emerald-900/20 dark:to-green-900/20 rounded-full blur-3xl opacity-30"
+          className="absolute -top-20 -right-20 w-64 h-64  rounded-full blur-3xl opacity-30"
         />
         <MotionDiv
           animate={{
@@ -312,7 +312,7 @@ const PopularDestinations = () => {
             repeat: Infinity,
             ease: "linear"
           }}
-          className="absolute -bottom-20 -left-20 w-80 h-80 bg-gradient-to-r from-blue-200 to-cyan-200 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-full blur-3xl opacity-30"
+          className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full blur-3xl opacity-30"
         />
       </div>
 
