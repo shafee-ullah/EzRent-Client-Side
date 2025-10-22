@@ -25,8 +25,8 @@ const Home = () => {
       <Testimonials></Testimonials>
       {/* <AIAssistantSection></AIAssistantSection> */}
       <ConversationPreview></ConversationPreview>
-      <GuestExperienceSection></GuestExperienceSection>
-      <BlogSection></BlogSection>  
+      <BlogSection></BlogSection> 
+      <GuestExperienceSection></GuestExperienceSection>  
       <Newsletter></Newsletter>
       <EzRentChatbot></EzRentChatbot>    
     </div>
