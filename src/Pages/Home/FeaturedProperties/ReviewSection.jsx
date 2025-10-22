@@ -29,7 +29,7 @@ const ReviewsSection = ({ data }) => {
     const { items: reviews, loading } = useSelector((state) => state.reviews);
 
     console.log("all review", reviews);
-    console.log("all review card ", data?._id);
+    console.log("all review card ", data);
     const cardId = data?._id;
     console.log('this si crer', cardId);
 
@@ -60,6 +60,7 @@ const ReviewsSection = ({ data }) => {
             verified: false,
             reviewCardId: data._id,
             reviewCardImg: data.image,
+            reviewEmail: data.email,
             reviewCardName: data.name,
             reviewCardLocation: data.Location,
             userEmail: user?.email,
