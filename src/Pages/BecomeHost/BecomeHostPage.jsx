@@ -14,6 +14,12 @@ import {
   Star,
   TrendingUp,
   X,
+  MapPin,
+  Search,
+  Bed,
+  Bath,
+  Wifi,
+  Car,
 } from "lucide-react";
 import { AuthContext } from "../../Context/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
@@ -114,7 +120,6 @@ const BecomeHostPage = () => {
   console.log("this is db user", user);
   const { user: authUser } = use(AuthContext);
   const dispatch = useDispatch();
-  // console.log(authUser);
 
   useEffect(() => {
     if (user && authUser) {
@@ -139,9 +144,6 @@ const BecomeHostPage = () => {
     userId: user?._id,
   });
 
-  // if (loading) return <p>Loading...</p>;
-  // if (error) return <p>{error}</p>;
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -163,12 +165,9 @@ const BecomeHostPage = () => {
         toast.error("⚠️ Something went wrong while submitting your request.");
       }
     } catch (error) {
-      // Backend custom message (if any)
       if (error.response && error.response.data?.message) {
         toast.error(error.response.data.message);
-      }
-      // Fallback error message
-      else {
+      } else {
         toast.error(
           " You have already submitted a request or an error occurred."
         );
@@ -182,6 +181,37 @@ const BecomeHostPage = () => {
     }
   }, [authUser?.email, user?._id, loading, dispatch]);
 
+  // Sample properties for showcase
+  const sampleProperties = [
+    {
+      id: 1,
+      name: "Seaside Villa",
+      location: "Cox's Bazar",
+      price: "৳12,500",
+      rating: 4.9,
+      image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=500&auto=format&fit=crop",
+      amenities: [<Bed key="bed" />, <Bath key="bath" />, <Wifi key="wifi" />, <Car key="car" />]
+    },
+    {
+      id: 2,
+      name: "Hilltop Cottage",
+      location: "Sylhet",
+      price: "৳8,200",
+      rating: 4.7,
+      image: "https://images.unsplash.com/photo-1510798831971-661eb04b3739?q=80&w=500&auto=format&fit=crop",
+      amenities: [<Bed key="bed" />, <Bath key="bath" />, <Wifi key="wifi" />]
+    },
+    {
+      id: 3,
+      name: "City Apartment",
+      location: "Dhaka",
+      price: "৳6,500",
+      rating: 4.8,
+      image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=500&auto=format&fit=crop",
+      amenities: [<Bed key="bed" />, <Bath key="bath" />, <Wifi key="wifi" />, <Car key="car" />]
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50/50 via-white to-green-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-emerald-900/10">
       {/* Background Elements */}
@@ -191,130 +221,265 @@ const BecomeHostPage = () => {
         <div className="absolute top-1/3 left-1/4 w-32 h-32 bg-amber-200/20 dark:bg-amber-900/10 rounded-full blur-2xl" />
       </div>
 
-      {/* Hero Section */}
-      <section className="relative pt-20 pb-32 px-4">
-        <div className="max-w-11/12 mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Content */}
-            <MotionDiv
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-              className="text-center lg:text-left"
-            >
+      {/* New Hero Section */}
+      <section className="relative overflow-hidden">
+        {/* Main Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/50 via-white to-green-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-emerald-900/10" />
+        
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <MotionDiv
+            animate={{
+              rotate: [0, 360],
+              scale: [1, 1.1, 1],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            className="absolute -top-20 -right-20 w-64 h-64 bg-gradient-to-r from-emerald-200 to-green-200 dark:from-emerald-900/20 dark:to-green-900/20 rounded-full blur-3xl opacity-30"
+          />
+          <MotionDiv
+            animate={{
+              rotate: [360, 0],
+              scale: [1.1, 1, 1.1],
+            }}
+            transition={{
+              duration: 25,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            className="absolute -bottom-20 -left-20 w-80 h-80 bg-gradient-to-r from-blue-200 to-cyan-200 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-full blur-3xl opacity-30"
+          />
+        </div>
+
+        <div className="relative max-w-11/12 mx-auto px-4 py-20 lg:py-28">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Left Content */}
+            <div className="relative">
               <MotionDiv
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 shadow-sm mb-6"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7 }}
+                className="text-center lg:text-left"
               >
-                <TrendingUp className="w-4 h-4 text-emerald-500" />
-                <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                  Join 5,000+ Successful Hosts
-                </span>
-              </MotionDiv>
-
-              <h1 className="text-4xl lg:text-6xl font-bold tracking-tight mb-6">
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-green-600 dark:from-emerald-400 dark:to-green-400">
-                  Share Your Space.
-                </span>
-                <br />
-                <span className="text-gray-900 dark:text-white">
-                  Earn Extra Income.
-                </span>
-              </h1>
-
-              <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                Join EZRent and reach thousands of travelers looking for unique
-                places to stay. Start earning from your extra space today.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <MotionButton
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-2xl font-semibold text-lg hover:shadow-xl transition-all duration-300 flex items-center gap-3"
+                {/* Badge */}
+                <MotionDiv
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 shadow-sm mb-6"
                 >
-                  Start Hosting
-                  <ArrowRight className="w-5 h-5" />
-                </MotionButton>
+                  <TrendingUp className="w-4 h-4 text-emerald-500" />
+                  <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                    Join 5,000+ Successful Hosts
+                  </span>
+                </MotionDiv>
 
-                <MotionButton
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-8 py-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-2xl font-semibold text-lg hover:shadow-lg transition-all duration-300"
+                {/* Main Heading */}
+                <h1 className="text-4xl lg:text-6xl font-bold tracking-tight mb-6">
+                  <span className="text-gray-900 dark:text-white">
+                    Turn Your Space
+                  </span>
+                  <br />
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-green-600 dark:from-emerald-400 dark:to-green-400">
+                    Into Income
+                  </span>
+                </h1>
+
+                <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+                  List your property on EzRent and start earning from your extra space. 
+                  Join Bangladesh's fastest-growing hosting community today.
+                </p>
+
+                {/* Host Earnings Calculator */}
+                <MotionDiv
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-gray-200 dark:border-gray-700 mb-8"
                 >
-                  Learn More
-                </MotionButton>
-              </div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                    💰 Estimate Your Earnings
+                  </h3>
+                  <div className="grid grid-cols-3 gap-4 text-center">
+                    {[
+                      { value: "৳25K", label: "Avg Monthly" },
+                      { value: "৳3L", label: "Per Year" },
+                      { value: "4.9★", label: "Host Rating" },
+                    ].map((stat, index) => (
+                      <div key={stat.label} className="text-center">
+                        <div className="text-xl font-bold text-gray-900 dark:text-white mb-1">
+                          {stat.value}
+                        </div>
+                        <div className="text-sm text-gray-600 dark:text-gray-400">
+                          {stat.label}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </MotionDiv>
 
-              {/* Stats */}
-              <div className="flex flex-wrap gap-6 mt-12 justify-center lg:justify-start">
-                {[
-                  { value: "5,000+", label: "Active Hosts" },
-                  { value: "৳2.5Cr+", label: "Earned" },
-                  { value: "4.9★", label: "Average Rating" },
-                ].map((stat, index) => (
-                  <MotionDiv
-                    key={stat.label}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                    className="text-center"
+                {/* CTA Buttons */}
+                {/* <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
+                  <MotionButton
+                    onClick={() => setOpen(true)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-2xl font-semibold text-lg hover:shadow-xl transition-all duration-300 flex items-center gap-3"
                   >
-                    <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                      {stat.value}
-                    </div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400">
-                      {stat.label}
-                    </div>
-                  </MotionDiv>
-                ))}
-              </div>
-            </MotionDiv>
+                    Start Hosting
+                    <ArrowRight className="w-5 h-5" />
+                  </MotionButton>
 
-            {/* Hero Image */}
-            <MotionDiv
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-              className="relative"
-            >
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-                <img
-                  src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1000&auto=format&fit=crop"
-                  alt="Happy host welcoming guests"
-                  className="w-full h-[500px] object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                  <MotionButton
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-8 py-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-2xl font-semibold text-lg hover:shadow-lg transition-all duration-300"
+                  >
+                    Watch Demo
+                  </MotionButton>
+                </div> */}
 
-                {/* Floating Card */}
+                {/* Trust Features */}
+                <div className="grid grid-cols-2 gap-4 mb-8">
+                  {[
+                    { icon: <Shield className="w-5 h-5" />, text: "Secure Payments", gradient: "from-blue-500 to-cyan-500" },
+                    { icon: <Users className="w-5 h-5" />, text: "24/7 Support", gradient: "from-purple-500 to-pink-500" },
+                    { icon: <Star className="w-5 h-5" />, text: "5-Star Hosts", gradient: "from-amber-500 to-orange-500" },
+                    { icon: <Home className="w-5 h-5" />, text: "Easy Setup", gradient: "from-emerald-500 to-green-500" },
+                  ].map((feature, index) => (
+                    <MotionDiv
+                      key={feature.text}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
+                      className="flex items-center gap-3 p-3 rounded-xl bg-white/50 dark:bg-gray-800/20 backdrop-blur-sm border border-gray-200 dark:border-gray-700"
+                    >
+                      <div className={`p-2 rounded-lg bg-gradient-to-r ${feature.gradient}`}>
+                        <div className="text-white">
+                          {feature.icon}
+                        </div>
+                      </div>
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        {feature.text}
+                      </span>
+                    </MotionDiv>
+                  ))}
+                </div>
+              </MotionDiv>
+            </div>
+
+            {/* Right Content - Property Showcase */}
+            <div className="relative">
+              <MotionDiv
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.7, delay: 0.3 }}
+                className="space-y-6"
+              >
+                <div className="text-center lg:text-left mb-8">
+                  <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                    Successful Listings
+                  </h2>
+                  <p className="text-gray-600 dark:text-gray-300">
+                    See what other hosts are earning in Bangladesh
+                  </p>
+                </div>
+
+                {/* Property Cards */}
+                <div className="space-y-4">
+                  {sampleProperties.map((property, index) => (
+                    <MotionDiv
+                      key={property.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
+                      whileHover={{ scale: 1.02, y: -5 }}
+                      className="group relative"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-green-500 rounded-2xl opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500" />
+                      
+                      <div className="relative bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 overflow-hidden">
+                        <div className="flex items-center gap-4">
+                          <div className="relative flex-shrink-0">
+                            <img
+                              src={property.image}
+                              alt={property.name}
+                              className="w-20 h-20 rounded-xl object-cover shadow-md"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-green-500/20 rounded-xl" />
+                          </div>
+                          
+                          <div className="flex-1">
+                            <h3 className="font-semibold text-gray-900 dark:text-white text-lg">
+                              {property.name}
+                            </h3>
+                            <div className="flex items-center gap-1 text-gray-600 dark:text-gray-300 text-sm mb-2">
+                              <MapPin className="w-3 h-3" />
+                              {property.location}
+                            </div>
+                            
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-1">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                  <Star
+                                    key={star}
+                                    className={`w-3 h-3 ${
+                                      star <= Math.floor(property.rating) 
+                                        ? "text-amber-500 fill-current" 
+                                        : "text-gray-300"
+                                    }`}
+                                  />
+                                ))}
+                                <span className="text-sm text-gray-500 dark:text-gray-400 ml-1">
+                                  {property.rating}
+                                </span>
+                              </div>
+                              <div className="text-lg font-bold text-emerald-600 dark:text-emerald-400">
+                                {property.price}
+                                <span className="text-sm font-normal text-gray-500">/night</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </MotionDiv>
+                  ))}
+                </div>
+
+                {/* Host Success Stats */}
                 <MotionDiv
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.8 }}
-                  className="absolute bottom-6 left-6 right-6 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl p-4 shadow-lg"
+                  className="bg-gradient-to-r from-emerald-500 to-green-500 rounded-2xl p-6 text-white"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-green-500 rounded-xl flex items-center justify-center">
-                      <Star className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-gray-900 dark:text-white">
-                        Rahman from Dhaka
+                  <div className="grid grid-cols-3 gap-4 text-center">
+                    {[
+                      { value: "5,000+", label: "Active Hosts" },
+                      { value: "৳2.5Cr+", label: "Total Earned" },
+                      { value: "4.9★", label: "Avg Rating" },
+                    ].map((stat, index) => (
+                      <div key={stat.label} className="text-center">
+                        <div className="text-2xl font-bold mb-1">
+                          {stat.value}
+                        </div>
+                        <div className="text-emerald-100 text-sm">
+                          {stat.label}
+                        </div>
                       </div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400">
-                        Earned ৳4.2L in 6 months
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </MotionDiv>
-              </div>
-            </MotionDiv>
+              </MotionDiv>
+            </div>
           </div>
         </div>
       </section>
 
+      {/* Rest of your existing sections remain unchanged */}
       {/* Why Become a Host Section */}
       <section className="py-20 px-4">
         <div className="max-w-11/12 mx-auto">
@@ -362,7 +527,7 @@ const BecomeHostPage = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-20 px-4 bg-white/50 dark:bg-gray-800/50">
+      <section className="py-20 px-4 bg-white/50 dark:bg-gray-800/20">
         <div className="max-w-11/12  mx-auto">
           <MotionDiv
             initial={{ opacity: 0, y: 30 }}
@@ -798,7 +963,7 @@ const BecomeHostPage = () => {
                         </span>{" "}
                         and Community Guidelines.
                       </label>
-                      <label className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                      <label className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
                         <input
                           type="checkbox"
                           required
