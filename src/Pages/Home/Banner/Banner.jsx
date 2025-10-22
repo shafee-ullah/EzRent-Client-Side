@@ -44,7 +44,7 @@ const Banner = () => {
   }, [messages.length, backgroundImages.length]);
 
   return (
-    <section className="relative pt-20 pb-32 px-4">
+    <section className="relative pt-16 pb-20 md:pt-20 md:pb-24 lg:pt-24 lg:pb-32 px-4">
       <div className="max-w-11/12 mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
