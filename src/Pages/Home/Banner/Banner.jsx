@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FaSearch, FaUser, FaMapMarkerAlt, FaStar } from "react-icons/fa";
-import { HiOutlineCalendar } from "react-icons/hi";
 import { motion, AnimatePresence } from "framer-motion";
+import { Star, TrendingUp, ArrowRight, MapPin, Users, Shield } from "lucide-react";
+
 const MotionDiv = motion.div;
+const MotionButton = motion.button;
 
 const Banner = () => {
-
   // Background images for rotation
   const backgroundImages = [
     "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
@@ -44,139 +44,232 @@ const Banner = () => {
   }, [messages.length, backgroundImages.length]);
 
   return (
-    <div className="relative min-h-[85vh] max-w-11/12 mx-auto my-5 rounded-2xl mb-10 px-2 flex py-5 md:py-10 lg:py-20 items-center justify-center bg-cover bg-center overflow-hidden">
-      {/* Background Images with Transition */}
-      <div className="absolute inset-0 rounded-2xl overflow-hidden">
-        <AnimatePresence mode="wait">
+    <section className="relative pt-20 pb-32 px-4">
+      <div className="max-w-11/12 mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Content */}
           <MotionDiv
-            key={currentBg}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.5 }}
-            className="absolute inset-0 bg-cover bg-center"
-            style={{
-              backgroundImage: `url(${backgroundImages[currentBg]})`,
-            }}
-          />
-        </AnimatePresence>
-      </div>
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="text-center lg:text-left"
+          >
+            <MotionDiv
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 shadow-sm mb-6"
+            >
+              <TrendingUp className="w-4 h-4 text-emerald-500" />
+              <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                Trusted by 50,000+ Travelers
+              </span>
+            </MotionDiv>
 
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-black/60 via-black/40 to-black/30" />
-      <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-black/50 to-transparent" />
+            <h1 className="text-4xl lg:text-6xl font-bold tracking-tight mb-6">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-green-600 dark:from-emerald-400 dark:to-green-400">
+                Find Your Perfect
+              </span>
+              <br />
+              <span className="text-gray-900 dark:text-white">
+                Getaway
+              </span>
+            </h1>
 
-      {/* Floating Elements */}
-      <div className="absolute top-10 left-10 hidden lg:block">
-        <MotionDiv
-          initial={{ scale: 0, rotate: -180 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ delay: 0.5, type: "spring" }}
-          className="bg-white/10 backdrop-blur-md p-3 rounded-full border border-white/20"
-        >
-          <FaStar className="text-yellow-400 text-xl" />
-        </MotionDiv>
-      </div>
+            <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+              Discover unique accommodations around the world. From cozy cabins to
+              luxury villas, create unforgettable memories with EzRent.
+            </p>
 
-      <div className="absolute bottom-20 right-10 hidden lg:block">
-        <MotionDiv
-          initial={{ scale: 0, y: 100 }}
-          animate={{ scale: 1, y: 0 }}
-          transition={{ delay: 0.8, type: "spring" }}
-          className="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/20 text-white text-center"
-        >
-          <p className="text-sm">⭐ 4.8/5 Rating</p>
-          <p className="text-xs opacity-80">From 10k+ reviews</p>
-        </MotionDiv>
-      </div>
+            {/* Rotating Message Card */}
+            <MotionDiv
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+              className="mb-8"
+            >
+              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl p-4 shadow-lg">
+                <AnimatePresence mode="wait">
+                  <MotionDiv
+                    key={currentMsg}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.6 }}
+                  >
+                    <p className="text-gray-700 dark:text-gray-300 text-lg font-medium">
+                      {messages[currentMsg]}
+                    </p>
+                  </MotionDiv>
+                </AnimatePresence>
+              </div>
+            </MotionDiv>
 
-      <div className="relative z-10 flex flex-col items-center text-center text-white px-4 w-full max-w-6xl">
-        {/* Main Heading with Animation */}
-        <MotionDiv
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="mb-6"
-        >
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4">
-            Find Your Perfect{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500">
-              Getaway
-            </span>
-          </h1>
-          <p className="mt-4 mb-6 max-w-3xl text-lg md:text-xl opacity-90 mx-auto">
-            Discover unique accommodations around the world. From cozy cabins to
-            luxury villas, create unforgettable memories with EzRent.
-          </p>
-        </MotionDiv>
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
+              <MotionButton
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-2xl font-semibold text-lg hover:shadow-xl transition-all duration-300 flex items-center gap-3"
+              >
+                <Link to="/BrowseProperties" className="flex items-center gap-3">
+                  Browse Properties
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+              </MotionButton>
 
-        {/* Rotating Message Card design*/}
-        <MotionDiv
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-          className="mb-8 w-full max-w-2xl"
-        >
-          <div className="bg-white/15 border border-white/30 backdrop-blur-md shadow-2xl rounded-2xl p-4">
-            <AnimatePresence mode="wait">
+              <MotionButton
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-8 py-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-2xl font-semibold text-lg hover:shadow-lg transition-all duration-300"
+              >
+                <Link to="/become-host" className="flex items-center gap-2">
+                  Become a Host
+                  <span>🏡</span>
+                </Link>
+              </MotionButton>
+            </div>
+
+            {/* Trust Badge */}
+            <MotionDiv
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1, duration: 0.8 }}
+              className="flex flex-wrap gap-6 justify-center lg:justify-start"
+            >
+              {[
+                { icon: Shield, label: "24/7 Customer Support" },
+                { icon: Star, label: "Best Price Guarantee" },
+                { icon: MapPin, label: "Instant Confirmation" },
+              ].map((item, index) => (
+                <MotionDiv
+                  key={item.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 1.2 + index * 0.1 }}
+                  className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400"
+                >
+                  <div className="w-2 h-2 bg-emerald-500 rounded-full" />
+                  <span>{item.label}</span>
+                </MotionDiv>
+              ))}
+            </MotionDiv>
+
+            {/* Stats */}
+            <div className="flex flex-wrap gap-6 mt-12 justify-center lg:justify-start">
+              {[
+                { value: "50,000+", label: "Happy Travelers" },
+                { value: "5,000+", label: "Properties" },
+                { value: "4.9★", label: "Average Rating" },
+              ].map((stat, index) => (
+                <MotionDiv
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
+                  className="text-center"
+                >
+                  <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                    {stat.value}
+                  </div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">
+                    {stat.label}
+                  </div>
+                </MotionDiv>
+              ))}
+            </div>
+          </MotionDiv>
+
+          {/* Hero Image with Background Rotation */}
+          <MotionDiv
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="relative"
+          >
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl h-[600px]">
+              {/* Background Images with Transition */}
+              <div className="absolute inset-0 rounded-3xl overflow-hidden">
+                <AnimatePresence mode="wait">
+                  <MotionDiv
+                    key={currentBg}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1.5 }}
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{
+                      backgroundImage: `url(${backgroundImages[currentBg]})`,
+                    }}
+                  />
+                </AnimatePresence>
+              </div>
+
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-t from-black/40 via-black/20 to-transparent" />
+
+              {/* Floating Rating Card */}
               <MotionDiv
-                key={currentMsg}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.5, delay: 0.8 }}
+                className="absolute bottom-6 left-6 right-6 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl p-4 shadow-lg"
               >
-                <p className="text-white text-lg md:text-xl font-medium">
-                  {messages[currentMsg]}
-                </p>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-green-500 rounded-xl flex items-center justify-center">
+                    <Star className="w-6 h-6 text-white fill-current" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-semibold text-gray-900 dark:text-white">
+                      ⭐ 4.8/5 Rating
+                    </div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                      From 10k+ verified reviews
+                    </div>
+                  </div>
+                </div>
               </MotionDiv>
-            </AnimatePresence>
-          </div>
-        </MotionDiv>
 
+              {/* Background Dots Indicator */}
+              <div className="absolute top-6 right-6 flex items-center gap-2">
+                {backgroundImages.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setCurrentBg(i)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      i === currentBg
+                        ? "bg-white w-4"
+                        : "bg-white/50 hover:bg-white/70"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
 
-        {/* CTA Buttons */}
-        <MotionDiv
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.6 }}
-          className="flex flex-col sm:flex-row gap-4"
-        >
-          <Link
-            to="/BrowseProperties"
-            className="group bg-white text-gray-900 px-8 py-4 rounded-xl font-semibold shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 hover:bg-gray-50 flex items-center space-x-2"
-          >
-            <span>Browse Properties</span>
-            <span className="group-hover:translate-x-1 transition-transform">→</span>
-          </Link>
-          <Link to={'/become-host'} className="group bg-white/20 backdrop-blur-md text-white px-8 py-4 rounded-xl font-semibold border border-white/30 shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 hover:bg-white/30 flex items-center space-x-2">
-            <span>Become a Host</span>
-            <span className="group-hover:translate-x-1 transition-transform">🏡</span>
-          </Link>
-        </MotionDiv>
+            {/* Floating Elements */}
+            <MotionDiv
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ delay: 0.5, type: "spring" }}
+              className="absolute -top-4 -left-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-3 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg"
+            >
+              <MapPin className="text-emerald-500 w-6 h-6" />
+            </MotionDiv>
 
-        {/* Trust Badge */}
-        <MotionDiv
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1, duration: 0.8 }}
-          className="mt-8 flex flex-wrap justify-center gap-6 text-sm opacity-80"
-        >
-          <div className="flex items-center space-x-2">
-            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-            <span>24/7 Customer Support</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-            <span>Best Price Guarantee</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-            <span>Instant Confirmation</span>
-          </div>
-        </MotionDiv>
+            <MotionDiv
+              initial={{ scale: 0, y: 100 }}
+              animate={{ scale: 1, y: 0 }}
+              transition={{ delay: 0.8, type: "spring" }}
+              className="absolute -bottom-4 -right-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-4 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg text-center"
+            >
+              <Users className="w-6 h-6 text-emerald-500 mb-1 mx-auto" />
+              <p className="text-sm font-semibold text-gray-900 dark:text-white">50K+</p>
+              <p className="text-xs text-gray-600 dark:text-gray-400">Travelers</p>
+            </MotionDiv>
+          </MotionDiv>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
