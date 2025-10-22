@@ -186,7 +186,7 @@ const CheckoutForm = ({ data }) => {
               required
             />
           </div>
-
+   {/* <h1>helo</h1> */}
           <div>
             <label>Extra Options</label>
             <select
@@ -200,7 +200,6 @@ const CheckoutForm = ({ data }) => {
             </select>
           </div>
         </div>
-
         <div className="md:flex justify-center items-center">
           <button
             type="submit"
