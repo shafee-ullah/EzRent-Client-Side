@@ -43,13 +43,15 @@ const InputField = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={`w-full ${Icon ? "pl-11" : "pl-3"} ${showPasswordToggle ? "pr-10" : "pr-3"
-          } py-3 rounded-xl border bg-white/60 dark:bg-gray-700/60 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-700 focus:border-transparent transition-all ${error
+        className={`w-full ${Icon ? "pl-11" : "pl-3"} ${
+          showPasswordToggle ? "pr-10" : "pr-3"
+        } py-3 rounded-xl border bg-white/60 dark:bg-gray-700/60 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-700 focus:border-transparent transition-all ${
+          error
             ? "border-red-500"
             : success
-              ? "border-green-500"
-              : "border-gray-300 dark:border-gray-600"
-          }`}
+            ? "border-green-500"
+            : "border-gray-300 dark:border-gray-600"
+        }`}
         {...props}
       />
       {showPasswordToggle && (
@@ -197,7 +199,7 @@ const AuthPage = () => {
           role: "guest",
         };
         await axios.post(
-          "https://ez-rent-server-side-seven.vercel.app/users",
+          "https://ezrent-server-side-production.up.railway.app/users",
           userData
         );
         navigate(locations?.state || "/", {
@@ -248,7 +250,7 @@ const AuthPage = () => {
 
       // POST to backend
       await axios.post(
-        "https://ez-rent-server-side-seven.vercel.app/users",
+        "https://ezrent-server-side-production.up.railway.app/users",
         userData
       );
       navigate(locations?.state || "/", {
@@ -321,19 +323,21 @@ const AuthPage = () => {
         <div className="flex justify-center mt-6 mb-8">
           <button
             onClick={() => setIsLogin(true)}
-            className={`px-6 py-2 rounded-l-xl font-medium transition-all ${isLogin
-              ? "bg-green-700 text-white shadow-md"
-              : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
-              }`}
+            className={`px-6 py-2 rounded-l-xl font-medium transition-all ${
+              isLogin
+                ? "bg-green-700 text-white shadow-md"
+                : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
+            }`}
           >
             Sign In
           </button>
           <button
             onClick={() => setIsLogin(false)}
-            className={`px-6 py-2 rounded-r-xl font-medium transition-all ${!isLogin
-              ? "bg-green-700 text-white shadow-md"
-              : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
-              }`}
+            className={`px-6 py-2 rounded-r-xl font-medium transition-all ${
+              !isLogin
+                ? "bg-green-700 text-white shadow-md"
+                : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
+            }`}
           >
             Register
           </button>
@@ -461,8 +465,8 @@ const AuthPage = () => {
                 ? "Signing In..."
                 : "Registering..."
               : isLogin
-                ? "Sign In"
-                : "Register"}
+              ? "Sign In"
+              : "Register"}
           </motion.button>
         </form>
 

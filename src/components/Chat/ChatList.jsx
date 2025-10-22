@@ -14,7 +14,6 @@ import {
   setCurrentConversation,
   openChat,
   clearError,
-  addMessage,
 } from "../../redux/chatSlice";
 import socketService from "../../services/socketService";
 
@@ -42,23 +41,23 @@ const ChatList = ({ onSelectConversation, onCreateNewChat }) => {
   // Listen for new messages and update conversations
   useEffect(() => {
     if (user?._id) {
-      // Set up socket listener for new messages
-      socketService.getSocket()?.on("new-message", (message) => {
-        // Update the conversation list when a new message is received
-        dispatch(
-          addMessage({
-            conversationId: message.conversationId,
-            message: message,
-          })
-        );
-
-        // Refresh conversations to update the UI
+      const handleNewMessageForList = (message) => {
+        console.log("📩 New message in conversation list:", message);
+        // Refresh conversations to update lastMessage and move to top
         dispatch(fetchConversations(user._id));
-      });
+      };
+
+      // Set up socket listener for new messages
+      const socket = socketService.getSocket();
+      if (socket) {
+        socket.on("new-message", handleNewMessageForList);
+      }
 
       return () => {
         // Clean up listener when component unmounts
-        socketService.getSocket()?.off("new-message");
+        if (socket) {
+          socket.off("new-message", handleNewMessageForList);
+        }
       };
     }
   }, [dispatch, user?._id]);

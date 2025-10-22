@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
 
-const API_URL = "https://ez-rent-server-side-seven.vercel.app/users";
+const API_URL = "https://ezrent-server-side-production.up.railway.app/users";
 
 // Fetch all users
 export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
@@ -81,9 +81,7 @@ const userSlice = createSlice({
       // Update role
       .addCase(updateUserRole.fulfilled, (state, action) => {
         const { id, role } = action.payload;
-        state.list = state.list.map((u) =>
-          u._id === id ? { ...u, role } : u
-        );
+        state.list = state.list.map((u) => (u._id === id ? { ...u, role } : u));
       })
 
       // Delete user

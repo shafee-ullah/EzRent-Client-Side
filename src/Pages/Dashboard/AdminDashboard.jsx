@@ -185,10 +185,10 @@ const AdminDashboard = () => {
       //   return <BookingManagementSection />;
       case "payments":
         return <PaymentsSection formatCurrency={formatCurrency} />;
-      // case "reviews":
-      //   return <ReviewsModerationSection />;
       case "reviews":
-        return <ReviewsSection />;
+        return <ReviewsModerationSection />;
+      // case "reviews":
+      //   return <ReviewsSection />;
       case "analytics":
         return <AnalyticsSection formatCurrency={formatCurrency} />;
       case "profile":

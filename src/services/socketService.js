@@ -21,12 +21,11 @@ class SocketService {
       return this.socket;
     }
 
-    this.socket = io("https://ez-rent-server-side-seven.vercel.app", {
+    this.socket = io("https://ezrent-server-side-production.up.railway.app", {
       transports: ["websocket", "polling"],
       timeout: 20000,
       forceNew: true,
     });
-
 
     // Socket is managed locally in this service
 

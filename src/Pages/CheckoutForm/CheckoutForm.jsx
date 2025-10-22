@@ -1,4 +1,3 @@
-
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -28,7 +27,7 @@ const CheckoutForm = ({ data }) => {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/checkBooking?roomId=${data._id}&checkIn=${checkIn}&checkOut=${checkOut}`
+        `https://ezrent-server-side-production.up.railway.app/checkBooking?roomId=${data._id}&checkIn=${checkIn}&checkOut=${checkOut}`
       );
       const result = await res.json();
 
@@ -83,7 +82,7 @@ const CheckoutForm = ({ data }) => {
       title: data.name,
     };
 
-    fetch("https://ez-rent-server-side.vercel.app/bookinghotel", {
+    fetch("https://ezrent-server-side-production.up.railway.app/bookinghotel", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(Bookingdata),
