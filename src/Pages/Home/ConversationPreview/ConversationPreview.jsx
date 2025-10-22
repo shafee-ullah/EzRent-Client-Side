@@ -70,7 +70,7 @@ const ConversationPreview = () => {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.8 }}
-      className="relative max-w-6xl mx-auto px-4 py-16 lg:py-20"
+      className="relative max-w-7xl mx-auto px-4 py-16 lg:py-20"
     >
       {/* Main Background Gradient */}
       <div className="absolute inset-0  -z-10 rounded-3xl" />
@@ -376,10 +376,10 @@ const ConversationPreview = () => {
             </MotionDiv>
           </div>
 
-          <div className="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mt-6 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm px-4 py-2 rounded-2xl border border-gray-200 dark:border-gray-700">
+          {/* <div className="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mt-6 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm px-4 py-2 rounded-2xl border border-gray-200 dark:border-gray-700">
             <Zap className="w-4 h-4 text-amber-500" />
             <span>Instant responses • 24/7 available • No waiting</span>
-          </div>
+          </div> */}
         </MotionDiv>
       </div>
     </MotionSection>

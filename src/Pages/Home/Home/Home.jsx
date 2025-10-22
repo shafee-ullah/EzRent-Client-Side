@@ -12,23 +12,22 @@ import EzRentChatbot from "../../../Components/Chatbot/EzRentChatbot.jsx";
 import AIAssistantSection from "../AIAssistantSection/AIAssistantSection.jsx";
 import ConversationPreview from "../ConversationPreview/ConversationPreview.jsx";
 
-
 // import JourneySection from '../JourneySection/JourneySection';
 const Home = () => {
   return (
     <div className="">
       <Banner></Banner>
       <FeaturedPropertiesCard></FeaturedPropertiesCard>
-      <PopularDestinations></PopularDestinations>      
+      <PopularDestinations></PopularDestinations>
       <HowItWorks></HowItWorks>
-      <WhyChooseUs></WhyChooseUs>
       <Testimonials></Testimonials>
+      <WhyChooseUs></WhyChooseUs>
       {/* <AIAssistantSection></AIAssistantSection> */}
       <ConversationPreview></ConversationPreview>
-      <BlogSection></BlogSection> 
-      <GuestExperienceSection></GuestExperienceSection>  
+      <GuestExperienceSection></GuestExperienceSection>
+      <BlogSection></BlogSection>
       <Newsletter></Newsletter>
-      <EzRentChatbot></EzRentChatbot>    
+      <EzRentChatbot></EzRentChatbot>
     </div>
   );
 };
