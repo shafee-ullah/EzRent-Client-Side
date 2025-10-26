@@ -125,11 +125,10 @@ const BookingsSection = () => {
                   {/* Right Side: Details */}
                   <div className="flex-grow p-1 relative">
                     <span
-                      className={`absolute top-0 right-0 px-3 py-1 text-sm font-medium rounded-full ${
-                        booking.status === "confirmed"
+                      className={`absolute top-0 right-0 px-3 py-1 text-sm font-medium rounded-full ${booking.status === "confirmed"
                           ? "bg-green-100 text-green-700"
                           : "bg-yellow-100 text-yellow-700"
-                      }`}
+                        }`}
                     >
                       {booking.status}
                     </span>
@@ -185,6 +184,7 @@ const BookingsSection = () => {
                       >
                         Cancel Booking
                       </button>
+                      {/* <button className="px-4 py-2 bg-white  text-gray-700 border border-gray-300 font-medium rounded-lg hover:bg-gray-50 transition duration-150 flex items-center">
                       {/* <button className="px-4 py-2 bg-white  text-gray-700 border border-gray-300 font-medium rounded-lg hover:bg-gray-50 transition duration-150 flex items-center">
                         <svg
                           className="w-5 h-5 mr-1"

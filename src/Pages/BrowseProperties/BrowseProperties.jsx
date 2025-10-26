@@ -167,7 +167,7 @@ const BrowseProperties = () => {
 
     return (
       p.propertystatus === "active" && 
-      p.status ==="avaliable" &&
+      
       matchesPrice &&
       matchesCategory &&
       matchesSearch &&

@@ -19,24 +19,30 @@ import {
 } from "recharts";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTotalBookings } from "../../../../redux/bookingStateSlice";
-import { selectAllPayments } from "../../../../redux/paymentSlice";
+import { fetchAllPayments, selectAllPayments } from "../../../../redux/paymentSlice";
 import Loading from "../../../../components/Loading";
+import { fetchUsers } from "../../../../redux/UserSlice";
 
 const MotionDiv = motion.div;
 
 const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
   // Redux state selectors
-  const { users } = useSelector((state) => state.users);
+  const { list: users, } = useSelector((state) => state.users);
   const { items } = useSelector((state) => state.products);
   const { totalBookings, loading, error } = useSelector((state) => state.bookingStats);
   const allPayments = useSelector(selectAllPayments);
+
+  console.log("total users", users)
 
   const dispatch = useDispatch();
 
   // Fetch total bookings on component mount
   useEffect(() => {
     dispatch(fetchTotalBookings());
+    dispatch(fetchAllPayments());
+    dispatch(fetchUsers());
   }, [dispatch]);
+
 
   // Calculate platform revenue from payments
   const { platformRevenue } = useMemo(() => {
@@ -223,8 +229,8 @@ const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
                 <div
                   key={alert.id}
                   className={`p-4 rounded-xl border ${alert.severity === "high"
-                      ? "bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-800"
-                      : "bg-amber-50 border-amber-200 dark:bg-amber-900/20 dark:border-amber-800"
+                    ? "bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-800"
+                    : "bg-amber-50 border-amber-200 dark:bg-amber-900/20 dark:border-amber-800"
                     }`}
                 >
                   <div className="flex items-start justify-between">
@@ -238,8 +244,8 @@ const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
                     </div>
                     <span
                       className={`px-2 py-1 rounded-full text-xs font-medium ${alert.severity === "high"
-                          ? "bg-red-500 text-white"
-                          : "bg-amber-500 text-white"
+                        ? "bg-red-500 text-white"
+                        : "bg-amber-500 text-white"
                         }`}
                     >
                       {alert.severity}
@@ -279,10 +285,10 @@ const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
                   >
                     <div
                       className={`h-2 rounded-full ${metric.status === "excellent"
-                          ? "bg-emerald-500"
-                          : metric.status === "good"
-                            ? "bg-green-500"
-                            : "bg-amber-500"
+                        ? "bg-emerald-500"
+                        : metric.status === "good"
+                          ? "bg-green-500"
+                          : "bg-amber-500"
                         }`}
                       style={{
                         width: metric.status === "excellent" ? "100%" : "85%",

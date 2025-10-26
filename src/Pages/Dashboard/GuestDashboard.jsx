@@ -174,8 +174,8 @@ const GuestDashboard = () => {
     switch (activeSection) {
       case "overview":
         return <OverviewSection data={guestData} />;
-      case "search":
-        return <SearchSection />;
+      // case "search":
+      //   return <SearchSection />;
       case "bookings":
         return <BookingsSection data={guestData} />;
       case "wishlist":

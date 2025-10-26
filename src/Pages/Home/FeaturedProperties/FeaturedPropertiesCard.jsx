@@ -4,9 +4,14 @@ import { FaStar } from "react-icons/fa";
 import { IoMdContacts } from "react-icons/io";
 import { AiFillHeart } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchlimit, addToWishlist, removeFromWishlist, fetchWishlist } from "../../../redux/PropertieSlice";
+import {
+  fetchlimit,
+  addToWishlist,
+  removeFromWishlist,
+  fetchWishlist,
+} from "../../../redux/PropertieSlice";
 import { MdCategory } from "react-icons/md";
 import { AuthContext } from "../../../Context/AuthContext";
 import Swal from "sweetalert2";
@@ -35,8 +40,9 @@ const CardLoading = () => (
 const FeaturedPropertiesCard = () => {
   const dispatch = useDispatch();
   const { user } = useContext(AuthContext);
-
-  const { featuredItems, loading, error, wishlist } = useSelector(state => state.products);
+  const { featuredItems, loading, error, wishlist } = useSelector(
+    (state) => state.products
+  );
 
   const [expanded, setExpanded] = useState(null);
 
@@ -60,27 +66,27 @@ const FeaturedPropertiesCard = () => {
       });
     }
 
-    const isInWishlist = wishlist?.some(w => w.propertyId === property._id);
+    const isInWishlist = wishlist?.some((w) => w.propertyId === property._id);
 
     if (isInWishlist) {
       dispatch(removeFromWishlist({ propertyId: property._id, email: user.email }))
         .unwrap()
-        .then(() => Swal.fire({
-          title: "Removed!",
-          text: "Property removed from wishlist",
-          icon: "success",
-          confirmButtonColor: "#10b981",
-          background: "rgba(255, 255, 255, 0.8)",
-          customClass: { popup: "backdrop-blur-sm rounded-3xl" },
-        }))
-        .catch(() => Swal.fire({
-          title: "Error",
-          text: "Failed to remove from wishlist",
-          icon: "error",
-          confirmButtonColor: "#ef4444",
-          background: "rgba(255, 255, 255, 0.8)",
-          customClass: { popup: "backdrop-blur-sm rounded-3xl" },
-        }));
+        .then(() =>
+          Swal.fire({
+            title: "Removed!",
+            text: "Property removed from wishlist",
+            icon: "success",
+            confirmButtonColor: "#10b981",
+          })
+        )
+        .catch(() =>
+          Swal.fire({
+            title: "Error",
+            text: "Failed to remove from wishlist",
+            icon: "error",
+            confirmButtonColor: "#ef4444",
+          })
+        );
     } else {
       const wishlistPayload = {
         email: user.email,
@@ -93,58 +99,84 @@ const FeaturedPropertiesCard = () => {
 
       dispatch(addToWishlist(wishlistPayload))
         .unwrap()
-        .then(() => Swal.fire({
-          title: "Saved!",
-          text: "Property added to wishlist",
-          icon: "success",
-          confirmButtonColor: "#10b981",
-          background: "rgba(255, 255, 255, 0.8)",
-          customClass: { popup: "backdrop-blur-sm rounded-3xl" },
-        }))
-        .catch(() => Swal.fire({
-          title: "Error",
-          text: "Already added to wishlist",
-          icon: "error",
-          confirmButtonColor: "#ef4444",
-          background: "rgba(255, 255, 255, 0.8)",
-          customClass: { popup: "backdrop-blur-sm rounded-3xl" },
-        }));
+        .then(() =>
+          Swal.fire({
+            title: "Saved!",
+            text: "Property added to wishlist",
+            icon: "success",
+            confirmButtonColor: "#10b981",
+          })
+        )
+        .catch(() =>
+          Swal.fire({
+            title: "Error",
+            text: "Already added to wishlist",
+            icon: "error",
+            confirmButtonColor: "#ef4444",
+          })
+        );
     }
   };
 
-  if (loading) return <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12 px-4 md:px-14">{Array.from({ length: 8 }).map((_, i) => <CardLoading key={i} />)}</div>;
+  if (loading)
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12 px-4 md:px-14">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <CardLoading key={i} />
+        ))}
+      </div>
+    );
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="relative  px-4 py-16 lg:py-16">
+    <div className="relative px-4 py-16 lg:py-16">
       <div className="flex flex-col items-center px-4">
-        <MotionDiv initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }}>
+        <MotionDiv
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
           <h2 className="text-4xl lg:text-5xl font-bold tracking-tight mb-4">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 dark:from-emerald-400 dark:via-green-400 dark:to-teal-400">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600">
               Featured Properties
             </span>
           </h2>
-          <MotionDiv initial={{ width: 0 }} whileInView={{ width: 120 }} transition={{ duration: 0.8, delay: 0.3 }} className="h-1.5 bg-gradient-to-r from-emerald-400 to-green-600 rounded-full mx-auto mb-4" />
+          <MotionDiv
+            initial={{ width: 0 }}
+            whileInView={{ width: 120 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="h-1.5 bg-gradient-to-r from-emerald-400 to-green-600 rounded-full mx-auto mb-4"
+          />
         </MotionDiv>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12 px-4 md:px-14">
-        {featuredItems?.map((property,index ) => {
-          const isInWishlist = wishlist?.some(w => w.propertyId === property._id);
+        {featuredItems?.map((property, index) => {
+          const isInWishlist = wishlist?.some(
+            (w) => w.propertyId === property._id
+          );
+          const isExpanded = expanded === property._id;
 
           return (
             <motion.div
               key={property._id}
-              initial={{ opacity: 0,}}
-               whileInView={{ opacity: 1 }}
-               viewport={{ once: true, amount: 0.3 }}
-              animate={{ opacity: 1, y: 1 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.15, duration: 0.5 }}
-              className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all backdrop-blur-sm bg-white/80 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700 flex flex-col h-full"
+              className={`relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all backdrop-blur-sm bg-white/80 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700 flex flex-col ${
+                isExpanded ? "scale-[1.05] z-10" : "scale-100"
+              }`}
             >
               {/* Image */}
               <div className="relative">
-                <img src={property.image} alt={property.name} className="w-full h-44 object-cover rounded-t-2xl transition-transform duration-500 group-hover:scale-105" />
+                <img
+                  src={property.image}
+                  alt={property.name}
+                  className="w-full h-44 object-cover rounded-t-2xl transition-transform duration-500 group-hover:scale-105"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-black/5 to-transparent" />
 
                 {/* Wishlist */}
@@ -154,7 +186,11 @@ const FeaturedPropertiesCard = () => {
                 >
                   <AiFillHeart
                     size={20}
-                    className={isInWishlist ? "text-red-500" : "text-gray-600 dark:text-gray-400"}
+                    className={
+                      isInWishlist
+                        ? "text-red-500"
+                        : "text-gray-600 dark:text-gray-400"
+                    }
                   />
                 </button>
 
@@ -165,7 +201,10 @@ const FeaturedPropertiesCard = () => {
               </div>
 
               {/* Card Content */}
-              <div className="p-4 flex flex-col justify-between flex-grow bg-white dark:bg-gray-900 rounded-b-2xl">
+              <motion.div
+                layout
+                className="p-4 flex flex-col justify-between flex-grow bg-white dark:bg-gray-900 rounded-b-2xl transition-all duration-500"
+              >
                 <div>
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-1 font-medium text-gray-600 text-sm">
@@ -181,17 +220,30 @@ const FeaturedPropertiesCard = () => {
                     {property.name}
                   </h1>
 
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                    {expanded === property._id ? property.description : `${property.description?.slice(0, 65)}...`}
-                    {property.description?.length > 65 && (
-                      <button
-                        onClick={() => setExpanded(expanded === property._id ? null : property._id)}
-                        className="text-[var(--btn-primary)] ml-2 hover:underline text-sm"
-                      >
-                        {expanded === property._id ? "Show less" : "Read more"}
-                      </button>
-                    )}
-                  </p>
+                  <AnimatePresence>
+                    <motion.p
+                      key={isExpanded ? "expanded" : "collapsed"}
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="text-sm text-gray-600 dark:text-gray-400 mt-1 overflow-hidden"
+                    >
+                      {isExpanded
+                        ? property.description
+                        : `${property.description?.slice(0, 65)}...`}
+                      {property.description?.length > 65 && (
+                        <button
+                          onClick={() =>
+                            setExpanded(isExpanded ? null : property._id)
+                          }
+                          className="text-[var(--btn-primary)] ml-2 hover:underline text-sm"
+                        >
+                          {isExpanded ? "Show less" : "Read more"}
+                        </button>
+                      )}
+                    </motion.p>
+                  </AnimatePresence>
 
                   <div className="flex justify-between mt-3">
                     <div className="flex items-center gap-2 text-gray-700 text-sm dark:text-white">
@@ -210,7 +262,7 @@ const FeaturedPropertiesCard = () => {
                     <CiCalendar size={18} /> Quick Book
                   </button>
                 </Link>
-              </div>
+              </motion.div>
             </motion.div>
           );
         })}

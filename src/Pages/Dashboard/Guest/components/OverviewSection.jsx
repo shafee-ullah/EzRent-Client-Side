@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { AuthContext } from "../../../../Context/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMyBooking } from "../../../../redux/PropertieSlice";
+import { fetchMyBooking, fetchWishlist } from "../../../../redux/PropertieSlice";
 import { MdHotel } from "react-icons/md";
 import { Link } from "react-router";
 
@@ -32,6 +32,7 @@ const OverviewSection = ({ data }) => {
   useEffect(() => {
     if (user?.email) {
       dispatch(fetchMyBooking(user.email));
+      dispatch(fetchWishlist(user.email));
     }
   }, [dispatch, user?.email]);
 
