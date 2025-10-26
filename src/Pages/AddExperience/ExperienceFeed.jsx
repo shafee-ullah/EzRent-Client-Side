@@ -217,11 +217,11 @@ export default function ExperienceFeed() {
   };
 
   const handleDelete = async (id) => {
-    const currentUser = JSON.parse(
-      localStorage.getItem("currentUser") || "null"
-    );
-    if (!currentUser || !currentUser.email) {
-      toast.error("You must provide the same email used to post to delete");
+    // Use the same email source as currentUserEmail
+    const emailToUse = user?.email || JSON.parse(localStorage.getItem("currentUser") || "null")?.email;
+    
+    if (!emailToUse) {
+      toast.error("You must be logged in to delete");
       return;
     }
 
@@ -249,7 +249,7 @@ export default function ExperienceFeed() {
       if (result.isConfirmed) {
         try {
           await dispatch(
-            removeExperience({ id, payload: { email: currentUser.email } })
+            removeExperience({ id, payload: { email: emailToUse } })
           ).unwrap();
 
           Swal.fire({

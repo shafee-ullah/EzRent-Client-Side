@@ -189,7 +189,7 @@ const HostDashboard = () => {
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-BD", {
       style: "currency",
-      currency: "BDT",
+      currency: "USD",
       minimumFractionDigits: 0,
     }).format(amount);
   };

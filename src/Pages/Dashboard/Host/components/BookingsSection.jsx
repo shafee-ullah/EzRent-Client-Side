@@ -39,10 +39,10 @@ const {bookings,loading,error}=useSelector((state)=>state.products)
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
           Bookings
         </h2>
-        <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl font-medium hover:shadow-md transition-all duration-300">
+        {/* <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl font-medium hover:shadow-md transition-all duration-300">
           <Calendar className="w-4 h-4" />
           Calendar View
-        </button>
+        </button> */}
       </div>
 
       {/* Table */}

@@ -107,7 +107,7 @@ const WishlistSection = () => {
                   <div className="flex items-center justify-between">
                     <div>
                       <span className="text-lg font-bold text-gray-900 dark:text-white">
-                        ৳{item.price}
+                        ${item.price}
                       </span>
                       <span className="text-gray-500 dark:text-gray-400 text-sm">
                         /night

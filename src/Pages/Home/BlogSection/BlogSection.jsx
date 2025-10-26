@@ -263,7 +263,7 @@ const BlogCard = ({ post, index, onReadMore }) => {
 
       {/* Content */}
       <div className="p-6">
-        <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
+        {/* <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
           <div className="flex items-center gap-1">
             <Calendar className="w-4 h-4" />
             {post.date}
@@ -272,7 +272,7 @@ const BlogCard = ({ post, index, onReadMore }) => {
             <Clock className="w-4 h-4" />
             {post.readTime}
           </div>
-        </div>
+        </div> */}
 
         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
           {post.title}

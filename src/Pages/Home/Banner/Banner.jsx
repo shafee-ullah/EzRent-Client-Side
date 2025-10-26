@@ -18,7 +18,7 @@ const Banner = () => {
 
   // Rotating messages
   const messages = [
-    "✨ Book early & get up to 30% OFF on your next trip!",
+    // "✨ Book early & get up to 30% OFF on your next trip!",
     "🌍 Explore top destinations around the world today.",
     "🏡 Become a host & start earning with your property.",
     "🎉 Exclusive deals for first-time travelers!",
@@ -62,7 +62,7 @@ const Banner = () => {
             >
               <TrendingUp className="w-4 h-4 text-emerald-500" />
               <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                Trusted by 50,000+ Travelers
+                Trusted by 5000+ Travelers
               </span>
             </MotionDiv>
 
@@ -158,9 +158,9 @@ const Banner = () => {
             {/* Stats */}
             <div className="flex flex-wrap gap-6 mt-12 justify-center lg:justify-start">
               {[
-                { value: "50,000+", label: "Happy Travelers" },
-                { value: "5,000+", label: "Properties" },
-                { value: "4.9★", label: "Average Rating" },
+                { value: "5000+", label: "Happy Travelers" },
+                { value: "1200+", label: "Properties" },
+                { value: "4.8★", label: "Average Rating" },
               ].map((stat, index) => (
                 <MotionDiv
                   key={stat.label}
@@ -224,7 +224,7 @@ const Banner = () => {
                       ⭐ 4.8/5 Rating
                     </div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">
-                      From 10k+ verified reviews
+                      From 1k+ verified reviews
                     </div>
                   </div>
                 </div>
@@ -263,7 +263,7 @@ const Banner = () => {
               className="absolute -bottom-4 -right-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-4 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg text-center"
             >
               <Users className="w-6 h-6 text-emerald-500 mb-1 mx-auto" />
-              <p className="text-sm font-semibold text-gray-900 dark:text-white">50K+</p>
+              <p className="text-sm font-semibold text-gray-900 dark:text-white">5K+</p>
               <p className="text-xs text-gray-600 dark:text-gray-400">Travelers</p>
             </MotionDiv>
           </MotionDiv>

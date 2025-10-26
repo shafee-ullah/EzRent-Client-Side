@@ -1,8 +1,7 @@
-
 import { useSelector, useDispatch } from "react-redux";
 import { motion } from "framer-motion";
 import { Users, Home } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   fetchmanageproperty,
   updatePropertyStatusAdmin,
@@ -15,7 +14,8 @@ const MotionDiv = motion.div;
 const PropertyManagementSection = () => {
   const dispatch = useDispatch();
   const { items: properties, loading } = useSelector((state) => state.products);
- console.log(properties)
+  const [updatingPropertyId, setUpdatingPropertyId] = useState(null);
+
   // Filter only active properties fcdfds
   // const activeProperties = properties.filter((p) => p.status === "avaliable");
 
@@ -37,27 +37,29 @@ const PropertyManagementSection = () => {
 
   // ✅ Handle Accept / Remove button (Instant UI update)
   const handleUpdateStatus = async (id, newStatus) => {
+    setUpdatingPropertyId(id);
     const toastId = toast.loading("Updating property status...");
 
-    // 🔹 Instant UI Update
-    const updatedList = properties.map((p) =>
-      p._id === id ? { ...p, propertystatus: newStatus } : p
-    );
-    dispatch({ type: "products/setItems", payload: updatedList });
-
     try {
+      // 🔹 Update via API and let Redux handle the state update
       await dispatch(updatePropertyStatusAdmin({ id, propertystatus: newStatus })).unwrap();
+      
+      // 🔹 Force a fresh fetch to ensure UI is in sync
+      await dispatch(fetchmanageproperty());
+      
       toast.dismiss(toastId);
       toast.success(
         newStatus === "active"
           ? "Property activated successfully ✅"
           : "Property removed successfully ❌"
       );
-    } catch {
+    } catch (error) {
       toast.dismiss(toastId);
       toast.error("Failed to update status 😢");
-      // 🔹 Rollback if API fails
+      // 🔹 Rollback by fetching fresh data
       dispatch(fetchmanageproperty());
+    } finally {
+      setUpdatingPropertyId(null);
     }
   };
 
@@ -134,28 +136,37 @@ const PropertyManagementSection = () => {
                   </span>
                 </div>
 
+                {/* ✅ Loading Overlay */}
+                {updatingPropertyId === property._id && (
+                  <div className="absolute inset-0 bg-white/80 dark:bg-gray-900/80 flex items-center justify-center rounded-2xl">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500"></div>
+                  </div>
+                )}
+
                 {/* ✅ Instant Dynamic Buttons */}
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => handleUpdateStatus(property._id, "active")}
+                    disabled={updatingPropertyId === property._id}
                     className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${
                       property.propertystatus === "active"
                         ? "bg-green-600 text-white hover:bg-green-700"
                         : "bg-green-100 text-green-700 hover:bg-green-200"
-                    }`}
+                    } disabled:opacity-50 disabled:cursor-not-allowed`}
                   >
-                    Accept
+                    {property.propertystatus === "active" ? "Accepted" : "Accept"}
                   </button>
 
                   <button
                     onClick={() => handleUpdateStatus(property._id, "removed")}
+                    disabled={updatingPropertyId === property._id}
                     className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${
                       property.propertystatus === "removed"
                         ? "bg-red-600 text-white hover:bg-red-700"
                         : "bg-red-100 text-red-700 hover:bg-red-200"
-                    }`}
+                    } disabled:opacity-50 disabled:cursor-not-allowed`}
                   >
-                    Remove
+                    {property.propertystatus === "removed" ? "Removed" : "Remove"}
                   </button>
                 </div>
               </div>

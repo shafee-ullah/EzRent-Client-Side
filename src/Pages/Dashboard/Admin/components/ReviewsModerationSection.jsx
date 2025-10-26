@@ -220,7 +220,7 @@ const ReviewsModerationSection = () => {
                 {isLoading === 'rejecting' ? "Rejecting..." : "Reject"}
               </motion.button>
 
-              <motion.button
+              {/* <motion.button
                 onClick={() => handleFlag(_id)}
                 disabled={isLoading}
                 whileHover={!isLoading ? { scale: 1.05 } : {}}
@@ -236,7 +236,7 @@ const ReviewsModerationSection = () => {
                   <Flag className="w-4 h-4" />
                 )}
                 {isLoading === 'flagging' ? "Flagging..." : "Flag"}
-              </motion.button>
+              </motion.button> */}
             </div>
           </div>
         </div>
@@ -288,7 +288,7 @@ const ReviewsModerationSection = () => {
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-green-600 dark:from-emerald-400 dark:to-green-400 mb-2">
+              <h2 className="text-3xl font-bold bg-clip-text  text-black dark:text-white mb-2">
                 Content Moderation
               </h2>
               <p className="text-gray-600 dark:text-gray-400 text-lg">

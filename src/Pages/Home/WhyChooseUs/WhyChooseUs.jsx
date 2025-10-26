@@ -199,7 +199,7 @@ const WhyChooseUs = () => {
             ))}
           </div>
           <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-            Trusted by 50,000+ Travelers
+            Trusted by 5000+ Travelers
           </span>
         </MotionDiv>
 
