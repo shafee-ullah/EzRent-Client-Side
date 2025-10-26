@@ -146,11 +146,11 @@ const GuestDashboard = () => {
 
   const navigationItems = [
     { id: "overview", label: "Overview", icon: <User className="w-5 h-5" /> },
-    {
-      id: "search",
-      label: "Search & Browse",
-      icon: <Search className="w-5 h-5" />,
-    },
+    // {
+    //   id: "search",
+    //   label: "Search & Browse",
+    //   icon: <Search className="w-5 h-5" />,
+    // },
     {
       id: "bookings",
       label: "My Bookings",

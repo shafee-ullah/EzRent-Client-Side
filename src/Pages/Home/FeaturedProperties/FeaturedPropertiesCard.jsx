@@ -206,7 +206,7 @@ const FeaturedPropertiesCard = () => {
                 </div>
 
                 <Link to={`/FeaturepropertiesDitels/${property._id}`} className="mt-4">
-                  <button className="w-full py-2.5 flex justify-center items-center gap-2 rounded-full font-semibold bg-gradient-to-r from-emerald-500 to-green-500 text-white hover:brightness-110 transition">
+                  <button className="w-full py-2.5 flex justify-center items-center gap-2 rounded-2xl font-semibold bg-gradient-to-r from-emerald-500 to-green-500 text-white hover:brightness-110 transition">
                     <CiCalendar size={18} /> Quick Book
                   </button>
                 </Link>

@@ -18,10 +18,10 @@ const Home = () => {
     <div className="">
       <Banner></Banner>
       <FeaturedPropertiesCard></FeaturedPropertiesCard>
-      <PopularDestinations></PopularDestinations>
       <HowItWorks></HowItWorks>
       <Testimonials></Testimonials>
       <WhyChooseUs></WhyChooseUs>
+      <PopularDestinations></PopularDestinations>
       {/* <AIAssistantSection></AIAssistantSection> */}
       <ConversationPreview></ConversationPreview>
       <GuestExperienceSection></GuestExperienceSection>
