@@ -43,15 +43,13 @@ const InputField = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={`w-full ${Icon ? "pl-11" : "pl-3"} ${
-          showPasswordToggle ? "pr-10" : "pr-3"
-        } py-3 rounded-xl border bg-white/60 dark:bg-gray-700/60 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-700 focus:border-transparent transition-all ${
-          error
+        className={`w-full ${Icon ? "pl-11" : "pl-3"} ${showPasswordToggle ? "pr-10" : "pr-3"
+          } py-3 rounded-xl border bg-white/60 dark:bg-gray-700/60 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-700 focus:border-transparent transition-all ${error
             ? "border-red-500"
             : success
-            ? "border-green-500"
-            : "border-gray-300 dark:border-gray-600"
-        }`}
+              ? "border-green-500"
+              : "border-gray-300 dark:border-gray-600"
+          }`}
         {...props}
       />
       {showPasswordToggle && (
@@ -323,21 +321,19 @@ const AuthPage = () => {
         <div className="flex justify-center mt-6 mb-8">
           <button
             onClick={() => setIsLogin(true)}
-            className={`px-6 py-2 rounded-l-xl font-medium transition-all ${
-              isLogin
+            className={`px-6 py-2 rounded-l-xl font-medium transition-all ${isLogin
                 ? "bg-green-700 text-white shadow-md"
                 : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
-            }`}
+              }`}
           >
             Sign In
           </button>
           <button
             onClick={() => setIsLogin(false)}
-            className={`px-6 py-2 rounded-r-xl font-medium transition-all ${
-              !isLogin
+            className={`px-6 py-2 rounded-r-xl font-medium transition-all ${!isLogin
                 ? "bg-green-700 text-white shadow-md"
                 : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
-            }`}
+              }`}
           >
             Register
           </button>
@@ -351,7 +347,7 @@ const AuthPage = () => {
               exit={{ opacity: 0 }}
               className="mb-4 p-3 rounded-xl bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 flex items-center"
             >
-              <AlertCircle className="h-5 w-5 mr-2" /> {errors.general}
+              <AlertCircle className="h-5 w-5 mr-2" /> {"Invalid email or password. Please try again."}
             </motion.div>
           )}
         </AnimatePresence>
@@ -465,8 +461,8 @@ const AuthPage = () => {
                 ? "Signing In..."
                 : "Registering..."
               : isLogin
-              ? "Sign In"
-              : "Register"}
+                ? "Sign In"
+                : "Register"}
           </motion.button>
         </form>
 

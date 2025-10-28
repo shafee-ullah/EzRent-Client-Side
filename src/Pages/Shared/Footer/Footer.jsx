@@ -45,8 +45,8 @@ const Footer = () => {
     { name: "Browse Properties", path: "/BrowseProperties" },
     { name: "Become A Host", path: "/become-host" },
     { name: "About EzRent", path: "/about" },
-    { name: "Contact Us", path: "/contact" },
-    { name: "Privacy Policy", path: "/privacy" }
+    // { name: "Contact Us", path: "/contact" },
+    // { name: "Privacy Policy", path: "/privacy" }
   ];
 
   return (

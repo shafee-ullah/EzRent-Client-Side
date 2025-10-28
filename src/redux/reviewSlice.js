@@ -72,7 +72,7 @@ export const getAllReviews = createAsyncThunk(
   "reviews/getAllReviews",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/allReview`);
+      const res = await axios.get(`https://ezrent-server-side-production.up.railway.app/api/allReview`);
       return res.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
@@ -85,7 +85,7 @@ export const getReviewsByEmail = createAsyncThunk(
   async (email, { rejectWithValue }) => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/hostReview?email=${email}`
+        `https://ezrent-server-side-production.up.railway.app/api/hostReview?email=${email}`
       );
       return res.data;
     } catch (error) {
