@@ -354,25 +354,30 @@ const ReviewsSection = ({ data }) => {
                                         </div>
                                     </div>
                                 </div>
+                                {
+                                    user.email === review.userEmail && <>
+                                        <div className="flex gap-2">
+                                            <motion.button
+                                                whileHover={{ scale: 1.1 }}
+                                                whileTap={{ scale: 0.9 }}
+                                                onClick={() => handleEditReview(review)}
+                                                className="p-2 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-2xl transition-all duration-300"
+                                            >
+                                                <FaEdit className="w-4 h-4" />
+                                            </motion.button>
+                                            <motion.button
+                                                whileHover={{ scale: 1.1 }}
+                                                whileTap={{ scale: 0.9 }}
+                                                onClick={() => handleDeleteReview(review._id)}
+                                                className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-2xl transition-all duration-300"
+                                            >
+                                                <FaTrash className="w-4 h-4" />
+                                            </motion.button>
+                                        </div>
+                                    </>
+                                }
 
-                                <div className="flex gap-2">
-                                    <motion.button
-                                        whileHover={{ scale: 1.1 }}
-                                        whileTap={{ scale: 0.9 }}
-                                        onClick={() => handleEditReview(review)}
-                                        className="p-2 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-2xl transition-all duration-300"
-                                    >
-                                        <FaEdit className="w-4 h-4" />
-                                    </motion.button>
-                                    <motion.button
-                                        whileHover={{ scale: 1.1 }}
-                                        whileTap={{ scale: 0.9 }}
-                                        onClick={() => handleDeleteReview(review._id)}
-                                        className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-2xl transition-all duration-300"
-                                    >
-                                        <FaTrash className="w-4 h-4" />
-                                    </motion.button>
-                                </div>
+
                             </div>
 
                             <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm sm:text-base">
