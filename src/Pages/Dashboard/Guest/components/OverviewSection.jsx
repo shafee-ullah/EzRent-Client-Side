@@ -145,7 +145,7 @@ const OverviewSection = ({ data }) => {
                     </div>
                     <div className="flex items-center justify-between mt-2">
                       <span className="font-semibold text-gray-900 dark:text-white">
-                        ৳{booking?.price}
+                        ${booking?.price}
                       </span>
                       <span className="px-2 py-1 bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300 rounded-full text-xs font-medium">
                         {booking?.status}
@@ -183,24 +183,24 @@ const OverviewSection = ({ data }) => {
         >
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Recommended for You
+              Places Around The World
             </h3>
             <Star className="w-5 h-5 text-amber-500" />
           </div>
           <div className="space-y-4">
             {[
               {
-                name: "Sundarbans Eco Resort",
-                location: "Khulna",
-                price: 5600,
+                name: "Ctg Eco Resort",
+                location: "Chittagong",
+                price: 120,
                 rating: 4.8,
                 image:
                   "https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=500&auto=format&fit=crop",
               },
               {
-                name: "Heritage Home Old Dhaka",
-                location: "Dhaka",
-                price: 3200,
+                name: "Miami Beach Resort",
+                location: "Miami",
+                price: 500,
                 rating: 4.6,
                 image:
                   "https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?q=80&w=500&auto=format&fit=crop",
@@ -225,14 +225,14 @@ const OverviewSection = ({ data }) => {
                   </div>
                   <div className="flex items-center justify-between mt-2">
                     <span className="font-semibold text-gray-900 dark:text-white">
-                      ৳{property.price}/night
+                      ${property.price}/night
                     </span>
-                    <div className="flex items-center gap-1 text-amber-500">
+                    {/* <div className="flex items-center gap-1 text-amber-500">
                       <Star className="w-4 h-4 fill-current" />
                       <span className="text-sm font-medium">
                         {property.rating}
                       </span>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

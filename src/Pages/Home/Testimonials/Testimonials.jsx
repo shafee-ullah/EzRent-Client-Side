@@ -8,8 +8,8 @@ const MotionSvg = motion.svg;
 
 const testimonials = [
   {
-    name: "Aisha Rahman",
-    location: "Dhaka",
+    name: "Sarah Johnson",
+    location: "New York",
     rating: 5,
     quote: "The booking process was super smooth and the place was exactly as shown!",
     shortQuote: "Smooth booking process",
@@ -17,44 +17,44 @@ const testimonials = [
   },
   {
     name: "Sarwar Islam",
-    location: "Sylhet",
+    location: "Dhaka",
     rating: 4,
     quote: "Great value and responsive host. Will definitely book again.",
     shortQuote: "Great value and responsive host",
     avatar: "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=400&auto=format&fit=crop",
   },
   {
-    name: "Nusrat Jahan",
-    location: "Cox's Bazar",
+    name: "Lisa Anderson",
+    location: "North London",
     rating: 5,
     quote: "Amazing stay near the beach. Clean, cozy, and hassle-free!",
     shortQuote: "Amazing beachside stay",
     avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=400&auto=format&fit=crop",
   },
   {
-    name: "Tanvir Chowdhury",
-    location: "Chattogram",
+    name: "Chris Smith",
+    location: "Beijing",
     rating: 4,
     quote: "Easy check-in and friendly support. Highly recommended.",
     shortQuote: "Easy check-in, friendly support",
     avatar: "https://images.unsplash.com/photo-1540569014015-19a7be504e3a?q=80&w=400&auto=format&fit=crop",
   },
   {
-    name: "Rahim Ahmed",
-    location: "Khulna",
+    name: "Won Bin",
+    location: "Seoul",
     rating: 5,
     quote: "Perfect location with stunning views. Everything was spotless!",
     shortQuote: "Perfect location, stunning views",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop",
   },
-  {
-    name: "Fatima Begum",
-    location: "Rajshahi",
-    rating: 5,
-    quote: "Exceptional hospitality and comfortable accommodations.",
-    shortQuote: "Exceptional hospitality",
-    avatar: "https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?q=80&w=400&auto=format&fit=crop",
-  },
+  // {
+  //   name: "Fatima Begum",
+  //   location: "Rajshahi",
+  //   rating: 5,
+  //   quote: "Exceptional hospitality and comfortable accommodations.",
+  //   shortQuote: "Exceptional hospitality",
+  //   avatar: "https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?q=80&w=400&auto=format&fit=crop",
+  // },
 ];
 
 const StarRow = ({ rating, size = "w-5 h-5" }) => {

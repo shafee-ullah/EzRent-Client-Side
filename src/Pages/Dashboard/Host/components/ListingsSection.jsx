@@ -383,9 +383,10 @@ const ListingsSection = () => {
                     onClick={() => handleStatusToggle(property)}
                     className={`flex-1 py-2 px-3 rounded-lg text-sm font-semibold transition-colors ${
                       property.status === "avaliable"
-                        ? "bg-emerald-100 text-emerald-700 hover:bg-emerald-200"
-                        : "bg-red-100 text-red-700 hover:bg-red-200"
+                        ? "bg-red-400 text-white hover:bg-red-700"
+                        : "bg-emerald-400 text-white hover:bg-emerald-700"
                     }`}
+                    
                   >
                     {property.status === "avaliable"
                       ? "Deactivate"

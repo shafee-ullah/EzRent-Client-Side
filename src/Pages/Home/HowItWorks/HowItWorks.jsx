@@ -228,7 +228,7 @@ const HowItWorks = () => {
             repeat: Infinity,
             ease: "linear",
           }}
-          className="absolute -top-20 -right-20 w-64 h-64 bg-gradient-to-r from-emerald-200 to-green-200 dark:from-emerald-900/20 dark:to-green-900/20 rounded-full blur-3xl opacity-30"
+          className="absolute -top-20 -right-20 w-64 h-64  rounded-full blur-3xl opacity-30"
         />
         <MotionDiv
           animate={{

@@ -29,7 +29,6 @@ const Navbar = () => {
   const { user } = useSelector((state) => state.products);
   console.log("user", user);
 
-
   const logoutUser = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -105,8 +104,8 @@ const Navbar = () => {
               </NavLink>
             </li>
 
-            {
-              user?.role === 'guest' && <>
+            {user?.role === "guest" && (
+              <>
                 <li>
                   <NavLink
                     onClick={closeMenu}
@@ -117,7 +116,7 @@ const Navbar = () => {
                   </NavLink>
                 </li>
               </>
-            }
+            )}
             <li>
               <NavLink
                 onClick={closeMenu}
@@ -176,7 +175,8 @@ const Navbar = () => {
                   >
                     <img
                       src={
-                        authUser.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"
+                        authUser.photoURL ||
+                        "https://i.ibb.co/4pDNDk1/avatar.png"
                       }
                       alt="avatar"
                       className="w-12 h-12 rounded-full border-2 border-green-500 object-cover p-0.5 hover:scale-105 transition-all duration-200"
@@ -221,8 +221,8 @@ const Navbar = () => {
                           Dashboard
                         </NavLink>
 
-                        {
-                          user?.role === 'guest' && <>
+                        {user?.role === "guest" && (
+                          <>
                             <NavLink
                               onClick={closeMenu}
                               to="/become-host"
@@ -231,7 +231,7 @@ const Navbar = () => {
                               Become a Host
                             </NavLink>
                           </>
-                        }
+                        )}
                       </div>
 
                       <hr className="border-gray-100 dark:border-gray-700" />
@@ -240,7 +240,7 @@ const Navbar = () => {
                       <div className="px-5 py-3">
                         <button
                           onClick={logoutUser}
-                          className="w-full px-4 py-3 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:from-red-600 hover:to-red-400 shadow-md hover:shadow-lg transition-all duration-200"
+                          className="w-full px-4 py-3 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-2xl font-semibold hover:from-red-600 hover:to-red-400 shadow-md hover:shadow-lg transition-all duration-200"
                         >
                           Logout
                         </button>
@@ -299,6 +299,7 @@ const Navbar = () => {
               >
                 <Home /> Home
               </Link>
+
               <Link
                 onClick={closeMenu}
                 to="/BrowseProperties"
@@ -306,6 +307,27 @@ const Navbar = () => {
               >
                 <Search /> Browse
               </Link>
+
+              {authUser && (
+                <>
+                  <Link
+                    onClick={closeMenu}
+                    to="/dashboard"
+                    className="flex gap-2 items-center"
+                  >
+                    <LayoutDashboard /> Dashboard
+                  </Link>
+
+                  <Link
+                    onClick={closeMenu}
+                    to="/become-host"
+                    className="flex gap-2 items-center"
+                  >
+                    <Info /> Become A Host
+                  </Link>
+                </>
+              )}
+
               <Link
                 onClick={closeMenu}
                 to="/guest-experiences"
@@ -328,24 +350,6 @@ const Navbar = () => {
               >
                 <Info /> About
               </Link>
-              {authUser && (
-                <>
-                  <Link
-                    onClick={closeMenu}
-                    to="/become-host"
-                    className="flex gap-2 items-center"
-                  >
-                    <Info /> Become A Host
-                  </Link>
-                  <Link
-                    onClick={closeMenu}
-                    to="/dashboard"
-                    className="flex gap-2 items-center"
-                  >
-                    <LayoutDashboard /> Dashboard
-                  </Link>
-                </>
-              )}
             </nav>
 
             <div className="mt-auto flex flex-col gap-4">
@@ -353,7 +357,7 @@ const Navbar = () => {
                 onClick={toggleTheme}
                 className="rounded-2xl px-5 py-2 bg-gray-300 dark:bg-gray-800 transition-colors text-center"
               >
-                {theme === "light" ? "🌞 Light Mode" : "🌙 Dark Mode"}
+                {theme === "light" ? "🌙 Dark Mode" : "🌞 Light Mode"}
               </button>
 
               {!authUser ? (

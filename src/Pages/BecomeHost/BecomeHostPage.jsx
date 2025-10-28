@@ -185,27 +185,27 @@ const BecomeHostPage = () => {
   const sampleProperties = [
     {
       id: 1,
-      name: "Seaside Villa",
+      name: "Seaside Hotel",
       location: "Cox's Bazar",
-      price: "৳12,500",
-      rating: 4.9,
+      price: "$100",
+      rating: 4.3,
       image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=500&auto=format&fit=crop",
       amenities: [<Bed key="bed" />, <Bath key="bath" />, <Wifi key="wifi" />, <Car key="car" />]
     },
     {
       id: 2,
       name: "Hilltop Cottage",
-      location: "Sylhet",
-      price: "৳8,200",
+      location: "Italy",
+      price: "$275",
       rating: 4.7,
       image: "https://images.unsplash.com/photo-1510798831971-661eb04b3739?q=80&w=500&auto=format&fit=crop",
       amenities: [<Bed key="bed" />, <Bath key="bath" />, <Wifi key="wifi" />]
     },
     {
       id: 3,
-      name: "City Apartment",
-      location: "Dhaka",
-      price: "৳6,500",
+      name: "Rooftop Apartment",
+      location: "San Francisco",
+      price: "$300",
       rating: 4.8,
       image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=500&auto=format&fit=crop",
       amenities: [<Bed key="bed" />, <Bath key="bath" />, <Wifi key="wifi" />, <Car key="car" />]
@@ -238,7 +238,7 @@ const BecomeHostPage = () => {
               repeat: Infinity,
               ease: "linear"
             }}
-            className="absolute -top-20 -right-20 w-64 h-64 bg-gradient-to-r from-emerald-200 to-green-200 dark:from-emerald-900/20 dark:to-green-900/20 rounded-full blur-3xl opacity-30"
+            className="absolute -top-20 -right-20 w-64 h-64  rounded-full blur-3xl opacity-30"
           />
           <MotionDiv
             animate={{
@@ -250,7 +250,7 @@ const BecomeHostPage = () => {
               repeat: Infinity,
               ease: "linear"
             }}
-            className="absolute -bottom-20 -left-20 w-80 h-80 bg-gradient-to-r from-blue-200 to-cyan-200 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-full blur-3xl opacity-30"
+            className="absolute -bottom-20 -left-20 w-80 h-80  rounded-full blur-3xl opacity-30"
           />
         </div>
 
@@ -273,7 +273,7 @@ const BecomeHostPage = () => {
                 >
                   <TrendingUp className="w-4 h-4 text-emerald-500" />
                   <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                    Join 5,000+ Successful Hosts
+                    Join 500+ Successful Hosts
                   </span>
                 </MotionDiv>
 
@@ -305,9 +305,9 @@ const BecomeHostPage = () => {
                   </h3>
                   <div className="grid grid-cols-3 gap-4 text-center">
                     {[
-                      { value: "৳25K", label: "Avg Monthly" },
-                      { value: "৳3L", label: "Per Year" },
-                      { value: "4.9★", label: "Host Rating" },
+                      { value: "$5K", label: "Avg Monthly" },
+                      { value: "$60k", label: "Per Year" },
+                      { value: "4.8★", label: "Host Rating" },
                     ].map((stat, index) => (
                       <div key={stat.label} className="text-center">
                         <div className="text-xl font-bold text-gray-900 dark:text-white mb-1">
@@ -458,9 +458,9 @@ const BecomeHostPage = () => {
                 >
                   <div className="grid grid-cols-3 gap-4 text-center">
                     {[
-                      { value: "5,000+", label: "Active Hosts" },
-                      { value: "৳2.5Cr+", label: "Total Earned" },
-                      { value: "4.9★", label: "Avg Rating" },
+                      { value: "500+", label: "Active Hosts" },
+                      { value: "1200+", label: "Properties" },
+                      { value: "4.8★", label: "Avg Rating" },
                     ].map((stat, index) => (
                       <div key={stat.label} className="text-center">
                         <div className="text-2xl font-bold mb-1">
@@ -716,12 +716,12 @@ const BecomeHostPage = () => {
               <ArrowRight className="w-5 h-5" />
             </MotionButton>
 
-            <p className="text-gray-600 dark:text-gray-400">
+            {/* <p className="text-gray-600 dark:text-gray-400">
               Already have an account?{" "}
               <button className="text-emerald-600 dark:text-emerald-400 font-semibold hover:underline">
                 Sign in as Host
               </button>
-            </p>
+            </p> */}
           </MotionDiv>
 
           {/* Enhanced Modal */}

@@ -132,7 +132,7 @@ const SearchSection = () => {
                   {destination.properties} properties
                 </p>
                 <p className="text-sm font-semibold mt-1">
-                  From ৳{destination.startingPrice}/night
+                  From ${destination.startingPrice}/night
                 </p>
               </div>
             </MotionDiv>

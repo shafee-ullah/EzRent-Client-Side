@@ -157,7 +157,7 @@ const BookingsSection = () => {
                       <div className="text-right">
                         <p className="text-sm text-gray-500 dark:text-gray-100">Total Price</p>
                         <p className="font-black text-lg dark:text-gray-400">
-                          ৳{Number(booking.price).toLocaleString()}
+                          ${Number(booking.price).toLocaleString()}
                         </p>
                       </div>
                     </div>
@@ -168,22 +168,23 @@ const BookingsSection = () => {
                         hostName={booking.hostname || booking.host}
                         propertyId={booking.propertyId}
                         propertyTitle={booking.title}
-                        className="px-4 py-2"
-                      // onClick={() => {
-                      //   console.log("=== CLICKING MESSAGE BUTTON ===");
-                      //   console.log("Passing hostId:", booking.hostId || booking.id);
-                      //   console.log("Passing hostName:", booking.hostName || booking.host);
-                      // }
-                      // }
+                        className="px-4 py-2 rounded-2xl"
+                        // onClick={() => {
+                        //   console.log("=== CLICKING MESSAGE BUTTON ===");
+                        //   console.log("Passing hostId:", booking.hostId || booking.id);
+                        //   console.log("Passing hostName:", booking.hostName || booking.host);
+                        // }
+                        // }
                       />
 
                       {/* Cancel Booking Button */}
                       <button
                         onClick={() => handleCancelBooking(booking._id)}
-                        className="px-4 py-2 bg-red-500 text-white font-medium rounded-lg hover:bg-red-600 transition duration-150 shadow-md"
+                        className="px-4 py-2 bg-red-500 text-white font-medium rounded-2xl hover:bg-red-600 transition duration-150 shadow-md"
                       >
                         Cancel Booking
                       </button>
+                      {/* <button className="px-4 py-2 bg-white  text-gray-700 border border-gray-300 font-medium rounded-lg hover:bg-gray-50 transition duration-150 flex items-center">
                       {/* <button className="px-4 py-2 bg-white  text-gray-700 border border-gray-300 font-medium rounded-lg hover:bg-gray-50 transition duration-150 flex items-center">
                         <svg
                           className="w-5 h-5 mr-1"
