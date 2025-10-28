@@ -162,7 +162,7 @@ const GuestDashboard = () => {
       label: "Messages",
       icon: <MessageCircle className="w-5 h-5" />,
     },
-    // { id: "reviews", label: "Reviews", icon: <Star className="w-5 h-5" /> },
+    { id: "reviews", label: "My  Reviews", icon: <Star className="w-5 h-5" /> },
     {
       id: "profile",
       label: "Profile & Settings",

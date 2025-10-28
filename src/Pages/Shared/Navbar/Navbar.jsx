@@ -284,7 +284,7 @@ const Navbar = () => {
             <div className="flex justify-between items-center border-b-2 dark:border-gray-600 border-gray-300 pb-4">
               <div className="text-xl font-bold flex items-center gap-2">
                 <img src={logo} alt="EzRent logo" className="w-7 h-7" />
-                <span className="text-green-500">Ez</span>Rent
+                <h1><span className="text-green-500">Ez</span>Rent</h1>
               </div>
               <button onClick={handleMenuToggle}>
                 <X size={28} />

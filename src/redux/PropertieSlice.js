@@ -16,7 +16,7 @@ export const fetchmanageproperty = createAsyncThunk(
   "products/fetchmanageproperty",
   async () => {
     const res = await axios.get(
-      "http://localhost:5000/manageproperty"
+      "https://ezrent-server-side-production.up.railway.app/manageproperty"
     );
     return res.data;
   }
@@ -48,7 +48,7 @@ export const updatePropertyStatus = createAsyncThunk(
 // 🟢 Fetch Limit (Featured)
 export const fetchlimit = createAsyncThunk("products/fetchLimit", async () => {
   const res = await axios.get(
-    "http://localhost:5000/FeaturedProperties"
+    "https://ezrent-server-side-production.up.railway.app/FeaturedProperties"
   );
   return res.data;
 });

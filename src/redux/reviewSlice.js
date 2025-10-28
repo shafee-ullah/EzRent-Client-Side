@@ -19,6 +19,24 @@ export const addReview = createAsyncThunk(
   }
 );
 
+// 🆕 Get guest reviews (optionally filtered by email)
+export const getGuestReviews = createAsyncThunk(
+  "reviews/getGuestReviews",
+  async (email, { rejectWithValue }) => {
+    try {
+      const url = email
+        ? `http://localhost:5000/api/guestReview?email=${email}`
+        : `http://localhost:5000/api/guestReview`;
+
+      const res = await axios.get(url);
+      return res.data; // your backend sends array directly
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+
 export const fetchReviews = createAsyncThunk(
   "reviews/fetchReviews",
   async (reviewCardId, { rejectWithValue }) => {
@@ -152,7 +170,20 @@ const reviewSlice = createSlice({
       .addCase(getReviewsByEmail.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      // 🆕 Guest Reviews
+      .addCase(getGuestReviews.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getGuestReviews.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = action.payload;
+      })
+      .addCase(getGuestReviews.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
+
 
   },
 });
