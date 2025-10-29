@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { AuthContext } from "../../../../Context/AuthContext";
 import {
-  deleteBooking,
+  updateBookingStatus,
   fetchMyBooking,
 } from "../../../../redux/PropertieSlice";
 import { ContactHostButton } from "../../../../Components/Chat/MessageHostButton";
@@ -53,14 +53,23 @@ const BookingsSection = () => {
       confirmButtonText: "Yes, cancel it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(deleteBooking(id))
+        dispatch(
+          updateBookingStatus({
+            bookingId: id,
+            newStatus: "cancelled",
+          })
+        )
           .unwrap()
           .then(() => {
             Swal.fire(
               "Cancelled!",
-              "Your booking has been deleted.",
+              "Your booking has been cancelled.",
               "success"
             );
+            // Refresh bookings to show updated status
+            if (user?.email) {
+              dispatch(fetchMyBooking(user.email));
+            }
           })
           .catch(() => {
             Swal.fire("Error", "Failed to cancel booking.", "error");

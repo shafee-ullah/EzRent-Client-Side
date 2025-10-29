@@ -14,7 +14,7 @@ const FeaturepropertiesDitels = () => {
 
   useEffect(() => {
     fetch(
-      `http://localhost:5000/FeaturepropertiesDitels/${id}`
+      `https://ezrent-server-side-production.up.railway.app/FeaturepropertiesDitels/${id}`
     )
       .then((res) => res.json())
       .then((result) => setdata(result));

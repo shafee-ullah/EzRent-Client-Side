@@ -153,7 +153,7 @@ const BecomeHostPage = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/hostRequest",
+        "https://ezrent-server-side-production.up.railway.app/hostRequest",
         formData
       );
       console.log("form data", formData);

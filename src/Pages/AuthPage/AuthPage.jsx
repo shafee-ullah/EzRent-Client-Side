@@ -197,7 +197,7 @@ const AuthPage = () => {
           role: "guest",
         };
         await axios.post(
-          "http://localhost:5000/users",
+          "https://ezrent-server-side-production.up.railway.app/users",
           userData
         );
         navigate(locations?.state || "/", {
@@ -248,7 +248,7 @@ const AuthPage = () => {
 
       // POST to backend
       await axios.post(
-        "http://localhost:5000/users",
+        "https://ezrent-server-side-production.up.railway.app/users",
         userData
       );
       navigate(locations?.state || "/", {

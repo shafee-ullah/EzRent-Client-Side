@@ -7,7 +7,7 @@ export const fetchTotalBookings = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/totalBookings"
+        "https://ezrent-server-side-production.up.railway.app/totalBookings"
       );
       return response.data.totalBookings;
     } catch (error) {

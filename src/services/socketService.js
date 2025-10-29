@@ -8,6 +8,7 @@ import {
   setTypingUser,
   markMessagesAsRead,
 } from "../redux/chatSlice";
+import { addNotification } from "../redux/notificationSlice";
 
 class SocketService {
   constructor() {
@@ -21,7 +22,7 @@ class SocketService {
       return this.socket;
     }
 
-    this.socket = io("http://localhost:5000", {
+    this.socket = io("https://ezrent-server-side-production.up.railway.app", {
       transports: ["websocket", "polling"],
       timeout: 20000,
       forceNew: true,
@@ -100,6 +101,16 @@ class SocketService {
           userId: data.readBy,
         })
       );
+    });
+
+    // Notification event handlers
+    this.socket.on("new-notification", (notification) => {
+      console.log("📬 New notification received:", notification);
+      store.dispatch(addNotification(notification));
+    });
+
+    this.socket.on("notification-error", (error) => {
+      console.error("Notification error:", error);
     });
 
     return this.socket;

@@ -159,7 +159,7 @@ const Navbar = () => {
             <>
               <NavLink
                 to="/join"
-                className="px-4 py-2 rounded-full bg-green-600 text-white font-semibold hover:bg-green-500 transition"
+                className="px-4 py-2 rounded-2xl bg-green-600 text-white font-semibold hover:bg-green-500 transition"
               >
                 Join Us
               </NavLink>

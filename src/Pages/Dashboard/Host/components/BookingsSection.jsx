@@ -80,7 +80,7 @@ const {bookings,loading,error}=useSelector((state)=>state.products)
                         {booking.name}
                       </p>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {booking.Location}
+                        {booking.propertyName || booking.title || "Property"}
                       </p>
                     </div>
                   </td>

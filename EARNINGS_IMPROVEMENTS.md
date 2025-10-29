@@ -186,7 +186,7 @@ To change the rate, modify this variable.
 ### Backend Testing
 ```bash
 # Test host-specific payments endpoint
-curl http://localhost:5000/api/payments/host/john@example.com
+curl https://ezrent-server-side-production.up.railway.app/api/payments/host/john@example.com
 ```
 
 ### Frontend Testing
