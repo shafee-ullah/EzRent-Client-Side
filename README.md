@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./ezrent-logo.png" alt="EzRent Logo" width="80" height="80" />
+<img src="./src/assets/ezrent-logo.png" alt="EzRent Logo" width="80" height="80" />
 
 # EzRent
 
