@@ -13,7 +13,7 @@
 **Developed by Team 8-Bit Coders**  
 *Project Leader: A K M Shafee Ullah*
 
-[🚀 Live Demo](https://rzrent.web.app/) • [📖 Documentation](#-features) • [👥 Team](#-our-team)
+[🚀 Live Demo](https://rzrent.web.app/) • [📖 Documentation](https://docs.google.com/document/d/1gLzOn2st3mpNy7yxs4faUXHV2BDSF6cJFKcHQ-hYyKk/edit?usp=sharing) • [👥 Team](#-our-team)
 
 </div>
 
@@ -371,7 +371,7 @@ graph LR
 
 <div align="center">
 
-### 🏠 Homepage
+###  Homepage
 ![EzRent Homepage](./src/assets/EzRent%20homepage.png)
 
 *Modern, intuitive interface with featured properties and smooth navigation*
