@@ -1,7 +1,7 @@
 <div align="center">
 
 <h1>
-  <img src="./src/assets/ezrent-logo.png" alt="EzRent Logo" width="60" height="60" style="vertical-align: middle;" />
+  <img src="./src/assets/ezrent-logo.png" alt="EzRent Logo" width="40" height="40" style="vertical-align: middle;" />
   EzRent
 </h1>
 
