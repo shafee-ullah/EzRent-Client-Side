@@ -1,8 +1,6 @@
 <div align="center">
 
-<img src="./src/assets/ezrent-logo.png" alt="EzRent Logo" width="80" height="80" />
-
-# EzRent
+# <img src="./src/assets/ezrent-logo.png" alt="EzRent Logo" width="60" height="60" style="vertical-align: middle;" /> EzRent
 
 ### *Your Next Stay, Just a Click Away*
 
