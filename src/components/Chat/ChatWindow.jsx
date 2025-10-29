@@ -36,7 +36,10 @@ const ChatWindow = ({ conversation, onBack }) => {
 
   // Scroll to bottom when new messages arrive
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messagesEndRef.current && messagesContainerRef.current) {
+      // Scroll within the container only, prevent page scroll
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
   };
 
   // Track message source to control scrolling behavior
@@ -63,8 +66,10 @@ const ChatWindow = ({ conversation, onBack }) => {
       // Use requestAnimationFrame to ensure DOM is updated before scrolling
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
-          console.log("📜 Scrolled to bottom on initial load");
+          if (messagesContainerRef.current) {
+            messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+            console.log("📜 Scrolled to bottom on initial load");
+          }
         });
       });
       isInitialLoadRef.current = false;
@@ -122,9 +127,11 @@ const ChatWindow = ({ conversation, onBack }) => {
       // Messages finished loading, scroll to bottom
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
-          console.log("📜 Auto-scrolled to latest messages after loading");
-          hasScrolledOnLoadRef.current = true;
+          if (messagesContainerRef.current) {
+            messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+            console.log("📜 Auto-scrolled to latest messages after loading");
+            hasScrolledOnLoadRef.current = true;
+          }
         });
       });
     }
@@ -395,7 +402,9 @@ const ChatWindow = ({ conversation, onBack }) => {
       {/* Messages Container */}
       <div
         ref={messagesContainerRef}
-        className="flex-1 p-2 sm:p-4 overflow-y-auto space-y-3 sm:space-y-4 relative"
+        className="flex-1 p-2 sm:p-4 overflow-y-auto space-y-3 sm:space-y-4 relative overscroll-contain"
+        onClick={(e) => e.stopPropagation()}
+        onTouchMove={(e) => e.stopPropagation()}
       >
         {/* Scroll to bottom button */}
         <motion.button

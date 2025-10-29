@@ -2,17 +2,15 @@ import React, { useState, useRef, use } from "react";
 import { Shield, CreditCard, ChevronDown, User2, Camera, Edit3 } from "lucide-react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../../../Context/AuthContext";
+import { useSelector } from "react-redux";
 
-const SettingsSection = ({ data }) => {
+const SettingsSection = () => {
   const { user: authUser, updateUserProfile } = use(AuthContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
   const fileInputRef = useRef(null);
-
-  if (!data) {
-    return <p className="text-gray-500 dark:text-gray-300">Loading profile...</p>;
-  }
-  const user = data;
+  const { user } = useSelector((state) => state.products);
+ 
   console.log(authUser);
 
 
@@ -26,7 +24,7 @@ const SettingsSection = ({ data }) => {
     setIsModalOpen(false);
     setPreviewImage(null);
   };
-  
+
 
   // handle image selection and preview
   const handleImageChange = (event) => {
@@ -101,7 +99,7 @@ const SettingsSection = ({ data }) => {
       </h2>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-6">
+          <div className="bg-gray-100 dark:bg-gray-700/50 rounded-xl p-6">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
               Personal Information
             </h3>
@@ -139,7 +137,7 @@ const SettingsSection = ({ data }) => {
             </div>
           </div>
 
-          <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-6">
+          {/* <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-6">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
               Security
             </h3>
@@ -176,7 +174,7 @@ const SettingsSection = ({ data }) => {
                 <ChevronDown className="w-5 h-5 text-gray-400" />
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className="relative">

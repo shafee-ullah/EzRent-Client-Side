@@ -208,12 +208,12 @@ const FeaturedPropertiesCard = () => {
                 <div>
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-1 font-medium text-gray-600 text-sm">
-                      <CiLocationOn size={18} className="text-red-500" />
+                      <CiLocationOn size={18} className="text-emerald-500" />
                       <p className="dark:text-white">{property.Location}</p>
                     </div>
-                    <div className="flex items-center gap-1 text-yellow-500 font-semibold text-sm">
+                    {/* <div className="flex items-center gap-1 text-yellow-500 font-semibold text-sm">
                       <FaStar /> {property.reating}
-                    </div>
+                    </div> */}
                   </div>
 
                   <h1 className="text-[18px] leading-snug font-semibold text-gray-900 dark:text-white mt-2">
@@ -247,12 +247,12 @@ const FeaturedPropertiesCard = () => {
 
                   <div className="flex justify-between mt-3">
                     <div className="flex items-center gap-2 text-gray-700 text-sm dark:text-white">
-                      <IoMdContacts size={18} />
+                      <IoMdContacts size={18} className="text-emerald-500" />
                       <p>{property.guest} guests</p>
                     </div>
                     <div className="flex items-center gap-2 text-gray-700 text-sm dark:text-white">
                       <MdCategory size={18} />
-                      <p className="text-green-500">{property.category}</p>
+                      <p className="text-emerald-500">{property.category}</p>
                     </div>
                   </div>
                 </div>

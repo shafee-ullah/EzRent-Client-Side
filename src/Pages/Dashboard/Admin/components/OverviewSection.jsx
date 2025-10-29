@@ -27,12 +27,12 @@ const MotionDiv = motion.div;
 
 const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
   // Redux state selectors
-  const { list: users, } = useSelector((state) => state.users);
+  const {  list: users } = useSelector((state) => state.users);
   const { items } = useSelector((state) => state.products);
   const { totalBookings, loading, error } = useSelector((state) => state.bookingStats);
   const allPayments = useSelector(selectAllPayments);
 
-  console.log("total users", users)
+  console.log("total users ", users)
 
   const dispatch = useDispatch();
 
