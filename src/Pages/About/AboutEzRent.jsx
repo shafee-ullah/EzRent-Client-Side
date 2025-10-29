@@ -139,15 +139,15 @@ const AboutEzRent = () => {
         <div className="max-w-3xl mx-auto">
           {[
             {
-              year: "2023",
+              year: "2025 August",
               text: "Started EzRent with a small set of curated homes.",
             },
             {
-              year: "2024",
+              year: "2025 September",
               text: "Expanded nationwide with verified hosts and instant booking.",
             },
             {
-              year: "2025",
+              year: "2025 October",
               text: "Launched advanced search, better safety, and 24/7 support.",
             },
           ].map((i) => (

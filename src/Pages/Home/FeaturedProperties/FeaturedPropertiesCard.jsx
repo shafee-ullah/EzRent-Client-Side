@@ -267,6 +267,39 @@ const FeaturedPropertiesCard = () => {
           );
         })}
       </div>
+
+      {/* View More Button */}
+      <MotionDiv
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+        className="flex justify-center mt-12"
+      >
+        <Link to="/BrowseProperties">
+          <motion.button
+            whileHover={{ scale: 1.05, boxShadow: "0 10px 40px rgba(16, 185, 129, 0.3)" }}
+            whileTap={{ scale: 0.95 }}
+            className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-2xl font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+          >
+            <span>View More Properties</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-6 h-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
+            </svg>
+          </motion.button>
+        </Link>
+      </MotionDiv>
     </div>
   );
 };
