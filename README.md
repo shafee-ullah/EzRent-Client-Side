@@ -1,6 +1,8 @@
 <div align="center">
 
-# 🏡 EzRent
+<img src="./ezrent-logo.png" alt="EzRent Logo" width="80" height="80" />
+
+# EzRent
 
 ### *Your Next Stay, Just a Click Away*
 
