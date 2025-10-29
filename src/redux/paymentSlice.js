@@ -41,6 +41,23 @@ export const fetchAllPayments = createAsyncThunk(
   }
 );
 
+// Fetch payments for a specific host
+export const fetchHostPayments = createAsyncThunk(
+  "payment/fetchHostPayments",
+  async (hostIdentifier, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${API_BASE_URL}/api/payments/host/${hostIdentifier}`
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.error || "Failed to fetch host payments"
+      );
+    }
+  }
+);
+
 // Confirm payment
 export const confirmPayment = createAsyncThunk(
   "payment/confirmPayment",
@@ -125,6 +142,11 @@ const paymentSlice = createSlice({
     allPayments: [],
     isFetchingAllPayments: false,
     allPaymentsError: null,
+
+    // Host-specific payments
+    hostPayments: [],
+    isFetchingHostPayments: false,
+    hostPaymentsError: null,
   },
 
   reducers: {
@@ -249,6 +271,21 @@ const paymentSlice = createSlice({
       .addCase(fetchAllPayments.rejected, (state, action) => {
         state.isFetchingAllPayments = false;
         state.allPaymentsError = action.payload;
+      })
+
+      // Fetch Host Payments
+      .addCase(fetchHostPayments.pending, (state) => {
+        state.isFetchingHostPayments = true;
+        state.hostPaymentsError = null;
+      })
+      .addCase(fetchHostPayments.fulfilled, (state, action) => {
+        state.isFetchingHostPayments = false;
+        state.hostPayments = action.payload;
+        state.hostPaymentsError = null;
+      })
+      .addCase(fetchHostPayments.rejected, (state, action) => {
+        state.isFetchingHostPayments = false;
+        state.hostPaymentsError = action.payload;
       });
   },
 });
@@ -274,5 +311,10 @@ export const selectUserPayments = (state) => state.payment.userPayments;
 export const selectLastConfirmedPayment = (state) =>
   state.payment.lastConfirmedPayment;
 export const selectAllPayments = (state) => state.payment.allPayments;
+export const selectHostPayments = (state) => state.payment.hostPayments;
+export const selectIsFetchingHostPayments = (state) => 
+  state.payment.isFetchingHostPayments;
+export const selectHostPaymentsError = (state) => 
+  state.payment.hostPaymentsError;
 
 export default paymentSlice.reducer;
