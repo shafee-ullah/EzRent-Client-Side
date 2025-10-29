@@ -208,12 +208,12 @@ const FeaturedPropertiesCard = () => {
                 <div>
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-1 font-medium text-gray-600 text-sm">
-                      <CiLocationOn size={18} className="text-red-500" />
+                      <CiLocationOn size={18} className="text-emerald-500" />
                       <p className="dark:text-white">{property.Location}</p>
                     </div>
-                    <div className="flex items-center gap-1 text-yellow-500 font-semibold text-sm">
+                    {/* <div className="flex items-center gap-1 text-yellow-500 font-semibold text-sm">
                       <FaStar /> {property.reating}
-                    </div>
+                    </div> */}
                   </div>
 
                   <h1 className="text-[18px] leading-snug font-semibold text-gray-900 dark:text-white mt-2">
@@ -247,12 +247,12 @@ const FeaturedPropertiesCard = () => {
 
                   <div className="flex justify-between mt-3">
                     <div className="flex items-center gap-2 text-gray-700 text-sm dark:text-white">
-                      <IoMdContacts size={18} />
+                      <IoMdContacts size={18} className="text-emerald-500" />
                       <p>{property.guest} guests</p>
                     </div>
                     <div className="flex items-center gap-2 text-gray-700 text-sm dark:text-white">
                       <MdCategory size={18} />
-                      <p className="text-green-500">{property.category}</p>
+                      <p className="text-emerald-500">{property.category}</p>
                     </div>
                   </div>
                 </div>
@@ -267,6 +267,39 @@ const FeaturedPropertiesCard = () => {
           );
         })}
       </div>
+
+      {/* View More Button */}
+      <MotionDiv
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+        className="flex justify-center mt-12"
+      >
+        <Link to="/BrowseProperties">
+          <motion.button
+            whileHover={{ scale: 1.05, boxShadow: "0 10px 40px rgba(16, 185, 129, 0.3)" }}
+            whileTap={{ scale: 0.95 }}
+            className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-2xl font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+          >
+            <span>View More Properties</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-6 h-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
+            </svg>
+          </motion.button>
+        </Link>
+      </MotionDiv>
     </div>
   );
 };

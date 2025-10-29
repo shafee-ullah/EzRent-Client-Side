@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import store from "./app/Store.js";
 import AuthProvider from "../src/Context/AuthProvider.jsx";
 import ChatProvider from "./Components/Chat/ChatProvider.jsx";
+import NotificationProvider from "./Components/Notifications/NotificationProvider.jsx";
 import { Toaster } from "react-hot-toast";
 
 createRoot(document.getElementById("root")).render(
@@ -17,8 +18,10 @@ createRoot(document.getElementById("root")).render(
       <Provider store={store}>
         <ThemeProvider>
           <ChatProvider>
-            <Toaster position="top-right" reverseOrder={false} />
-            <RouterProvider router={router} />
+            <NotificationProvider>
+              <Toaster position="top-right" reverseOrder={false} />
+              <RouterProvider router={router} />
+            </NotificationProvider>
           </ChatProvider>
         </ThemeProvider>
       </Provider>

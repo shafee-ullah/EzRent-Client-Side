@@ -308,11 +308,21 @@ const productSlice = createSlice({
 
       .addCase(updateBookingStatus.fulfilled, (state, action) => {
         const updatedBooking = action.payload;
+        
+        // Update in bookings array
         const index = state.bookings.findIndex(
           (b) => b._id === updatedBooking._id
         );
         if (index !== -1) {
-          state.bookings[index] = updatedBooking; // local state update
+          state.bookings[index] = updatedBooking;
+        }
+        
+        // Update in myBookings array
+        const myIndex = state.myBookings.findIndex(
+          (b) => b._id === updatedBooking._id
+        );
+        if (myIndex !== -1) {
+          state.myBookings[myIndex] = updatedBooking;
         }
       })
       .addCase(updatePropertyStatusAdmin.fulfilled, (state, action) => {

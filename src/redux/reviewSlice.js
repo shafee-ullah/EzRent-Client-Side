@@ -25,8 +25,8 @@ export const getGuestReviews = createAsyncThunk(
   async (email, { rejectWithValue }) => {
     try {
       const url = email
-        ? `http://localhost:5000/api/guestReview?email=${email}`
-        : `http://localhost:5000/api/guestReview`;
+        ? `https://ezrent-server-side-production.up.railway.app/api/guestReview?email=${email}`
+        : `https://ezrent-server-side-production.up.railway.app/api/guestReview`;
 
       const res = await axios.get(url);
       return res.data; // your backend sends array directly

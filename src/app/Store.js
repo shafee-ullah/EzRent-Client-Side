@@ -7,6 +7,7 @@ import usersReducer from "../redux/UserSlice";
 import bookingStatsReducer from "../redux/bookingStateSlice";
 import experienceReducer from "../redux/experienceSlice";
 import reviewReducer from "../redux/reviewSlice";
+import notificationReducer from "../redux/notificationSlice";
 
 
 const store = configureStore({
@@ -18,6 +19,7 @@ const store = configureStore({
     bookingStats: bookingStatsReducer,
     experience: experienceReducer,
     reviews: reviewReducer,
+    notifications: notificationReducer,
   },
 });
 
