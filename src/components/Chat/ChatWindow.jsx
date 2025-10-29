@@ -3,26 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Send,
-  X,
   User,
-  Phone,
-  Video,
   MoreVertical,
-  Paperclip,
-  Smile,
   ArrowLeft,
+  ArrowDown,
 } from "lucide-react";
 import {
   fetchMessages,
   sendMessage,
   addMessage,
-  setTyping,
   markMessagesAsRead,
-  closeChat,
+  fetchConversations,
 } from "../../redux/chatSlice";
 import socketService from "../../services/socketService";
 
-const ChatWindow = ({ conversation, onClose, onBack }) => {
+const ChatWindow = ({ conversation, onBack }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.products);
   const { messages, messagesLoading, typingUsers, onlineUsers } = useSelector(
@@ -34,22 +29,76 @@ const ChatWindow = ({ conversation, onClose, onBack }) => {
   const [typingTimeout, setTypingTimeout] = useState(null);
   const messagesEndRef = useRef(null);
   const messagesContainerRef = useRef(null);
+  const hasScrolledOnLoadRef = useRef(false); // Track if we've scrolled on initial load
 
   // Get messages for current conversation
   const conversationMessages = messages[conversation?._id] || [];
 
   // Scroll to bottom when new messages arrive
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messagesEndRef.current && messagesContainerRef.current) {
+      // Scroll within the container only, prevent page scroll
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
   };
 
+  // Track message source to control scrolling behavior
+  const prevMessageCountRef = useRef(0);
+  const prevConversationIdRef = useRef(null);
+  const isInitialLoadRef = useRef(true);
+  const userSentMessageRef = useRef(false);
+
   useEffect(() => {
-    scrollToBottom();
-  }, [conversationMessages]);
+    // Check if this is a conversation change
+    const isConversationChange =
+      prevConversationIdRef.current !== conversation?._id;
+
+    if (isConversationChange) {
+      // Reset flags when conversation changes
+      isInitialLoadRef.current = true;
+      prevMessageCountRef.current = 0; // Reset to 0 to detect first load
+      prevConversationIdRef.current = conversation?._id;
+      return;
+    }
+
+    // Scroll to bottom on initial load after messages are fetched
+    if (isInitialLoadRef.current && conversationMessages.length > 0) {
+      // Use requestAnimationFrame to ensure DOM is updated before scrolling
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (messagesContainerRef.current) {
+            messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+            console.log("📜 Scrolled to bottom on initial load");
+          }
+        });
+      });
+      isInitialLoadRef.current = false;
+      prevMessageCountRef.current = conversationMessages.length;
+      return;
+    }
+
+    // Only scroll when new messages arrive from others (not when user sends)
+    if (
+      !isInitialLoadRef.current &&
+      !userSentMessageRef.current &&
+      conversationMessages.length > prevMessageCountRef.current
+    ) {
+      scrollToBottom();
+    }
+
+    // Reset the user sent message flag
+    userSentMessageRef.current = false;
+
+    // Update the previous count
+    prevMessageCountRef.current = conversationMessages.length;
+  }, [conversationMessages, conversation?._id]);
 
   // Fetch messages when conversation changes
   useEffect(() => {
     if (conversation?._id) {
+      // Reset scroll flag when conversation changes
+      hasScrolledOnLoadRef.current = false;
+      
       dispatch(fetchMessages({ conversationId: conversation._id }));
 
       // Join conversation room
@@ -67,6 +116,56 @@ const ChatWindow = ({ conversation, onClose, onBack }) => {
       }
     }
   }, [conversation?._id, dispatch, user?._id]);
+
+  // Scroll to bottom after messages finish loading
+  useEffect(() => {
+    if (
+      !messagesLoading && 
+      conversationMessages.length > 0 && 
+      !hasScrolledOnLoadRef.current
+    ) {
+      // Messages finished loading, scroll to bottom
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (messagesContainerRef.current) {
+            messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+            console.log("📜 Auto-scrolled to latest messages after loading");
+            hasScrolledOnLoadRef.current = true;
+          }
+        });
+      });
+    }
+  }, [messagesLoading, conversationMessages.length]);
+
+  // Listen for new messages via socket in real-time
+  useEffect(() => {
+    if (!conversation?._id || !socketService.getSocket()) return;
+
+    const handleNewMessage = (message) => {
+      console.log("📩 Real-time message received:", message);
+      
+      // Only update if the message is for the current conversation
+      if (message.conversationId === conversation._id) {
+        // Message will be added to Redux store automatically by socketService
+        // This useEffect ensures the component re-renders when new messages arrive
+        console.log("✅ Message is for current conversation, UI will update");
+        
+        // Auto-scroll to bottom when receiving new messages from others
+        if (message.senderId !== user?._id) {
+          setTimeout(() => scrollToBottom(), 100);
+        }
+      }
+    };
+
+    // Subscribe to new messages
+    const socket = socketService.getSocket();
+    socket.on("new-message", handleNewMessage);
+
+    // Cleanup listener when conversation changes or component unmounts
+    return () => {
+      socket.off("new-message", handleNewMessage);
+    };
+  }, [conversation?._id, user?._id]);
 
   // Handle typing indicators
   useEffect(() => {
@@ -106,11 +205,16 @@ const ChatWindow = ({ conversation, onClose, onBack }) => {
 
     if (!newMessage.trim() || !conversation?._id || !user?._id) return;
 
-    const messageData = {
+    const messageText = newMessage.trim();
+    const tempId = `temp-${Date.now()}-${Math.random()}`; // Unique temporary ID
+
+    const optimisticMessageData = {
       conversationId: conversation._id,
       senderId: user._id,
-      message: newMessage.trim(),
+      message: messageText,
       messageType: "text",
+      timestamp: new Date().toISOString(),
+      _id: tempId, // Temporary ID for optimistic UI update
     };
 
     // Clear typing indicator
@@ -119,11 +223,60 @@ const ChatWindow = ({ conversation, onClose, onBack }) => {
       clearTimeout(typingTimeout);
     }
 
-    // Send message via socket
-    socketService.sendMessage(messageData);
+    // Set flag to indicate user sent a message (for scrolling)
+    userSentMessageRef.current = true;
 
-    // Clear input
+    // Add message to local state immediately for instant UI update (optimistic)
+    dispatch(
+      addMessage({
+        conversationId: conversation._id,
+        message: optimisticMessageData,
+      })
+    );
+
+    // Clear input immediately for better UX
     setNewMessage("");
+
+    try {
+      // Send message to backend API to persist in MongoDB
+      // The backend will:
+      // 1. Save to database
+      // 2. Broadcast via socket to all users in the conversation
+      // 3. Return the saved message with real _id
+      const savedMessage = await dispatch(
+        sendMessage({
+          conversationId: conversation._id,
+          senderId: user._id,
+          message: messageText,
+          messageType: "text",
+        })
+      ).unwrap();
+
+      console.log("✅ Message saved to database:", savedMessage);
+
+      // Update the optimistic message with the real data from backend
+      // Replace the temporary message with the real one
+      const messages = [...(conversationMessages || [])];
+      const tempIndex = messages.findIndex(msg => msg._id === tempId);
+      if (tempIndex !== -1) {
+        // Remove the temporary message since sendMessage.fulfilled will add the real one
+        messages.splice(tempIndex, 1);
+        // Note: We don't need to manually update here because
+        // sendMessage.fulfilled reducer will handle adding the real message
+      }
+
+      // Update conversation in the list with the new message
+      dispatch(fetchConversations(user._id));
+    } catch (error) {
+      console.error("❌ Failed to send message:", error);
+      console.error("Error details:", {
+        conversationId: conversation._id,
+        senderId: user._id,
+        message: messageText,
+      });
+      // TODO: Show error toast to user and remove the optimistic message
+      // For now, the optimistic message will remain showing the send attempt
+    }
   };
 
   // Handle key press
@@ -153,10 +306,10 @@ const ChatWindow = ({ conversation, onClose, onBack }) => {
 
   if (!conversation) {
     return (
-      <div className="flex items-center justify-center h-full bg-gray-50 dark:bg-gray-800">
-        <div className="text-center">
-          <User className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-500 dark:text-gray-400">
+      <div className="flex items-center justify-center h-full backdrop-blur-sm bg-gradient-to-br from-emerald-50/50 via-white to-green-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-emerald-900/10">
+        <div className="text-center px-4">
+          <User className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-3 sm:mb-4" />
+          <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base">
             Select a conversation to start chatting
           </p>
         </div>
@@ -165,81 +318,111 @@ const ChatWindow = ({ conversation, onClose, onBack }) => {
   }
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-gray-800">
+    <div className="flex flex-col h-full backdrop-blur-sm bg-gradient-to-br from-emerald-50/50 via-white to-green-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-emerald-900/10">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-        <div className="flex items-center space-x-3">
+      <div className="flex items-center justify-between p-3 sm:p-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex items-center space-x-2 sm:space-x-3 min-w-0 flex-1">
           {onBack && (
-            <button
+            <motion.button
               onClick={onBack}
-              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-2xl transition-all duration-300 flex-shrink-0"
             >
-              <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-            </button>
+              <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-400" />
+            </motion.button>
           )}
 
-          <div className="relative">
-            <div className="w-10 h-10 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center">
-              <User className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+          <div className="relative flex-shrink-0">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-emerald-500 to-green-500 rounded-2xl flex items-center justify-center shadow-lg">
+              <User className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
             {isUserOnline(conversation.otherUser?._id) && (
-              <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-white dark:border-gray-800 rounded-full"></div>
+              <div className="absolute -bottom-1 -right-1 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-500 border-2 border-white dark:border-gray-800 rounded-full"></div>
             )}
           </div>
 
-          <div>
-            <h3 className="font-semibold text-gray-900 dark:text-white">
+          <div className="min-w-0 flex-1">
+            <h3 className="font-bold text-gray-900 dark:text-white text-sm sm:text-base truncate">
               {conversation.otherUser?.name || "Unknown User"}
             </h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
               {isUserOnline(conversation.otherUser?._id) ? "Online" : "Offline"}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center space-x-2">
-          <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-            <Phone className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-          </button>
-          <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-            <Video className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-          </button>
-          <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-            <MoreVertical className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-          </button>
-          {onClose && (
-            <button
+        <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-2xl transition-all duration-300"
+          >
+            {/* <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-400" /> */}
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-2xl transition-all duration-300"
+          >
+            {/* <Video className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-400" /> */}
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-2xl transition-all duration-300"
+          >
+            <MoreVertical className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-400" />
+          </motion.button>
+          {/* {onClose && (
+            <motion.button
               onClick={onClose}
-              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-2xl transition-all duration-300"
             >
-              <X className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-            </button>
-          )}
+              <X className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-400" />
+            </motion.button>
+          )} */}
         </div>
       </div>
 
       {/* Property Info */}
       {conversation.propertyTitle && (
-        <div className="p-3 bg-emerald-50 dark:bg-emerald-900/20 border-b border-gray-200 dark:border-gray-700">
-          <p className="text-sm text-emerald-700 dark:text-emerald-300">
-            <span className="font-medium">Property:</span>{" "}
-            {conversation.propertyTitle}
+        <div className="p-2 sm:p-3 bg-gradient-to-r from-emerald-500/10 to-green-500/10 dark:from-emerald-900/20 dark:to-green-900/20 border-b border-gray-200 dark:border-gray-700">
+          <p className="text-xs sm:text-sm bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-green-600 dark:from-emerald-400 dark:to-green-400 font-medium">
+            <span className="font-bold">Property:</span>{" "}
+            <span className="truncate block sm:inline">
+              {conversation.propertyTitle}
+            </span>
           </p>
         </div>
       )}
 
-      {/* Messages */}
+      {/* Messages Container */}
       <div
         ref={messagesContainerRef}
-        className="flex-1 overflow-y-auto p-4 space-y-4"
+        className="flex-1 p-2 sm:p-4 overflow-y-auto space-y-3 sm:space-y-4 relative overscroll-contain"
+        onClick={(e) => e.stopPropagation()}
+        onTouchMove={(e) => e.stopPropagation()}
       >
+        {/* Scroll to bottom button */}
+        <motion.button
+          onClick={scrollToBottom}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 p-1.5 sm:p-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
+          aria-label="Scroll to bottom"
+        >
+          <ArrowDown className="w-4 h-4 sm:w-5 sm:h-5" />
+        </motion.button>
         {messagesLoading ? (
-          <div className="flex items-center justify-center h-32">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
+          <div className="flex items-center justify-center h-24 sm:h-32">
+            <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-emerald-500"></div>
           </div>
         ) : conversationMessages.length === 0 ? (
-          <div className="flex items-center justify-center h-32">
-            <p className="text-gray-500 dark:text-gray-400">
+          <div className="flex items-center justify-center h-24 sm:h-32">
+            <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base text-center px-4">
               No messages yet. Start the conversation!
             </p>
           </div>
@@ -259,13 +442,15 @@ const ChatWindow = ({ conversation, onClose, onBack }) => {
                 }`}
               >
                 <div
-                  className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                  className={`max-w-[85%] sm:max-w-xs lg:max-w-md px-3 py-2 sm:px-4 sm:py-3 rounded-2xl shadow-lg ${
                     message.senderId === user?._id
-                      ? "bg-emerald-500 text-white"
-                      : "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white"
+                      ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white"
+                      : "bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-600"
                   }`}
                 >
-                  <p className="text-sm">{message.message}</p>
+                  <p className="text-xs sm:text-sm break-words">
+                    {message.message}
+                  </p>
                   <p
                     className={`text-xs mt-1 ${
                       message.senderId === user?._id
@@ -293,20 +478,20 @@ const ChatWindow = ({ conversation, onClose, onBack }) => {
               exit={{ opacity: 0, y: -20 }}
               className="flex justify-start"
             >
-              <div className="bg-gray-100 dark:bg-gray-700 px-4 py-2 rounded-lg">
+              <div className="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 px-3 py-2 sm:px-4 sm:py-3 rounded-2xl shadow-lg">
                 <div className="flex items-center space-x-1">
                   <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gray-400 rounded-full animate-bounce"></div>
                     <div
-                      className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                      className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gray-400 rounded-full animate-bounce"
                       style={{ animationDelay: "0.1s" }}
                     ></div>
                     <div
-                      className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                      className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gray-400 rounded-full animate-bounce"
                       style={{ animationDelay: "0.2s" }}
                     ></div>
                   </div>
-                  <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">
+                  <span className="text-xs text-gray-600 dark:text-gray-300 ml-1 sm:ml-2">
                     {conversation.otherUser?.name} is typing...
                   </span>
                 </div>
@@ -319,17 +504,19 @@ const ChatWindow = ({ conversation, onClose, onBack }) => {
       </div>
 
       {/* Message Input */}
-      <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+      <div className="p-2 sm:p-4 border-t border-gray-200 dark:border-gray-700">
         <form
           onSubmit={handleSendMessage}
-          className="flex items-center space-x-2"
+          className="flex items-center space-x-1 sm:space-x-2"
         >
-          <button
+          {/* <motion.button
             type="button"
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-2xl transition-all duration-300"
           >
             <Paperclip className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-          </button>
+          </motion.button> */}
 
           <div className="flex-1 relative">
             <input
@@ -338,23 +525,27 @@ const ChatWindow = ({ conversation, onClose, onBack }) => {
               onChange={handleMessageChange}
               onKeyPress={handleKeyPress}
               placeholder="Type a message..."
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-gray-200 dark:border-gray-700 rounded-2xl focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 backdrop-blur-sm bg-white/50 dark:bg-gray-800/50 text-gray-900 dark:text-white transition-all duration-300 text-sm sm:text-base"
             />
-            <button
+            {/* <motion.button
               type="button"
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1 hover:bg-gray-100 dark:hover:bg-gray-600 rounded transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-xl transition-all duration-300"
             >
               <Smile className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-            </button>
+            </motion.button> */}
           </div>
 
-          <button
+          <motion.button
             type="submit"
             disabled={!newMessage.trim()}
-            className="p-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            whileHover={{ scale: !newMessage.trim() ? 1 : 1.05 }}
+            whileTap={{ scale: !newMessage.trim() ? 1 : 0.95 }}
+            className="p-1.5 sm:p-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-2xl shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex-shrink-0"
           >
-            <Send className="w-5 h-5" />
-          </button>
+            <Send className="w-4 h-4 sm:w-5 sm:h-5" />
+          </motion.button>
         </form>
       </div>
     </div>

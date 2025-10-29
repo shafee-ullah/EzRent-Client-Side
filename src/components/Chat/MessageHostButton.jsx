@@ -65,7 +65,7 @@ const MessageHostButton = ({
         whileTap={{ scale: 0.95 }}
         onClick={handleMessageHost}
         disabled={isLoading || conversationsLoading}
-        className={`p-2 bg-emerald-500 text-white rounded-full hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${className}`}
+        className={`p-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-2xl shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 ${className}`}
         title={`Message ${hostName || "Host"}`}
       >
         {isLoading || conversationsLoading ? (
@@ -83,14 +83,14 @@ const MessageHostButton = ({
       whileTap={{ scale: 0.98 }}
       onClick={handleMessageHost}
       disabled={isLoading || conversationsLoading}
-      className={`flex items-center space-x-2 px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${className}`}
+      className={`flex items-center space-x-2 px-4 py-3 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-2xl shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 ${className}`}
     >
       {isLoading || conversationsLoading ? (
         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
       ) : (
         <MessageCircle className="w-4 h-4" />
       )}
-      <span className="font-medium">Message {hostName || "Host"}</span>
+      <span className="font-semibold">Message {hostName || "Host"}</span>
     </motion.button>
   );
 };
@@ -137,6 +137,12 @@ export const ContactHostButton = ({
       // Set as current conversation and open chat
       dispatch(setCurrentConversation(result));
       dispatch(openChat());
+      
+      // Navigate to messages section in the dashboard
+      const messagesNavItem = document.querySelector('button[data-section="messages"]');
+      if (messagesNavItem) {
+        messagesNavItem.click();
+      }
     } catch (error) {
       console.error("Error creating conversation:", error);
     } finally {
@@ -150,14 +156,14 @@ export const ContactHostButton = ({
       whileTap={{ scale: 0.98 }}
       onClick={handleContactHost}
       disabled={isLoading || conversationsLoading}
-      className={`flex items-center space-x-2 px-3 py-2 bg-white border border-emerald-500 text-emerald-600 rounded-lg hover:bg-emerald-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${className}`}
+      className={`flex items-center space-x-2 px-4 py-3 backdrop-blur-sm bg-white/50 dark:bg-gray-800/50 border border-emerald-500 text-emerald-600 dark:text-emerald-400 rounded-2xl hover:bg-emerald-50 dark:hover:bg-emerald-900/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 ${className}`}
     >
       {isLoading || conversationsLoading ? (
         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-emerald-500"></div>
       ) : (
         <MessageCircle className="w-4 h-4" />
       )}
-      <span className="text-sm font-medium">Contact Host</span>
+      <span className="font-semibold">Contact Host</span>
     </motion.button>
   );
 };
@@ -217,7 +223,7 @@ export const QuickMessageButton = ({
       whileTap={{ scale: 0.95 }}
       onClick={handleQuickMessage}
       disabled={isLoading || conversationsLoading}
-      className={`flex items-center space-x-1 px-2 py-1 bg-emerald-100 text-emerald-700 rounded-md hover:bg-emerald-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-xs font-medium ${className}`}
+      className={`flex items-center space-x-1 px-3 py-2 backdrop-blur-sm bg-gradient-to-r from-emerald-500/10 to-green-500/10 dark:from-emerald-900/20 dark:to-green-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 rounded-2xl hover:bg-emerald-500/20 dark:hover:bg-emerald-500/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 text-sm font-semibold ${className}`}
     >
       {isLoading || conversationsLoading ? (
         <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-emerald-500"></div>

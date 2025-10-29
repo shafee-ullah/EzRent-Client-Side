@@ -2,11 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // Base URL for API calls
-<<<<<<< HEAD
-const API_BASE_URL = "http://localhost:5001/api";
-=======
-const API_BASE_URL = "https://ez-rent-server-side.vercel.app/api";
->>>>>>> 1cad0057a097641c0a5265dce9b39c91a7030469
+const API_BASE_URL = "https://ezrent-server-side-production.up.railway.app/api";
 
 // Async thunks for API calls
 export const createConversation = createAsyncThunk(
@@ -144,11 +140,13 @@ const chatSlice = createSlice({
       state.currentConversation = action.payload;
       state.currentConversationId = action.payload?._id;
     },
-    
+
     addConversation: (state, action) => {
       const newConversation = action.payload;
       // Check if conversation already exists
-      const exists = state.conversations.some(conv => conv._id === newConversation._id);
+      const exists = state.conversations.some(
+        (conv) => conv._id === newConversation._id
+      );
       if (!exists) {
         state.conversations.unshift(newConversation);
       }
@@ -160,7 +158,15 @@ const chatSlice = createSlice({
       if (!state.messages[conversationId]) {
         state.messages[conversationId] = [];
       }
-      state.messages[conversationId].push(message);
+      
+      // Check if message already exists (prevent duplicates)
+      const exists = state.messages[conversationId].some(
+        (msg) => msg._id === message._id
+      );
+      
+      if (!exists) {
+        state.messages[conversationId].push(message);
+      }
     },
 
     updateMessage: (state, action) => {
@@ -333,10 +339,25 @@ const chatSlice = createSlice({
         const message = action.payload;
         const conversationId = message.conversationId;
 
+        // Initialize messages array if needed
         if (!state.messages[conversationId]) {
           state.messages[conversationId] = [];
         }
-        state.messages[conversationId].push(message);
+        
+        // Replace temporary optimistic message with real message from backend
+        // Remove any temporary messages and add the real one
+        const tempMessages = state.messages[conversationId].filter(
+          msg => !msg._id.toString().startsWith('temp-')
+        );
+        
+        // Check if this message already exists (prevent duplicates)
+        const exists = tempMessages.some(msg => msg._id === message._id);
+        
+        if (!exists) {
+          tempMessages.push(message);
+        }
+        
+        state.messages[conversationId] = tempMessages;
 
         // Update conversation in conversations list
         const conversationIndex = state.conversations.findIndex(

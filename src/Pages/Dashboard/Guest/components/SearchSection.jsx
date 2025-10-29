@@ -1,35 +1,17 @@
-import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Search, Calendar, MapPin, Users, Filter } from "lucide-react";
 
 const MotionDiv = motion.div;
 
 const SearchSection = () => {
-  const [filters, setFilters] = useState({
-    location: "",
-    checkIn: "",
-    checkOut: "",
-    guests: 1,
-    priceRange: [500, 10000],
-    propertyType: "any",
-    amenities: [],
-  });
-
-  const amenitiesList = [
-    "wifi",
-    "parking",
-    "ac",
-    "kitchen",
-    "pool",
-    "breakfast",
-  ];
+ 
 
   return (
     <div className="space-y-6">
       <MotionDiv
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700"
+        className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
           <div>
@@ -101,7 +83,7 @@ const SearchSection = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
-        className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700"
+        className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700"
       >
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
           Trending Destinations in Bangladesh
@@ -150,7 +132,7 @@ const SearchSection = () => {
                   {destination.properties} properties
                 </p>
                 <p className="text-sm font-semibold mt-1">
-                  From ৳{destination.startingPrice}/night
+                  From ${destination.startingPrice}/night
                 </p>
               </div>
             </MotionDiv>

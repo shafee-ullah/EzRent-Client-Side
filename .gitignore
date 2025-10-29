@@ -13,6 +13,7 @@ dist
 dist-ssr
 *.local
 .env.local
+MONGODB_SAMPLE_DATA.md
 
 # Editor directories and files
 .vscode/*

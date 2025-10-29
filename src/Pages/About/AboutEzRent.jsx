@@ -11,7 +11,7 @@ const AboutEzRent = () => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.6 }}
-      className="relative max-w-11/12 mx-auto px-4 py-12 lg:py-16 "
+      className="relative max-w-11/12 mx-auto px-4 py-12 lg:py-16  "
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-20 -right-20 w-64 h-64 bg-emerald-300/20 dark:bg-emerald-400/10 rounded-full blur-3xl" />
@@ -139,15 +139,15 @@ const AboutEzRent = () => {
         <div className="max-w-3xl mx-auto">
           {[
             {
-              year: "2023",
+              year: "2025 August",
               text: "Started EzRent with a small set of curated homes.",
             },
             {
-              year: "2024",
+              year: "2025 September",
               text: "Expanded nationwide with verified hosts and instant booking.",
             },
             {
-              year: "2025",
+              year: "2025 October",
               text: "Launched advanced search, better safety, and 24/7 support.",
             },
           ].map((i) => (

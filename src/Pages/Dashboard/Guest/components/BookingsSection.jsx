@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { AuthContext } from "../../../../Context/AuthContext";
 import {
-  deleteBooking,
+  updateBookingStatus,
   fetchMyBooking,
 } from "../../../../redux/PropertieSlice";
 import { ContactHostButton } from "../../../../Components/Chat/MessageHostButton";
 import Swal from "sweetalert2";
 import { MdHotel } from "react-icons/md";
 import { Link } from "react-router";
+import Loading from "../../../../components/Loading";
 
 const BookingsSection = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,19 @@ const BookingsSection = () => {
     }
   }, [dispatch, user?.email]);
 
+  //  useEffect(() => {
+  //   if (bookings.length > 0) {
+  //     console.log("=== BOOKING DATA AFTER FIX ===");
+  //     console.log("Full booking object:", bookings[0]);
+  //     console.log("booking.hostId:", bookings[0].hostId);
+  //     console.log("booking.hostName:", bookings[0].hostName);
+  //     console.log("booking.propertyId:", bookings[0].propertyId);
+  //     console.log("booking.id:", bookings[0].id);
+  //     console.log("Available fields:", Object.keys(bookings[0]));
+  //     console.log("================================");
+  //   }
+  // }, [bookings]);
+
   const handleCancelBooking = (id) => {
     Swal.fire({
       title: "Cancel this booking?",
@@ -39,14 +53,23 @@ const BookingsSection = () => {
       confirmButtonText: "Yes, cancel it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(deleteBooking(id))
+        dispatch(
+          updateBookingStatus({
+            bookingId: id,
+            newStatus: "cancelled",
+          })
+        )
           .unwrap()
           .then(() => {
             Swal.fire(
               "Cancelled!",
-              "Your booking has been deleted.",
+              "Your booking has been cancelled.",
               "success"
             );
+            // Refresh bookings to show updated status
+            if (user?.email) {
+              dispatch(fetchMyBooking(user.email));
+            }
           })
           .catch(() => {
             Swal.fire("Error", "Failed to cancel booking.", "error");
@@ -63,7 +86,7 @@ const BookingsSection = () => {
     });
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
@@ -96,7 +119,7 @@ const BookingsSection = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-3"
+                className="max-w-4xl mx-auto shadow-lg bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700"
               >
                 <div className="flex flex-col sm:flex-row gap-4 items-stretch">
                   {/* Left Side: Image */}
@@ -111,59 +134,67 @@ const BookingsSection = () => {
                   {/* Right Side: Details */}
                   <div className="flex-grow p-1 relative">
                     <span
-                      className={`absolute top-0 right-0 px-3 py-1 text-sm font-medium rounded-full ${
-                        booking.status === "confirmed"
+                      className={`absolute top-0 right-0 px-3 py-1 text-sm font-medium rounded-full ${booking.status === "confirmed"
                           ? "bg-green-100 text-green-700"
                           : "bg-yellow-100 text-yellow-700"
-                      }`}
+                        }`}
                     >
                       {booking.status}
                     </span>
 
-                    <h2 className="text-xl font-semibold text-gray-800">
+                    <h2 className="text-xl font-semibold text-gray-800  dark:text-gray-100">
                       {booking.title}
                     </h2>
-                    <p className="text-sm text-gray-500 mb-4">
-                      Hosted by {booking.host || "Unknown"}
+                    <p className="text-sm text-gray-500 mb-4 dark:text-gray-300">
+                      {/* Hosted by {booking.host || "Unknown"} */}
+                      Hosted by {booking.hostname || "Unknown"}
                     </p>
 
                     <div className="flex justify-between items-center text-gray-700 border-b border-gray-100 pb-3 mb-4">
                       <div>
-                        <p className="text-sm text-gray-500">Check-in</p>
-                        <p className="font-bold">
+                        <p className="text-sm text-gray-500  dark:text-gray-100">Check-in</p>
+                        <p className="font-bold dark:text-gray-400">
                           {formatDate(booking.Checkin)}
                         </p>
                       </div>
                       <div>
-                        <p className="text-sm text-gray-500">Check-out</p>
-                        <p className="font-bold">
+                        <p className="text-sm text-gray-500 dark:text-gray-100">Check-out</p>
+                        <p className="font-bold dark:text-gray-400">
                           {formatDate(booking.Checkout)}
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm text-gray-500">Total Price</p>
-                        <p className="font-black text-lg">
-                          ৳{Number(booking.price).toLocaleString()}
+                        <p className="text-sm text-gray-500 dark:text-gray-100">Total Price</p>
+                        <p className="font-black text-lg dark:text-gray-400">
+                          ${Number(booking.price).toLocaleString()}
                         </p>
                       </div>
                     </div>
 
                     <div className="flex gap-3 mt-4 flex-wrap">
                       <ContactHostButton
-                        id={booking.id}
-                        hostName={booking.host}
+                        id={booking.hostId || booking.id} // Fallback for now
+                        hostName={booking.hostname || booking.host}
                         propertyId={booking.propertyId}
                         propertyTitle={booking.title}
-                        className="px-4 py-2"
+                        className="px-4 py-2 rounded-2xl"
+                        // onClick={() => {
+                        //   console.log("=== CLICKING MESSAGE BUTTON ===");
+                        //   console.log("Passing hostId:", booking.hostId || booking.id);
+                        //   console.log("Passing hostName:", booking.hostName || booking.host);
+                        // }
+                        // }
                       />
+
                       {/* Cancel Booking Button */}
                       <button
                         onClick={() => handleCancelBooking(booking._id)}
-                        className="px-4 py-2 bg-red-500 text-white font-medium rounded-lg hover:bg-red-600 transition duration-150 shadow-md"
+                        className="px-4 py-2 bg-red-500 text-white font-medium rounded-2xl hover:bg-red-600 transition duration-150 shadow-md"
                       >
                         Cancel Booking
                       </button>
-                      <button className="px-4 py-2 bg-white text-gray-700 border border-gray-300 font-medium rounded-lg hover:bg-gray-50 transition duration-150 flex items-center">
+                      {/* <button className="px-4 py-2 bg-white  text-gray-700 border border-gray-300 font-medium rounded-lg hover:bg-gray-50 transition duration-150 flex items-center">
+                      {/* <button className="px-4 py-2 bg-white  text-gray-700 border border-gray-300 font-medium rounded-lg hover:bg-gray-50 transition duration-150 flex items-center">
                         <svg
                           className="w-5 h-5 mr-1"
                           fill="none"
@@ -178,7 +209,7 @@ const BookingsSection = () => {
                           ></path>
                         </svg>
                         Invoice
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 </div>

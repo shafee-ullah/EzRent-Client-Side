@@ -45,8 +45,8 @@ const Footer = () => {
     { name: "Browse Properties", path: "/BrowseProperties" },
     { name: "Become A Host", path: "/become-host" },
     { name: "About EzRent", path: "/about" },
-    { name: "Contact Us", path: "/contact" },
-    { name: "Privacy Policy", path: "/privacy" }
+    // { name: "Contact Us", path: "/contact" },
+    // { name: "Privacy Policy", path: "/privacy" }
   ];
 
   return (
@@ -174,8 +174,7 @@ const Footer = () => {
                       href="mailto:endgameprogramm10@gmail.com"
                       className="text-gray-600 dark:text-gray-400 text-sm hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors duration-300"
                     >
-                      endgameprogramm10@gmail.com
-                    </a>
+                      support@ezrent.com                    </a>
                   </div>
                 </div>
 

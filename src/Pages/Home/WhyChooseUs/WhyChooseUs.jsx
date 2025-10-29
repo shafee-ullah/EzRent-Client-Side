@@ -142,7 +142,7 @@ const WhyChooseUs = () => {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.8 }}
-      className="relative max-w-11/12 mx-auto px-4 py-16 lg:py-8"
+      className="relative max-w-11/12 mx-auto px-4 py-16 lg:py-16"
     >
       {/* Animated Background Elements */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -156,7 +156,7 @@ const WhyChooseUs = () => {
             repeat: Infinity,
             ease: "linear"
           }}
-          className="absolute -top-20 -right-20 w-64 h-64 bg-gradient-to-r from-emerald-200 to-green-200 dark:from-emerald-900/20 dark:to-green-900/20 rounded-full blur-3xl opacity-30"
+          className="absolute -top-20 -right-20 w-64 h-64  rounded-full blur-3xl opacity-30"
         />
         <MotionDiv
           animate={{
@@ -199,7 +199,7 @@ const WhyChooseUs = () => {
             ))}
           </div>
           <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-            Trusted by 50,000+ Travelers
+            Trusted by 5000+ Travelers
           </span>
         </MotionDiv>
 
@@ -209,7 +209,7 @@ const WhyChooseUs = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          <h2 className="text-4xl lg:text-5xl font-bold tracking-tight mb-4">
+          <h2 className="text-4xl lg:text-5xl font-bold tracking-tight mb-2">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 dark:from-emerald-400 dark:via-green-400 dark:to-teal-400">
               Why Travelers Choose Us
             </span>
@@ -219,7 +219,7 @@ const WhyChooseUs = () => {
             initial={{ width: 0 }}
             whileInView={{ width: 120 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="h-1.5 bg-gradient-to-r from-emerald-400 to-green-600 rounded-full mx-auto mb-4"
+            className="h-1.5 bg-gradient-to-r from-emerald-400 to-green-600 rounded-full mx-auto mb-6"
           />
         </MotionDiv>
 

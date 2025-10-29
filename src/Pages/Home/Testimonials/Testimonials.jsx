@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, MapPin, Star } from "lucide-react";
+import { CheckCircle2, MapPin, Star ,Sparkles } from "lucide-react";
 
 const MotionSection = motion.section;
 const MotionDiv = motion.div;
@@ -8,8 +8,8 @@ const MotionSvg = motion.svg;
 
 const testimonials = [
   {
-    name: "Aisha Rahman",
-    location: "Dhaka",
+    name: "Sarah Johnson",
+    location: "New York",
     rating: 5,
     quote: "The booking process was super smooth and the place was exactly as shown!",
     shortQuote: "Smooth booking process",
@@ -17,44 +17,44 @@ const testimonials = [
   },
   {
     name: "Sarwar Islam",
-    location: "Sylhet",
+    location: "Dhaka",
     rating: 4,
     quote: "Great value and responsive host. Will definitely book again.",
     shortQuote: "Great value and responsive host",
     avatar: "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=400&auto=format&fit=crop",
   },
   {
-    name: "Nusrat Jahan",
-    location: "Cox's Bazar",
+    name: "Lisa Anderson",
+    location: "North London",
     rating: 5,
     quote: "Amazing stay near the beach. Clean, cozy, and hassle-free!",
     shortQuote: "Amazing beachside stay",
     avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=400&auto=format&fit=crop",
   },
   {
-    name: "Tanvir Chowdhury",
-    location: "Chattogram",
+    name: "Chris Smith",
+    location: "Beijing",
     rating: 4,
     quote: "Easy check-in and friendly support. Highly recommended.",
     shortQuote: "Easy check-in, friendly support",
     avatar: "https://images.unsplash.com/photo-1540569014015-19a7be504e3a?q=80&w=400&auto=format&fit=crop",
   },
   {
-    name: "Rahim Ahmed",
-    location: "Khulna",
+    name: "Won Bin",
+    location: "Seoul",
     rating: 5,
     quote: "Perfect location with stunning views. Everything was spotless!",
     shortQuote: "Perfect location, stunning views",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop",
   },
-  {
-    name: "Fatima Begum",
-    location: "Rajshahi",
-    rating: 5,
-    quote: "Exceptional hospitality and comfortable accommodations.",
-    shortQuote: "Exceptional hospitality",
-    avatar: "https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?q=80&w=400&auto=format&fit=crop",
-  },
+  // {
+  //   name: "Fatima Begum",
+  //   location: "Rajshahi",
+  //   rating: 5,
+  //   quote: "Exceptional hospitality and comfortable accommodations.",
+  //   shortQuote: "Exceptional hospitality",
+  //   avatar: "https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?q=80&w=400&auto=format&fit=crop",
+  // },
 ];
 
 const StarRow = ({ rating, size = "w-5 h-5" }) => {
@@ -187,7 +187,7 @@ const Testimonials = () => {
       className="relative max-w-7xl mx-auto px-4 py-16 lg:py-12"
     >
       {/* Background Pattern */}
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/30 via-transparent to-green-50/20 dark:from-emerald-900/10 dark:via-transparent dark:to-green-900/5 rounded-3xl" />
+      <div className="absolute inset-0 rounded-3xl" />
       
       {/* Floating Elements */}
       <div className="pointer-events-none absolute -top-10 right-10 h-48 w-48 rounded-full blur-3xl bg-emerald-400/20 dark:bg-emerald-300/10" />
@@ -195,41 +195,52 @@ const Testimonials = () => {
       <div className="pointer-events-none absolute top-1/2 left-1/4 h-32 w-32 rounded-full blur-2xl bg-amber-400/10 dark:bg-amber-300/5" />
 
       {/* Header */}
-      <div className="relative text-center mb-12 lg:mb-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
+     {/* Header */}
+     <div className="relative text-center mb-16">
+        <MotionDiv
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-100 dark:border-emerald-800 mb-4"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 shadow-sm mb-6"
         >
-          <Star className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-          <span className="text-sm font-medium text-emerald-700 dark:text-emerald-300">
+          <Sparkles className="w-5 h-5 text-emerald-500" />
+          <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
             Trusted by 5000+ Guests
           </span>
-        </motion.div>
+          <Star className="w-4 h-4 text-amber-500 fill-current" />
+        </MotionDiv>
         
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
+        <MotionDiv
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-4xl lg:text-5xl font-bold tracking-tight mb-4"
         >
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-green-600 dark:from-emerald-400 dark:to-green-400">
-            What Our Guests Say
-          </span>
-        </motion.h2>
-        
-        <motion.p
+          <h2 className="text-4xl lg:text-5xl font-bold tracking-tight mb-4">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-green-600 dark:from-emerald-400 dark:to-green-400">
+              What Our Guests Say
+            </span>
+          </h2>
+          
+          <MotionDiv
+            initial={{ width: 0 }}
+            whileInView={{ width: 120 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="h-1.5 bg-gradient-to-r from-emerald-400 to-green-600 rounded-full mx-auto mb-4"
+          />
+        </MotionDiv>
+
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
         >
-          Discover why travelers choose us for their perfect stay experience
-        </motion.p>
+          <p className="text-lg lg:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+            Discover why travelers choose us for their perfect stay experience
+          </p>
+        </MotionDiv>
       </div>
 
       {/* Main Carousel */}

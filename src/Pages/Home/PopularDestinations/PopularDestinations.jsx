@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { MapPin, Star, Heart, Navigation, Users, Calendar } from "lucide-react";
 
@@ -9,69 +9,102 @@ const destinations = [
   {
     name: "Dhaka",
     image: "https://images.unsplash.com/photo-1564034503-e7c9edcb420c?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    description: "Vibrant capital city with rich cultural heritage",
+    description: "The bustling capital city blends ancient Mughal heritage with modern development. Experience vibrant street markets, historic mosques, colorful rickshaws, and authentic Bengali cuisine in this energetic metropolis.",
     rating: 4.8,
     reviews: 1247,
     properties: 342,
     price: "From $35/night",
     trending: true,
-    
+    categories: ["city", "culture"]
   },
   {
     name: "Cox's Bazar",
     image: "https://images.unsplash.com/photo-1619177383949-f03975e50b19?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    description: "World's longest natural sea beach",
+    description: "Home to the world's longest unbroken natural sea beach stretching 120km. Golden sands, stunning sunsets, fresh seafood, and endless ocean views make it Bangladesh's premier beach destination.",
     rating: 4.9,
     reviews: 892,
     properties: 156,
     price: "From $45/night",
     trending: true,
-   
+    categories: ["beach", "nature"]
   },
   {
     name: "Sylhet",
     image: "https://images.unsplash.com/photo-1634962546038-b7eddb268dd7?q=80&w=1152&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    description: "Land of tea gardens and waterfalls",
+    description: "A paradise of rolling tea gardens, cascading waterfalls, and mystical swamp forests. Visit Ratargul, Jaflong, and experience the spiritual atmosphere of numerous shrines dotting the lush landscape.",
     rating: 4.7,
     reviews: 567,
     properties: 89,
     price: "From $28/night",
     trending: false,
-    
+    categories: ["nature", "adventure"]
   },
   {
     name: "Chattogram",
     image: "https://images.unsplash.com/photo-1601410928419-3c56069edfb0?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    description: "Port city with scenic hill views",
+    description: "Bangladesh's second-largest city and major port offers diverse attractions from Patenga Beach to scenic hill districts. Gateway to the stunning Bandarban and Rangamati hill tracts with tribal culture.",
     rating: 4.6,
     reviews: 423,
     properties: 134,
     price: "From $32/night",
     trending: true,
-    
+    categories: ["city", "beach", "nature"]
   },
   {
     name: "Rajshahi",
     image: "https://as2.ftcdn.net/v2/jpg/02/80/62/11/1000_F_280621126_DQa3AcG5isfDDFNWOHnAb6XAkLptByHF.jpg",
-    description: "Silk city with historical landmarks",
+    description: "Known as the 'Silk City,' this cultural hub features ancient archaeological sites including Paharpur Buddhist Vihara, lush mango orchards, and traditional silk weaving heritage spanning centuries.",
     rating: 4.5,
     reviews: 289,
     properties: 76,
     price: "From $25/night",
     trending: false,
-    
+    categories: ["city", "culture", "history"]
   },
   {
     name: "Khulna",
     image: "https://media.istockphoto.com/id/2153871770/photo/sixty-dome-mosque-bagerhat-khulna-bangladesh-unesco-world-heritage-site-archaeological-sites.jpg?s=2048x2048&w=is&k=20&c=QT24Kdypi4VFrWA7rVVIEu6kz_3HP_DZYs4gTRo6tP8=",
-    description: "Gateway to the Sundarbans mangrove forest",
+    description: "Gateway to the magnificent Sundarbans, the world's largest mangrove forest and home to Royal Bengal Tigers. Explore UNESCO heritage sites and embark on unforgettable wildlife adventures.",
     rating: 4.8,
     reviews: 378,
     properties: 67,
     price: "From $30/night",
     trending: true,
-   
+    categories: ["nature", "adventure", "wildlife"]
   },
+  {
+    name: "Bandarban",
+    image: "https://images.unsplash.com/photo-1585123388867-3bfe6dd4bdbf?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2001",
+    description: "The most picturesque hill district with towering peaks, serene lakes like Boga Lake, Buddhist temples, and indigenous tribal communities. Perfect for trekking, hiking, and mountain adventures.",
+    rating: 4.9,
+    reviews: 445,
+    properties: 52,
+    price: "From $22/night",
+    trending: true,
+    categories: ["nature", "adventure", "mountains"]
+  },
+  {
+    name: "Sundarbans",
+    image: "https://plus.unsplash.com/premium_photo-1661866193149-4cb5997e111e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2070",
+    description: "The world's largest tidal mangrove forest, a UNESCO World Heritage Site. Experience thrilling boat safaris through winding rivers, spot Royal Bengal Tigers, spotted deer, and diverse bird species.",
+    rating: 4.9,
+    reviews: 512,
+    properties: 28,
+    price: "From $50/night",
+    trending: true,
+    categories: ["nature", "wildlife", "adventure"]
+  },
+  {
+    name: "Saint Martin's Island",
+    image: "https://images.unsplash.com/photo-1609170587020-b7dea81e6635?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1974",
+    description: "Bangladesh's only coral island, a tropical paradise with crystal-clear waters, pristine beaches, and vibrant marine life. Perfect for snorkeling, diving, and experiencing island tranquility.",
+    rating: 4.8,
+    reviews: 634,
+    properties: 45,
+    price: "From $40/night",
+    trending: true,
+    categories: ["beach", "nature", "island"]
+  }
 ];
 
 const DestinationCard = ({ destination, index, isMobile }) => {
@@ -80,14 +113,14 @@ const DestinationCard = ({ destination, index, isMobile }) => {
 
   return (
     <MotionDiv
-      initial={{ opacity: 0, y: 50, scale: 0.9 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.3 }}
+      initial={!isMobile ? { opacity: 0, y: 50, scale: 0.9 } : false}
+      whileInView={!isMobile ? { opacity: 1, y: 0, scale: 1 } : false}
+      viewport={!isMobile ? { once: true, amount: 0.3 } : undefined}
       whileHover={!isMobile ? { y: -8, scale: 1.02 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      transition={!isMobile ? { duration: 0.5, delay: index * 0.1 } : undefined}
       onHoverStart={() => !isMobile && setIsHovered(true)}
       onHoverEnd={() => !isMobile && setIsHovered(false)}
-      className="relative group cursor-pointer"
+      className="relative group"
     >
       <div className="relative h-64 md:h-80 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
         {/* Image with overlay */}
@@ -95,15 +128,15 @@ const DestinationCard = ({ destination, index, isMobile }) => {
           <img
             src={destination.image}
             alt={destination.name}
-            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+            className={`w-full h-full object-cover ${!isMobile ? 'transform group-hover:scale-110 transition-transform duration-700' : ''}`}
             loading="lazy"
           />
           
           {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
           
-          {/* Trending Badge */}
-          {destination.trending && (
+          {/* Trending Badge - Commented for future use */}
+          {/* {destination.trending && (
             <MotionDiv
               initial={{ scale: 0, rotate: -180 }}
               whileInView={{ scale: 1, rotate: 0 }}
@@ -115,81 +148,66 @@ const DestinationCard = ({ destination, index, isMobile }) => {
                 Trending
               </div>
             </MotionDiv>
-          )}
-
-          {/* Like Button */}
-          <MotionDiv
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className="absolute top-4 right-4"
-          >
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsLiked(!isLiked);
-              }}
-              className={`p-2 rounded-full backdrop-blur-sm transition-all duration-300 ${
-                isLiked 
-                  ? "bg-red-500/90 text-white" 
-                  : "bg-white/20 text-white hover:bg-white/30"
-              }`}
-            >
-              <Heart className={`w-4 h-4 ${isLiked ? "fill-current" : ""}`} />
-            </button>
-          </MotionDiv>
+          )} */}
 
           {/* Content Container */}
           <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-            <MotionDiv
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
-            >
-              {/* Location and Rating */}
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4" />
-                  <span className="font-semibold text-sm">{destination.name}</span>
+            {!isMobile ? (
+              <MotionDiv
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
+              >
+                {/* Location */}
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-5 h-5" />
+                    <span className="font-bold text-xl">{destination.name}</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-1 bg-black/30 backdrop-blur-sm px-2 py-1 rounded-full">
-                  <Star className="w-3 h-4 fill-current text-amber-400" />
-                  <span className="text-sm font-medium">{destination.rating}</span>
-                </div>
-              </div>
 
-              {/* Description */}
-              <p className="text-sm opacity-90 mb-3 line-clamp-2">
-                {destination.description}
-              </p>
+                {/* Description */}
+                <p className="text-sm opacity-90 mb-4 line-clamp-3 leading-relaxed">
+                  {destination.description}
+                </p>
 
-              {/* Stats */}
-              <div className="flex items-center gap-4 text-xs opacity-80 mb-4">
-                <div className="flex items-center gap-1">
-                  <Users className="w-3 h-3" />
-                  <span>{destination.reviews} reviews</span>
+                {/* CTA Button */}
+                {/* <div className="flex items-center justify-end">
+                  <MotionDiv
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <button className="px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-green-500 backdrop-blur-sm rounded-full text-sm font-semibold hover:from-emerald-600 hover:to-green-600 transition-all duration-300 shadow-lg flex items-center gap-2">
+                      Explore Now
+                      <Navigation className="w-4 h-4" />
+                    </button>
+                  </MotionDiv>
+                </div> */}
+              </MotionDiv>
+            ) : (
+              <div>
+                {/* Location */}
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-5 h-5" />
+                    <span className="font-bold text-xl">{destination.name}</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-1">
-                  <span>•</span>
-                  <span>{destination.properties} properties</span>
-                </div>
-              </div>
 
-              {/* Price and CTA */}
-              <div className="flex items-center justify-between">
-                <div>
-                  <span className="text-lg font-bold">{destination.price}</span>
-                </div>
-                <MotionDiv
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <button className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-xs font-semibold hover:bg-white/30 transition-all duration-300 border border-white/30 flex items-center gap-1">
-                    Explore
-                    <Navigation className="w-3 h-3" />
+                {/* Description */}
+                <p className="text-sm opacity-90 mb-4 line-clamp-3 leading-relaxed">
+                  {destination.description}
+                </p>
+
+                {/* CTA Button */}
+                <div className="flex items-center justify-end">
+                  <button className="px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-green-500 backdrop-blur-sm rounded-full text-sm font-semibold shadow-lg flex items-center gap-2">
+                    Explore Now
+                    <Navigation className="w-4 h-4" />
                   </button>
-                </MotionDiv>
+                </div>
               </div>
-            </MotionDiv>
+            )}
           </div>
 
           {/* Hover Effect Layer */}
@@ -197,23 +215,10 @@ const DestinationCard = ({ destination, index, isMobile }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: isHovered ? 1 : 0 }}
             transition={{ duration: 0.3 }}
-            className={`absolute inset-0 bg-gradient-to-br ${destination.gradient} opacity-10`}
+            className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-green-500/10"
           />
         </div>
       </div>
-
-      {/* Floating Elements on Hover */}
-      <MotionDiv
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ 
-          opacity: isHovered ? 1 : 0,
-          scale: isHovered ? 1 : 0
-        }}
-        transition={{ duration: 0.3 }}
-        className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-gradient-to-r from-emerald-400 to-green-500 shadow-lg flex items-center justify-center"
-      >
-        <Calendar className="w-3 h-3 text-white" />
-      </MotionDiv>
     </MotionDiv>
   );
 };
@@ -221,19 +226,61 @@ const DestinationCard = ({ destination, index, isMobile }) => {
 const PopularDestinations = () => {
   const [activeFilter, setActiveFilter] = useState("all");
 
-  const filters = [
-    { id: "all", label: "All Destinations", count: destinations.length },
-    { id: "trending", label: "Trending", count: destinations.filter(d => d.trending).length },
-    { id: "beach", label: "Beach", count: 2 },
-    { id: "city", label: "City", count: 3 },
-    { id: "nature", label: "Nature", count: 3 }
-  ];
+  // Dynamically generate filters based on destination categories
+  const filters = useMemo(() => {
+    const categoryCount = {};
+    
+    destinations.forEach(dest => {
+      dest.categories.forEach(cat => {
+        categoryCount[cat] = (categoryCount[cat] || 0) + 1;
+      });
+    });
 
-  const filteredDestinations = activeFilter === "all" 
-    ? destinations 
-    : activeFilter === "trending"
-    ? destinations.filter(d => d.trending)
-    : destinations;
+    const filterList = [
+      { id: "all", label: "All Destinations", count: destinations.length }
+    ];
+
+    // Trending filter - commented for future use
+    // const trendingCount = destinations.filter(d => d.trending).length;
+    // if (trendingCount > 0) {
+    //   filterList.push({ id: "trending", label: "Trending", count: trendingCount });
+    // }
+
+    // Add category filters
+    const categoryLabels = {
+      beach: "Beach",
+      city: "City",
+      nature: "Nature",
+      culture: "Culture",
+      adventure: "Adventure",
+      wildlife: "Wildlife",
+      history: "History",
+      mountains: "Mountains",
+      island: "Island"
+    };
+
+    Object.entries(categoryCount).forEach(([category, count]) => {
+      filterList.push({
+        id: category,
+        label: categoryLabels[category] || category,
+        count: count
+      });
+    });
+
+    return filterList;
+  }, []);
+
+  // Filter destinations based on active filter
+  const filteredDestinations = useMemo(() => {
+    if (activeFilter === "all") {
+      return destinations;
+    }
+    // Trending filter - commented for future use
+    // if (activeFilter === "trending") {
+    //   return destinations.filter(d => d.trending);
+    // }
+    return destinations.filter(d => d.categories.includes(activeFilter));
+  }, [activeFilter]);
 
   return (
     <MotionSection
@@ -241,7 +288,7 @@ const PopularDestinations = () => {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.8 }}
-      className="relative max-w-11/12 mx-auto px-4 py-16 lg:py-12"
+      className="relative max-w-11/12 mx-auto px-4 py-16 lg:py-24"
     >
       {/* Background Elements */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -254,7 +301,7 @@ const PopularDestinations = () => {
             repeat: Infinity,
             ease: "linear"
           }}
-          className="absolute -top-20 -right-20 w-64 h-64 bg-gradient-to-r from-emerald-200 to-green-200 dark:from-emerald-900/20 dark:to-green-900/20 rounded-full blur-3xl opacity-30"
+          className="absolute -top-20 -right-20 w-64 h-64  rounded-full blur-3xl opacity-30"
         />
         <MotionDiv
           animate={{
@@ -265,7 +312,7 @@ const PopularDestinations = () => {
             repeat: Infinity,
             ease: "linear"
           }}
-          className="absolute -bottom-20 -left-20 w-80 h-80 bg-gradient-to-r from-blue-200 to-cyan-200 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-full blur-3xl opacity-30"
+          className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full blur-3xl opacity-30"
         />
       </div>
 
@@ -323,7 +370,7 @@ const PopularDestinations = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.3 }}
-        className="flex flex-wrap gap-3 justify-center mb-8"
+        className="flex flex-wrap gap-3 justify-center mb-12"
       >
         {filters.map((filter) => (
           <button
@@ -374,21 +421,14 @@ const PopularDestinations = () => {
         ))}
       </div>
 
-      {/* View All Button */}
-      <MotionDiv
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.5 }}
-        className="text-center mt-12"
-      >
-        <button className="group px-8 py-3 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-          <span className="flex items-center gap-2">
-            View All Destinations
-            <MapPin className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-          </span>
-        </button>
-      </MotionDiv>
+      {/* Empty State */}
+      {filteredDestinations.length === 0 && (
+        <div className="text-center py-12">
+          <p className="text-gray-500 dark:text-gray-400 text-lg">
+            No destinations found in this category.
+          </p>
+        </div>
+      )}
     </MotionSection>
   );
 };

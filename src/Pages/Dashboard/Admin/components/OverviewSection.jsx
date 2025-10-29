@@ -19,23 +19,30 @@ import {
 } from "recharts";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTotalBookings } from "../../../../redux/bookingStateSlice";
-import { selectAllPayments } from "../../../../redux/paymentSlice";
+import { fetchAllPayments, selectAllPayments } from "../../../../redux/paymentSlice";
+import Loading from "../../../../components/Loading";
+import { fetchUsers } from "../../../../redux/UserSlice";
 
 const MotionDiv = motion.div;
 
 const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
   // Redux state selectors
-  const { users } = useSelector((state) => state.users);
+  const {  list: users } = useSelector((state) => state.users);
   const { items } = useSelector((state) => state.products);
   const { totalBookings, loading, error } = useSelector((state) => state.bookingStats);
   const allPayments = useSelector(selectAllPayments);
+
+  console.log("total users ", users)
 
   const dispatch = useDispatch();
 
   // Fetch total bookings on component mount
   useEffect(() => {
     dispatch(fetchTotalBookings());
+    dispatch(fetchAllPayments());
+    dispatch(fetchUsers());
   }, [dispatch]);
+
 
   // Calculate platform revenue from payments
   const { platformRevenue } = useMemo(() => {
@@ -113,7 +120,7 @@ const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
   ];
 
   // Loading and error states
-  if (loading) return <p>Loading total bookings...</p>;
+  if (loading) return <Loading />;
   if (error) return <p className="text-red-500">Error: {error}</p>;
 
   return (
@@ -127,7 +134,7 @@ const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
             whileHover={{ y: -5 }}
-            className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-300"
+            className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-300"
           >
             <div className="flex items-center justify-between">
               <div>
@@ -158,7 +165,7 @@ const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700"
+          className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700"
         >
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -209,7 +216,7 @@ const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700"
+            className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700"
           >
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -222,8 +229,8 @@ const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
                 <div
                   key={alert.id}
                   className={`p-4 rounded-xl border ${alert.severity === "high"
-                      ? "bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-800"
-                      : "bg-amber-50 border-amber-200 dark:bg-amber-900/20 dark:border-amber-800"
+                    ? "bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-800"
+                    : "bg-amber-50 border-amber-200 dark:bg-amber-900/20 dark:border-amber-800"
                     }`}
                 >
                   <div className="flex items-start justify-between">
@@ -237,8 +244,8 @@ const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
                     </div>
                     <span
                       className={`px-2 py-1 rounded-full text-xs font-medium ${alert.severity === "high"
-                          ? "bg-red-500 text-white"
-                          : "bg-amber-500 text-white"
+                        ? "bg-red-500 text-white"
+                        : "bg-amber-500 text-white"
                         }`}
                     >
                       {alert.severity}
@@ -254,7 +261,7 @@ const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700"
+            className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700"
           >
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
               System Health
@@ -278,10 +285,10 @@ const OverviewSection = ({ data, formatCurrency, formatNumber }) => {
                   >
                     <div
                       className={`h-2 rounded-full ${metric.status === "excellent"
-                          ? "bg-emerald-500"
-                          : metric.status === "good"
-                            ? "bg-green-500"
-                            : "bg-amber-500"
+                        ? "bg-emerald-500"
+                        : metric.status === "good"
+                          ? "bg-green-500"
+                          : "bg-amber-500"
                         }`}
                       style={{
                         width: metric.status === "excellent" ? "100%" : "85%",

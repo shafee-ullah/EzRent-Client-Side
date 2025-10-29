@@ -1,114 +1,94 @@
-// store/userSlice.js
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+// src/redux/slices/userSlice.js
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import toast from "react-hot-toast";
 
-// Async thunks
-export const fetchUsers = createAsyncThunk(
-    'users/fetchUsers',
-    async (_, { rejectWithValue }) => {
-        try {
-            const response = await fetch('https://ez-rent-server-side.vercel.app/users');
-            if (!response.ok) throw new Error('Failed to fetch users');
-            return await response.json();
-        } catch (error) {
-            return rejectWithValue(error.message);
-        }
-    }
-);
+const API_URL = "https://ezrent-server-side-production.up.railway.app/users";
 
+// Fetch all users
+export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
+  const res = await fetch(API_URL);
+  if (!res.ok) throw new Error("Failed to fetch users");
+  return await res.json();
+});
+
+// Update user role
 export const updateUserRole = createAsyncThunk(
-    'users/updateRole',
-    async ({ id, role }, { rejectWithValue }) => {
-        try {
-            const response = await fetch(`http://localhost:5001/users/role/${id}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ role: role.toLowerCase() }),
-            });
-
-            if (!response.ok) {
-                const data = await response.json();
-                throw new Error(data.message || 'Failed to update role');
-            }
-
-            const data = await response.json();
-            return { id, role: role.toLowerCase(), data };
-        } catch (error) {
-            return rejectWithValue(error.message);
-        }
+  "users/updateRole",
+  async ({ id, role }, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`${API_URL}/role/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ role }),
+      });
+      const data = await res.json();
+      if (!res.ok) return rejectWithValue(data.message);
+      toast.success(`✅ Role updated to ${role}`);
+      return { id, role };
+    } catch (error) {
+      toast.error("⚠️ Error updating role");
+      return rejectWithValue(error.message);
     }
+  }
 );
 
+// Delete user
 export const deleteUser = createAsyncThunk(
-    'users/deleteUser',
-    async (id, { rejectWithValue }) => {
-        try {
-            const response = await fetch(`http://localhost:5001/users/${id}`, {
-                method: 'DELETE',
-            });
-
-            if (!response.ok) {
-                const data = await response.json();
-                throw new Error(data.message || 'Failed to delete user');
-            }
-
-            return id;
-        } catch (error) {
-            return rejectWithValue(error.message);
-        }
+  "users/deleteUser",
+  async (id, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+      const data = await res.json();
+      if (!res.ok) return rejectWithValue(data.message);
+      toast.success("User deleted successfully 🗑️", {
+        style: {
+          borderRadius: "8px",
+          background: "#10B981",
+          color: "#fff",
+        },
+      });
+      return id;
+    } catch (error) {
+      toast.error("⚠️ Error deleting user");
+      return rejectWithValue(error.message);
     }
+  }
 );
 
 const userSlice = createSlice({
-    name: 'users',
-    initialState: {
-        users: [],
-        filter: 'all',
-        loading: false,
-        error: null,
-    },
-    reducers: {
-        setFilter: (state, action) => {
-            state.filter = action.payload;
-        },
-        clearError: (state) => {
-            state.error = null;
-        },
-    },
-    extraReducers: (builder) => {
-        builder
-            // Fetch users
-            .addCase(fetchUsers.pending, (state) => {
-                state.loading = true;
-                state.error = null;
-            })
-            .addCase(fetchUsers.fulfilled, (state, action) => {
-                state.loading = false;
-                state.users = action.payload;
-            })
-            .addCase(fetchUsers.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.payload;
-            })
-            // Update user role
-            .addCase(updateUserRole.fulfilled, (state, action) => {
-                const { id, role } = action.payload;
-                const user = state.users.find(u => u._id === id);
-                if (user) {
-                    user.role = role;
-                }
-            })
-            .addCase(updateUserRole.rejected, (state, action) => {
-                state.error = action.payload;
-            })
-            // Delete user
-            .addCase(deleteUser.fulfilled, (state, action) => {
-                state.users = state.users.filter(u => u._id !== action.payload);
-            })
-            .addCase(deleteUser.rejected, (state, action) => {
-                state.error = action.payload;
-            });
-    },
+  name: "users",
+  initialState: {
+    list: [],
+    loading: false,
+    error: null,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      // Fetch users
+      .addCase(fetchUsers.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.list = action.payload;
+      })
+      .addCase(fetchUsers.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
+      // Update role
+      .addCase(updateUserRole.fulfilled, (state, action) => {
+        const { id, role } = action.payload;
+        state.list = state.list.map((u) => (u._id === id ? { ...u, role } : u));
+      })
+
+      // Delete user
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.list = state.list.filter((u) => u._id !== action.payload);
+      });
+  },
 });
 
-export const { setFilter, clearError } = userSlice.actions;
 export default userSlice.reducer;

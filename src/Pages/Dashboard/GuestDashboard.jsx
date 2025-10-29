@@ -22,6 +22,7 @@ import ProfileSection from "./Guest/components/ProfileSection";
 import { AuthContext } from "../../Context/AuthContext";
 import { fetchUserByEmail } from "../../redux/PropertieSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Loading from "../../components/Loading";
 
 const MotionDiv = motion.div;
 
@@ -138,18 +139,18 @@ const GuestDashboard = () => {
 
 
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
   if (error) return <p>{error}</p>;
 
 
 
   const navigationItems = [
     { id: "overview", label: "Overview", icon: <User className="w-5 h-5" /> },
-    {
-      id: "search",
-      label: "Search & Browse",
-      icon: <Search className="w-5 h-5" />,
-    },
+    // {
+    //   id: "search",
+    //   label: "Search & Browse",
+    //   icon: <Search className="w-5 h-5" />,
+    // },
     {
       id: "bookings",
       label: "My Bookings",
@@ -161,7 +162,7 @@ const GuestDashboard = () => {
       label: "Messages",
       icon: <MessageCircle className="w-5 h-5" />,
     },
-    { id: "reviews", label: "Reviews", icon: <Star className="w-5 h-5" /> },
+    { id: "reviews", label: "My  Reviews", icon: <Star className="w-5 h-5" /> },
     {
       id: "profile",
       label: "Profile & Settings",
@@ -173,8 +174,8 @@ const GuestDashboard = () => {
     switch (activeSection) {
       case "overview":
         return <OverviewSection data={guestData} />;
-      case "search":
-        return <SearchSection />;
+      // case "search":
+      //   return <SearchSection />;
       case "bookings":
         return <BookingsSection data={guestData} />;
       case "wishlist":
@@ -217,7 +218,7 @@ const GuestDashboard = () => {
           </div>
 
           {/* Quick Actions */}
-          <div className="flex items-center gap-4">
+          {/* <div className="flex items-center gap-4">
             <button className="p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl hover:shadow-md transition-all duration-300 hover:border-emerald-300 dark:hover:border-emerald-600">
               <Bell className="w-5 h-5 text-gray-600 dark:text-gray-400" />
             </button>
@@ -225,7 +226,7 @@ const GuestDashboard = () => {
               <Search className="w-4 h-4" />
               Search Stays
             </button>
-          </div>
+          </div> */}
         </MotionDiv>
 
         <div className="flex flex-col lg:flex-row gap-6">
@@ -236,11 +237,12 @@ const GuestDashboard = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="lg:w-64 flex-shrink-0"
           >
-            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700 p-4 sticky top-6">
+            <div className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700 p-4 sticky top-6">
               <nav className="space-y-2">
                 {navigationItems.map((item) => (
                   <button
                     key={item.id}
+                    data-section={item.id}
                     onClick={() => setActiveSection(item.id)}
                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${activeSection === item.id
                       ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-lg"

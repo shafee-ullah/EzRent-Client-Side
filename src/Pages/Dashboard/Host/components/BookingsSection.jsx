@@ -39,14 +39,14 @@ const {bookings,loading,error}=useSelector((state)=>state.products)
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
           Bookings
         </h2>
-        <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl font-medium hover:shadow-md transition-all duration-300">
+        {/* <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl font-medium hover:shadow-md transition-all duration-300">
           <Calendar className="w-4 h-4" />
           Calendar View
-        </button>
+        </button> */}
       </div>
 
       {/* Table */}
-      <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+      <div className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50 dark:bg-gray-700/50">
@@ -80,7 +80,7 @@ const {bookings,loading,error}=useSelector((state)=>state.products)
                         {booking.name}
                       </p>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {booking.Location}
+                        {booking.propertyName || booking.title || "Property"}
                       </p>
                     </div>
                   </td>

@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useDispatch } from "react-redux";
 import { addExperience } from "../../redux/experienceSlice";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import { Camera, MapPin, FileText, User, Send, X } from "lucide-react";
 import toast from "react-hot-toast";
+import { AuthContext } from "../../Context/AuthContext";
 
 export default function AddExperience({ isOpen, onClose }) {
   const dispatch = useDispatch();
+  const { user } = useContext(AuthContext) || {};
   const currentUser =
     typeof window !== "undefined"
       ? JSON.parse(localStorage.getItem("currentUser") || "null")
@@ -19,9 +21,6 @@ export default function AddExperience({ isOpen, onClose }) {
   const [photos, setPhotos] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-
-  const name = currentUser?.name || "";
-  const email = currentUser?.email || "";
 
   const handlePhotoChange = (e) => {
     setPhotos(Array.from(e.target.files));
@@ -35,11 +34,7 @@ export default function AddExperience({ isOpen, onClose }) {
     try {
       setUploading(true);
       const res = await axios.post(
-<<<<<<< HEAD
-        "http://localhost:5001/api/experiences/upload",
-=======
-        "https://ez-rent-server-side.vercel.app/api/experiences/upload",
->>>>>>> 1cad0057a097641c0a5265dce9b39c91a7030469
+        "https://ezrent-server-side-production.up.railway.app/api/experiences/upload",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -58,38 +53,36 @@ export default function AddExperience({ isOpen, onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!name || !email) {
-      const uName = prompt("Enter your name");
-      const uEmail = prompt("Enter your email");
-      if (!uName || !uEmail) {
-        toast.error("Name and email are required");
-        return;
-      }
-      localStorage.setItem(
-        "currentUser",
-        JSON.stringify({ name: uName, email: uEmail })
-      );
-    }
-
     try {
       setSubmitting(true);
+      // Resolve identity before uploading to avoid wasted uploads on validation failure
+      const resolvedName =
+        user?.displayName ||
+        currentUser?.name ||
+        JSON.parse(localStorage.getItem("currentUser") || "null")?.name;
+      const resolvedEmail =
+        user?.email ||
+        currentUser?.email ||
+        JSON.parse(localStorage.getItem("currentUser") || "null")?.email;
+
+      if (!resolvedName || !resolvedEmail) {
+        toast.error("Please sign in or set your name and email to post.");
+        setSubmitting(false);
+        return;
+      }
+
       const uploadedUrls = await uploadPhotos();
 
       const payload = {
-        name:
-          currentUser?.name ||
-          name ||
-          JSON.parse(localStorage.getItem("currentUser")).name,
-        email:
-          currentUser?.email ||
-          email ||
-          JSON.parse(localStorage.getItem("currentUser")).email,
+        name: resolvedName,
+        email: resolvedEmail,
         title,
         description,
         location,
         photos: uploadedUrls,
       };
 
+      console.log("Sending payload:", payload);
       await dispatch(addExperience(payload)).unwrap();
 
       setTitle("");

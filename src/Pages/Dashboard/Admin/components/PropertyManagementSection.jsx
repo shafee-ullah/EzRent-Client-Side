@@ -1,9 +1,11 @@
-
 import { useSelector, useDispatch } from "react-redux";
 import { motion } from "framer-motion";
 import { Users, Home } from "lucide-react";
-import { useEffect } from "react";
-import {  fetchmanageproperty, updatePropertyStatusAdmin } from "../../../../redux/PropertieSlice";
+import { useEffect, useState } from "react";
+import {
+  fetchmanageproperty,
+  updatePropertyStatusAdmin,
+} from "../../../../redux/PropertieSlice";
 import { FaLocationDot } from "react-icons/fa6";
 import toast from "react-hot-toast";
 
@@ -12,56 +14,68 @@ const MotionDiv = motion.div;
 const PropertyManagementSection = () => {
   const dispatch = useDispatch();
   const { items: properties, loading } = useSelector((state) => state.products);
+  const [updatingPropertyId, setUpdatingPropertyId] = useState(null);
 
-  // Filter only active properties
-  const activeProperties = properties.filter((p) => p.status === "avaliable");
+  // Filter only active properties fcdfds
+  // const activeProperties = properties.filter((p) => p.status === "avaliable");
 
   useEffect(() => {
-    if (!properties.length)
-      dispatch(fetchmanageproperty())
-    
+    if (!properties.length) dispatch(fetchmanageproperty());
   }, [dispatch, properties.length]);
 
+  // ✅ Status color styles
   const getStatusColor = (status) => {
-    return status === "avaliable"
-      ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300"
-      : "bg-gray-100 text-gray-800";
+    switch (status) {
+      case "active":
+        return "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300";
+      case "removed":
+        return "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300";
+      default:
+        return "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300";
+    }
   };
 
-  // ✅ Handle Accept / Remove button
-  const handleUpdateStatus = (id, newStatus) => {
-    // প্রথমে loading toast দেখাও
+  // ✅ Handle Accept / Remove button (Instant UI update)
+  const handleUpdateStatus = async (id, newStatus) => {
+    setUpdatingPropertyId(id);
     const toastId = toast.loading("Updating property status...");
 
-    dispatch(updatePropertyStatusAdmin({ id, propertystatus: newStatus }))
-      .unwrap()
-      .then(() => {
-        toast.dismiss(toastId);
-        if (newStatus === "active") {
-          toast.success("Property active successfully ✅");
-        } else if (newStatus === "removed") {
-          toast.error("Property removed successfully ❌");
-        }
-      })
-      .catch(() => {
-        toast.dismiss(toastId);
-        toast.error("Failed to update status 😢");
-      });
+    try {
+      // 🔹 Update via API and let Redux handle the state update
+      await dispatch(updatePropertyStatusAdmin({ id, propertystatus: newStatus })).unwrap();
+      
+      // 🔹 Force a fresh fetch to ensure UI is in sync
+      await dispatch(fetchmanageproperty());
+      
+      toast.dismiss(toastId);
+      toast.success(
+        newStatus === "active"
+          ? "Property activated successfully ✅"
+          : "Property removed successfully ❌"
+      );
+    } catch (error) {
+      toast.dismiss(toastId);
+      toast.error("Failed to update status 😢");
+      // 🔹 Rollback by fetching fresh data
+      dispatch(fetchmanageproperty());
+    } finally {
+      setUpdatingPropertyId(null);
+    }
   };
 
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-        Active Properties
+        Manage Properties
       </h2>
 
       {loading ? (
         <div className="flex justify-center py-8">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500"></div>
         </div>
-      ) : activeProperties.length > 0 ? (
+      ) : properties.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {activeProperties.map((property, index) => (
+          {properties.map((property, index) => (
             <MotionDiv
               key={property._id}
               initial={{ opacity: 0, scale: 0.95 }}
@@ -88,10 +102,10 @@ const PropertyManagementSection = () => {
                   <h3 className="font-semibold text-gray-900 dark:text-white line-clamp-2">
                     {property.title || property.name}
                   </h3>
+
                   <span
                     className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(
-                      property.status
-
+                      property.propertystatus
                     )}`}
                   >
                     {property.propertystatus}
@@ -122,20 +136,37 @@ const PropertyManagementSection = () => {
                   </span>
                 </div>
 
-                {/* ✅ Buttons with Toast */}
+                {/* ✅ Loading Overlay */}
+                {updatingPropertyId === property._id && (
+                  <div className="absolute inset-0 bg-white/80 dark:bg-gray-900/80 flex items-center justify-center rounded-2xl">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500"></div>
+                  </div>
+                )}
+
+                {/* ✅ Instant Dynamic Buttons */}
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => handleUpdateStatus(property._id, "active")}
-                    className="flex-1 py-2 bg-green-500 text-white rounded-lg text-sm font-medium hover:bg-green-600 transition-colors"
+                    disabled={updatingPropertyId === property._id}
+                    className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      property.propertystatus === "active"
+                        ? "bg-green-600 text-white hover:bg-green-700"
+                        : "bg-green-100 text-green-700 hover:bg-green-200"
+                    } disabled:opacity-50 disabled:cursor-not-allowed`}
                   >
-                    Accept
+                    {property.propertystatus === "active" ? "Accepted" : "Accept"}
                   </button>
 
                   <button
                     onClick={() => handleUpdateStatus(property._id, "removed")}
-                    className="flex-1 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 transition-colors"
+                    disabled={updatingPropertyId === property._id}
+                    className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      property.propertystatus === "removed"
+                        ? "bg-red-600 text-white hover:bg-red-700"
+                        : "bg-red-100 text-red-700 hover:bg-red-200"
+                    } disabled:opacity-50 disabled:cursor-not-allowed`}
                   >
-                    Remove
+                    {property.propertystatus === "removed" ? "Removed" : "Remove"}
                   </button>
                 </div>
               </div>
@@ -144,7 +175,7 @@ const PropertyManagementSection = () => {
         </div>
       ) : (
         <p className="text-gray-500 dark:text-gray-400 py-8 text-center">
-          No active properties found
+          No properties found
         </p>
       )}
     </div>

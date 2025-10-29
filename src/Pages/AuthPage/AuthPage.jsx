@@ -13,7 +13,7 @@ import {
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
@@ -35,9 +35,7 @@ const InputField = ({
 }) => (
   <div>
     <div className="relative">
-      {Icon && (
-        <Icon className="absolute left-3 top-4 h-5 w-5 text-gray-400" />
-      )}
+      {Icon && <Icon className="absolute left-3 top-4 h-5 w-5 text-gray-400" />}
       <input
         id={id}
         name={name}
@@ -45,8 +43,8 @@ const InputField = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={`w-full ${Icon ? "pl-11" : "pl-3"
-          } ${showPasswordToggle ? "pr-10" : "pr-3"} py-3 rounded-xl border bg-white/60 dark:bg-gray-700/60 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-700 focus:border-transparent transition-all ${error
+        className={`w-full ${Icon ? "pl-11" : "pl-3"} ${showPasswordToggle ? "pr-10" : "pr-3"
+          } py-3 rounded-xl border bg-white/60 dark:bg-gray-700/60 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-700 focus:border-transparent transition-all ${error
             ? "border-red-500"
             : success
               ? "border-green-500"
@@ -83,6 +81,7 @@ const InputField = ({
 );
 
 const AuthPage = () => {
+  const locations = useLocation();
   const navigate = useNavigate();
   // now includes resetPassword
   const {
@@ -91,7 +90,7 @@ const AuthPage = () => {
     googleSignIn,
     githubSignIn,
     resetPassword,
-    setUser
+    setUser,
   } = useContext(AuthContext);
 
   const [isLogin, setIsLogin] = useState(true);
@@ -169,15 +168,24 @@ const AuthPage = () => {
 
         if (!userCredential.user.emailVerified) {
           toast.success(`Welcome back ${userCredential.user.email}`);
-          navigate("/");
+          navigate(locations?.state || "/", {
+            state: { toastMessage: "Login successful!" },
+          });
+          window.location.reload();
         } else {
-          navigate("/");
+          navigate(locations?.state || "/", {
+            state: { toastMessage: "Login successful!" },
+          });
           toast.success(`Welcome back ${userCredential.user.email}`);
-
+          window.location.reload();
         }
       } else {
         // Firebase registration
-        const userCredential = await createUser(email, formData.password, formData.name);
+        const userCredential = await createUser(
+          email,
+          formData.password,
+          formData.name
+        );
 
         // Update global state / Redux
         if (setUser) setUser(userCredential.user);
@@ -188,12 +196,16 @@ const AuthPage = () => {
           email, // already lowercase
           role: "guest",
         };
-        await axios.post("https://ez-rent-server-side.vercel.app/users", userData);
-        navigate("/");
+        await axios.post(
+          "https://ezrent-server-side-production.up.railway.app/users",
+          userData
+        );
+        navigate(locations?.state || "/", {
+          state: { toastMessage: "Login successful!" },
+        });
         toast.success(
           `Registration successful. Verification email sent to ${userCredential.user.email}`
         );
-
 
         setIsLogin(true);
       }
@@ -203,9 +215,6 @@ const AuthPage = () => {
       setIsLoading(false);
     }
   };
-
-
-
 
   // handle password reset
   const handlePasswordReset = async () => {
@@ -238,18 +247,26 @@ const AuthPage = () => {
       };
 
       // POST to backend
-      await axios.post("https://ez-rent-server-side.vercel.app/users", userData);
-      navigate("/");
+      await axios.post(
+        "https://ezrent-server-side-production.up.railway.app/users",
+        userData
+      );
+      navigate(locations?.state || "/", {
+        state: { toastMessage: "Login successful!" },
+      });
       toast.success(`Welcome ${user.displayName || user.email}`);
-
+      window.location.reload();
     } catch (error) {
       if (error.code === "auth/account-exists-with-different-credential") {
         toast.error(
           "This email is already registered with a different provider. Please use the original provider to login."
         );
       } else {
-        navigate("/");
+        navigate(locations?.state || "/", {
+          state: { toastMessage: "Login successful!" },
+        });
         toast.error(error.message);
+        window.location.reload();
       }
     } finally {
       setIsLoading(false);
@@ -257,7 +274,7 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden p-4">
+    <div className="min-h-screen py-10 flex items-center justify-center bg-gradient-to-br from-green-100 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden p-4">
       <Toaster position="top-right" reverseOrder={false} />
       <div className="absolute -top-24 -left-24 w-96 h-96 bg-green-700/10 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 right-0 w-[30rem] h-[30rem] bg-green-700/20 rounded-full blur-3xl"></div>
@@ -268,8 +285,16 @@ const AuthPage = () => {
         transition={{ duration: 0.7 }}
         className="relative z-10 w-full max-w-md bg-white/30 dark:bg-gray-800/30 backdrop-blur-2xl p-8 sm:p-10 rounded-3xl shadow-2xl border border-white/40 dark:border-gray-700/40"
       >
+        {/* ✅ Back Home Button */}
+        <Link
+          to="/"
+          className="absolute top-6 left-6 inline-flex items-center px-4 py-2 text-green-700 text-sm font-medium transition-all duration-300 ease-in-out hover:text-green-900 hover:translate-x-1 hover:scale-105"
+        >
+          ← Back Home
+        </Link>
+
         <div className="text-center">
-          <motion.div
+          {/* <motion.div
             className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-700 text-white shadow-xl"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
@@ -279,12 +304,14 @@ const AuthPage = () => {
             ) : (
               <UserPlus className="h-8 w-8" />
             )}
-          </motion.div>
-          <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+          </motion.div> */}
+          <h2 className="mt-8 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
             {isLogin ? "Welcome Back" : "Create Account"}
           </h2>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-            {isLogin ? "Sign in to continue with " : "Register to get started with "}
+            {isLogin
+              ? "Sign in to continue with "
+              : "Register to get started with "}
             <span className="font-semibold text-green-700 dark:text-green-500">
               EzRent
             </span>
@@ -295,8 +322,8 @@ const AuthPage = () => {
           <button
             onClick={() => setIsLogin(true)}
             className={`px-6 py-2 rounded-l-xl font-medium transition-all ${isLogin
-              ? "bg-green-700 text-white shadow-md"
-              : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
+                ? "bg-green-700 text-white shadow-md"
+                : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
               }`}
           >
             Sign In
@@ -304,8 +331,8 @@ const AuthPage = () => {
           <button
             onClick={() => setIsLogin(false)}
             className={`px-6 py-2 rounded-r-xl font-medium transition-all ${!isLogin
-              ? "bg-green-700 text-white shadow-md"
-              : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
+                ? "bg-green-700 text-white shadow-md"
+                : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
               }`}
           >
             Register
@@ -320,7 +347,7 @@ const AuthPage = () => {
               exit={{ opacity: 0 }}
               className="mb-4 p-3 rounded-xl bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 flex items-center"
             >
-              <AlertCircle className="h-5 w-5 mr-2" /> {errors.general}
+              <AlertCircle className="h-5 w-5 mr-2" /> {"Invalid email or password. Please try again."}
             </motion.div>
           )}
         </AnimatePresence>

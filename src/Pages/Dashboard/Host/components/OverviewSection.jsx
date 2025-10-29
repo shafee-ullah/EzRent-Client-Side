@@ -13,6 +13,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { fetchbooking, fetchProducts } from "../../../../redux/PropertieSlice";
 import { AuthContext } from "../../../../Context/AuthContext";
+import { fetchAllPayments, selectAllPayments } from "../../../../redux/paymentSlice";
 
 const MotionDiv = motion.div;
 
@@ -21,7 +22,7 @@ const OverviewSection = ({ data, formatCurrency }) => {
   const { user } = useContext(AuthContext);
   const { properties  } = useSelector((state) => state.products);
   const { bookings,  } = useSelector((state) => state.products);
- 
+ const allPayments = useSelector(selectAllPayments);
   useEffect(()=>{
     if(user?.email &&!properties.length){
     dispatch(fetchProducts(user?.email))
@@ -30,6 +31,7 @@ const OverviewSection = ({ data, formatCurrency }) => {
     if(!bookings.length){
       dispatch(fetchbooking())
     }
+    dispatch(fetchAllPayments())
    
   },[dispatch,user?.email])
 
@@ -52,7 +54,7 @@ const OverviewSection = ({ data, formatCurrency }) => {
     },
     {
       label: "Monthly Earnings",
-      value: formatCurrency(data.stats.monthlyEarnings),
+      value: formatCurrency(allPayments.reduce((sum,p)=>sum + p.amount,0)),
       icon: <DollarSign className="w-6 h-6" />,
       color: "from-amber-500 to-orange-500",
       description: "This month",
@@ -76,7 +78,7 @@ const OverviewSection = ({ data, formatCurrency }) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
             whileHover={{ y: -5 }}
-            className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-300"
+            className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-300"
           >
             <div className="flex items-center justify-between">
               <div>
@@ -105,7 +107,7 @@ const OverviewSection = ({ data, formatCurrency }) => {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700"
+          className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700"
         >
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -139,7 +141,7 @@ const OverviewSection = ({ data, formatCurrency }) => {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700"
+          className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700"
         >
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">

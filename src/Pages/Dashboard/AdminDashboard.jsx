@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchHostRequests } from "../../redux/PropertieSlice"
 import ReviewsSection from "./Guest/components/ReviewsSection";
 import ProfileSection from "./Guest/components/ProfileSection";
+import Loading from "../../components/Loading";
 
 
 const MotionDiv = motion.div;
@@ -54,29 +55,65 @@ const mockAdminData = {
       { month: "Jun", bookings: 5200, revenue: 1256000 },
     ],
   },
-  alerts: [
-    {
-      id: 1,
-      type: "fraud",
-      message: "Suspicious booking pattern detected for user #7842",
-      severity: "high",
-      time: "2 hours ago",
-    },
-    {
-      id: 2,
-      type: "review",
-      message: "3 reviews flagged for inappropriate content",
-      severity: "medium",
-      time: "5 hours ago",
-    },
-    {
-      id: 3,
-      type: "payment",
-      message: "Payment dispute requires attention",
-      severity: "high",
-      time: "1 day ago",
-    },
-  ],
+alerts: [
+  // {
+  //   id: 1,
+  //   type: "booking",
+  //   message: "New booking request received for 'Seaside Villa, Cox’s Bazar'.",
+  //   severity: "medium",
+  //   // time: "10 minutes ago",
+  // },
+  {
+    id: 2,
+    type: "verification",
+    message: "Host account verification pending for user @johncena.",
+    severity: "low",
+    // time: "30 minutes ago",
+  },
+  {
+    id: 3,
+    type: "payment",
+    message: "Payment of $250 successfully processed for booking #EZR5482.",
+    severity: "info",
+    // time: "1 hour ago",
+  },
+  {
+    id: 4,
+    type: "review",
+    message: "New 5⭐ review added for 'City View Apartment, Dhaka'.",
+    severity: "low",
+    // time: "2 hours ago",
+  },
+  // {
+  //   id: 5,
+  //   type: "experience",
+  //   message: "New guest experience shared: 'My Sunset Trek at Sajek Valley'.",
+  //   severity: "info",
+  //   // time: "4 hours ago",
+  // },
+  // {
+  //   id: 6,
+  //   type: "security",
+  //   message: "Multiple failed login attempts detected for admin panel.",
+  //   severity: "high",
+  //   // time: "6 hours ago",
+  // },
+  // {
+  //   id: 7,
+  //   type: "dispute",
+  //   message: "Refund requested for cancelled booking #EZR5221.",
+  //   severity: "medium",
+  //   // time: "1 day ago",
+  // },
+  {
+    id: 8,
+    type: "feedback",
+    message: "User feedback received: ‘AI chatbot helped me book easily!’",
+    severity: "info",
+    // time: "1 day ago",
+  },
+],
+
   pendingActions: {
     hostRegistrations: 23,
     propertyListings: 45,
@@ -108,7 +145,7 @@ const AdminDashboard = () => {
     dispatch(fetchHostRequests());
   }, [dispatch]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
 
 
   const navigationItems = [
@@ -142,11 +179,11 @@ const AdminDashboard = () => {
       label: "All Reviews",
       icon: <Star className="w-5 h-5" />,
     },
-    {
-      id: "analytics",
-      label: "Reports & Analytics",
-      icon: <TrendingUp className="w-5 h-5" />,
-    },
+    // {
+    //   id: "analytics",
+    //   label: "Reports & Analytics",
+    //   icon: <TrendingUp className="w-5 h-5" />,
+    // },
     {
       id: "profile",
       label: "Profile & Settings",
@@ -157,7 +194,7 @@ const AdminDashboard = () => {
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-BD", {
       style: "currency",
-      currency: "BDT",
+      currency: "USD",
       minimumFractionDigits: 0,
     }).format(amount);
   };
@@ -184,10 +221,10 @@ const AdminDashboard = () => {
       //   return <BookingManagementSection />;
       case "payments":
         return <PaymentsSection formatCurrency={formatCurrency} />;
-      // case "reviews":
-      //   return <ReviewsModerationSection />;
       case "reviews":
-        return <ReviewsSection />;
+        return <ReviewsModerationSection />;
+      // case "reviews":
+      //   return <ReviewsSection />;
       case "analytics":
         return <AnalyticsSection formatCurrency={formatCurrency} />;
       case "profile":
@@ -232,17 +269,17 @@ const AdminDashboard = () => {
           {/* Quick Actions */}
           <div className="flex items-center gap-4">
             {/* Search Bar */}
-            <div className="hidden md:flex items-center relative">
+            {/* <div className="hidden md:flex items-center relative">
               <Search className="w-5 h-5 text-gray-400 absolute left-3" />
               <input
                 type="text"
                 placeholder="Search platform..."
                 className="pl-10 pr-4 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 w-64"
               />
-            </div>
+            </div> */}
 
             {/* Notifications */}
-            <div className="relative">
+            {/* <div className="relative">
               <button
                 onClick={() => setNotificationsOpen(!notificationsOpen)}
                 className="relative p-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl hover:shadow-md transition-all duration-300 hover:border-emerald-300 dark:hover:border-emerald-600"
@@ -252,7 +289,7 @@ const AdminDashboard = () => {
                   {adminData.alerts.length}
                 </span>
               </button>
-            </div>
+            </div> */}
 
 
           </div>
@@ -266,7 +303,7 @@ const AdminDashboard = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="lg:w-64 flex-shrink-0"
           >
-            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700 p-4 sticky top-6">
+            <div className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700 p-4 sticky top-6">
               <nav className="space-y-2">
                 {navigationItems.map((item) => (
                   <button
@@ -293,17 +330,17 @@ const AdminDashboard = () => {
                     <span className="text-sm text-amber-700 dark:text-amber-400">
                       Host Registrations
                     </span>
-                    <span className="px-2 py-1 bg-amber-500 text-white rounded-full text-xs font-bold">
+                    {/* <span className="px-2 py-1 bg-amber-500 text-white rounded-full text-xs font-bold">
                       {users?.length}
-                    </span>
+                    </span> */}
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-amber-700 dark:text-amber-400">
-                      Property Listings
+                      Property Management
                     </span>
-                    <span className="px-2 py-1 bg-amber-500 text-white rounded-full text-xs font-bold">
+                    {/* <span className="px-2 py-1 bg-amber-500 text-white rounded-full text-xs font-bold">
                       {properties?.length}
-                    </span>
+                    </span> */}
                   </div>
                 
                 </div>

@@ -16,15 +16,18 @@ import Swal from "sweetalert2";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../firebase";
 import logo from "../../../assets/ezrent-logo.png";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const { theme, toggleTheme } = useContext(ThemeContext);
-  const { user, setUser } = useContext(AuthContext);
-  console.log(user);
+  const { user: authUser, setUser } = useContext(AuthContext);
+  console.log(authUser);
   const handleMenuToggle = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
+  const { user } = useSelector((state) => state.products);
+  console.log("user", user);
 
   const logoutUser = () => {
     Swal.fire({
@@ -54,7 +57,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="sticky top-0 shadow-sm dark:bg-[#0f1113] bg-white dark:text-white z-50  backdrop-blur-md py-2">
+    <div className="bg-white dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
       <div className="navbar w-11/12 mx-auto">
         {/* Logo */}
         <div className="navbar-start flex items-center">
@@ -78,7 +81,7 @@ const Navbar = () => {
                 Home
               </NavLink>
             </li>
-            {user && (
+            {authUser && (
               <>
                 <li>
                   <NavLink
@@ -101,15 +104,19 @@ const Navbar = () => {
               </NavLink>
             </li>
 
-            <li>
-              <NavLink
-                onClick={closeMenu}
-                to="/become-host"
-                className="hover:border-b-2 hover:border-green-600"
-              >
-                Become A Host
-              </NavLink>
-            </li>
+            {user?.role === "guest" && (
+              <>
+                <li>
+                  <NavLink
+                    onClick={closeMenu}
+                    to="/become-host"
+                    className="hover:border-b-2 hover:border-green-600"
+                  >
+                    Become A Host
+                  </NavLink>
+                </li>
+              </>
+            )}
             <li>
               <NavLink
                 onClick={closeMenu}
@@ -148,18 +155,18 @@ const Navbar = () => {
           >
             {theme === "light" ? "🌞" : "🌙"}
           </button>
-          {!user ? (
+          {!authUser ? (
             <>
               <NavLink
                 to="/join"
-                className="px-4 py-2 rounded-full bg-green-600 text-white font-semibold hover:bg-green-500 transition"
+                className="px-4 py-2 rounded-2xl bg-green-600 text-white font-semibold hover:bg-green-500 transition"
               >
                 Join Us
               </NavLink>
             </>
           ) : (
             <>
-              {user && (
+              {authUser && (
                 <div className="relative">
                   {/* Avatar — clickable */}
                   <div
@@ -168,7 +175,8 @@ const Navbar = () => {
                   >
                     <img
                       src={
-                        user.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"
+                        authUser.photoURL ||
+                        "https://i.ibb.co/4pDNDk1/avatar.png"
                       }
                       alt="avatar"
                       className="w-12 h-12 rounded-full border-2 border-green-500 object-cover p-0.5 hover:scale-105 transition-all duration-200"
@@ -182,7 +190,7 @@ const Navbar = () => {
                       <div className="flex items-center gap-3 p-4">
                         <img
                           src={
-                            user?.photoURL ||
+                            authUser?.photoURL ||
                             "https://i.ibb.co/4pDNDk1/avatar.png"
                           }
                           alt="User Avatar"
@@ -190,10 +198,10 @@ const Navbar = () => {
                         />
                         <div>
                           <p className="text-gray-900 dark:text-white font-semibold text-sm">
-                            {user.displayName}
+                            {authUser.displayName}
                           </p>
                           <p className="text-gray-500 dark:text-gray-400 text-xs truncate">
-                            {user.email}
+                            {authUser.email}
                           </p>
                         </div>
                       </div>
@@ -202,15 +210,28 @@ const Navbar = () => {
 
                       {/* Quick Actions */}
                       <div className="flex flex-col py-2">
-                        <button className="text-left px-5 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                        {/* <button className="text-left px-5 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                           Profile
-                        </button>
-                        <button className="text-left px-5 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                        </button> */}
+                        <NavLink
+                          onClick={closeMenu}
+                          to="/dashboard"
+                          className="text-left px-5 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                        >
                           Dashboard
-                        </button>
-                        <button className="text-left px-5 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                          Become a Host
-                        </button>
+                        </NavLink>
+
+                        {user?.role === "guest" && (
+                          <>
+                            <NavLink
+                              onClick={closeMenu}
+                              to="/become-host"
+                              className="text-left px-5 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                            >
+                              Become a Host
+                            </NavLink>
+                          </>
+                        )}
                       </div>
 
                       <hr className="border-gray-100 dark:border-gray-700" />
@@ -219,7 +240,7 @@ const Navbar = () => {
                       <div className="px-5 py-3">
                         <button
                           onClick={logoutUser}
-                          className="w-full px-4 py-3 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:from-red-600 hover:to-red-400 shadow-md hover:shadow-lg transition-all duration-200"
+                          className="w-full px-4 py-3 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-2xl font-semibold hover:from-red-600 hover:to-red-400 shadow-md hover:shadow-lg transition-all duration-200"
                         >
                           Logout
                         </button>
@@ -263,7 +284,7 @@ const Navbar = () => {
             <div className="flex justify-between items-center border-b-2 dark:border-gray-600 border-gray-300 pb-4">
               <div className="text-xl font-bold flex items-center gap-2">
                 <img src={logo} alt="EzRent logo" className="w-7 h-7" />
-                <span className="text-green-500">Ez</span>Rent
+                <h1><span className="text-green-500">Ez</span>Rent</h1>
               </div>
               <button onClick={handleMenuToggle}>
                 <X size={28} />
@@ -278,6 +299,7 @@ const Navbar = () => {
               >
                 <Home /> Home
               </Link>
+
               <Link
                 onClick={closeMenu}
                 to="/BrowseProperties"
@@ -285,6 +307,27 @@ const Navbar = () => {
               >
                 <Search /> Browse
               </Link>
+
+              {authUser && (
+                <>
+                  <Link
+                    onClick={closeMenu}
+                    to="/dashboard"
+                    className="flex gap-2 items-center"
+                  >
+                    <LayoutDashboard /> Dashboard
+                  </Link>
+
+                  <Link
+                    onClick={closeMenu}
+                    to="/become-host"
+                    className="flex gap-2 items-center"
+                  >
+                    <Info /> Become A Host
+                  </Link>
+                </>
+              )}
+
               <Link
                 onClick={closeMenu}
                 to="/guest-experiences"
@@ -307,24 +350,6 @@ const Navbar = () => {
               >
                 <Info /> About
               </Link>
-              {user && (
-                <>
-                  <Link
-                    onClick={closeMenu}
-                    to="/become-host"
-                    className="flex gap-2 items-center"
-                  >
-                    <Info /> Become A Host
-                  </Link>
-                  <Link
-                    onClick={closeMenu}
-                    to="/dashboard"
-                    className="flex gap-2 items-center"
-                  >
-                    <LayoutDashboard /> Dashboard
-                  </Link>
-                </>
-              )}
             </nav>
 
             <div className="mt-auto flex flex-col gap-4">
@@ -332,10 +357,10 @@ const Navbar = () => {
                 onClick={toggleTheme}
                 className="rounded-2xl px-5 py-2 bg-gray-300 dark:bg-gray-800 transition-colors text-center"
               >
-                {theme === "light" ? "🌞 Light Mode" : "🌙 Dark Mode"}
+                {theme === "light" ? "🌙 Dark Mode" : "🌞 Light Mode"}
               </button>
 
-              {!user ? (
+              {!authUser ? (
                 <NavLink
                   onClick={closeMenu}
                   to="/join"
