@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // Base URL for API calls
-const API_BASE_URL = "https://ezrent-server-side-production.up.railway.app";
+const API_BASE_URL = "http://localhost:5000";
 
 // Create payment intent
 export const createPaymentIntent = createAsyncThunk(

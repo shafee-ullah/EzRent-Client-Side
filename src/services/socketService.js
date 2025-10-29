@@ -21,7 +21,7 @@ class SocketService {
       return this.socket;
     }
 
-    this.socket = io("https://ezrent-server-side-production.up.railway.app", {
+    this.socket = io("http://localhost:5000", {
       transports: ["websocket", "polling"],
       timeout: 20000,
       forceNew: true,

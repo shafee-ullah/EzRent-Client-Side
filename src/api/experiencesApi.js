@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE = "https://ezrent-server-side-production.up.railway.app";
+const API_BASE = "http://localhost:5000";
 
 export const fetchExperiences = (page = 1, limit = 20) =>
   axios

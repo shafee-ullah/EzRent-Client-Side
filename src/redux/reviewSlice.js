@@ -7,7 +7,7 @@ export const addReview = createAsyncThunk(
   async (reviewData, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "https://ezrent-server-side-production.up.railway.app/api/reviews",
+        "http://localhost:5000/api/reviews",
         reviewData
       );
       toast.success("Review submitted!");
@@ -24,7 +24,7 @@ export const fetchReviews = createAsyncThunk(
   async (reviewCardId, { rejectWithValue }) => {
     try {
       const res = await axios.get(
-        `https://ezrent-server-side-production.up.railway.app/api/reviews?reviewCardId=${reviewCardId}`
+        `http://localhost:5000/api/reviews?reviewCardId=${reviewCardId}`
       );
       return res.data.data;
     } catch (error) {
@@ -38,7 +38,7 @@ export const updateReview = createAsyncThunk(
   "reviews/updateReview",
   async ({ id, updatedData }) => {
     const response = await fetch(
-      `https://ezrent-server-side-production.up.railway.app/api/reviews/${id}`,
+      `http://localhost:5000/api/reviews/${id}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -56,7 +56,7 @@ export const deleteReview = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       await axios.delete(
-        `https://ezrent-server-side-production.up.railway.app/api/reviews/${id}`
+        `http://localhost:5000/api/reviews/${id}`
       );
       toast.success("Review deleted!");
       return id;
@@ -72,7 +72,7 @@ export const getAllReviews = createAsyncThunk(
   "reviews/getAllReviews",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await axios.get(`https://ezrent-server-side-production.up.railway.app/api/allReview`);
+      const res = await axios.get(`http://localhost:5000/api/allReview`);
       return res.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
@@ -85,7 +85,7 @@ export const getReviewsByEmail = createAsyncThunk(
   async (email, { rejectWithValue }) => {
     try {
       const res = await axios.get(
-        `https://ezrent-server-side-production.up.railway.app/api/hostReview?email=${email}`
+        `http://localhost:5000/api/hostReview?email=${email}`
       );
       return res.data;
     } catch (error) {

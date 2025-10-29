@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
 
-const API_URL = "https://ezrent-server-side-production.up.railway.app/users";
+const API_URL = "http://localhost:5000/users";
 
 // Fetch all users
 export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {

@@ -5,7 +5,7 @@ export const fetchProducts = createAsyncThunk(
   "properties/fetchProducts",
   async (email) => {
     const res = await axios.get(
-      `https://ezrent-server-side-production.up.railway.app/properties?email=${email}`
+      `http://localhost:5000/properties?email=${email}`
     );
     return res.data;
   }
@@ -26,7 +26,7 @@ export const updatePropertyStatusAdmin = createAsyncThunk(
   "products/updatePropertyStatusAdmin",
   async ({ id, propertystatus }) => {
     const res = await axios.patch(
-      `https://ezrent-server-side-production.up.railway.app/AddProperty/${id}`, // adjust API route
+      `http://localhost:5000/AddProperty/${id}`, // adjust API route
       { propertystatus }
     );
     return res.data; // updated property
@@ -38,7 +38,7 @@ export const updatePropertyStatus = createAsyncThunk(
   "products/updatePropertyStatus",
   async ({ propertyId, newStatus }) => {
     const res = await axios.patch(
-      `https://ezrent-server-side-production.up.railway.app/Property/${propertyId}`, // 👈 adjust your API URL
+      `http://localhost:5000/Property/${propertyId}`, // 👈 adjust your API URL
       { status: newStatus }
     );
     return res.data; // return updated property
@@ -58,7 +58,7 @@ export const fetchbooking = createAsyncThunk(
   "products/fetchbooking",
   async () => {
     const res = await axios.get(
-      "https://ezrent-server-side-production.up.railway.app/bookinghotel"
+      "http://localhost:5000/bookinghotel"
     );
     return res.data;
   }
@@ -67,7 +67,7 @@ export const fetchbooking = createAsyncThunk(
 //   "products/fetchbooking",
 //   async (email) => {
 //     const res = await axios.get(
-//       `https://ezrent-server-side-production.up.railway.app/bookinghotel?email=${email}`
+//       `http://localhost:5000/bookinghotel?email=${email}`
 //     );
 //     return res.data;
 //   }
@@ -79,7 +79,7 @@ export const updateBookingStatus = createAsyncThunk(
   async ({ bookingId, newStatus }) => {
     // console.log("hello",bookingId)
     const res = await axios.patch(
-      `https://ezrent-server-side-production.up.railway.app/bookings/${bookingId}`,
+      `http://localhost:5000/bookings/${bookingId}`,
       { status: newStatus }
     );
     return res.data.booking; // updated booking from DB
@@ -92,7 +92,7 @@ export const fetchMyBooking = createAsyncThunk(
   async (email, { rejectWithValue }) => {
     try {
       const res = await axios.get(
-        "https://ezrent-server-side-production.up.railway.app/myBookings",
+        "http://localhost:5000/myBookings",
         {
           params: { email },
         }
@@ -111,7 +111,7 @@ export const fetchUserByEmail = createAsyncThunk(
   "products/fetchUserByEmail",
   async (email) => {
     const res = await axios.get(
-      `https://ezrent-server-side-production.up.railway.app/users/${email}`
+      `http://localhost:5000/users/${email}`
     );
     return res.data;
   }
@@ -122,7 +122,7 @@ export const deleteBooking = createAsyncThunk(
   "products/deleteBooking",
   async (bookingId) => {
     await axios.delete(
-      `https://ezrent-server-side-production.up.railway.app/bookinghotel/${bookingId}`
+      `http://localhost:5000/bookinghotel/${bookingId}`
     );
     return bookingId;
   }
@@ -132,7 +132,7 @@ export const deleteProperty = createAsyncThunk(
   "products/deleteProperty",
   async (propertyId) => {
     await axios.delete(
-      `https://ezrent-server-side-production.up.railway.app/properties/${propertyId}`
+      `http://localhost:5000/properties/${propertyId}`
     );
     return propertyId;
   }
@@ -142,7 +142,7 @@ export const fetchHostRequests = createAsyncThunk(
   "products/fetchHostRequests",
   async () => {
     const res = await axios.get(
-      "https://ezrent-server-side-production.up.railway.app/hostRequest"
+      "http://localhost:5000/hostRequest"
     );
     return res.data;
   }
@@ -153,7 +153,7 @@ export const addToWishlist = createAsyncThunk(
   "products/addToWishlist",
   async (wishlistItem) => {
     const res = await axios.post(
-      "https://ezrent-server-side-production.up.railway.app/api/wishlist",
+      "http://localhost:5000/api/wishlist",
       wishlistItem
     );
     return res.data;
@@ -164,7 +164,7 @@ export const removeFromWishlist = createAsyncThunk(
   "products/removeFromWishlist",
   async ({ propertyId, email }) => {
     await axios.delete(
-      `https://ezrent-server-side-production.up.railway.app/api/wishlist/${propertyId}?email=${email}`
+      `http://localhost:5000/api/wishlist/${propertyId}?email=${email}`
     );
     return propertyId;
   }
@@ -174,7 +174,7 @@ export const fetchWishlist = createAsyncThunk(
   "products/fetchWishlist",
   async (email) => {
     const res = await axios.get(
-      `https://ezrent-server-side-production.up.railway.app/api/wishlist?email=${email}`
+      `http://localhost:5000/api/wishlist?email=${email}`
     );
     return res.data;
   }
