@@ -64,7 +64,7 @@ const MessagesSection = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={handleOpenChat}
-          className="flex items-center justify-center space-x-2 px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors w-full sm:w-auto"
+          className="flex items-center justify-center space-x-2 px-4 py-2 bg-emerald-500 text-white rounded-2xl hover:bg-emerald-600 transition-colors w-full sm:w-auto"
         >
           <MessageCircle className="w-5 h-5" />
           <span>Open Chat</span>
