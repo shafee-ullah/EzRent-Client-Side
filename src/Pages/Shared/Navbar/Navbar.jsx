@@ -104,7 +104,7 @@ const Navbar = () => {
               </NavLink>
             </li>
 
-            {user?.role === "guest" && (
+            {(user?.role === "guest" || !user) && (
               <>
                 <li>
                   <NavLink

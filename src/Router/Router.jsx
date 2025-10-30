@@ -37,7 +37,7 @@ const router = createBrowserRouter([
       },
       {
         path: "become-host",
-        element: <PrivaterRoute><BecomeHostPage></BecomeHostPage></PrivaterRoute>
+        element: <BecomeHostPage></BecomeHostPage>
       },
 
       {
