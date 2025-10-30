@@ -133,7 +133,7 @@ const StepCard = ({ step, index, totalSteps }) => {
       </div>
 
       {/* Card Content */}
-      <div className="relative bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-800 group-hover:shadow-lg transition-all duration-300 overflow-hidden">
+      <div className="relative bg-white dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-800 group-hover:shadow-lg transition-all duration-300 overflow-hidden">
         {/* Gradient Overlay on Hover */}
         <div
           className={`absolute inset-0 bg-gradient-to-br ${step.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
@@ -337,7 +337,7 @@ const HowItWorks = () => {
   transition={{ duration: 0.6, delay: 0.8 }}
   className="text-center mt-12"
 >
-  <div className="inline-flex flex-col sm:flex-row items-center gap-6 bg-gradient-to-r from-emerald-500 to-green-600 rounded-3xl p-8 shadow-2xl backdrop-blur-sm border border-emerald-400/20">
+  <div className="inline-flex flex-col  sm:flex-row items-center gap-6 bg-gradient-to-r from-emerald-500 to-green-600 rounded-3xl p-8 shadow-2xl backdrop-blur-sm border border-emerald-400/20">
     <div className="text-left">
       <h3 className="text-2xl font-bold text-white mb-2">
         Ready to find your perfect stay?
