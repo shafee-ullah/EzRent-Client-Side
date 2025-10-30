@@ -111,7 +111,7 @@ const OverviewSection = ({ data, formatCurrency }) => {
         >
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Earnings Overview
+              Estimated Future Earnings Overview
             </h3>
             <DollarSign className="w-5 h-5 text-emerald-500" />
           </div>

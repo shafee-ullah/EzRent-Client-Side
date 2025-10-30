@@ -216,6 +216,39 @@ const AuthPage = () => {
     }
   };
 
+
+  const handleQuickLogin = async (role) => {
+    setIsLoading(true);
+
+    const credentials = {
+      guest: { email: "johncena@gmail.com", password: "John123" },
+      admin: { email: "admin@gmail.com", password: "Admin123" },
+    };
+
+    try {
+      const userCredential = await logInUser(
+        credentials[role].email,
+        credentials[role].password
+      );
+
+      toast.success(
+        `Logged in as ${role === "admin" ? "Admin" : "Host (Guest)"}`
+      );
+      navigate("/", {
+        state: { toastMessage: "Login successful!" },
+      });
+
+      window.location.reload();
+      console.log(userCredential);
+    } catch (err) {
+      toast.error("Quick login failed. Check demo credentials.");
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+
   // handle password reset
   const handlePasswordReset = async () => {
     if (!formData.email) {
@@ -322,8 +355,8 @@ const AuthPage = () => {
           <button
             onClick={() => setIsLogin(true)}
             className={`px-6 py-2 rounded-l-xl font-medium transition-all ${isLogin
-                ? "bg-green-700 text-white shadow-md"
-                : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
+              ? "bg-green-700 text-white shadow-md"
+              : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
               }`}
           >
             Sign In
@@ -331,8 +364,8 @@ const AuthPage = () => {
           <button
             onClick={() => setIsLogin(false)}
             className={`px-6 py-2 rounded-r-xl font-medium transition-all ${!isLogin
-                ? "bg-green-700 text-white shadow-md"
-                : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
+              ? "bg-green-700 text-white shadow-md"
+              : "bg-white/40 dark:bg-gray-700/40 text-gray-600 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60"
               }`}
           >
             Register
@@ -464,6 +497,30 @@ const AuthPage = () => {
                 ? "Sign In"
                 : "Register"}
           </motion.button>
+
+          {/* demo host and admin login button */}
+          <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
+            {/* User/Host Login Button */}
+            <button
+              type="button"
+              onClick={() => handleQuickLogin("guest")}
+              className="group flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-gray-400 hover:border-blue-600 text-gray-800 hover:text-blue-700 dark:text-white dark:border-gray-600 dark:hover:border-blue-500 transition-all bg-white dark:bg-gray-800 hover:shadow-lg"
+            >
+              <span className="font-medium">Host Login</span>
+              <span className="transform group-hover:translate-x-1 transition-transform">→</span>
+            </button>
+
+            {/* Admin Login Button */}
+            <button
+              type="button"
+              onClick={() => handleQuickLogin("admin")}
+              className="group flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-gray-400 hover:border-red-600 text-gray-800 hover:text-red-700 dark:text-white dark:border-gray-600 dark:hover:border-red-500 transition-all bg-white dark:bg-gray-800 hover:shadow-lg"
+            >
+              <span className="font-medium">Admin Login</span>
+              <span className="transform group-hover:translate-x-1 transition-transform">→</span>
+            </button>
+          </div>
+
         </form>
 
         <div className="mt-6 text-center">
