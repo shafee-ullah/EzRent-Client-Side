@@ -504,7 +504,7 @@ const AuthPage = () => {
             <button
               type="button"
               onClick={() => handleQuickLogin("guest")}
-              className="group flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-gray-400 hover:border-blue-600 text-gray-800 hover:text-blue-700 dark:text-white dark:border-gray-600 dark:hover:border-blue-500 transition-all bg-white dark:bg-gray-800 hover:shadow-lg"
+              className="group flex items-center justify-center gap-2 px-6 py-3 rounded-2xl border border-gray-400 hover:border-emerald-600 text-gray-800 hover:text-emerald-600 dark:text-white dark:border-gray-600 dark:hover:border-emerald-500 transition-all bg-white dark:bg-gray-800 hover:shadow-lg"
             >
               <span className="font-medium">Host Login</span>
               <span className="transform group-hover:translate-x-1 transition-transform">→</span>
@@ -514,7 +514,7 @@ const AuthPage = () => {
             <button
               type="button"
               onClick={() => handleQuickLogin("admin")}
-              className="group flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-gray-400 hover:border-red-600 text-gray-800 hover:text-red-700 dark:text-white dark:border-gray-600 dark:hover:border-red-500 transition-all bg-white dark:bg-gray-800 hover:shadow-lg"
+              className="group flex items-center justify-center gap-2 px-6 py-3 rounded-2xl border border-gray-400 hover:border-red-600 text-gray-800 hover:text-red-700 dark:text-white dark:border-gray-600 dark:hover:border-red-500 transition-all bg-white dark:bg-gray-800 hover:shadow-lg"
             >
               <span className="font-medium">Admin Login</span>
               <span className="transform group-hover:translate-x-1 transition-transform">→</span>
