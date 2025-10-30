@@ -112,7 +112,7 @@ const ListingsSection = () => {
                 scale: 1.03,
                 boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
               }}
-              className="bg-white  dark:bg-gray-800/80 backdrop-blur-sm  rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
+              className="bg-white  dark:bg-gray-900 backdrop-blur-sm  rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-500 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
             >
               <div className="relative">
                 <img

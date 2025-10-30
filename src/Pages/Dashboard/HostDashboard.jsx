@@ -33,7 +33,7 @@ const mockHostData = {
   stats: {
     totalProperties: 8,
     activeBookings: 12,
-    monthlyEarnings: 284500,
+    monthlyEarnings:8208.5,
     pendingRequests: 3,
     reviews: 47,
   },
