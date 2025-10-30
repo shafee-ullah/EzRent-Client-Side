@@ -288,18 +288,19 @@ const ListingsSection = () => {
         onClose={() => setIsAddPropertyModalOpen(false)}
       />
 
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-          My Properties
-        </h2>
-        <button
-          onClick={() => setIsAddPropertyModalOpen(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
-        >
-          <Plus className="w-4 h-4" />
-          Add New Property
-        </button>
-      </div>
+<div className="flex items-center justify-between">
+  {/* <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+    Your Properties Are Here
+  </h2> */}
+  <button
+    onClick={() => setIsAddPropertyModalOpen(true)}
+    className="ml-auto flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
+  >
+    <Plus className="w-4 h-4" />
+    Add New Property
+  </button>
+</div>
+
 
       {loading && (
         <div className="flex justify-center py-8">

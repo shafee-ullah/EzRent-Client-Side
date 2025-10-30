@@ -66,18 +66,17 @@ const router = createBrowserRouter([
         path: "ezchat",
         Component: EzRentChatbot,
       },
-
-      {
-        path: "dashboard",
-        element: <PrivaterRoute><DashboardLayout></DashboardLayout></PrivaterRoute>,
-        children: [
-          { index: true, Component: GuestDashboard },
-          { path: "host/AddProperty", Component: AddProperty },
-          { path: "guest", Component: GuestDashboard },
-          { path: "host", Component: HostDashboard },
-          { path: "admin", Component: AdminDashboard },
-        ],
-      },
+    ],
+  },
+  {
+    path: "dashboard",
+    element: <PrivaterRoute><DashboardLayout></DashboardLayout></PrivaterRoute>,
+    children: [
+      { index: true, Component: GuestDashboard },
+      { path: "host/AddProperty", Component: AddProperty },
+      { path: "guest", Component: GuestDashboard },
+      { path: "host", Component: HostDashboard },
+      { path: "admin", Component: AdminDashboard },
     ],
   },
   {

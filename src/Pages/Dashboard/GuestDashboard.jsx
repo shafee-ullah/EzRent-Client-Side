@@ -1,19 +1,15 @@
 import React, { use, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
-  Search,
   Calendar,
   Heart,
   Star,
   Settings,
   User,
   MessageCircle,
-  Bell,
-  Shield,
-  User2,
+  Home,
 } from "lucide-react";
 import OverviewSection from "./Guest/components/OverviewSection";
-import SearchSection from "./Guest/components/SearchSection";
 import BookingsSection from "./Guest/components/BookingsSection";
 import WishlistSection from "./Guest/components/WishlistSection";
 import MessagesSection from "./Guest/components/MessagesSection";
@@ -111,14 +107,8 @@ const GuestDashboard = () => {
   const [guestData, setGuestData] = useState(mockGuestData);
   const { user: authUser } = use(AuthContext);
 
-
-
-
-
   const dispatch = useDispatch();
   const { user, loading, error } = useSelector((state) => state.products);
-  console.log('auth user', user);
-
 
   useEffect(() => {
     if (user) {
@@ -134,23 +124,21 @@ const GuestDashboard = () => {
     }
   }, [authUser, dispatch]);
 
-  console.log(user);
-
-
-
+  // Listen for mobile menu section changes
+  useEffect(() => {
+    const handleSectionChange = (event) => {
+      setActiveSection(event.detail);
+    };
+    
+    window.addEventListener('dashboardSectionChange', handleSectionChange);
+    return () => window.removeEventListener('dashboardSectionChange', handleSectionChange);
+  }, []);
 
   if (loading) return <Loading />;
   if (error) return <p>{error}</p>;
 
-
-
   const navigationItems = [
-    { id: "overview", label: "Overview", icon: <User className="w-5 h-5" /> },
-    // {
-    //   id: "search",
-    //   label: "Search & Browse",
-    //   icon: <Search className="w-5 h-5" />,
-    // },
+    { id: "overview", label: "Overview", icon: <Home className="w-5 h-5" /> },
     {
       id: "bookings",
       label: "My Bookings",
@@ -162,10 +150,10 @@ const GuestDashboard = () => {
       label: "Messages",
       icon: <MessageCircle className="w-5 h-5" />,
     },
-    { id: "reviews", label: "My  Reviews", icon: <Star className="w-5 h-5" /> },
+    { id: "reviews", label: "Reviews", icon: <Star className="w-5 h-5" /> },
     {
       id: "profile",
-      label: "Profile & Settings",
+      label: "Profile",
       icon: <Settings className="w-5 h-5" />,
     },
   ];
@@ -174,8 +162,6 @@ const GuestDashboard = () => {
     switch (activeSection) {
       case "overview":
         return <OverviewSection data={guestData} />;
-      // case "search":
-      //   return <SearchSection />;
       case "bookings":
         return <BookingsSection data={guestData} />;
       case "wishlist":
@@ -192,111 +178,72 @@ const GuestDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50/50 via-white to-green-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-emerald-900/10">
-      {/* Background Elements */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute -top-20 -right-20 w-64 h-64 bg-emerald-200/30 dark:bg-emerald-900/20 rounded-full blur-3xl" />
-        <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-green-200/30 dark:bg-green-900/20 rounded-full blur-3xl" />
-      </div>
+    <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
+      {/* Left Sidebar */}
+      <aside className="hidden lg:flex lg:flex-col w-64 bg-white dark:bg-gray-800/20 border-r border-gray-200 dark:border-gray-700">
+        {/* Dashboard Title */}
+        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+          <h2 className="text-lg font-bold text-gray-900 dark:text-white">Guest Dashboard</h2>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Manage your trips</p>
+        </div>
 
-      <div className="relative max-w-11/12 mx-auto px-4 py-6">
-        {/* Header */}
-        <MotionDiv
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8"
-        >
-          <div className="flex-1">
-            <h1 className="text-3xl lg:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-green-600 dark:from-emerald-400 dark:to-green-400">
-              Guest Dashboard
-            </h1>
-            <p className="text-gray-600 dark:text-gray-300 mt-2 text-lg">
-              Welcome back, {guestData.user.name}! Ready for your next
-              adventure? 🌍
+        {/* Navigation */}
+        <nav className="p-4 space-y-1">
+          {navigationItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => setActiveSection(item.id)}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-sm font-medium ${
+                activeSection === item.id
+                  ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-md"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+              }`}
+            >
+              {item.icon}
+              <span>{item.label}</span>
+            </button>
+          ))}
+        </nav>
+
+        {/* Quick Stats */}
+        <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/20 dark:to-green-900/20 rounded-lg p-4">
+            <p className="text-xs font-medium text-gray-600 dark:text-gray-400">Next Trip</p>
+            <p className="text-sm font-bold text-gray-900 dark:text-white mt-1">
+              {guestData.stats.upcomingBookings > 0 ? `${guestData.stats.upcomingBookings} upcoming` : "No trips planned"}
             </p>
           </div>
+        </div>
+      </aside>
 
-          {/* Quick Actions */}
-          {/* <div className="flex items-center gap-4">
-            <button className="p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl hover:shadow-md transition-all duration-300 hover:border-emerald-300 dark:hover:border-emerald-600">
-              <Bell className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-            </button>
-            <button className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-2xl font-semibold hover:shadow-lg transition-all duration-300">
-              <Search className="w-4 h-4" />
-              Search Stays
-            </button>
-          </div> */}
-        </MotionDiv>
-
-        <div className="flex flex-col lg:flex-row gap-6">
-          {/* Sidebar Navigation */}
+      {/* Main Content */}
+      <main className="flex-1 overflow-auto">
+        <div className="p-4 sm:p-6 lg:p-8">
+          {/* Page Header */}
           <MotionDiv
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="lg:w-64 flex-shrink-0"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6"
           >
-            <div className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700 p-4 sticky top-6">
-              <nav className="space-y-2">
-                {navigationItems.map((item) => (
-                  <button
-                    key={item.id}
-                    data-section={item.id}
-                    onClick={() => setActiveSection(item.id)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${activeSection === item.id
-                      ? "bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-lg"
-                      : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
-                      }`}
-                  >
-                    {item.icon}
-                    <span className="font-medium">{item.label}</span>
-                  </button>
-                ))}
-              </nav>
-
-              {/* User Profile Card */}
-              <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl border border-gray-200 dark:border-gray-600">
-                <div className="flex items-center gap-3">
-                  {
-                    authUser?.photoURL ? (
-                      <img src={authUser.photoURL} alt={authUser.displayName} className="w-12 h-12 rounded-full"></img>
-                    ) : (<User2 className="w-12 h-12 text-gray-400 bg-gray-200 p-2 rounded-full" />)
-                  }
-
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-gray-900 dark:text-white truncate">
-                      {authUser?.displayName}
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
-                      {guestData.user?.email}
-                    </p>
-                  </div>
-                </div>
-                {guestData.user.verified && (
-                  <div className="flex items-center gap-1 mt-2 text-emerald-600 dark:text-emerald-400">
-                    <Shield className="w-4 h-4" />
-                    <span className="text-sm font-medium">
-                      Verified Traveler
-                    </span>
-                  </div>
-                )}
-              </div>
-            </div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+              {navigationItems.find(item => item.id === activeSection)?.label || "Overview"}
+            </h1>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+              Welcome back, {authUser?.displayName || guestData.user.name}! 🌍
+            </p>
           </MotionDiv>
 
-          {/* Main Content */}
+          {/* Content Area */}
           <MotionDiv
             key={activeSection}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex-1"
+            transition={{ duration: 0.3 }}
           >
             {renderSection()}
           </MotionDiv>
         </div>
-      </div>
+      </main>
     </div>
   );
 };
