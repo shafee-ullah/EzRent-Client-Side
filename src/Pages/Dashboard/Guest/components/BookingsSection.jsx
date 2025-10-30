@@ -90,133 +90,106 @@ const BookingsSection = () => {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div>
+    <div className="space-y-6">
       {bookings.length === 0 ? (
-        <>
-          <div className="flex flex-col items-center justify-center py-20 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-md text-center mx-4 md:mx-0">
-            <MdHotel className="w-20 h-20 mb-4 text-gray-300 dark:text-gray-600" />
-            <h3 className="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
-              No Bookings Yet
-            </h3>
-            <p className="text-gray-500 dark:text-gray-400 mb-6 px-4">
-              You haven't made any bookings yet. Browse our properties and book
-              your favorite stay.
-            </p>
-            <Link to="/BrowseProperties">
-              <button className="px-6 py-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
-                Browse Properties
-              </button>
-            </Link>
-          </div>
-        </>
+        <div className="flex flex-col items-center justify-center py-20 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-md text-center">
+          <MdHotel className="w-20 h-20 mb-4 text-gray-300 dark:text-gray-600" />
+          <h3 className="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
+            No Bookings Yet
+          </h3>
+          <p className="text-gray-500 dark:text-gray-400 mb-6 px-4">
+            You haven't made any bookings yet. Browse our properties and book
+            your favorite stay.
+          </p>
+          <Link to="/BrowseProperties">
+            <button className="px-6 py-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
+              Browse Properties
+            </button>
+          </Link>
+        </div>
       ) : (
-        <>
-          <div className="space-y-4">
-            <h2 className="text-2xl font-bold mb-4">My Bookings</h2>
-            {bookings.map((booking) => (
-              <motion.div
-                key={booking._id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="max-w-4xl mx-auto shadow-lg bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700"
-              >
-                <div className="flex flex-col sm:flex-row gap-4 items-stretch">
-                  {/* Left Side: Image */}
-                  <div className="flex-shrink-0 w-full sm:w-60 h-40">
-                    <img
-                      src={booking.img}
-                      alt={booking.title}
-                      className="w-full h-full object-cover rounded-lg"
-                    />
+        <div className="space-y-4">
+          {/* <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">My Bookings</h2> */}
+          {bookings.map((booking) => (
+            <motion.div
+              key={booking._id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="shadow-lg bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700"
+            >
+              <div className="flex flex-col sm:flex-row gap-4 items-stretch">
+                {/* Left Side: Image */}
+                <div className="flex-shrink-0 w-full sm:w-60 h-40">
+                  <img
+                    src={booking.img}
+                    alt={booking.title}
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                </div>
+
+                {/* Right Side: Details */}
+                <div className="flex-grow p-1 relative">
+                  <span
+                    className={`absolute top-0 right-0 px-3 py-1 text-sm font-medium rounded-full ${
+                      booking.status === "confirmed"
+                        ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
+                        : "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300"
+                    }`}
+                  >
+                    {booking.status}
+                  </span>
+
+                  <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
+                    {booking.title}
+                  </h2>
+                  <p className="text-sm text-gray-500 mb-4 dark:text-gray-300">
+                    Hosted by {booking.hostname || "Unknown"}
+                  </p>
+
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-gray-700 border-b border-gray-100 dark:border-gray-700 pb-3 mb-4">
+                    <div>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">Check-in</p>
+                      <p className="font-bold dark:text-gray-300">
+                        {formatDate(booking.Checkin)}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">Check-out</p>
+                      <p className="font-bold dark:text-gray-300">
+                        {formatDate(booking.Checkout)}
+                      </p>
+                    </div>
+                    <div className="text-left sm:text-right">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">Total Price</p>
+                      <p className="font-black text-lg dark:text-gray-300">
+                        ${Number(booking.price).toLocaleString()}
+                      </p>
+                    </div>
                   </div>
 
-                  {/* Right Side: Details */}
-                  <div className="flex-grow p-1 relative">
-                    <span
-                      className={`absolute top-0 right-0 px-3 py-1 text-sm font-medium rounded-full ${booking.status === "confirmed"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-yellow-100 text-yellow-700"
-                        }`}
+                  <div className="flex gap-3 mt-4 flex-wrap">
+                    <ContactHostButton
+                      id={booking.hostId || booking.id}
+                      hostName={booking.hostname || booking.host}
+                      propertyId={booking.propertyId}
+                      propertyTitle={booking.title}
+                      className="px-4 py-2 rounded-2xl"
+                    />
+
+                    {/* Cancel Booking Button */}
+                    <button
+                      onClick={() => handleCancelBooking(booking._id)}
+                      className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-2xl transition duration-150 shadow-md"
                     >
-                      {booking.status}
-                    </span>
-
-                    <h2 className="text-xl font-semibold text-gray-800  dark:text-gray-100">
-                      {booking.title}
-                    </h2>
-                    <p className="text-sm text-gray-500 mb-4 dark:text-gray-300">
-                      {/* Hosted by {booking.host || "Unknown"} */}
-                      Hosted by {booking.hostname || "Unknown"}
-                    </p>
-
-                    <div className="flex justify-between items-center text-gray-700 border-b border-gray-100 pb-3 mb-4">
-                      <div>
-                        <p className="text-sm text-gray-500  dark:text-gray-100">Check-in</p>
-                        <p className="font-bold dark:text-gray-400">
-                          {formatDate(booking.Checkin)}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-500 dark:text-gray-100">Check-out</p>
-                        <p className="font-bold dark:text-gray-400">
-                          {formatDate(booking.Checkout)}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-sm text-gray-500 dark:text-gray-100">Total Price</p>
-                        <p className="font-black text-lg dark:text-gray-400">
-                          ${Number(booking.price).toLocaleString()}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex gap-3 mt-4 flex-wrap">
-                      <ContactHostButton
-                        id={booking.hostId || booking.id} // Fallback for now
-                        hostName={booking.hostname || booking.host}
-                        propertyId={booking.propertyId}
-                        propertyTitle={booking.title}
-                        className="px-4 py-2 rounded-2xl"
-                        // onClick={() => {
-                        //   console.log("=== CLICKING MESSAGE BUTTON ===");
-                        //   console.log("Passing hostId:", booking.hostId || booking.id);
-                        //   console.log("Passing hostName:", booking.hostName || booking.host);
-                        // }
-                        // }
-                      />
-
-                      {/* Cancel Booking Button */}
-                      <button
-                        onClick={() => handleCancelBooking(booking._id)}
-                        className="px-4 py-2 bg-red-500 text-white font-medium rounded-2xl hover:bg-red-600 transition duration-150 shadow-md"
-                      >
-                        Cancel Booking
-                      </button>
-                      {/* <button className="px-4 py-2 bg-white  text-gray-700 border border-gray-300 font-medium rounded-lg hover:bg-gray-50 transition duration-150 flex items-center">
-                      {/* <button className="px-4 py-2 bg-white  text-gray-700 border border-gray-300 font-medium rounded-lg hover:bg-gray-50 transition duration-150 flex items-center">
-                        <svg
-                          className="w-5 h-5 mr-1"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                          ></path>
-                        </svg>
-                        Invoice
-                      </button> */}
-                    </div>
+                      Cancel Booking
+                    </button>
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        </>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       )}
     </div>
   );
