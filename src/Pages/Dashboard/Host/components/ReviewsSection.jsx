@@ -186,17 +186,13 @@ const ReviewsSection = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50/50 via-white to-green-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-emerald-900/10 py-4 sm:py-8 px-2 sm:px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-gray-200 dark:border-gray-700">
-            <div className="flex items-center justify-center h-48 sm:h-64">
-              <div className="text-center px-4">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 border-4 border-dashed rounded-full animate-spin border-emerald-500 dark:border-emerald-400 mx-auto mb-3 sm:mb-4"></div>
-                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 font-medium">
-                  Loading your reviews...
-                </p>
-              </div>
-            </div>
+      <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-gray-200 dark:border-gray-700">
+        <div className="flex items-center justify-center h-48 sm:h-64">
+          <div className="text-center px-4">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 border-4 border-dashed rounded-full animate-spin border-emerald-500 dark:border-emerald-400 mx-auto mb-3 sm:mb-4"></div>
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 font-medium">
+              Loading your reviews...
+            </p>
           </div>
         </div>
       </div>
@@ -205,124 +201,118 @@ const ReviewsSection = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50/50 via-white to-green-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-emerald-900/10 py-4 sm:py-8 px-2 sm:px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-gray-200 dark:border-gray-700">
-            <div className="text-center py-8 sm:py-12 md:py-16 px-4">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-red-100 dark:bg-red-900/30 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                <User className="w-8 h-8 sm:w-10 sm:h-10 text-red-600 dark:text-red-400" />
-              </div>
-              <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                Error Loading Reviews
-              </h3>
-              <p className="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-400 break-words">{error}</p>
-            </div>
+      <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-gray-200 dark:border-gray-700">
+        <div className="text-center py-8 sm:py-12 md:py-16 px-4">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-red-100 dark:bg-red-900/30 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4">
+            <User className="w-8 h-8 sm:w-10 sm:h-10 text-red-600 dark:text-red-400" />
           </div>
+          <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-2">
+            Error Loading Reviews
+          </h3>
+          <p className="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-400 break-words">{error}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50/50 via-white to-green-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-emerald-900/10 py-4 sm:py-8 px-2 sm:px-4">
-      <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-gray-200 dark:border-gray-700 shadow-lg"
-        >
-          {/* Header Section */}
-          <div className="flex flex-col gap-4 sm:gap-6 mb-6 sm:mb-8">
-            <div>
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-green-600 dark:from-emerald-400 dark:to-green-400 mb-2">
-                Your Reviews & Ratings
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base md:text-lg">
-                Reviews you have submitted as a host
-              </p>
+    <div className="space-y-6">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-gray-200 dark:border-gray-700 shadow-lg"
+      >
+        {/* Header Section */}
+        <div className="flex flex-col gap-4 sm:gap-6 mb-6 sm:mb-8">
+          <div>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-green-600 dark:from-emerald-400 dark:to-green-400 mb-2">
+              Your Reviews & Ratings
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base md:text-lg">
+              Reviews you have submitted as a host
+            </p>
+          </div>
+
+          {/* Stats Card */}
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+            <div className="bg-gradient-to-r from-emerald-500 to-green-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-semibold shadow-lg text-center flex-1 min-w-[120px] sm:flex-initial">
+              <div className="text-xl sm:text-2xl font-bold">{reviews.length}</div>
+              <div className="text-xs sm:text-sm opacity-90">Total Reviews</div>
             </div>
 
-            {/* Stats Card */}
-            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-              <div className="bg-gradient-to-r from-emerald-500 to-green-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-semibold shadow-lg text-center flex-1 min-w-[120px] sm:flex-initial">
-                <div className="text-xl sm:text-2xl font-bold">{reviews.length}</div>
-                <div className="text-xs sm:text-sm opacity-90">Total Reviews</div>
+            {reviews.length > 0 && (
+              <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-semibold shadow-lg text-center flex-1 min-w-[120px] sm:flex-initial">
+                <div className="text-xl sm:text-2xl font-bold">{averageRating}</div>
+                <div className="text-xs sm:text-sm opacity-90">Avg Rating</div>
               </div>
+            )}
+          </div>
+        </div>
 
-              {reviews.length > 0 && (
-                <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-semibold shadow-lg text-center flex-1 min-w-[120px] sm:flex-initial">
-                  <div className="text-xl sm:text-2xl font-bold">{averageRating}</div>
-                  <div className="text-xs sm:text-sm opacity-90">Avg Rating</div>
+        {/* Rating Distribution */}
+        {reviews.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-purple-200 dark:border-purple-800 mb-6 sm:mb-8"
+          >
+            <h3 className="text-base sm:text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 mb-3 sm:mb-4">
+              Rating Distribution
+            </h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4">
+              {[5, 4, 3, 2, 1].map((stars) => (
+                <div key={stars} className="text-center">
+                  <div className="flex items-center justify-center gap-1 mb-2">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star
+                        key={star}
+                        className={`w-3 h-3 ${star <= stars
+                          ? "fill-amber-500 text-amber-500"
+                          : "text-gray-300 dark:text-gray-600"
+                          }`}
+                      />
+                    ))}
+                  </div>
+                  <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                    {ratingCounts[stars]}
+                  </div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
+                    {stars} star{stars !== 1 ? 's' : ''}
+                  </div>
                 </div>
-              )}
+              ))}
             </div>
-          </div>
+          </motion.div>
+        )}
 
-          {/* Rating Distribution */}
-          {reviews.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-purple-200 dark:border-purple-800 mb-6 sm:mb-8"
-            >
-              <h3 className="text-base sm:text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 mb-3 sm:mb-4">
-                Rating Distribution
-              </h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4">
-                {[5, 4, 3, 2, 1].map((stars) => (
-                  <div key={stars} className="text-center">
-                    <div className="flex items-center justify-center gap-1 mb-2">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <Star
-                          key={star}
-                          className={`w-3 h-3 ${star <= stars
-                            ? "fill-amber-500 text-amber-500"
-                            : "text-gray-300 dark:text-gray-600"
-                            }`}
-                        />
-                      ))}
-                    </div>
-                    <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                      {ratingCounts[stars]}
-                    </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400">
-                      {stars} star{stars !== 1 ? 's' : ''}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-
-          {/* Reviews List */}
-          <div className="space-y-4 sm:space-y-6">
-            <AnimatePresence>
-              {reviews.length === 0 ? (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="text-center py-8 sm:py-12 md:py-16 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl sm:rounded-2xl border border-dashed border-gray-300 dark:border-gray-600 px-4"
-                >
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-emerald-100 to-green-100 dark:from-emerald-900/30 dark:to-green-900/30 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                    <MessageCircle className="w-8 h-8 sm:w-10 sm:h-10 text-emerald-600 dark:text-emerald-400" />
-                  </div>
-                  <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-600 dark:text-gray-400 mb-2">
-                    No Reviews Yet
-                  </h3>
-                  <p className="text-xs sm:text-sm md:text-base text-gray-500 dark:text-gray-500 max-w-md mx-auto px-2">
-                    You haven't submitted any reviews yet. Your reviews will appear here once you start reviewing properties.
-                  </p>
-                </motion.div>
-              ) : (
-                reviews.map((review) => (
-                  <ReviewCard key={review._id} review={review} />
-                ))
-              )}
-            </AnimatePresence>
-          </div>
-        </motion.div>
-      </div>
+        {/* Reviews List */}
+        <div className="space-y-4 sm:space-y-6">
+          <AnimatePresence>
+            {reviews.length === 0 ? (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-center py-8 sm:py-12 md:py-16 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl sm:rounded-2xl border border-dashed border-gray-300 dark:border-gray-600 px-4"
+              >
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-emerald-100 to-green-100 dark:from-emerald-900/30 dark:to-green-900/30 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                  <MessageCircle className="w-8 h-8 sm:w-10 sm:h-10 text-emerald-600 dark:text-emerald-400" />
+                </div>
+                <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-600 dark:text-gray-400 mb-2">
+                  No Reviews Yet
+                </h3>
+                <p className="text-xs sm:text-sm md:text-base text-gray-500 dark:text-gray-500 max-w-md mx-auto px-2">
+                  You haven't submitted any reviews yet. Your reviews will appear here once you start reviewing properties.
+                </p>
+              </motion.div>
+            ) : (
+              reviews.map((review) => (
+                <ReviewCard key={review._id} review={review} />
+              ))
+            )}
+          </AnimatePresence>
+        </div>
+      </motion.div>
     </div>
   );
 };

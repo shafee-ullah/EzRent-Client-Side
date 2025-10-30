@@ -125,12 +125,12 @@ const ReviewSection = () => {
                   <h3 className="font-semibold text-gray-900 dark:text-white text-lg truncate">
                     {userName}
                   </h3>
-                  {!verified && (
+                  {/* {!verified && (
                     <span className="px-2 py-1 bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 rounded-full text-xs font-medium flex items-center gap-1">
                       <AlertCircle className="w-3 h-3" />
                       Pending
                     </span>
-                  )}
+                  )} */}
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 flex-wrap">
                   <User className="w-4 h-4" />
@@ -257,16 +257,12 @@ const ReviewSection = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50/50 via-white to-green-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-emerald-900/10 py-8 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white/80 dark:bg-gray-800/80 rounded-2xl p-8 border border-gray-200 dark:border-gray-700">
-            <div className="flex items-center justify-center h-64 text-center">
-              <LoadingSpinner size="w-12 h-12" />
-              <p className="mt-4 text-gray-600 dark:text-gray-400 font-medium">
-                Loading your reviews...
-              </p>
-            </div>
-          </div>
+      <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700">
+        <div className="flex flex-col items-center justify-center h-64 text-center">
+          <LoadingSpinner size="w-12 h-12" />
+          <p className="mt-4 text-gray-600 dark:text-gray-400 font-medium">
+            Loading your reviews...
+          </p>
         </div>
       </div>
     );
@@ -274,61 +270,55 @@ const ReviewSection = () => {
 
   if (!reviews?.length) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50/50 via-white to-green-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-emerald-900/10 py-8 px-4">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white/80 dark:bg-gray-800/80 rounded-2xl p-8 border border-gray-200 dark:border-gray-700 text-center"
-          >
-            <div className="py-16">
-              <div className="w-20 h-20 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <User className="w-10 h-10 text-gray-400 dark:text-gray-500" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-600 dark:text-gray-400 mb-2">
-                No Reviews Yet
-              </h3>
-              <p className="text-gray-500 dark:text-gray-500 max-w-md mx-auto">
-                You haven't submitted any reviews yet. Start sharing your
-                experiences!
-              </p>
-            </div>
-          </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700 text-center"
+      >
+        <div className="py-16">
+          <div className="w-20 h-20 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <User className="w-10 h-10 text-gray-400 dark:text-gray-500" />
+          </div>
+          <h3 className="text-xl font-semibold text-gray-600 dark:text-gray-400 mb-2">
+            No Reviews Yet
+          </h3>
+          <p className="text-gray-500 dark:text-gray-500 max-w-md mx-auto">
+            You haven't submitted any reviews yet. Start sharing your
+            experiences!
+          </p>
         </div>
-      </div>
+      </motion.div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50/50 via-white to-green-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-emerald-900/10 py-8 px-4">
-      <div className="max-w-4xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white/80 dark:bg-gray-800/80 rounded-2xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700 shadow-lg mb-8"
-        >
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 text-center sm:text-left">
-            <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-black dark:text-white mb-1">
-                My Reviews
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400 text-base sm:text-lg">
-                Manage and view all your submitted reviews
-              </p>
-            </div>
-            <div className="bg-gradient-to-r from-emerald-500 to-green-500 text-white px-4 py-2 rounded-2xl font-semibold shadow-lg inline-block">
-              {reviews.length} Review{reviews.length !== 1 ? "s" : ""}
-            </div>
+    <div className="space-y-6">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 shadow-lg"
+      >
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-black dark:text-white mb-1">
+             Your Reviews
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">
+              Manage and view all your submitted reviews
+            </p>
           </div>
-        </motion.div>
-
-        <div className="space-y-6">
-          <AnimatePresence>
-            {reviews.map((review) => (
-              <ReviewCard key={review._id} review={review} />
-            ))}
-          </AnimatePresence>
+          <div className="bg-gradient-to-r from-emerald-500 to-green-500 text-white px-4 py-2 rounded-2xl font-semibold shadow-lg">
+            {reviews.length} Review{reviews.length !== 1 ? "s" : ""}
+          </div>
         </div>
+      </motion.div>
+
+      <div className="space-y-4 sm:space-y-6">
+        <AnimatePresence>
+          {reviews.map((review) => (
+            <ReviewCard key={review._id} review={review} />
+          ))}
+        </AnimatePresence>
       </div>
     </div>
   );

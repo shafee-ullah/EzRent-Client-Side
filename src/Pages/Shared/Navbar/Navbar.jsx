@@ -11,6 +11,7 @@ import {
   Search,
   X,
   Menu as MenuIcon,
+  User2,
 } from "lucide-react";
 import Swal from "sweetalert2";
 import { signOut } from "firebase/auth";
@@ -104,7 +105,7 @@ const Navbar = () => {
               </NavLink>
             </li>
 
-            {user?.role === "guest" && (
+            {(user?.role === "guest" || !user) && (
               <>
                 <li>
                   <NavLink
@@ -351,6 +352,24 @@ const Navbar = () => {
                 <Info /> About
               </Link>
             </nav>
+            {authUser?.photoURL ? (
+              <>
+               <div className="flex items-center gap-2">
+                 <img
+                  src={authUser.photoURL}
+                  alt={authUser.displayName}
+                  className="w-8 h-8 rounded-full"
+                />
+                <h1 className="font-bold text-2xl">{authUser.displayName}</h1>
+               </div>
+              
+              </>
+            ) : (
+              <div className="w-8 h-8 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full flex items-center justify-center">
+                <User2 className="w-4 h-4 text-white" />
+              </div>
+            )}
+
 
             <div className="mt-auto flex flex-col gap-4">
               <button

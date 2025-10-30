@@ -1,8 +1,9 @@
 import React, { useState, useRef, use } from "react";
-import { Shield, CreditCard, ChevronDown, User2, Camera, Edit3 } from "lucide-react";
+import { Shield, CreditCard, ChevronDown, User2, Camera, Edit3, Mail, Calendar, Award, MapPin, Phone, Globe } from "lucide-react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../../../Context/AuthContext";
 import { useSelector } from "react-redux";
+import { motion } from "framer-motion";
 
 const SettingsSection = () => {
   const { user: authUser, updateUserProfile } = use(AuthContext);
@@ -93,127 +94,202 @@ const SettingsSection = () => {
 
 
   return (
-    <div className="bg-white/80 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-        Profile & Settings
-      </h2>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
-          <div className="bg-gray-100 dark:bg-gray-700/50 rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-              Personal Information
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  defaultValue={user?.name}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-gray-600"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  defaultValue={user?.email}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-gray-600"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Role
-                </label>
-                <input
-                  type="tel"
-                  defaultValue={user?.role}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-gray-600"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-              Security
-            </h3>
-            <div className="space-y-4">
-              <button className="w-full flex items-center justify-between p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-white dark:hover:bg-gray-600 transition-colors">
-                <div className="flex items-center gap-3">
-                  <Shield className="w-5 h-5 text-emerald-500" />
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-white">
-                      Two-Factor Authentication
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      Add an extra layer of security
-                    </p>
-                  </div>
-                </div>
-                <div className="w-10 h-6 bg-gray-300 dark:bg-gray-600 rounded-full relative">
-                  <div className="w-4 h-4 bg-white rounded-full absolute top-1 left-1 transition-transform duration-300" />
-                </div>
-              </button>
-
-              <button className="w-full flex items-center justify-between p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-white dark:hover:bg-gray-600 transition-colors">
-                <div className="flex items-center gap-3">
-                  <CreditCard className="w-5 h-5 text-blue-500" />
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-white">
-                      Payment Methods
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      Manage your payment options
-                    </p>
-                  </div>
-                </div>
-                <ChevronDown className="w-5 h-5 text-gray-400" />
-              </button>
-            </div>
-          </div> */}
-        </div>
-
-        <div className="relative">
-          {/* Iconic Edit Button */}
-          <button
-            onClick={handleEditProfile}
-            className="absolute -top-2 -right-2 z-10 bg-emerald-500 hover:bg-emerald-600 text-black p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 group"
-            title="Edit Profile"
-          >
-            <Edit3 className="w-5 h-5" />
-            <span className="absolute -bottom-8 -left-2 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-              Edit Profile
-            </span>
-          </button>
-
-          <div className="bg-gradient-to-br from-emerald-500 to-green-500 rounded-xl p-6 text-white h-full">
-            <div className="text-center items-center">
+    <div className="space-y-6">
+      {/* Profile Header Card */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="relative bg-gradient-to-br from-emerald-500 via-green-500 to-teal-500 rounded-2xl overflow-hidden"
+      >
+        {/* Background Pattern */}
+        <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
+        
+        <div className="relative p-6 sm:p-8">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+            {/* Profile Image */}
+            <div className="relative group">
               {authUser?.photoURL ? (
                 <img
                   src={authUser.photoURL}
                   alt="Profile"
-                  className="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-white/20 object-cover"
+                  className="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl border-4 border-white/30 object-cover shadow-xl"
                 />
               ) : (
-                <User2 className="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-white/20 p-2" />
+                <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl border-4 border-white/30 bg-white/20 flex items-center justify-center shadow-xl">
+                  <User2 className="w-12 h-12 sm:w-16 sm:h-16 text-white" />
+                </div>
               )}
-              <h3 className="font-bold text-lg">{authUser?.displayName}</h3>
-              <p className="text-emerald-100">{user?.email}</p>
-              <div className="flex items-center justify-center gap-1 mt-2">
-                <Shield className="w-4 h-4" />
-                <span className="text-sm">Verified Traveler</span>
+              <button
+                onClick={handleEditProfile}
+                className="absolute -bottom-2 -right-2 bg-white text-emerald-600 p-2.5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+                title="Edit Profile"
+              >
+                <Edit3 className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Profile Info */}
+            <div className="flex-1 text-center sm:text-left text-white">
+              <h2 className="text-2xl sm:text-3xl font-bold mb-2">{authUser?.displayName || "Host User"}</h2>
+              <div className="flex flex-col sm:flex-row items-center sm:items-center gap-2 sm:gap-4 mb-4">
+                <div className="flex items-center gap-2 bg-white/20 px-3 py-1.5 rounded-full backdrop-blur-sm">
+                  <Shield className="w-4 h-4" />
+                  <span className="text-sm font-medium">Verified Host</span>
+                </div>
+                <div className="flex items-center gap-2 bg-white/20 px-3 py-1.5 rounded-full backdrop-blur-sm">
+                  <Award className="w-4 h-4" />
+                  <span className="text-sm font-medium capitalize">{user?.role || "Host"}</span>
+                </div>
               </div>
-              <p className="text-sm text-emerald-100 mt-4">
-                Member since {new Date(user?.joinDate).getFullYear()}
-              </p>
+              <div className="space-y-2">
+                <div className="flex items-center justify-center sm:justify-start gap-2 text-emerald-50">
+                  <Mail className="w-4 h-4" />
+                  <span className="text-sm">{user?.email}</span>
+                </div>
+                {/* <div className="flex items-center justify-center sm:justify-start gap-2 text-emerald-50">
+                  <Calendar className="w-4 h-4" />
+                  <span className="text-sm">Hosting since {new Date(user?.joinDate).getFullYear()}</span>
+                </div> */}
+              </div>
             </div>
           </div>
         </div>
+      </motion.div>
+
+      {/* Personal Information Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Account Details */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.1 }}
+          className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm"
+        >
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            <User2 className="w-5 h-5 text-emerald-500" />
+            Account Details
+          </h3>
+          <div className="space-y-4">
+            <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
+              <User2 className="w-5 h-5 text-gray-400 mt-0.5" />
+              <div className="flex-1">
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Full Name</p>
+                <p className="text-sm font-medium text-gray-900 dark:text-white">{authUser?.displayName || "Host User"}</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
+              <Mail className="w-5 h-5 text-gray-400 mt-0.5" />
+              <div className="flex-1">
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Email Address</p>
+                <p className="text-sm font-medium text-gray-900 dark:text-white break-all">{user?.email}</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
+              <Shield className="w-5 h-5 text-gray-400 mt-0.5" />
+              <div className="flex-1">
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Account Type</p>
+                <p className="text-sm font-medium text-gray-900 dark:text-white capitalize">{user?.role || "Host"}</p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Activity Stats */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2 }}
+          className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm"
+        >
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            <Award className="w-5 h-5 text-emerald-500" />
+            Account Status
+          </h3>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-emerald-100 dark:bg-emerald-900/40 rounded-lg flex items-center justify-center">
+                  <Shield className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-900 dark:text-white">Verification</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Account verified</p>
+                </div>
+              </div>
+              <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center">
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+            </div>
+            <div className="flex items-center justify-between p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/40 rounded-lg flex items-center justify-center">
+                  <Calendar className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-900 dark:text-white">Hosting Since</p>
+                  {/* <p className="text-xs text-gray-500 dark:text-gray-400">{new Date(user?.joinDate).toLocaleDateString()}</p> */}
+                   <p className="text-xs text-gray-500 dark:text-gray-400">October</p>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center justify-between p-3 bg-purple-50 dark:bg-purple-900/20 rounded-xl">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/40 rounded-lg flex items-center justify-center">
+                  <Award className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-900 dark:text-white">Status</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Active Host</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
+
+      {/* Quick Actions */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm"
+      >
+        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <button
+            onClick={handleEditProfile}
+            className="flex items-center gap-3 p-4 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/20 dark:to-green-900/20 rounded-xl hover:shadow-md transition-all duration-300 group border border-emerald-100 dark:border-emerald-800"
+          >
+            <div className="w-10 h-10 bg-emerald-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+              <Edit3 className="w-5 h-5 text-white" />
+            </div>
+            <div className="text-left">
+              <p className="font-semibold text-gray-900 dark:text-white text-sm">Edit Profile</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Update your info</p>
+            </div>
+          </button>
+          <button className="flex items-center gap-3 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl hover:shadow-md transition-all duration-300 group border border-blue-100 dark:border-blue-800">
+            <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+              <Shield className="w-5 h-5 text-white" />
+            </div>
+            <div className="text-left">
+              <p className="font-semibold text-gray-900 dark:text-white text-sm">Security</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Manage settings</p>
+            </div>
+          </button>
+          <button className="flex items-center gap-3 p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl hover:shadow-md transition-all duration-300 group border border-purple-100 dark:border-purple-800">
+            <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+              <CreditCard className="w-5 h-5 text-white" />
+            </div>
+            <div className="text-left">
+              <p className="font-semibold text-gray-900 dark:text-white text-sm">Payments</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Payment methods</p>
+            </div>
+          </button>
+        </div>
+      </motion.div>
 
 
       {/* Edit Profile Modal */}
