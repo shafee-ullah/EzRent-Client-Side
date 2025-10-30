@@ -82,7 +82,7 @@ const PropertyManagementSection = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4, delay: index * 0.08 }}
               whileHover={{ scale: 1.03 }}
-              className="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-sm flex flex-col"
+              className="bg-white dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-sm flex flex-col"
             >
               {/* Property Image */}
               {property.image ? (
