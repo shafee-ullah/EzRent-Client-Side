@@ -255,7 +255,7 @@ const DashboardLayout = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Top Bar */}
-      <div className="fixed top-0 left-0 right-0 h-16 bg-white dark:bg-gray-800/20 border-b border-gray-200 dark:border-gray-700 z-40 flex items-center justify-between px-4 lg:px-6">
+      <div className="fixed top-0 left-0 right-0 h-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 z-40 flex items-center justify-between px-4 lg:px-6">
         {/* Left: Logo & Mobile Menu */}
         <div className="flex items-center gap-4">
           {/* Mobile Hamburger Menu */}
@@ -518,7 +518,7 @@ const DashboardLayout = () => {
               animate={{ x: 0 }}
               exit={{ x: -280 }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="lg:hidden fixed left-0 top-16 bottom-0 w-64 bg-white dark:bg-gray-800/20 border-r border-gray-200 dark:border-gray-700 z-40 overflow-y-auto"
+              className="lg:hidden fixed left-0 top-16 bottom-0 w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 z-40 overflow-y-auto"
             >
               {/* Dashboard sections based on role */}
               {user?.role === "guest" && <GuestMobileMenu setMobileMenuOpen={setMobileMenuOpen} />}
