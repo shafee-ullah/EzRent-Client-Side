@@ -281,7 +281,7 @@ const Testimonials = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.2 }}
                       >
-                        <StarRow rating={testimonial.rating} />
+                        {/* <StarRow rating={testimonial.rating} /> */}
                         
                         <blockquote className="mt-6">
                           <p className="text-xl lg:text-2xl font-medium text-gray-800 dark:text-gray-100 leading-relaxed">

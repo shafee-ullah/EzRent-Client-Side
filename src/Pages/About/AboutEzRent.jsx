@@ -14,8 +14,8 @@ const AboutEzRent = () => {
       className="relative max-w-11/12 mx-auto px-4 py-12 lg:py-16  "
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-20 -right-20 w-64 h-64 bg-emerald-300/20 dark:bg-emerald-400/10 rounded-full blur-3xl" />
-        <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-green-400/20 dark:bg-green-400/10 rounded-full blur-3xl" />
+        <div className="absolute -top-20 -right-20 w-64 h-64  rounded-full blur-3xl" />
+        <div className="absolute -bottom-24 -left-24 w-72 h-72 rounded-full blur-3xl" />
       </div>
 
       <div className="relative text-center mb-10">

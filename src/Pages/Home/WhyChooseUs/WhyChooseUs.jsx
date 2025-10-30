@@ -254,18 +254,22 @@ const WhyChooseUs = () => {
       </MotionDiv>
 
       {/* Bottom CTA */}
-      <MotionDiv
+      {/* <MotionDiv
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.5 }}
-        className="text-center mt-12"
+        className="text-center mt-12 px-4"
       >
-        <div className="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-          <ShieldCheck className="w-4 h-4 text-emerald-500" />
-          <span>30-day money-back guarantee • 24/7 customer support</span>
+        <div className="inline-flex flex-col sm:flex-row items-center gap-2 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+          <div className="flex items-center gap-2">
+            <ShieldCheck className="w-4 h-4 text-emerald-500" />
+            <span>30-day money-back guarantee</span>
+          </div>
+          <span className="hidden sm:inline">•</span>
+          <span>24/7 customer support</span>
         </div>
-      </MotionDiv>
+      </MotionDiv> */}
     </MotionSection>
   );
 };
