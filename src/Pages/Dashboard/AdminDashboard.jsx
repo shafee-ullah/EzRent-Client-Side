@@ -239,7 +239,7 @@ const AdminDashboard = () => {
               {navigationItems.find(item => item.id === activeSection)?.label || "Overview"}
             </h1>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              Platform analytics for {formatNumber(adminData.overview.totalUsers)} users 🛡️
+              Platform analytics for EzRent users 🛡️
             </p>
           </MotionDiv>
 
