@@ -131,10 +131,6 @@ const ProfileSection = ({ data }) => {
               <h2 className="text-2xl sm:text-3xl font-bold mb-2">{authUser?.displayName || "Guest User"}</h2>
               <div className="flex flex-col sm:flex-row items-center sm:items-center gap-2 sm:gap-4 mb-4">
                 <div className="flex items-center gap-2 bg-white/20 px-3 py-1.5 rounded-full backdrop-blur-sm">
-                  <Shield className="w-4 h-4" />
-                  <span className="text-sm font-medium">Verified Guest</span>
-                </div>
-                <div className="flex items-center gap-2 bg-white/20 px-3 py-1.5 rounded-full backdrop-blur-sm">
                   <Award className="w-4 h-4" />
                   <span className="text-sm font-medium capitalize">{user?.role || "Guest"}</span>
                 </div>
