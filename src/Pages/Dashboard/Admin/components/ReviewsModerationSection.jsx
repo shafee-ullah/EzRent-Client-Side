@@ -130,12 +130,6 @@ const ReviewsModerationSection = () => {
                     <h3 className="font-semibold text-gray-900 dark:text-white text-base sm:text-lg truncate">
                       {userName}
                     </h3>
-                    {!verified && (
-                      <span className="px-2 py-1 bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 rounded-full text-xs font-medium flex items-center gap-1 flex-shrink-0">
-                        <AlertTriangle className="w-3 h-3" />
-                        Unverified
-                      </span>
-                    )}
                   </div>
                   <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                     <User className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
