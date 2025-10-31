@@ -140,10 +140,6 @@ const ProfileSection = ({ data }) => {
                   <Mail className="w-4 h-4" />
                   <span className="text-sm">{user?.email}</span>
                 </div>
-                {/* <div className="flex items-center justify-center sm:justify-start gap-2 text-emerald-50">
-                  <Calendar className="w-4 h-4" />
-                  <span className="text-sm">Member since {new Date(user?.joinDate).getFullYear()}</span>
-                </div> */}
               </div>
             </div>
           </div>
